@@ -4,7 +4,7 @@ package com.alinesno.infra.base.authority.gateway.dto;
  * 组织机构人员
  * 
  * @author LuoAnDong
- * @since 2021年8月23日 下午8:11:14
+ * @since 2023年8月23日 下午8:11:14
  */
 public class AccountDeptDto {
 

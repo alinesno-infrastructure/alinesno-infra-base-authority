@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 功能名： 【请填写功能名称】 数据表： manager_login_record
  * 
  * @author LuoAnDong ${authorEmail}
- * @date 2021-08-04 19:24:38
+ * @date 2023-08-04 19:24:38
  */
 public class ManagerLoginRecordDto extends BaseDto {
 	private static final long serialVersionUID = 1L;

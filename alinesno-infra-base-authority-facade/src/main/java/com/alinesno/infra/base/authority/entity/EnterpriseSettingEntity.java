@@ -12,7 +12,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author ${author}
- * @since 2021-03-01 17:04:57
+ * @since 2023-03-01 17:04:57
  */
 @TableName("enterprise_setting")
 public class EnterpriseSettingEntity extends InfraBaseEntity {

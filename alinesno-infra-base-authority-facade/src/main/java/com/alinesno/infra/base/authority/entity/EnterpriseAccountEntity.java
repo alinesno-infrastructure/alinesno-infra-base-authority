@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * 企业信息账户管理
  * 
  * @author LuoAnDong
- * @since 2021年10月27日 下午3:05:15
+ * @since 2023年10月27日 下午3:05:15
  */
 @SuppressWarnings("serial")
 @TableName("enterprise_account")

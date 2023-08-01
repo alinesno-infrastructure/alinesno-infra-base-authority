@@ -8,8 +8,8 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * 企业配置
  * </p>
  * 
- * @author yangboot
- * @since 2021-03-01 14:50:53
+ * @author WeiXiaoJin
+ * @since 2023-03-01 14:50:53
  */
 public interface IEnterpriseSettingService extends IBaseService<EnterpriseSettingEntity> {
 

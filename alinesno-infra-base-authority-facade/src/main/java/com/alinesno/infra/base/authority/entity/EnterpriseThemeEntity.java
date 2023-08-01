@@ -11,8 +11,8 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * 企业主题配置
  * </p>
  *
- * @author yangboot
- * @since 2021-03-04 13:56:08
+ * @author WeiXiaoJin
+ * @since 2023-03-04 13:56:08
  */
 @TableName("enterprise_theme")
 public class EnterpriseThemeEntity extends InfraBaseEntity {

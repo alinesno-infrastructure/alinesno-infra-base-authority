@@ -116,18 +116,6 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	Page<ManagerAccountEntity> findRoleMemberPage(String roleId, RpcWrapper<ManagerAccountEntity> restWrapper);
 
 	/**
-	 * @author songjian
-	 * @date 2020年4月11日
-	 */
-	ManagerAccountEntity findByPhone(String phone);
-
-	/**
-	 * @return
-	 * @author yangboot\ 添加用户（自动加密）
-	 */
-	ManagerAccountEntity saveAccount(ManagerAccountEntity entity);
-
-	/**
 	 * 保存账号并授予角色
 	 *
 	 * @param entity          用户实体
@@ -139,24 +127,6 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 
 	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<String> rolesIds, String applicationCode,
 			boolean isEncode);
-
-	/**
-	 * @return
-	 * @author yangboot 更新用户（自动加密）
-	 */
-	int updateAccount(ManagerAccountEntity entity, String updateOperatorId);
-
-	/**
-	 * @return
-	 * @author yangboot 密码校验
-	 */
-	boolean checkPassword(String userId, String password);
-
-	/**
-	 * @return
-	 * @author yangboot 修改密码
-	 */
-	boolean updatePassword(String userId, String OldPwd, String newPwd, String operatorId);
 
 	/**
 	 * 校验账号是否存在

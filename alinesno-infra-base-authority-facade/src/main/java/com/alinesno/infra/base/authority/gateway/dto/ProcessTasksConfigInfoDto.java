@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 功能名： 【请填写功能名称】 数据表： process_tasks_config_info
  * 
  * @author LuoAnDong ${authorEmail}
- * @date 2021-08-04 19:24:39
+ * @date 2023-08-04 19:24:39
  */
 public class ProcessTasksConfigInfoDto extends BaseDto {
 	private static final long serialVersionUID = 1L;

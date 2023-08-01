@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 功能名： 【请填写功能名称】 数据表： contract_information
  * 
  * @author LuoAnDong ${authorEmail}
- * @date 2021-08-04 19:24:37
+ * @date 2023-08-04 19:24:37
  */
 public class ContractInformationDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
