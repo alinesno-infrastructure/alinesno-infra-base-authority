@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.authority.dto;
+package com.alinesno.infra.base.authority.gateway.dto;
 
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 
