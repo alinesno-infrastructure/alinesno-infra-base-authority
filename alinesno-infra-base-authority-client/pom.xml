@@ -20,6 +20,12 @@
 			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-facade</artifactId>
 			<version>${revision}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.alinesno.infra.common</groupId>
+			<artifactId>alinesno-infra-common-feign</artifactId>
+			<version>${revision}</version>
 		</dependency>
 
 	</dependencies>
