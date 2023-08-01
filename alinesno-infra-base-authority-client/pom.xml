@@ -13,15 +13,15 @@
 	<artifactId>alinesno-infra-base-authority-client</artifactId>
 	<packaging>jar</packaging>
 
-	<dependencies>
+    <dependencies>
 
-    <!-- 引用公共门面服务 -->
+		<!-- 引用公共门面服务 -->
 		<dependency>
-			<groupId>com.alinesno.infra.common</groupId>
-			<artifactId>alinesno-infra-common-facade</artifactId>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-facade</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>

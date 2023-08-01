@@ -15,13 +15,23 @@
 
 	<dependencies>
 
-    <!-- 引用公共门面服务 -->
+        <!-- 引用服务 -->
 		<dependency>
-			<groupId>com.alinesno.infra.common</groupId>
-			<artifactId>alinesno-infra-common-facade</artifactId>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-domain</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-adapter</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-api</artifactId>
+			<version>${revision}</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

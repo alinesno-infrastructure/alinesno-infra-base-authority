@@ -28,6 +28,10 @@
         <module>alinesno-infra-base-authority-api</module>  <!-- 接口服务 -->
         <module>alinesno-infra-base-authority-client</module>  <!-- 对外引用 -->
         <module>alinesno-infra-base-authority-boot</module>  <!-- 启动服务 -->
+
+        <!-- 前端服务
+        <module>alinesno-infra-base-authority-admin</module>
+        -->
 	</modules>
 
 </project>
