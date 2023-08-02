@@ -32,7 +32,22 @@
         <!-- 前端服务
         <module>alinesno-infra-base-authority-admin</module>
         -->
-	</modules>
+    </modules>
+
+    <!-- 添加自定义仓库 -->
+    <repositories>
+		<repository>
+			<id>releases</id>
+			<url>http://repo.infra.linesno.com/nexus/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>snapshots</id>
+			<url>http://repo.infra.linesno.com/nexus/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 </project>
 
