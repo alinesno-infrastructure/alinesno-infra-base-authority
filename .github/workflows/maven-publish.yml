@@ -60,8 +60,7 @@ jobs:
           echo '      <mirrorOf>snapshots</mirrorOf>' >> nexus-config.xml
           echo '      <url>http://repo.infra.linesno.com/nexus/content/repositories/snapshots/</url>' >> nexus-config.xml
           echo '    </mirror>' >> nexus-config.xml
-          echo '  </mirrors>' >> nexus-config.xml
-          echo '</settings>' >> nexus-config.xml
+          echo '  </mirrors>' >> nexus-config.xml 
           echo '  <profiles>' >> nexus-config.xml
           echo '    <profile>' >> nexus-config.xml
           echo '      <id>rdc</id>' >> nexus-config.xml
