@@ -40,7 +40,7 @@ jobs:
           echo '      <id>mirror</id>' >> nexus-config.xml
           echo '      <mirrorOf>central,jcenter,!rdc-releases,!rdc-snapshots</mirrorOf>' >> nexus-config.xml
           echo '      <name>mirror</name>' >> nexus-config.xml
-          echo '      <url>https://maven.aliyun.com/nexus/content/groups/public</url>' >> nexus-config.xml
+          echo '      <url>http://repo.infra.linesno.com/nexus/content/groups/public</url>' >> nexus-config.xml
           echo '    </mirror>' >> nexus-config.xml
           echo '    <mirror>' >> nexus-config.xml
           echo '      <id>rdc-releases</id>' >> nexus-config.xml
