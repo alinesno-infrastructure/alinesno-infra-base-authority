@@ -119,7 +119,7 @@ jobs:
           echo '  </profiles>' >> nexus-config.xml
           echo '  <activeProfiles' >> nexus-config.xml
           echo '    <activeProfile>rdc</activeProfile>' >> nexus-config.xml
-          echo '  <activeProfiles' >> nexus-config.xml
+          echo '  </activeProfiles' >> nexus-config.xml
           echo '</settings>' >> nexus-config.xml
 
       - name: Build and Deploy to Nexus
