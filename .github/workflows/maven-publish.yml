@@ -56,8 +56,5 @@ jobs:
 			echo '  </mirrors>' >> nexus-config.xml
 			echo '</settings>' >> nexus-config.xml
 
-      - name: Build with Maven
-        run: mvn -B clean deploy --settings nexus-config.xml
-
       - name: Build and Deploy to Nexus
         run: mvn clean deploy --settings nexus-config.xml
