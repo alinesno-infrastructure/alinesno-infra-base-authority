@@ -9,7 +9,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  * 
  * @author WeiXiaoJin
- * @since 2023-03-01 14:50:53
+ * @version 1.0.0
  */
 public interface IEnterpriseAccountService extends IBaseService<EnterpriseAccountEntity> {
 

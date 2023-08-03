@@ -9,7 +9,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2020-04-13 08:46:41
+ * @version 1.0.0
  */
 
 public interface IManagerWorkingCalendarService extends IBaseService<ManagerWorkingCalendarEntity> {

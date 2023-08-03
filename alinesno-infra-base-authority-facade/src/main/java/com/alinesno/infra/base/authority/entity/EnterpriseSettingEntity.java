@@ -12,7 +12,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author ${author}
- * @since 2023-03-01 17:04:57
+ * @version 1.0.0
  */
 @TableName("enterprise_setting")
 public class EnterpriseSettingEntity extends InfraBaseEntity {
@@ -87,7 +87,7 @@ public class EnterpriseSettingEntity extends InfraBaseEntity {
 	 * 企业官网
 	 */
 	@TableField("website")
-	private String website ; 
+	private String website;
 
 	public String getWebsite() {
 		return website;

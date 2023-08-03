@@ -9,7 +9,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-04-04 14:20:07
+ * @version 1.0.0
  */
 
 public interface IContentNoticeService extends IBaseService<ContentNoticeEntity> {

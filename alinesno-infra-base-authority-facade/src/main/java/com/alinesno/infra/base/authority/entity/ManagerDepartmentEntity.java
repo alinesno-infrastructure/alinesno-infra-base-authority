@@ -12,7 +12,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-03-24 13:24:58
+ * @version 1.0.0
  */
 
 @TableName("manager_department")
@@ -26,7 +26,7 @@ public class ManagerDepartmentEntity extends InfraBaseEntity {
 	 * 父部门id
 	 */
 	@TableField
-	private String pid;
+	private Long pid;
 	/**
 	 * 父级ids
 	 */
@@ -61,11 +61,11 @@ public class ManagerDepartmentEntity extends InfraBaseEntity {
 	@TableField
 	private Integer sort;
 
-	public String getPid() {
+	public Long getPid() {
 		return pid;
 	}
 
-	public void setPid(String pid) {
+	public void setPid(Long pid) {
 		this.pid = pid;
 	}
 

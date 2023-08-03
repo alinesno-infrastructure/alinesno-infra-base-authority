@@ -9,7 +9,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-12-28 09:37:21
+ * @version 1.0.0
  */
 
 public interface IManagerHolidaysService extends IBaseService<ManagerHolidaysEntity> {

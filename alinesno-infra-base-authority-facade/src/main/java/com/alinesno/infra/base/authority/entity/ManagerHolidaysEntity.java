@@ -15,7 +15,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-12-28 09:39:27
+ * @version 1.0.0
  */
 
 @TableName("manager_holidays")

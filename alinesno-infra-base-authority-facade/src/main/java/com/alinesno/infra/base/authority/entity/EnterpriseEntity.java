@@ -28,7 +28,7 @@ public class EnterpriseEntity extends InfraBaseEntity {
 
 	@TableField("credit_code")
 	private String creditCode; // 企业信用代码
-	
+
 	@TableField("saas_url")
 	private String saasUrl; // 工作台地址
 

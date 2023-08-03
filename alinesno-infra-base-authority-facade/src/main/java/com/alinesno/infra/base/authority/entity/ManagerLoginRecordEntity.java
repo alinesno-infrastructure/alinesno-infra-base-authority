@@ -15,7 +15,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2020-01-11 19:50:27
+ * @version 1.0.0
  */
 
 @TableName("manager_login_record")

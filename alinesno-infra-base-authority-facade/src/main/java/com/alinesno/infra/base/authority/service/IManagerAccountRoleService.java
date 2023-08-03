@@ -11,17 +11,17 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-04-08 08:14:52
+ * @version 1.0.0
  */
 
 public interface IManagerAccountRoleService extends IBaseService<ManagerAccountRoleEntity> {
 
-	List<ManagerAccountRoleEntity> findAllByAccountId(String accountId);
+	List<ManagerAccountRoleEntity> findAllByAccountId(Long accountId);
 
-	void AuthorizeUsers(List<String> roleIds, String accountId);
+	void AuthorizeUsers(List<Long> roleIds, Long accountId);
 
-	void deleteByAccountId(String id);
+	void deleteByAccountId(Long id);
 
-	void authorizeUsers(List<String> roleIds, String accountId, String applicationCode);
+	void authorizeUsers(List<Long> roleIds, Long accountId, String applicationCode);
 
 }

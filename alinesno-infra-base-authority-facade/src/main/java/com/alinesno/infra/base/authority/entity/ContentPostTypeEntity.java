@@ -14,14 +14,13 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
+@SuppressWarnings("serial")
 @TableName("content_post_type")
 public class ContentPostTypeEntity extends InfraBaseEntity {
-
-	private static final long serialVersionUID = 1L;
-
+ 
 	/**
 	 * 类型名称
 	 */
@@ -43,13 +42,14 @@ public class ContentPostTypeEntity extends InfraBaseEntity {
 	 * 父类主键
 	 */
 	@TableField
-	private String pid = "0"; // ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value ;
+	private Long pid = 0l; // ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value ;
 
-	public String getPid() {
+ 
+	public Long getPid() {
 		return pid;
 	}
 
-	public void setPid(String pid) {
+	public void setPid(Long pid) {
 		this.pid = pid;
 	}
 

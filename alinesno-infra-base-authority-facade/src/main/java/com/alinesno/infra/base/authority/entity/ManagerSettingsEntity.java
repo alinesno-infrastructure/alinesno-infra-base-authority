@@ -12,7 +12,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-07-06 15:47:49
+ * @version 1.0.0
  */
 
 @TableName("manager_settings")

@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 @TableName("manager_role_resource")
@@ -22,7 +22,7 @@ public class ManagerRoleResourceEntity extends InfraBaseEntity {
 	 * 角色id
 	 */
 	@TableField("role_id")
-	private String roleId;
+	private Long roleId;
 	/**
 	 * 资源id
 	 */
@@ -39,11 +39,11 @@ public class ManagerRoleResourceEntity extends InfraBaseEntity {
 	@TableField("role_type")
 	private String roleType;
 
-	public String getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(String roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 

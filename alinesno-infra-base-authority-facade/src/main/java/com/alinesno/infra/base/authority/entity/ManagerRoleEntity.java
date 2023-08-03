@@ -12,7 +12,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 @TableName("manager_role")
@@ -50,7 +50,7 @@ public class ManagerRoleEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "互联网默认角色")
 	@TableField("default_netrole")
-	private Integer defaultNetRole ; 
+	private Integer defaultNetRole;
 
 	public Integer getDefaultNetRole() {
 		return defaultNetRole;

@@ -13,7 +13,7 @@ import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-03-24 13:24:58
+ * @version 1.0.0
  */
 
 public interface IManagerDepartmentService extends IBaseService<ManagerDepartmentEntity> {
@@ -29,8 +29,7 @@ public interface IManagerDepartmentService extends IBaseService<ManagerDepartmen
 	 * @return
 	 */
 	Object findDepByApplication(String applicationId, String parentDeptId);
-	
-	
+
 	/**
 	 * 通过查询部门相关人员
 	 * 

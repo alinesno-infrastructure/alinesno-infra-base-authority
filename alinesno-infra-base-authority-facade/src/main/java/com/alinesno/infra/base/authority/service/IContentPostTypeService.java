@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 public interface IContentPostTypeService extends IBaseService<ContentPostTypeEntity> {

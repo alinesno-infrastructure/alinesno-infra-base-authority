@@ -15,7 +15,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 @TableName("manager_resource")
@@ -129,7 +129,7 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 		super();
 	}
 
-	public ManagerResourceEntity(String resourceName, String menuTypeTitle, String applicationId) {
+	public ManagerResourceEntity(String resourceName, String menuTypeTitle, Long applicationId) {
 		this.resourceName = resourceName;
 		this.menuType = menuTypeTitle;
 		this.setApplicationId(applicationId);

@@ -9,7 +9,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2020-01-11 19:50:27
+ * @version 1.0.0
  */
 
 public interface IManagerLoginRecordService extends IBaseService<ManagerLoginRecordEntity> {

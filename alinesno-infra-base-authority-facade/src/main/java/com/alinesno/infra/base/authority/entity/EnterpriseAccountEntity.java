@@ -21,7 +21,7 @@ public class EnterpriseAccountEntity extends InfraBaseEntity {
 	private String creditCode; // 企业信用代码
 
 	@TableField("account_id")
-	private String accountId; // 账号id
+	private Long accountId; // 账号id
 
 	public String getCreditCode() {
 		return creditCode;
@@ -39,11 +39,11 @@ public class EnterpriseAccountEntity extends InfraBaseEntity {
 		this.enterpriseId = enterpriseId;
 	}
 
-	public String getAccountId() {
+	public Long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(String accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
 

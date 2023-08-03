@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2020-04-13 08:46:41
+ * @version 1.0.0
  */
 
 @TableName("manager_working_calendar")

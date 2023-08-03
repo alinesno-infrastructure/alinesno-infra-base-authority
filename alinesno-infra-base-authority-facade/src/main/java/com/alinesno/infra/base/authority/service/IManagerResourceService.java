@@ -13,7 +13,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 public interface IManagerResourceService extends IBaseService<ManagerResourceEntity> {
@@ -25,7 +25,7 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param applicationId
 	 * @return
 	 */
-	ManagerResourceEntity findMenus(String resourceParent, String applicationId);
+	ManagerResourceEntity findMenus(Long resourceParent, Long applicationId);
 
 	/**
 	 * 通过一级目录构建菜单
@@ -34,7 +34,7 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param applicationId
 	 * @return
 	 */
-	ManagerResourceEntity findMenus(String resourceParent, String applicationId, String accountId);
+	ManagerResourceEntity findMenus(Long resourceParent, Long applicationId, Long accountId);
 
 	/**
 	 * 通过所属应用id删除
@@ -51,7 +51,7 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param id
 	 * @return
 	 */
-	ManagerResourceEntity findMenusByApplicationAndAccount(String resourceParent, String applicationId, String id);
+	ManagerResourceEntity findMenusByApplicationAndAccount(Long resourceParent, Long applicationId, Long id);
 
 	/**
 	 * 查询菜单的操作按钮
@@ -59,10 +59,10 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param account
 	 * @return
 	 */
-	List<ManagerResourceEntity> findResoucePermission(ManagerAccountEntity account, String pageId);
+	List<ManagerResourceEntity> findResoucePermission(ManagerAccountEntity account, Long pageId);
 
 	/**
-	 * 查询菜单雷彪
+	 * 查询菜单 
 	 * 
 	 * @param page
 	 * @return

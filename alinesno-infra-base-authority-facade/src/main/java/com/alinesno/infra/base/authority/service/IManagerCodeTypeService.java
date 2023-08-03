@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alinesno.infra.base.authority.entity.ManagerCodeTypeEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
-import com.alinesno.infra.common.facade.wrapper.LambadaRpcWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 /**
  * <p>
@@ -12,12 +12,12 @@ import com.alinesno.infra.common.facade.wrapper.LambadaRpcWrapper;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2019-02-07 21:16:11
+ * @version 1.0.0
  */
 
 public interface IManagerCodeTypeService extends IBaseService<ManagerCodeTypeEntity> {
 
 	ManagerCodeTypeEntity findByCodeTypeValue(String codeTypeValue);
 
-	List<ManagerCodeTypeEntity> list(LambadaRpcWrapper<ManagerCodeTypeEntity> queryWrapper);
+	List<ManagerCodeTypeEntity> list(QueryWrapper<ManagerCodeTypeEntity> queryWrapper);
 }

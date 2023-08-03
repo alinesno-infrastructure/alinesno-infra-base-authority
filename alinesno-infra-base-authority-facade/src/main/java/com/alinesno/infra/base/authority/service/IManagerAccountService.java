@@ -3,8 +3,8 @@ package com.alinesno.infra.base.authority.service;
 import java.util.List;
 import java.util.Set;
 
+import com.alinesno.infra.base.authority.api.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 public interface IManagerAccountService extends IBaseService<ManagerAccountEntity> {
@@ -122,10 +122,10 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param rolesIds        角色列表
 	 * @param applicationCode 应用码
 	 */
-	void saveAccountAndAuthRole(ManagerAccountEntity entity, List<String> rolesIds, String applicationCode,
+	void saveAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,
 			boolean isEncode);
 
-	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<String> rolesIds, String applicationCode,
+	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,
 			boolean isEncode);
 
 	/**
@@ -144,10 +144,11 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param authRole
 	 * @param applicationName
 	 */
-	void registerAccount(ManagerAccountEntity e, List<String> authRole, String applicationName);
+	void registerAccount(ManagerAccountEntity e, List<Long> authRole, String applicationName);
 
 	/**
 	 * 平台互联网用户信息
+	 * 
 	 * @param dto
 	 */
 	void internetRegisterAccount(ManagerAccountDto dto);

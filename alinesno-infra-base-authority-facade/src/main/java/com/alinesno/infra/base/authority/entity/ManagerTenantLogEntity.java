@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 @TableName("manager_tenant_log")

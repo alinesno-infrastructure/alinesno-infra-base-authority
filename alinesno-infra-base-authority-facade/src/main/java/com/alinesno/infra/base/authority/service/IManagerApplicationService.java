@@ -11,7 +11,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 public interface IManagerApplicationService extends IBaseService<ManagerApplicationEntity> {
@@ -22,7 +22,7 @@ public interface IManagerApplicationService extends IBaseService<ManagerApplicat
 	 * @param accountId
 	 * @return
 	 */
-	List<ManagerApplicationEntity> findAllByAccountId(String accountId);
+	List<ManagerApplicationEntity> findAllByAccountId(Long accountId);
 
 	/**
 	 * 删除应用同步删除菜单资源

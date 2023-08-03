@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alinesno.cloud.base.boot.mapper.ManagerRoleMapper">
+
+    <!-- 分页查询 -->
+    <select id="findByAccountIds" resultType="com.alinesno.cloud.base.boot.dto.AccountRoleDto">
+        SELECT
+        account.login_name AS loginName,
+        account_role.account_id AS accountId,
+        role.*
+        FROM
+        manager_role role
+        LEFT JOIN manager_account_role account_role ON role.id = account_role.role_id
+        LEFT JOIN manager_application app ON app.id = role.application_id
+        LEFT JOIN manager_account account on account_role.account_id =account.id
+
+        where
+        1=0
+        <if test="accountIds!=null and accountIds.size()>0">
+            or (
+            account_role.account_id in
+            <foreach collection="accountIds" item="accountId" index="index"
+                     open="(" close=")" separator=",">
+                #{accountId}
+            </foreach>
+            <if test="applicationCode !=null and applicationCode!=''">
+                and app.application_code=#{applicationCode}
+            </if>
+            )
+        </if>
+    </select>
+
+</mapper>

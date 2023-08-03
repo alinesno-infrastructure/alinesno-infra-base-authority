@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-    <groupId>com.alinesno.infra.base</groupId>
-    <artifactId>alinesno-infra-base-authority-parent</artifactId>
+    	<groupId>com.alinesno.infra.base</groupId>
+    	<artifactId>alinesno-infra-base-authority-parent</artifactId>
 		<version>${revision}</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>

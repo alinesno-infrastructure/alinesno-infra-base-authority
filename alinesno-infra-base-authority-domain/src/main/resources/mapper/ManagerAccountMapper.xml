@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alinesno.cloud.base.boot.mapper.ManagerAccountMapper">
+
+	<!-- 分页查询 -->
+	<select id="findRoleMemberByPage" resultType="com.alinesno.cloud.base.boot.entity.ManagerAccountEntity">
+		SELECT t2.* FROM manager_account_role t1 LEFT JOIN manager_account t2 ON t1.accountId = t2.id 
+		${ew.customSqlSegment}
+	</select>
+
+</mapper>

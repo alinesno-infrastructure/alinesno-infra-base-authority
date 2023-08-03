@@ -11,12 +11,12 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  *
  * @author WeiXiaoJin
- * @since 2018-12-16 17:53:19
+ * @version 1.0.0
  */
 
 public interface IManagerRoleResourceService extends IBaseService<ManagerRoleResourceEntity> {
 
-	void deleteByRoleId(String roleId);
+	void deleteByRoleId(Long roleId);
 
 	int saveAll(List<ManagerRoleResourceEntity> list);
 
@@ -26,5 +26,5 @@ public interface IManagerRoleResourceService extends IBaseService<ManagerRoleRes
 	 * @param roleId
 	 * @param resourceId
 	 */
-	void authRole(String roleId, List<String> resourceId);
+	void authRole(Long roleId, List<String> resourceId);
 }
