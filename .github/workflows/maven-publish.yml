@@ -16,7 +16,7 @@ jobs:
     env:
       # 版本管理
       PROJECT_NAME: 'alinesno-infra-base-authority-boot'
-      PRO_VERSION: '0.0.1-SNAPSHOT'
+      PRO_VERSION: '1.0.0-SNAPSHOT'
       BUILD_NUMBER: ${{ github.run_number }}
 
       # 容器镜像
