@@ -137,6 +137,4 @@ jobs:
         run: sudo docker login -u ${{ secrets.ALIYUN_CR_USERNAME }} -p ${{ secrets.ALIYUN_CR_PASSWORD }} registry.cn-shenzhen.aliyuncs.com
 
       - name: Deploy to AliyunCR
-        run: |
-          cd alinesno-infra-base-authority-boot
-          mvn jib:build
+        run: cd alinesno-infra-base-authority-boot && mvn jib:build
