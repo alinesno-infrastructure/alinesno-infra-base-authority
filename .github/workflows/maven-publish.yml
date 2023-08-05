@@ -17,7 +17,6 @@ jobs:
       # 版本管理
       PROJECT_NAME: 'alinesno-infra-base-authority-boot'
       PRO_VERSION: '0.0.1-SNAPSHOT'
-      PROFILES_ACTIVE: 'dev'
       BUILD_NUMBER: ${{ github.run_number }}
 
       # 容器镜像
@@ -148,6 +147,6 @@ jobs:
         run: |
           mvn -B -U -f ${{ env.PROJECT_NAME }}/pom.xml clean compile jib:build \
                         -Ddocker.registry.name=${{ env.ALIYUN_CR_NAMESPACE }} \
-                        -Djib.to.tags=${{ env.PRO_VERSION }}-${{ env.PROFILES_ACTIVE }}.${{ env.BUILD_NUMBER }} \
+                        -Djib.to.tags=${{ env.PRO_VERSION }}.${{ env.BUILD_NUMBER }} \
                         -Djib.to.auth.username=${{secrets.ALIYUN_CR_USERNAME}} \
                         -Djib.to.auth.password=${{secrets.ALIYUN_CR_PASSWORD}} 
