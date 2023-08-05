@@ -17,8 +17,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("content_comments")
 public class ContentCommentsEntity extends InfraBaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 评论文章
 	 */
