@@ -13,6 +13,14 @@ jobs:
       contents: read
       packages: write
 
+    env:
+      PROJECT_NAME: 'alinesno-infra-base-authority-boot'
+      PRO_VERSION: '0.0.1-SNAPSHOT'
+      ALIYUN_CR_REGISTORY: 'registry.cn-shenzhen.aliyuncs.com'
+      ALIYUN_CR_NAMESPACE: 'alinesno-infra-platform'
+      BUILD_NUMBER: ${{ github.run_number }}
+      PROFILES_ACTIVE: 'dev'
+
     steps:
       - uses: actions/checkout@v3
 
@@ -135,5 +143,8 @@ jobs:
 
       - name: Deploy to AliyunCR
         run: |
-          sudo docker login -u ${{ secrets.ALIYUN_CR_USERNAME }} -p ${{ secrets.ALIYUN_CR_PASSWORD }} registry.cn-shenzhen.aliyuncs.com
-          cd alinesno-infra-base-authority-boot && mvn jib:build
+          mvn jib:build clean compile jib:build \\
+                        -Ddocker.registry.name=${ALIYUN_CR_NAMESPACE} \\
+                        -Djib.to.tags=${PRO_VERSION}.${PROFILES_ACTIVE}.${BUILD_NUMBER} \\
+                        -Djib.to.auth.username=${{ secrets.ALIYUN_CR_USERNAME }} \\
+                        -Djib.to.auth.password=${{ secrets.ALIYUN_CR_PASSWORD }} 
