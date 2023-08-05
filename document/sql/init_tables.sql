@@ -31,7 +31,7 @@ CREATE TABLE `content_comments` (
     `last_update_operator_id` varchar(64) DEFAULT NULL COMMENT '最后更新操作员',
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='内容评论表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='内容评论表';
 
 -- ----------------------------
 -- Table structure for content_links
@@ -64,7 +64,7 @@ CREATE TABLE `content_links` (
     `last_update_operator_id` varchar(64) DEFAULT NULL COMMENT '最后更新操作员',
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='内容链接表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='内容链接表';
 
 
 -- ----------------------------
@@ -158,7 +158,7 @@ CREATE TABLE `content_notice` (
     `last_update_operator_id` varchar(64) DEFAULT NULL COMMENT '最后更新操作员',
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for content_post_type
@@ -186,7 +186,7 @@ CREATE TABLE `content_post_type` (
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     `pid` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for content_postmeta
@@ -213,7 +213,7 @@ CREATE TABLE `content_postmeta` (
     `last_update_operator_id` varchar(64) DEFAULT NULL COMMENT '最后更新操作员',
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for content_posts
@@ -249,7 +249,7 @@ CREATE TABLE `content_posts` (
     `last_update_operator_id` varchar(64) DEFAULT NULL COMMENT '最后更新操作员',
     `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for enterprise
