@@ -1,0 +1,13 @@
+server:
+  port: 30100
+
+# spring 配置
+spring:
+  application:
+    name: alinesno-infra-base-authority-boot
+  devtools:
+    restart:
+      enabled: true
+
+sa-token:
+  is-print: false

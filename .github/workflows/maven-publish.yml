@@ -139,4 +139,4 @@ jobs:
       - name: Deploy to AliyunCR
         run: |
           cd alinesno-infra-base-authority-boot
-          mvn clean package jib:build
+          mvn jib:build
