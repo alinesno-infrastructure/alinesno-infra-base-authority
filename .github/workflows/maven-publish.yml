@@ -153,16 +153,16 @@ jobs:
 
       - name: Get Kubeconfig
         uses: okteto/actions/namespace@v1
-           id: aip-switchii
-           with:
-             token: ${{ secrets.OKTETO_TOKEN }}
-             namespace: actions-rberrelleza
+        id: aip-switchii
+        with:
+           token: ${{ secrets.OKTETO_TOKEN }}
+           namespace: actions-rberrelleza
 
       - name: Deploy and Wait
         uses: okteto/actions/deploy@v1
-          env:
+        env:
            KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
-          with:
+        with:
            namespace: actions-rberrelleza
            manifest: deploy/kubernates-dev.yml
            tag: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-platform/alinesno-infra-base-authority-boot:1.0.0-SNAPSHOT.26
@@ -173,6 +173,3 @@ jobs:
         with:
           url-to-hit: "https://hello-world-actions-rberrelleza.cloud.okteto.net"
           expected-statuses: "200"
-
-
-
