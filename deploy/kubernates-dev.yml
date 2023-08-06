@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alinesno-infra-base-authority-boot
+  namespace: aip-switchii
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alinesno-infra-base-authority-boot
+  template:
+    metadata:
+      labels:
+        app: alinesno-infra-base-authority-boot
+    spec:
+      containers:
+        - name: alinesno-infra-base-authority-boot
+          image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-platform/alinesno-infra-base-authority-boot:1.0.0-SNAPSHOT.26
+          ports:
+            - containerPort: 8080
+
