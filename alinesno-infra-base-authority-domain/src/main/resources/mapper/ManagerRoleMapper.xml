@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.alinesno.cloud.base.boot.mapper.ManagerRoleMapper">
+<mapper namespace="com.alinesno.cloud.base.authority.mapper.ManagerRoleMapper">
 
     <!-- 分页查询 -->
-    <select id="findByAccountIds" resultType="com.alinesno.cloud.base.boot.dto.AccountRoleDto">
+    <select id="findByAccountIds" resultType="com.alinesno.infra.base.authority.api.dto.AccountRoleDto">
         SELECT
         account.login_name AS loginName,
         account_role.account_id AS accountId,

@@ -41,41 +41,41 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 	// 日志记录
 	private static final Logger log = LoggerFactory.getLogger(ManagerApplicationServiceImpl.class);
 
-	@Autowired
-	private IManagerRoleService managerRoleService;
+//	@Autowired
+//	private IManagerRoleService managerRoleService;
 
 	@Autowired
 	private ManagerApplicationMapper repository;
 
-	@Autowired
-	private IManagerResourceService managerResourceService;
+//	@Autowired
+//	private IManagerResourceService managerResourceService;
 
-	@Autowired
-	private IManagerAccountRoleService managerAccountRoleService;
+//	@Autowired
+//	private IManagerAccountRoleService managerAccountRoleService;
 
-	@Autowired
-	private IManagerAccountService managerAccountService;
+//	@Autowired
+//	private IManagerAccountService managerAccountService;
  
 	@Override
 	public List<ManagerApplicationEntity> findAllByAccountId(Long accountId) {
 		log.debug("accountId:{}", accountId);
 
 		List<ManagerApplicationEntity> list = null;
-		ManagerAccountEntity account = managerAccountService.getById(accountId);
+		ManagerAccountEntity account = null ; // TODO  managerAccountService.getById(accountId);
 
 		if (MenuEnums.MENU_PLATFORM.value.equals(account.getRolePower())) {
 			list = findAllByFieldProp(MenuEnums.MENU_PLATFORM.value);
 
 		} else {
 
-			List<ManagerAccountRoleEntity> roleEntityList = managerAccountRoleService.findAllByAccountId(accountId);
+			List<ManagerAccountRoleEntity> roleEntityList = null ; // TODO managerAccountRoleService.findAllByAccountId(accountId);
 
 			Map<Long, ManagerAccountRoleEntity> applicationMap = new HashMap<Long, ManagerAccountRoleEntity>();
 			for (ManagerAccountRoleEntity m : roleEntityList) {
 				applicationMap.put(m.getRoleId(), m);
 			}
 
-			List<ManagerRoleEntity> roleList = managerRoleService.listByIds(applicationMap.keySet());  
+			List<ManagerRoleEntity> roleList = null ; // TODO  managerRoleService.listByIds(applicationMap.keySet());
 																										 
 			Map<Long, ManagerRoleEntity> roleListMap = new HashMap<Long, ManagerRoleEntity>();
 			for (ManagerRoleEntity m : roleList) {
@@ -111,7 +111,9 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 		// 删除菜单
 		for (String id : rowsIds) {
 			mapper.deleteById(id);
-			managerResourceService.deleteByApplicationId(id);
+
+//			TODO
+//			managerResourceService.deleteByApplicationId(id);
 		}
 		return 0;
 	}
