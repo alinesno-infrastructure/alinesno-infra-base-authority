@@ -1,5 +1,13 @@
 package com.alinesno.infra.base.authority.api.controller;
 
+import com.alinesno.infra.base.authority.entity.ManagerFilesEntity;
+import com.alinesno.infra.base.authority.service.IManagerFilesService;
+import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
+import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import io.swagger.annotations.Api;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,16 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.alinesno.infra.base.authority.entity.ManagerFilesEntity;
-import com.alinesno.infra.base.authority.service.IManagerFilesService;
-import com.alinesno.infra.common.core.constants.SpringInstanceScope;
-import com.alinesno.infra.common.core.rest.BaseController;
-import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
-import com.alinesno.infra.common.facade.pageable.TableDataInfo;
-
-import io.swagger.annotations.Api;
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 
@@ -44,7 +42,7 @@ public class ManagerFilesRest extends BaseController<ManagerFilesEntity, IManage
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-		return this.toDataInfo(model, this.getFeign(), page);
+		return this.toPage(model, this.getFeign(), page);
 	}
 
 	@Override
