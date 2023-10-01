@@ -4,7 +4,7 @@
       <el-col class="panel-col" :span="19">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-link"></i> 业务最新巡检</div>
+            <div class="header-title"><i class="fa-solid fa-link"></i> 使用集成方式</div>
           </div>
           <div class="panel-body" style="height: auto;position: relative;">
               <div class="direct-box">
@@ -27,7 +27,7 @@
       <el-col :span="5">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-link"></i> 构建解决方案</div>
+            <div class="header-title"><i class="fa-solid fa-link"></i> 服务运行情况</div>
           </div>
           <div class="panel-body" style="height: auto;position: relative;">
             <div class="acp-app-list">

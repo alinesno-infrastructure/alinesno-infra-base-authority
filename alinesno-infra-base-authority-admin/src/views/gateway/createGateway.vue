@@ -622,11 +622,12 @@
 	clear: both;
 }
 
-/deep/input[type="number"]::-webkit-outer-spin-button, /deep/input[type="number"]::-webkit-inner-spin-button {
+/* /deep/input[type="number"]::-webkit-outer-spin-button, /deep/input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
 }
 input[type="number"]{
   -moz-appearance: textfield !important;
-}
+} */
+
 </style>
 

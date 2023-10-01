@@ -129,7 +129,7 @@ const productList = [
                 "hasInner": 0,
                 "linkPath": "http://alinesno-gateway.beta.linesno.com",
                 "prodStatus": "normal",
-                "name": "权限配置服务",
+                "name": "授权管理引擎服务",
                 "id": "053b9e440df2d3a2ddfc714b206c9731"
             },
             {

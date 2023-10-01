@@ -32,7 +32,7 @@
       <el-col :span="11">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-link"></i> 构建解决方案</div>
+            <div class="header-title"><i class="fa-solid fa-link"></i> 服务运行情况</div>
           </div>
           <div class="panel-body">
             <div class="acp-app-list">

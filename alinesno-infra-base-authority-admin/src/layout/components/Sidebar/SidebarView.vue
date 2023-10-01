@@ -11,7 +11,7 @@
 export default {
   data () {
     return {
-      currentApplicationName: '权限配置服务'
+      currentApplicationName: '授权管理引擎服务'
     }
   },
   mounted () {

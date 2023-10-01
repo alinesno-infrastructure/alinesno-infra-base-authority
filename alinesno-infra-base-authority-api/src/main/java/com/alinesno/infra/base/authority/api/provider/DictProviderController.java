@@ -64,7 +64,7 @@ public class DictProviderController extends BaseProvider {
     }
 
     /**
-     * 获取值
+     * 获取配置值
      * @param configKey
      * @return
      */
@@ -74,7 +74,7 @@ public class DictProviderController extends BaseProvider {
     }
 
     /**
-     * 更新值状态
+     * 更新值配置状态
      * @param dto
      * @return
      */

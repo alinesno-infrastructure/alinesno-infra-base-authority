@@ -1,7 +1,7 @@
 {
   "name": "alinesno-infra-base-authority-admin",
   "version": "1.0.0",
-  "description": "权限配置服务",
+  "description": "授权管理引擎服务",
   "author": "LuoXiaoDong",
   "license": "Apache-2.0",
   "scripts": {
