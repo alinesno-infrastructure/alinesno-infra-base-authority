@@ -21,8 +21,8 @@
 
 const TopHeader = ref('') ;
 const saasTitle = 'AIP智能设施'
-const enableLogo = true;
-const saasUrl = 'http://alinesno-infra-plat-console-admin.beta.plat.infra.linesno.com' ;
+const enableLogo = ref(true);
+const saasUrl = ref('http://alinesno-infra-plat-console-admin.beta.plat.infra.linesno.com') ;
 const saasLogoUrl = 'http://portal.infra.linesno.com/logo.png' ; 
 const displayUrl = ''; 
 
@@ -34,7 +34,7 @@ function enterDomain() {
 }
 
 function dashboardHome() {
-  window.location.href = this.saasUrl
+  window.location.href = saasUrl.value
 }
 
 function choiceCurrentApplication(){
