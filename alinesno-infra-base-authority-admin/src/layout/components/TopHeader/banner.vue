@@ -33,6 +33,10 @@ function enterDomain() {
   }
 }
 
+function dashboardHome() {
+  window.location.href = this.saasUrl
+}
+
 function choiceCurrentApplication(){
  console.log('选择应用.') 
 }
