@@ -3,6 +3,9 @@ package com.alinesno.infra.base.authority.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -12,59 +15,30 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("info_job")
 public class InfoJobEntity extends InfraBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@ColumnType
+	@ColumnComment("所有者")
 	@TableField("owners")
 	private String owners;
 
+	@ColumnType(length = 100)
+	@ColumnComment("工作类型")
 	@TableField("job_type")
 	private String jobType;
 
+	@ColumnType(length = 100)
+	@ColumnComment("工作名称")
 	@TableField("job_name")
 	private String jobName;
 
+	@ColumnType(length = 100)
+	@ColumnComment("上级工作")
 	@TableField("job_parent")
 	private String jobParent;
 
-	public String getOwners() {
-		return owners;
-	}
-
-	public void setOwners(String owners) {
-		this.owners = owners;
-	}
-
-	public String getJobType() {
-		return jobType;
-	}
-
-	public void setJobType(String jobType) {
-		this.jobType = jobType;
-	}
-
-	public String getJobName() {
-		return jobName;
-	}
-
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
-	}
-
-	public String getJobParent() {
-		return jobParent;
-	}
-
-	public void setJobParent(String jobParent) {
-		this.jobParent = jobParent;
-	}
-
-	@Override
-	public String toString() {
-		return "InfoJobEntity{" + "owners=" + owners + ", jobType=" + jobType + ", jobName=" + jobName + ", jobParent="
-				+ jobParent + "}";
-	}
 }

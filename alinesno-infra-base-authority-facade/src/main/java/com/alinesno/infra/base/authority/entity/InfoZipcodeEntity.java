@@ -3,6 +3,9 @@ package com.alinesno.infra.base.authority.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -12,47 +15,25 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("info_zipcode")
 public class InfoZipcodeEntity extends InfraBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@ColumnType
+	@ColumnComment("所有者")
 	@TableField
 	private String owners;
 
+	@ColumnType
+	@ColumnComment("地区")
 	@TableField
 	private String area;
 
+	@ColumnType
+	@ColumnComment("邮编")
 	@TableField("zip_code")
 	private String zipCode;
 
-	public String getOwners() {
-		return owners;
-	}
-
-	public void setOwners(String owners) {
-		this.owners = owners;
-	}
-
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	@Override
-	public String toString() {
-		return "InfoZipcodeEntity{" + "owners=" + owners + ", area=" + area + ", zipCode=" + zipCode + "}";
-	}
 }

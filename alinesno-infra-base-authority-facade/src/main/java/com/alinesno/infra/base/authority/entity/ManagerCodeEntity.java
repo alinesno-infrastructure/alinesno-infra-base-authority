@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +17,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_code")
 public class ManagerCodeEntity extends InfraBaseEntity {
 
@@ -25,9 +28,13 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "代码名称")
 	@TableField("code_name")
+	@ColumnType(length = 255)
+	@ColumnComment("代码名称")
 	private String codeName;
 
 	@TableField("code_desc")
+	@ColumnType(length = 255)
+	@ColumnComment("代码描述")
 	private String codeDesc;
 
 	/**
@@ -35,63 +42,26 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "代码值")
 	@TableField("code_value")
+	@ColumnType(length = 255)
+	@ColumnComment("代码值")
 	private String codeValue;
+
 	/**
 	 * 代码类型值
 	 */
 	@Excel(name = "代码类型值")
 	@TableField("code_type_value")
+	@ColumnType(length = 255)
+	@ColumnComment("代码类型值")
 	private String codeTypeValue;
+
 	/**
 	 * 代码类型名称
 	 */
 	@Excel(name = "代码类型名称")
 	@TableField("code_type_name")
+	@ColumnType(length = 255)
+	@ColumnComment("代码类型名称")
 	private String codeTypeName;
 
-	public String getCodeDesc() {
-		return codeDesc;
-	}
-
-	public void setCodeDesc(String codeDesc) {
-		this.codeDesc = codeDesc;
-	}
-
-	public String getCodeName() {
-		return codeName;
-	}
-
-	public void setCodeName(String codeName) {
-		this.codeName = codeName;
-	}
-
-	public String getCodeValue() {
-		return codeValue;
-	}
-
-	public void setCodeValue(String codeValue) {
-		this.codeValue = codeValue;
-	}
-
-	public String getCodeTypeValue() {
-		return codeTypeValue;
-	}
-
-	public void setCodeTypeValue(String codeTypeValue) {
-		this.codeTypeValue = codeTypeValue;
-	}
-
-	public String getCodeTypeName() {
-		return codeTypeName;
-	}
-
-	public void setCodeTypeName(String codeTypeName) {
-		this.codeTypeName = codeTypeName;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerCodeEntity{" + "codeName=" + codeName + ", codeValue=" + codeValue + ", codeTypeValue="
-				+ codeTypeValue + ", codeTypeName=" + codeTypeName + "}";
-	}
 }

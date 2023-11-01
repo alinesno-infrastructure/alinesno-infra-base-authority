@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +17,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_application")
 public class ManagerApplicationEntity extends InfraBaseEntity {
 
@@ -25,10 +28,14 @@ public class ManagerApplicationEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "应用名称")
 	@TableField("application_name")
+	@ColumnType(length = 255)
+	@ColumnComment("应用名称")
 	private String applicationName;
 
 	@Excel(name = "应用代码")
 	@TableField("application_code")
+	@ColumnType(length = 255)
+	@ColumnComment("应用代码")
 	private String applicationCode;
 
 	/**
@@ -36,12 +43,16 @@ public class ManagerApplicationEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "应用描述")
 	@TableField("application_desc")
+	@ColumnType(length = 255)
+	@ColumnComment("应用描述")
 	private String applicationDesc;
 
 	/**
 	 * 应用图标
 	 */
 	@TableField("application_icons")
+	@ColumnType(length = 255)
+	@ColumnComment("应用图标")
 	private String applicationIcons;
 
 	/**
@@ -49,65 +60,16 @@ public class ManagerApplicationEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "应用链接")
 	@TableField("application_link")
+	@ColumnType(length = 255)
+	@ColumnComment("应用链接")
 	private String applicationLink;
 
 	/**
 	 * 父类id
 	 */
 	@TableField
+	@ColumnType(length = 255)
+	@ColumnComment("父类id")
 	private String pid;
 
-	public String getApplicationCode() {
-		return applicationCode;
-	}
-
-	public void setApplicationCode(String applicationCode) {
-		this.applicationCode = applicationCode;
-	}
-
-	public String getApplicationLink() {
-		return applicationLink;
-	}
-
-	public void setApplicationLink(String applicationLink) {
-		this.applicationLink = applicationLink;
-	}
-
-	public String getApplicationName() {
-		return applicationName;
-	}
-
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
-	}
-
-	public String getApplicationDesc() {
-		return applicationDesc;
-	}
-
-	public void setApplicationDesc(String applicationDesc) {
-		this.applicationDesc = applicationDesc;
-	}
-
-	public String getApplicationIcons() {
-		return applicationIcons;
-	}
-
-	public void setApplicationIcons(String applicationIcons) {
-		this.applicationIcons = applicationIcons;
-	}
-
-	public String getPid() {
-		return pid;
-	}
-
-	public void setPid(String pid) {
-		this.pid = pid;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerApplicationEntity{" + ", applicationDesc=" + applicationDesc + ", applicationIcons="
-				+ applicationIcons + ", pid=" + pid + "}";
-	}
 }

@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +17,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_code_type")
 public class ManagerCodeTypeEntity extends InfraBaseEntity {
 
@@ -25,32 +28,17 @@ public class ManagerCodeTypeEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "代码类型名称")
 	@TableField("code_type_name")
+	@ColumnType(length = 255)
+	@ColumnComment("代码类型名称")
 	private String codeTypeName;
+
 	/**
 	 * 代码类型值
 	 */
 	@Excel(name = "代码类型值")
 	@TableField("code_type_value")
+	@ColumnType(length = 255)
+	@ColumnComment("代码类型值")
 	private String codeTypeValue;
 
-	public String getCodeTypeName() {
-		return codeTypeName;
-	}
-
-	public void setCodeTypeName(String codeTypeName) {
-		this.codeTypeName = codeTypeName;
-	}
-
-	public String getCodeTypeValue() {
-		return codeTypeValue;
-	}
-
-	public void setCodeTypeValue(String codeTypeValue) {
-		this.codeTypeValue = codeTypeValue;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerCodeTypeEntity{" + "codeTypeName=" + codeTypeName + ", codeTypeValue=" + codeTypeValue + "}";
-	}
 }

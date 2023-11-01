@@ -3,6 +3,9 @@ package com.alinesno.infra.base.authority.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -12,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_account_role")
 public class ManagerAccountRoleEntity extends InfraBaseEntity {
 
@@ -22,28 +25,15 @@ public class ManagerAccountRoleEntity extends InfraBaseEntity {
 	 * 角色Id
 	 */
 	@TableField("role_id")
+	@ColumnType(length = 20)
+	@ColumnComment("角色Id")
 	private Long roleId;
 
 	/**
 	 * 账户id
 	 */
 	@TableField("account_id")
+	@ColumnType(length = 20)
+	@ColumnComment("账户id")
 	private Long accountId;
-
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
-
-	public Long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
 }
