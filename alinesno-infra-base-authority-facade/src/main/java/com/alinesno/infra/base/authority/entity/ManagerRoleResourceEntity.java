@@ -3,6 +3,9 @@ package com.alinesno.infra.base.authority.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -12,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_role_resource")
 public class ManagerRoleResourceEntity extends InfraBaseEntity {
 
@@ -22,58 +25,32 @@ public class ManagerRoleResourceEntity extends InfraBaseEntity {
 	 * 角色id
 	 */
 	@TableField("role_id")
+	@ColumnType
+	@ColumnComment("角色id")
 	private Long roleId;
+
 	/**
 	 * 资源id
 	 */
 	@TableField("resource_id")
+	@ColumnType(length = 255)
+	@ColumnComment("资源id")
 	private String resourceId;
+
 	/**
 	 * 资源类型(resource/action)
 	 */
 	@TableField("resource_type")
+	@ColumnType(length = 255)
+	@ColumnComment("资源类型(resource/action)")
 	private String resourceType;
+
 	/**
 	 * 角色类型(role角色|tenant商户|account账户)
 	 */
 	@TableField("role_type")
+	@ColumnType(length = 255)
+	@ColumnComment("角色类型(role角色|tenant商户|account账户)")
 	private String roleType;
 
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(String resourceId) {
-		this.resourceId = resourceId;
-	}
-
-	public String getResourceType() {
-		return resourceType;
-	}
-
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
-	}
-
-	public String getRoleType() {
-		return roleType;
-	}
-
-	public void setRoleType(String roleType) {
-		this.roleType = roleType;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerRoleResourceEntity{" + "roleId=" + roleId + ", resourceId=" + resourceId + ", resourceType="
-				+ resourceType + ", roleType=" + roleType + "}";
-	}
 }

@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,7 +20,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_resource")
 public class ManagerResourceEntity extends InfraBaseEntity {
 
@@ -28,30 +31,44 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "资源名称")
 	@TableField("resource_name")
+	@ColumnType(length = 255)
+	@ColumnComment("资源名称")
 	private String resourceName;
+
 	/**
 	 * 资源链接
 	 */
 	@Excel(name = "资源链接")
 	@TableField("resource_link")
+	@ColumnType(length = 255)
+	@ColumnComment("资源链接")
 	private String resourceLink;
+
 	/**
 	 * 资源图标
 	 */
 	@Excel(name = "资源图标")
 	@TableField("resource_icon")
+	@ColumnType(length = 255)
+	@ColumnComment("资源图标")
 	private String resourceIcon;
+
 	/**
 	 * 资源父类
 	 */
 	@Excel(name = "资源父类")
 	@TableField("resource_parent")
-	private Long resourceParent = 0l;
+	@ColumnType
+	@ColumnComment("资源父类")
+	private Long resourceParent = 0L;
+
 	/**
 	 * 资源排序
 	 */
 	@Excel(name = "资源排序")
 	@TableField("resource_order")
+	@ColumnType
+	@ColumnComment("资源排序")
 	private Integer resourceOrder;
 
 	/**
@@ -59,12 +76,16 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "菜单类型(0菜单|1小标题|9平台标题)")
 	@TableField("menu_type")
+	@ColumnType(length = 255)
+	@ColumnComment("菜单类型(0菜单|1小标题|9平台标题)")
 	private String menuType = "0"; // MenuEnums.MENU_ITEM.value ;
 
 	/**
 	 * 链接打开方式
 	 */
 	@TableField("open_target")
+	@ColumnType(length = 255)
+	@ColumnComment("链接打开方式")
 	private String openTarget;
 
 	/**
@@ -72,19 +93,25 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "权限标识")
 	@TableField("permission")
+	@ColumnType(length = 255)
+	@ColumnComment("权限标识")
 	private String permission;
 
 	/**
 	 * 权限脚本
 	 */
 	@TableField("permission_script")
+	@ColumnType(length = 255)
+	@ColumnComment("权限脚本")
 	private String permissionScript;
 
 	/**
 	 * 是否可见
 	 */
-	@Excel(name = "是否可见", replace = { "隐藏_0", "显示_1" })
+	@Excel(name = "是否可见", replace = {"隐藏_0", "显示_1"})
 	@TableField("visible")
+	@ColumnType(length = 255)
+	@ColumnComment("是否可见")
 	private String visible;
 
 	/**
@@ -93,37 +120,6 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	@TableField(exist = false)
 	private List<ManagerResourceEntity> subResource;
 
-	public String getVisible() {
-		return visible;
-	}
-
-	public void setVisible(String visible) {
-		this.visible = visible;
-	}
-
-	public String getOpenTarget() {
-		return openTarget;
-	}
-
-	public void setOpenTarget(String openTarget) {
-		this.openTarget = openTarget;
-	}
-
-	public String getPermissionScript() {
-		return permissionScript;
-	}
-
-	public void setPermissionScript(String permissionScript) {
-		this.permissionScript = permissionScript;
-	}
-
-	public String getPermission() {
-		return permission;
-	}
-
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
 
 	public ManagerResourceEntity() {
 		super();
@@ -147,66 +143,4 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 		this.setId(SnowflakeIdWorker.getId());
 	}
 
-	public List<ManagerResourceEntity> getSubResource() {
-		return subResource;
-	}
-
-	public void setSubResource(List<ManagerResourceEntity> subResource) {
-		this.subResource = subResource;
-	}
-
-	public String getMenuType() {
-		return menuType;
-	}
-
-	public void setMenuType(String menuType) {
-		this.menuType = menuType;
-	}
-
-	public String getResourceName() {
-		return resourceName;
-	}
-
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
-
-	public String getResourceLink() {
-		return resourceLink;
-	}
-
-	public void setResourceLink(String resourceLink) {
-		this.resourceLink = resourceLink;
-	}
-
-	public String getResourceIcon() {
-		return resourceIcon;
-	}
-
-	public void setResourceIcon(String resourceIcon) {
-		this.resourceIcon = resourceIcon;
-	}
-
-	public Long getResourceParent() {
-		return resourceParent;
-	}
-
-	public void setResourceParent(Long resourceParent) {
-		this.resourceParent = resourceParent;
-	}
-
-	public Integer getResourceOrder() {
-		return resourceOrder;
-	}
-
-	public void setResourceOrder(Integer resourceOrder) {
-		this.resourceOrder = resourceOrder;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerResourceEntity{" + "resourceName=" + resourceName + ", resourceLink=" + resourceLink
-				+ ", resourceIcon=" + resourceIcon + ", resourceParent=" + resourceParent + ", resourceOrder="
-				+ resourceOrder + "}";
-	}
 }

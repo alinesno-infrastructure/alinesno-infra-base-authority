@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +17,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_settings")
 public class ManagerSettingsEntity extends InfraBaseEntity {
 
@@ -25,75 +28,44 @@ public class ManagerSettingsEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "参数名称")
 	@TableField("config_name")
+	@ColumnType(length = 255)
+	@ColumnComment("参数名称")
 	private String configName;
+
 	/**
 	 * 参数键名
 	 */
 	@Excel(name = "参数键名")
 	@TableField("config_key")
+	@ColumnType(length = 255)
+	@ColumnComment("参数键名")
 	private String configKey;
+
 	/**
 	 * 参数键值
 	 */
 	@Excel(name = "参数键值")
 	@TableField("config_value")
+	@ColumnType(length = 255)
+	@ColumnComment("参数键值")
 	private String configValue;
+
 	/**
 	 * 系统内置（Y是 N否）
 	 */
 	@Excel(name = "系统内置（Y是 N否）")
 	@TableField("config_type")
+	@ColumnType(length = 1)
+	@ColumnComment("系统内置（Y是 N否）")
 	private String configType;
+
 	/**
 	 * 备注
 	 */
 	@Excel(name = "备注")
 	@TableField("config_remark")
+	@ColumnType(length = 255)
+	@ColumnComment("备注")
 	private String configRemark;
 
-	public String getConfigName() {
-		return configName;
-	}
-
-	public void setConfigName(String configName) {
-		this.configName = configName;
-	}
-
-	public String getConfigKey() {
-		return configKey;
-	}
-
-	public void setConfigKey(String configKey) {
-		this.configKey = configKey;
-	}
-
-	public String getConfigValue() {
-		return configValue;
-	}
-
-	public void setConfigValue(String configValue) {
-		this.configValue = configValue;
-	}
-
-	public String getConfigType() {
-		return configType;
-	}
-
-	public void setConfigType(String configType) {
-		this.configType = configType;
-	}
-
-	public String getConfigRemark() {
-		return configRemark;
-	}
-
-	public void setConfigRemark(String configRemark) {
-		this.configRemark = configRemark;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerSettingsEntity{" + "configName=" + configName + ", configKey=" + configKey + ", configValue="
-				+ configValue + ", configType=" + configType + ", configRemark=" + configRemark + "}";
-	}
 }

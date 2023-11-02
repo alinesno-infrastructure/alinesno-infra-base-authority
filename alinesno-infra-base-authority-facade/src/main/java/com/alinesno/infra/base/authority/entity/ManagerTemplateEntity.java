@@ -5,6 +5,9 @@ import java.util.Date;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_template")
 public class ManagerTemplateEntity extends InfraBaseEntity {
 
@@ -24,98 +27,56 @@ public class ManagerTemplateEntity extends InfraBaseEntity {
 	 * 模板名称
 	 */
 	@TableField("template_name")
+	@ColumnType(length = 255)
+	@ColumnComment("模板名称")
 	private String templateName;
+
 	/**
 	 * 模板内容
 	 */
 	@TableField("template_content")
+	@ColumnType
+	@ColumnComment("模板内容")
 	private String templateContent;
+
 	/**
 	 * 模板数据
 	 */
 	@TableField("template_data")
+	@ColumnType
+	@ColumnComment("模板数据")
 	private String templateData;
+
 	/**
 	 * 模板时间
 	 */
 	@TableField("template_addtime")
+	@ColumnType
+	@ColumnComment("模板时间")
 	private Date templateAddtime;
+
 	/**
 	 * 模板状态
 	 */
 	@TableField("template_status")
+	@ColumnType(length = 255)
+	@ColumnComment("模板状态")
 	private String templateStatus;
+
 	/**
 	 * 所属菜单
 	 */
 	@TableField("resource_id")
+	@ColumnType(length = 255)
+	@ColumnComment("所属菜单")
 	private String resourceId;
+
 	/**
 	 * 模板作者
 	 */
 	@TableField("template_owner")
+	@ColumnType(length = 255)
+	@ColumnComment("模板作者")
 	private String templateOwner;
 
-	public String getTemplateName() {
-		return templateName;
-	}
-
-	public void setTemplateName(String templateName) {
-		this.templateName = templateName;
-	}
-
-	public String getTemplateContent() {
-		return templateContent;
-	}
-
-	public void setTemplateContent(String templateContent) {
-		this.templateContent = templateContent;
-	}
-
-	public String getTemplateData() {
-		return templateData;
-	}
-
-	public void setTemplateData(String templateData) {
-		this.templateData = templateData;
-	}
-
-	public Date getTemplateAddtime() {
-		return templateAddtime;
-	}
-
-	public void setTemplateAddtime(Date templateAddtime) {
-		this.templateAddtime = templateAddtime;
-	}
-
-	public String getTemplateStatus() {
-		return templateStatus;
-	}
-
-	public void setTemplateStatus(String templateStatus) {
-		this.templateStatus = templateStatus;
-	}
-
-	public String getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(String resourceId) {
-		this.resourceId = resourceId;
-	}
-
-	public String getTemplateOwner() {
-		return templateOwner;
-	}
-
-	public void setTemplateOwner(String templateOwner) {
-		this.templateOwner = templateOwner;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerTemplateEntity{" + "templateName=" + templateName + ", templateContent=" + templateContent
-				+ ", templateData=" + templateData + ", templateAddtime=" + templateAddtime + ", templateStatus="
-				+ templateStatus + ", resourceId=" + resourceId + ", templateOwner=" + templateOwner + "}";
-	}
 }

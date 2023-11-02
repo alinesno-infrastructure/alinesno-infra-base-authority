@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,7 +20,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_holidays")
 public class ManagerHolidaysEntity extends InfraBaseEntity {
 
@@ -29,32 +32,17 @@ public class ManagerHolidaysEntity extends InfraBaseEntity {
 	@Excel(name = "日期", format = "yyyy-MM-dd HH:mm:ss", width = 25)
 	@TableField("holidays_date")
 	@JSONField(format = "yyyy-MM-dd")
+	@ColumnType
+	@ColumnComment("日期字符")
 	private Date holidaysDate;
+
 	/**
 	 * 是否为节假日(1节假日|0非节假日)
 	 */
 	@Excel(name = "是否节假日", replace = { "否_0", "是_1" })
-	@TableField
+	@TableField("holidays")
+	@ColumnType(length = 1)
+	@ColumnComment("是否节假日(1节假日|0非节假日)")
 	private String holidays;
 
-	public Date getHolidaysDate() {
-		return holidaysDate;
-	}
-
-	public void setHolidaysDate(Date holidaysDate) {
-		this.holidaysDate = holidaysDate;
-	}
-
-	public String getHolidays() {
-		return holidays;
-	}
-
-	public void setHolidays(String holidays) {
-		this.holidays = holidays;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerHolidaysEntity{" + "holidaysDate=" + holidaysDate + ", holidays=" + holidays + "}";
-	}
 }

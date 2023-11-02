@@ -6,6 +6,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 /**
  * <p>
@@ -15,7 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Data
 @TableName("manager_working_calendar")
 public class ManagerWorkingCalendarEntity extends InfraBaseEntity {
 
@@ -25,60 +28,34 @@ public class ManagerWorkingCalendarEntity extends InfraBaseEntity {
 	 * 工作开始时间
 	 */
 	@TableField("working_end_time")
+	@ColumnType
+	@ColumnComment("工作开始时间")
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date workingEndTime;
+
 	/**
 	 * 工作内容
 	 */
 	@TableField("working_content")
+	@ColumnType(length = 255)
+	@ColumnComment("工作内容")
 	private String workingContent;
+
 	/**
 	 * 工作结束时间
 	 */
 	@TableField("working_start_time")
+	@ColumnType
+	@ColumnComment("工作结束时间")
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date workingStartTime;
+
 	/**
 	 * 工作类型
 	 */
 	@TableField("working_type")
+	@ColumnType(length = 255)
+	@ColumnComment("工作类型")
 	private String workingType;
 
-	public Date getWorkingEndTime() {
-		return workingEndTime;
-	}
-
-	public void setWorkingEndTime(Date workingEndTime) {
-		this.workingEndTime = workingEndTime;
-	}
-
-	public String getWorkingContent() {
-		return workingContent;
-	}
-
-	public void setWorkingContent(String workingContent) {
-		this.workingContent = workingContent;
-	}
-
-	public Date getWorkingStartTime() {
-		return workingStartTime;
-	}
-
-	public void setWorkingStartTime(Date workingStartTime) {
-		this.workingStartTime = workingStartTime;
-	}
-
-	public String getWorkingType() {
-		return workingType;
-	}
-
-	public void setWorkingType(String workingType) {
-		this.workingType = workingType;
-	}
-
-	@Override
-	public String toString() {
-		return "ManagerWorkingCalendarEntity{" + "workingEndTime=" + workingEndTime + ", workingContent="
-				+ workingContent + ", workingStartTime=" + workingStartTime + ", workingType=" + workingType + "}";
-	}
 }
