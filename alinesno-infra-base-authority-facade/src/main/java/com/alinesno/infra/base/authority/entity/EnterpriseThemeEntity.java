@@ -47,6 +47,7 @@ public class EnterpriseThemeEntity extends InfraBaseEntity {
 	@Excel(name = "登录LOGO")
 	private String loginLogo;
 
+	@ColumnType(length = 255)
 	@ColumnComment("登录LOGO路径")
 	@TableField(exist = false)
 	private String loginLogoPath;
@@ -57,6 +58,7 @@ public class EnterpriseThemeEntity extends InfraBaseEntity {
 	@Excel(name = "登录背景图")
 	private String logoBackground;
 
+	@ColumnType(length = 100)
 	@ColumnComment("登录背景图路径")
 	@TableField(exist = false)
 	private String logoBackgroundPath;
@@ -79,12 +81,18 @@ public class EnterpriseThemeEntity extends InfraBaseEntity {
 	@Excel(name = "主题颜色")
 	private String loginColor;
 
+	@ColumnType(length = 100)
+	@ColumnComment("loginDescription")
 	@TableField("login_description")
 	private String loginDescription;
 
+	@ColumnType(length = 100)
+	@ColumnComment("powerDesc")
 	@TableField("power_desc")
 	private String powerDesc;
 
+	@ColumnType(length = 100)
+	@ColumnComment("hasQrLogin")
 	@TableField("has_qr_login")
 	private int hasQrLogin;
 

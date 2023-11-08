@@ -23,7 +23,7 @@ public class InfoCodeEntity extends InfraBaseEntity {
 
 	@ColumnType
 	@ColumnComment("所有者")
-	@TableField
+	@TableField("owners")
 	private String owners;
 
 	@ColumnType(length = 100)
