@@ -1,13 +1,5 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
@@ -25,6 +17,13 @@ import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.alinesno.infra.common.facade.wrapper.Wrapper;
 import com.alinesno.infra.common.facade.wrapper.mybatis.WrapperGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>

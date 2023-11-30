@@ -1,13 +1,12 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.alinesno.infra.base.authority.entity.InfoSchoolEntity;
 import com.alinesno.infra.base.authority.mapper.InfoSchoolMapper;
 import com.alinesno.infra.base.authority.service.IInfoSchoolService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

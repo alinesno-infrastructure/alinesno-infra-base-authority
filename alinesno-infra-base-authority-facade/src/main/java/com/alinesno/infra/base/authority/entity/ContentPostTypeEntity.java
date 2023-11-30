@@ -1,15 +1,14 @@
 package com.alinesno.infra.base.authority.entity;
 
-import java.util.Date;
-
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * <p>

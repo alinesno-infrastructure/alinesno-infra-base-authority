@@ -1,10 +1,10 @@
 package com.alinesno.infra.base.authority.service;
 
-import java.util.List;
-
 import com.alinesno.infra.base.authority.entity.ManagerCodeTypeEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import java.util.List;
 
 /**
  * <p>

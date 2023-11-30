@@ -1,15 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import cn.hutool.core.util.StrUtil;
 import com.alinesno.infra.base.authority.entity.ManagerRoleResourceEntity;
 import com.alinesno.infra.base.authority.mapper.ManagerRoleResourceMapper;
 import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
@@ -17,8 +8,15 @@ import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.alinesno.infra.common.facade.wrapper.mybatis.WrapperGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import cn.hutool.core.util.StrUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>

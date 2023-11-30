@@ -1,9 +1,8 @@
 package com.alinesno.infra.base.authority.mapper;
 
-import org.springframework.stereotype.Repository;
-
 import com.alinesno.infra.base.authority.entity.ManagerPositionEntity;
 import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * Position

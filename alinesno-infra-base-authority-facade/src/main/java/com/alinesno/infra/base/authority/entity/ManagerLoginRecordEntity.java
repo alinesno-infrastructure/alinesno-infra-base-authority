@@ -1,16 +1,15 @@
 package com.alinesno.infra.base.authority.entity;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -40,7 +39,7 @@ public class ManagerLoginRecordEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "登陆时间", format = "yyyy-MM-dd HH:mm:ss")
 	@TableField("login_time")
-	@JSONField(format = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ColumnType
 	@ColumnComment("登陆时间")
 	private Date loginTime;
@@ -104,7 +103,7 @@ public class ManagerLoginRecordEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "退出时间", format = "yyyy-MM-dd HH:mm:ss")
 	@TableField("sign_out_time")
-	@JSONField(format = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ColumnType
 	@ColumnComment("退出时间")
 	private Date signOutTime;

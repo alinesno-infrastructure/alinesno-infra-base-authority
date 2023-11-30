@@ -1,26 +1,8 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.util.StrUtil;
 import com.alinesno.infra.base.authority.api.dto.AccountRoleDto;
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerAccountRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
-import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerRoleResourceEntity;
+import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
@@ -30,8 +12,19 @@ import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import cn.hutool.core.util.StrUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -194,7 +187,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 		}
 
 		Object o = managerAccountRoleService.saveBatch(entities);
-		log.debug("追求用户{}权限{}结果:{}" , accountId , JSONObject.toJSON(roleId), o);
+		log.debug("追求用户{}权限{}结果:{}" , accountId , roleId, o);
 	}
 
 	@Override

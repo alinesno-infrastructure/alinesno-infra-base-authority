@@ -1,31 +1,22 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerAccountRoleEntity;
 import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.mapper.ManagerApplicationMapper;
-import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
-import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerApplicationService;
-import com.alinesno.infra.base.authority.service.IManagerResourceService;
-import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * <p>

@@ -1,16 +1,15 @@
 package com.alinesno.infra.base.authority.entity;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -31,7 +30,7 @@ public class ManagerHolidaysEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "日期", format = "yyyy-MM-dd HH:mm:ss", width = 25)
 	@TableField("holidays_date")
-	@JSONField(format = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ColumnType
 	@ColumnComment("日期字符")
 	private Date holidaysDate;

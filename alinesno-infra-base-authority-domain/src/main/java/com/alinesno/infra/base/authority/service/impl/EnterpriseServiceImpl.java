@@ -1,11 +1,5 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.alinesno.infra.base.authority.entity.EnterpriseAccountEntity;
 import com.alinesno.infra.base.authority.entity.EnterpriseEntity;
 import com.alinesno.infra.base.authority.enums.EnterpriseRoleEnums;
@@ -14,6 +8,11 @@ import com.alinesno.infra.base.authority.service.IEnterpriseAccountService;
 import com.alinesno.infra.base.authority.service.IEnterpriseService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class EnterpriseServiceImpl extends IBaseServiceImpl<EnterpriseEntity, EnterpriseMapper> implements IEnterpriseService {

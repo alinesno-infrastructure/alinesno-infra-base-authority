@@ -1,7 +1,6 @@
 package com.alinesno.infra.base.authority.api.provider;
 
 import com.alinesno.infra.base.authority.api.dto.*;
-import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,10 +1,10 @@
 package com.alinesno.infra.base.authority.api.dto;
 
-import java.util.List;
-
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_account

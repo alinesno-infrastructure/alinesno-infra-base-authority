@@ -1,15 +1,14 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
 import com.alinesno.infra.base.authority.mapper.ManagerCodeMapper;
 import com.alinesno.infra.base.authority.service.IManagerCodeService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>

@@ -1,12 +1,10 @@
 package com.alinesno.infra.base.authority.api.dto;
 
-import org.hibernate.validator.constraints.Length;
-
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_application

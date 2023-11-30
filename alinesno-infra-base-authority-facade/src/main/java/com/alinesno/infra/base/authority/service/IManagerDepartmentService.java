@@ -1,11 +1,11 @@
 package com.alinesno.infra.base.authority.service;
 
-import java.util.List;
-
 import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+
+import java.util.List;
 
 /**
  * <p>

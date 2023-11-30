@@ -1,9 +1,9 @@
 package com.alinesno.infra.base.authority.service;
 
-import java.util.List;
-
 import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
+
+import java.util.List;
 
 /**
  * <p>

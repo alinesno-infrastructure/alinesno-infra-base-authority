@@ -1,17 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
+import cn.hutool.core.bean.BeanUtil;
 import com.alinesno.infra.base.authority.api.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
@@ -20,18 +9,23 @@ import com.alinesno.infra.base.authority.entity.ManagerRoleResourceEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
-import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
-import com.alinesno.infra.base.authority.service.IManagerAccountService;
-import com.alinesno.infra.base.authority.service.IManagerResourceService;
-import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
-import com.alinesno.infra.base.authority.service.IManagerRoleService;
+import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
-import cn.hutool.core.bean.BeanUtil;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>

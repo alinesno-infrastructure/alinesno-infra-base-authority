@@ -1,14 +1,14 @@
 package com.alinesno.infra.base.authority.entity;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -30,7 +30,7 @@ public class ManagerWorkingCalendarEntity extends InfraBaseEntity {
 	@TableField("working_end_time")
 	@ColumnType
 	@ColumnComment("工作开始时间")
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date workingEndTime;
 
 	/**
@@ -47,7 +47,7 @@ public class ManagerWorkingCalendarEntity extends InfraBaseEntity {
 	@TableField("working_start_time")
 	@ColumnType
 	@ColumnComment("工作结束时间")
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date workingStartTime;
 
 	/**

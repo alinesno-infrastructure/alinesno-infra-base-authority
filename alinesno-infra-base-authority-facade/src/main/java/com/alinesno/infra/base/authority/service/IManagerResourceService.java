@@ -1,11 +1,11 @@
 package com.alinesno.infra.base.authority.service;
 
-import java.util.List;
-
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.services.IBaseService;
+
+import java.util.List;
 
 /**
  * <p>

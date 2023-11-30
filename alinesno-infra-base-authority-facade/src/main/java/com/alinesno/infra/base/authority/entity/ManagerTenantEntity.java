@@ -1,16 +1,15 @@
 package com.alinesno.infra.base.authority.entity;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ public class ManagerTenantEntity extends InfraBaseEntity {
 	 * 开始时间
 	 */
 	@Excel(name = "开始时间")
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@TableField("start_time")
 	@ColumnType
 	@ColumnComment("开始时间")
@@ -49,7 +48,7 @@ public class ManagerTenantEntity extends InfraBaseEntity {
 	 * 结束时间
 	 */
 	@Excel(name = "结束时间")
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@TableField("end_time")
 	@ColumnType
 	@ColumnComment("结束时间")

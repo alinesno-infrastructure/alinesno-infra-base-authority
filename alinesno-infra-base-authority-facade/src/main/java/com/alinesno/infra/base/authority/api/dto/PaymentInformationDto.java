@@ -1,11 +1,11 @@
 package com.alinesno.infra.base.authority.api.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： payment_information

@@ -1,9 +1,9 @@
 package com.alinesno.infra.base.authority.api.param;
 
+import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 
 @SuppressWarnings("serial")
 public class AuthorizeUsersParams implements Serializable {
