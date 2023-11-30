@@ -137,20 +137,23 @@ public class CommonLoginController {
 
         Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("系统管理", "post", false, null),
                 List.of(
-                        new Menu("Tenant", "system/tenant/index", false,false,  "system/tenant/index", new Menu.Meta("组织管理", "tree", false, null)),
+                        new Menu("Group", "system/group/index", false,false,  "system/group/index", new Menu.Meta("组织管理", "tree", false, null)),
                         new Menu("User", "system/user/index", false,false,  "system/user/index", new Menu.Meta("用户管理", "user", false, null)),
-                        new Menu("Role", "system/role/index", false, false, "system/role/index", new Menu.Meta("角色管理", "peoples", false, null)),
-                        new Menu("Menu", "system/menu/index", false,false,  "system/menu/index", new Menu.Meta("菜单管理", "tree-table", false, null)),
                         new Menu("Dept", "system/dept/index", false,false,  "system/dept/index", new Menu.Meta("部门管理", "tree", false, null)),
                         new Menu("Post", "system/post/index", false, false, "system/post/index", new Menu.Meta("岗位管理", "post", false, null)),
+                        new Menu("Role", "system/role/index", false, false, "system/role/index", new Menu.Meta("角色管理", "peoples", false, null)), 
+                        new Menu("Menu", "system/menu/index", false,false,  "system/menu/index", new Menu.Meta("菜单管理", "tree-table", false, null)), 
                         new Menu("Dict", "system/dict/index", false,false,  "system/dict/index", new Menu.Meta("字典管理", "dict", false, null)),
                         new Menu("Config", "system/config/index", false,false,  "system/config/index", new Menu.Meta("参数设置", "edit", false, null)),
-                        new Menu("Notice", "system/notice/index", false,false,  "system/notice/index", new Menu.Meta("通知公告", "message", false, null))));
+                        new Menu("Notice", "system/notice/index", false,false,  "system/notice/index", new Menu.Meta("通知公告", "message", false, null))
+                ));
 
         Menu loggerMenu = new Menu("Log", "/log", false, "noRedirect", "Layout", true, new Menu.Meta("日志管理", "log", false, null),
                         List.of(
                                 new Menu("Operlog", "monitor/operlog/index", false,false, "monitor/operlog/index", new Menu.Meta("操作日志", "form", false, null)),
-                                new Menu("Logininfor", "monitor/logininfor/index", false,false, "monitor/logininfor/index", new Menu.Meta("登录日志", "logininfor", false, null))));
+                                new Menu("Operlog", "monitor/apilog/index", false,false, "monitor/apilog/index", new Menu.Meta("接口日志", "form", false, null)),
+                                new Menu("Logininfor", "monitor/logininfor/index", false,false, "monitor/logininfor/index", new Menu.Meta("登录日志", "logininfor", false, null))
+                        ));
 
         Menu monitorMenu = new Menu("Monitor", "/monitor", false, "noRedirect", "Layout", true, new Menu.Meta("系统监控", "monitor", false, null),
                 List.of(
@@ -164,11 +167,12 @@ public class CommonLoginController {
         Menu themeMenu = new Menu("Theme", "/theme", false, "noRedirect", "Layout", true, new Menu.Meta("团队主题", "tool", false, null),
                 List.of(
                         new Menu("Build", "tool/build/index", false,false, "tool/build/index", new Menu.Meta("系统主题", "build", false, null)),
-                        new Menu("Swagger", "tool/swagger/index",false, false, "tool/swagger/index", new Menu.Meta("登陆主题", "swagger", false, null))));
+                        new Menu("Swagger", "tool/swagger/index",false, false, "tool/swagger/index", new Menu.Meta("登陆主题", "swagger", false, null))
+                ));
 
-        Menu httpMenu = new Menu("Portal", "Layout", false, false , "http://portal.infra.linesno.com", new Menu.Meta("基设官网", "guide", false, "http://portal.infra.linesno.com"));
+        //  Menu httpMenu = new Menu("Portal", "Layout", false, false , "http://portal.infra.linesno.com", new Menu.Meta("基设官网", "guide", false, "http://portal.infra.linesno.com"));
 
-        List<Menu> menus = List.of(dashboardMenu , systemMenu, monitorMenu, loggerMenu , themeMenu, httpMenu);
+        List<Menu> menus = List.of(dashboardMenu , systemMenu, monitorMenu, loggerMenu , themeMenu);
 
         return AjaxResult.success(menus) ;
     }
