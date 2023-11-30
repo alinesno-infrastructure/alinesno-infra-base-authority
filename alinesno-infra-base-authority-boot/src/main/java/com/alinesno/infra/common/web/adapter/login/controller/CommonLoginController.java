@@ -137,7 +137,7 @@ public class CommonLoginController {
 
         Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("系统管理", "post", false, null),
                 List.of(
-                        new Menu("Tenant", "system/tenant/index", false,false,  "system/tenant/index", new Menu.Meta("租户管理", "tree", false, null)),
+                        new Menu("Tenant", "system/tenant/index", false,false,  "system/tenant/index", new Menu.Meta("组织管理", "tree", false, null)),
                         new Menu("User", "system/user/index", false,false,  "system/user/index", new Menu.Meta("用户管理", "user", false, null)),
                         new Menu("Role", "system/role/index", false, false, "system/role/index", new Menu.Meta("角色管理", "peoples", false, null)),
                         new Menu("Menu", "system/menu/index", false,false,  "system/menu/index", new Menu.Meta("菜单管理", "tree-table", false, null)),
