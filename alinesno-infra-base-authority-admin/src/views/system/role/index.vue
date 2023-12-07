@@ -26,12 +26,12 @@
                clearable
                style="width: 240px"
             >
-               <el-option
-                  v-for="dict in sys_normal_disable"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-               />
+<!--               <el-option-->
+<!--                  v-for="dict in sys_normal_disable"-->
+<!--                  :key="dict.value"-->
+<!--                  :label="dict.label"-->
+<!--                  :value="dict.value"-->
+<!--               />-->
             </el-select>
          </el-form-item>
          <el-form-item label="创建时间" style="width: 308px">
@@ -161,11 +161,11 @@
             </el-form-item>
             <el-form-item label="状态">
                <el-radio-group v-model="form.status">
-                  <el-radio
-                     v-for="dict in sys_normal_disable"
-                     :key="dict.value"
-                     :label="dict.value"
-                  >{{ dict.label }}</el-radio>
+<!--                  <el-radio-->
+<!--                     v-for="dict in sys_normal_disable"-->
+<!--                     :key="dict.value"-->
+<!--                     :label="dict.value"-->
+<!--                  >{{ dict.label }}</el-radio>-->
                </el-radio-group>
             </el-form-item>
             <el-form-item label="菜单权限">
@@ -247,7 +247,7 @@ import { roleMenuTreeselect, treeselect as menuTreeselect } from "@/api/system/m
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+// const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
 const roleList = ref([]);
 const open = ref(false);

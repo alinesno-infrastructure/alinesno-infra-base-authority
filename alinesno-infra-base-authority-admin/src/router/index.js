@@ -134,7 +134,34 @@ export const constantRoutes = [
         component: () => import('@/views/gateway/createBalanced'),
         meta: { title: '创建负载均衡', icon: 'dashboard', affix: true }
       },
-
+      {
+        path: '/system/dept/index',
+        name: 'system/dept/index',
+        hidden: true,
+        component: () => import('@/views/system/dept'),
+        meta: { title: '部门管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/user/index',
+        name: 'system/user/index',
+        hidden: true,
+        component: () => import('@/views/system/user'),
+        meta: { title: '用户管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/role/index',
+        name: 'system/role/index',
+        hidden: true,
+        component: () => import('@/views/system/role'),
+        meta: { title: '角色管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/post/index',
+        name: 'system/post/index',
+        hidden: true,
+        component: () => import('@/views/system/post'),
+        meta: { title: '岗位管理', icon: 'dashboard', affix: true }
+      },
 
     ]
   },
