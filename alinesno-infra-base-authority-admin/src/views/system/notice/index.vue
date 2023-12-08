@@ -1,6 +1,5 @@
 <template>
   <div class="p-2">
-    <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
@@ -22,7 +21,6 @@
           </el-form>
         </el-card>
       </div>
-    </transition>
 
     <el-card shadow="hover">
       <template #header>
@@ -46,7 +44,7 @@
 
       <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="序号" align="center" prop="noticeId" width="100" v-if="false" />
+        <el-table-column label="序号" align="center" prop="id" width="100" v-if="false" />
         <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true" />
         <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
           <template #default="scope">
@@ -122,6 +120,7 @@
 <script setup name="Notice" lang="ts">
 import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/notice";
 import { NoticeForm, NoticeQuery, NoticeVO } from "@/api/system/notice/types";
+import {getCurrentInstance, onMounted, reactive, ref, toRefs} from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const { sys_notice_status, sys_notice_type } = toRefs<any>(proxy?.useDict("sys_notice_status", "sys_notice_type"));
@@ -144,7 +143,7 @@ const dialog = reactive<DialogOption>({
 });
 
 const initFormData: NoticeForm = {
-  noticeId: undefined,
+  id: undefined,
   noticeTitle: '',
   noticeType: '',
   noticeContent: '',
@@ -200,7 +199,7 @@ const resetQuery = () => {
 }
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: NoticeVO[]) => {
-  ids.value = selection.map(item => item.noticeId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -213,8 +212,8 @@ const handleAdd = () => {
 /**修改按钮操作 */
 const handleUpdate = async (row?: NoticeVO) => {
   reset();
-  const noticeId = row?.noticeId || ids.value[0];
-  const { data } = await getNotice(noticeId);
+  const id = row?.id || ids.value[0];
+  const { data } = await getNotice(id);
   Object.assign(form.value, data);
   dialog.visible = true;
   dialog.title = "修改公告";
@@ -223,7 +222,7 @@ const handleUpdate = async (row?: NoticeVO) => {
 const submitForm = () => {
   noticeFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
-      form.value.noticeId ? await updateNotice(form.value) : await addNotice(form.value);
+      form.value.id ? await updateNotice(form.value) : await addNotice(form.value);
       proxy?.$modal.msgSuccess("修改成功");
       dialog.visible = false;
       await getList();
@@ -232,7 +231,7 @@ const submitForm = () => {
 }
 /** 删除按钮操作 */
 const handleDelete = async (row?: NoticeVO) => {
-  const noticeIds = row?.noticeId || ids.value
+  const noticeIds = row?.id || ids.value
   await proxy?.$modal.confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？');
   await delNotice(noticeIds);
   await getList();

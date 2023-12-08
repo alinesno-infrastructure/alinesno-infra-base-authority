@@ -1,6 +1,5 @@
 <template>
   <div class="p-2">
-    <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
@@ -33,7 +32,6 @@
           </el-form>
         </el-card>
       </div>
-    </transition>
     <el-card shadow="hover">
       <template #header>
         <el-row :gutter="10" class="mb8">
@@ -62,7 +60,7 @@
 
       <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="参数主键" align="center" prop="configId" v-if="false" />
+        <el-table-column label="参数主键" align="center" prop="id" v-if="false" />
         <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
         <el-table-column label="参数键名" align="center" prop="configKey" :show-overflow-tooltip="true" />
         <el-table-column label="参数键值" align="center" prop="configValue" :show-overflow-tooltip="true" />
@@ -125,6 +123,7 @@
 <script setup name="Config" lang="ts">
 import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
 import { ConfigForm, ConfigQuery, ConfigVO } from "@/api/system/config/types";
+import {getCurrentInstance, onMounted, reactive, ref, toRefs} from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const { sys_yes_no } = toRefs<any>(proxy?.useDict("sys_yes_no"));
@@ -145,7 +144,7 @@ const dialog = reactive<DialogOption>({
   title: ''
 });
 const initFormData: ConfigForm = {
-  configId: undefined,
+  id: undefined,
   configName: '',
   configKey: '',
   configValue: '',
@@ -201,7 +200,7 @@ const resetQuery = () => {
 }
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: ConfigVO[]) => {
-  ids.value = selection.map(item => item.configId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -214,9 +213,9 @@ const handleAdd = () => {
 /** 修改按钮操作 */
 const handleUpdate = async (row?: ConfigVO) => {
   reset();
-  const configId = row?.configId || ids.value[0];
-  const res = await getConfig(configId);
-  Object.assign(form.value, res.data);
+  const id = row?.id || ids.value[0];
+  const res = await getConfig(id);
+  Object.assign(form.value, res.rows);
   dialog.visible = true;
   dialog.title = "修改参数";
 }
@@ -224,7 +223,7 @@ const handleUpdate = async (row?: ConfigVO) => {
 const submitForm = () => {
   configFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
-      form.value.configId ? await updateConfig(form.value) : await addConfig(form.value);
+      form.value.id ? await updateConfig(form.value) : await addConfig(form.value);
       proxy?.$modal.msgSuccess("操作成功");
       dialog.visible = false;
       await getList();
@@ -233,7 +232,7 @@ const submitForm = () => {
 }
 /** 删除按钮操作 */
 const handleDelete = async (row?: ConfigVO) => {
-  const configIds = row?.configId || ids.value;
+  const configIds = row?.id || ids.value;
   await proxy?.$modal.confirm('是否确认删除参数编号为"' + configIds + '"的数据项？');
   await delConfig(configIds);
   await getList();

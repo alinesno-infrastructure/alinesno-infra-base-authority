@@ -1,6 +1,5 @@
 <template>
   <div class="p-2">
-    <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
@@ -9,7 +8,7 @@
             </el-form-item>
             <el-form-item label="状态" prop="status">
               <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
-                <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
+<!--                <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />-->
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -19,7 +18,6 @@
           </el-form>
         </el-card>
       </div>
-    </transition>
 
     <el-card shadow="hover">
       <template #header>
@@ -37,7 +35,7 @@
       <el-table
         v-loading="loading"
         :data="menuList"
-        row-key="menuId"
+        row-key="id"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         ref="menuTableRef"
         :default-expand-all="isExpandAll"
@@ -53,7 +51,7 @@
         <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="status" label="状态" width="80">
           <template #default="scope">
-            <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
+<!--            <dict-tag :options="sys_normal_disable" :value="scope.row.status" />-->
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="createTime">
@@ -85,8 +83,8 @@
               <el-tree-select
                 v-model="form.parentId"
                 :data="menuOptions"
-                :props="{ value: 'menuId', label: 'menuName', children: 'children' }"
-                value-key="menuId"
+                :props="{ value: 'id', label: 'menuName', children: 'children' }"
+                value-key="id"
                 placeholder="选择上级菜单"
                 check-strictly
               />
@@ -225,7 +223,7 @@
                 </span>
               </template>
               <el-radio-group v-model="form.visible">
-                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :label="dict.value">{{ dict.label }} </el-radio>
+<!--                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :label="dict.value">{{ dict.label }} </el-radio>-->
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -242,9 +240,9 @@
                 </span>
               </template>
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">
-                  {{ dict.label }}
-                </el-radio>
+<!--                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.value">-->
+<!--                  {{ dict.label }}-->
+<!--                </el-radio>-->
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -264,15 +262,16 @@
 import { addMenu, delMenu, getMenu, listMenu, updateMenu } from '@/api/system/menu';
 import { MenuForm, MenuQuery, MenuVO } from '@/api/system/menu/types';
 import { MenuTypeEnum } from '@/enums/MenuTypeEnum';
+import {getCurrentInstance, onMounted, reactive, ref, toRefs} from "vue";
 
 interface MenuOptionsType {
-  menuId: number;
+  id: number;
   menuName: string;
   children: MenuOptionsType[] | undefined;
 }
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
-const { sys_show_hide, sys_normal_disable } = toRefs<any>(proxy?.useDict("sys_show_hide", "sys_normal_disable"));
+// const { sys_show_hide, sys_normal_disable } = toRefs<any>(proxy?.useDict("sys_show_hide", "sys_normal_disable"));
 
 const menuList = ref<MenuVO[]>([])
 const loading = ref(true)
@@ -289,7 +288,7 @@ const queryFormRef = ref<ElFormInstance>();
 const menuFormRef = ref<ElFormInstance>();
 const initFormData = {
   path: '',
-  menuId: undefined,
+  id: undefined,
   parentId: 0,
   menuName: '',
   icon: '',
@@ -320,7 +319,7 @@ const { queryParams, form, rules } = toRefs<PageData<MenuForm, MenuQuery>>(data)
 const getList = async () => {
   loading.value = true
   const res = await listMenu(queryParams.value);
-  const data = proxy?.handleTree<MenuVO>(res.data, "menuId")
+  const data = proxy?.handleTree<MenuVO>(res.rows, "id")
   if (data) {
     menuList.value = data
   }
@@ -330,8 +329,8 @@ const getList = async () => {
 const getTreeselect = async () => {
   menuOptions.value = []
   const response = await listMenu();
-  const menu: MenuOptionsType = { menuId: 0, menuName: "主类目", children: [] }
-  menu.children = proxy?.handleTree<MenuOptionsType>(response.data, "menuId")
+  const menu: MenuOptionsType = { id: 0, menuName: "主类目", children: [] }
+  menu.children = proxy?.handleTree<MenuOptionsType>(response.data, "id")
   menuOptions.value.push(menu)
 }
 /** 取消按钮 */
@@ -358,7 +357,7 @@ const resetQuery = () => {
 const handleAdd = (row?: MenuVO) => {
   reset();
   getTreeselect();
-  row && row.menuId ? form.value.parentId = row.menuId : form.value.parentId = 0;
+  row && row.id ? form.value.parentId = row.id : form.value.parentId = 0;
   dialog.visible = true;
   dialog.title = "添加菜单";
 }
@@ -378,8 +377,8 @@ const toggleExpandAll = (data: MenuVO[], status: boolean) => {
 const handleUpdate = async (row: MenuVO) => {
   reset();
   await getTreeselect();
-  if (row.menuId) {
-    const { data } = await getMenu(row.menuId);
+  if (row.id) {
+    const { data } = await getMenu(row.id);
     form.value = data;
   }
   dialog.visible = true;
@@ -389,7 +388,7 @@ const handleUpdate = async (row: MenuVO) => {
 const submitForm = () => {
   menuFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
-      form.value.menuId ? await updateMenu(form.value) : await addMenu(form.value);
+      form.value.id ? await updateMenu(form.value) : await addMenu(form.value);
       proxy?.$modal.msgSuccess("操作成功");
       dialog.visible = false;
       await getList();
@@ -399,7 +398,7 @@ const submitForm = () => {
 /** 删除按钮操作 */
 const handleDelete = async (row: MenuVO) => {
   await proxy?.$modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项?');
-  await delMenu(row.menuId);
+  await delMenu(row.id);
   await getList();
   proxy?.$modal.msgSuccess("删除成功");
 }

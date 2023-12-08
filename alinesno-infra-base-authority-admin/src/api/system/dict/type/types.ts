@@ -1,12 +1,12 @@
 export interface DictTypeVO extends BaseEntity {
-  dictId: number | string;
+  id: number | string;
   dictName: string;
   dictType: string;
   remark: string;
 }
 
 export interface DictTypeForm {
-  dictId: number | string | undefined;
+  id: number | string | undefined;
   dictName: string;
   dictType: string;
   remark: string;

@@ -1,6 +1,5 @@
 <template>
   <div class="p-2">
-    <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
@@ -28,7 +27,6 @@
           </el-form>
         </el-card>
       </div>
-    </transition>
     <el-card shadow="hover">
       <template #header>
         <el-row :gutter="10" class="mb8">
@@ -55,11 +53,11 @@
 
       <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="字典编号" align="center" prop="dictId" v-if="false" />
+        <el-table-column label="字典编号" align="center" prop="id" v-if="false" />
         <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
         <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
+            <router-link :to="'/system/dict-data/index/' + scope.row.id" class="link-type">
               <span>{{ scope.row.dictType }}</span>
             </router-link>
           </template>
@@ -111,6 +109,7 @@
 import useDictStore from '@/store/modules/dict'
 import { listType, getType, delType, addType, updateType, refreshCache } from "@/api/system/dict/type";
 import { DictTypeForm, DictTypeQuery, DictTypeVO } from "@/api/system/dict/type/types";
+import {getCurrentInstance, onMounted, reactive, ref, toRefs} from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
@@ -133,7 +132,7 @@ const dialog = reactive<DialogOption>({
 });
 
 const initFormData: DictTypeForm = {
-  dictId: undefined,
+  id: undefined,
   dictName: '',
   dictType: '',
   remark: ''
@@ -192,16 +191,16 @@ const handleAdd = () => {
 }
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: DictTypeVO[]) => {
-  ids.value = selection.map(item => item.dictId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
 /** 修改按钮操作 */
 const handleUpdate = async (row?: DictTypeVO) => {
   reset();
-  const dictId = row?.dictId || ids.value[0];
-  const res = await getType(dictId);
-  Object.assign(form.value, res.data);
+  const id = row?.id || ids.value[0];
+  const res = await getType(id);
+  Object.assign(form.value, res.rows);
   dialog.visible = true;
   dialog.title = "修改字典类型";
 }
@@ -209,7 +208,7 @@ const handleUpdate = async (row?: DictTypeVO) => {
 const submitForm = () => {
   dictFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
-      form.value.dictId ? await updateType(form.value) : await addType(form.value);
+      form.value.id ? await updateType(form.value) : await addType(form.value);
       proxy?.$modal.msgSuccess("操作成功");
       dialog.visible = false;
       getList();
@@ -218,7 +217,7 @@ const submitForm = () => {
 }
 /** 删除按钮操作 */
 const handleDelete = async (row?: DictTypeVO) => {
-  const dictIds = row?.dictId || ids.value;
+  const dictIds = row?.id || ids.value;
   await proxy?.$modal.confirm('是否确认删除字典编号为"' + dictIds + '"的数据项？');
   await delType(dictIds);
   getList();

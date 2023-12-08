@@ -1,5 +1,5 @@
 export interface ConfigVO extends BaseEntity {
-  configId: number | string;
+  id: number | string;
   configName: string;
   configKey: string;
   configValue: string;
@@ -8,7 +8,7 @@ export interface ConfigVO extends BaseEntity {
 }
 
 export interface ConfigForm {
-  configId: number | string | undefined;
+  id: number | string | undefined;
   configName: string;
   configKey: string;
   configValue: string;

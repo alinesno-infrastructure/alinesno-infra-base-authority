@@ -1,20 +1,37 @@
 import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
 import { MenuQuery, MenuVO, MenuForm, MenuTreeOption, RoleMenuTree } from './types';
+import {parseStrEmpty} from "@/utils/ruoyi";
+
+// 接口配置项
+var prefix = '/api/infra/base/authority/manager_user/';
+var managerUrl = {
+  datatables : prefix +"datatables" ,
+  createUrl: prefix + 'add' ,
+  saveUrl: prefix + 'save' ,
+  updateUrl: prefix +"modify" ,
+  statusUrl: prefix +"changeStatus" ,
+  cleanUrl: prefix + "clean",
+  detailUrl: prefix +"detail",
+  removeUrl: prefix + "delete" ,
+  exportUrl: prefix + "exportExcel",
+  changeField: prefix + "changeField",
+  downloadfile: prefix + "downloadfile"
+}
 
 // 查询菜单列表
 export const listMenu = (query?: MenuQuery): AxiosPromise<MenuVO[]> => {
   return request({
-    url: '/system/menu/list',
-    method: 'get',
+    url: managerUrl.datatables,
+    method: 'post',
     params: query
   });
 };
 
 // 查询菜单详细
-export const getMenu = (menuId: string | number): AxiosPromise<MenuVO> => {
+export const getMenu = (id: string | number): AxiosPromise<MenuVO> => {
   return request({
-    url: '/system/menu/' + menuId,
+    url: managerUrl.detailUrl + '/' + parseStrEmpty(id),
     method: 'get'
   });
 };
@@ -46,7 +63,7 @@ export const tenantPackageMenuTreeselect = (packageId: string | number): AxiosPr
 // 新增菜单
 export const addMenu = (data: MenuForm) => {
   return request({
-    url: '/system/menu',
+    url: managerUrl.saveUrl,
     method: 'post',
     data: data
   });
@@ -55,16 +72,16 @@ export const addMenu = (data: MenuForm) => {
 // 修改菜单
 export const updateMenu = (data: MenuForm) => {
   return request({
-    url: '/system/menu',
+    url: managerUrl.updateUrl,
     method: 'put',
     data: data
   });
 };
 
 // 删除菜单
-export const delMenu = (menuId: string | number) => {
+export const delMenu = (id: string | number) => {
   return request({
-    url: '/system/menu/' + menuId,
+    url: managerUrl.removeUrl + '/' + parseStrEmpty(id),
     method: 'delete'
   });
 };

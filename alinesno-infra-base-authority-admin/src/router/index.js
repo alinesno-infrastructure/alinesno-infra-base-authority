@@ -162,6 +162,41 @@ export const constantRoutes = [
         component: () => import('@/views/system/post'),
         meta: { title: '岗位管理', icon: 'dashboard', affix: true }
       },
+      {
+        path: '/system/group/index',
+        name: 'system/group/index',
+        hidden: true,
+        component: () => import('@/views/system/group'),
+        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/menu/index',
+        name: 'system/menu/index',
+        hidden: true,
+        component: () => import('@/views/system/menu'),
+        meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/dict/index',
+        name: 'system/dict/index',
+        hidden: true,
+        component: () => import('@/views/system/dict'),
+        meta: { title: '字典管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/config/index',
+        name: 'system/config/index',
+        hidden: true,
+        component: () => import('@/views/system/config'),
+        meta: { title: '参数设置', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/notice/index',
+        name: 'system/notice/index',
+        hidden: true,
+        component: () => import('@/views/system/notice'),
+        meta: { title: '通知公告', icon: 'dashboard', affix: true }
+      },
 
     ]
   },

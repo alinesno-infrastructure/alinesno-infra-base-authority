@@ -1,5 +1,5 @@
 export interface NoticeVO extends BaseEntity {
-  noticeId: number;
+  id: number;
   noticeTitle: string;
   noticeType: string;
   noticeContent: string;
@@ -16,7 +16,7 @@ export interface NoticeQuery extends PageQuery {
 }
 
 export interface NoticeForm {
-  noticeId: number | string | undefined;
+  id: number | string | undefined;
   noticeTitle: string;
   noticeType: string;
   noticeContent: string;

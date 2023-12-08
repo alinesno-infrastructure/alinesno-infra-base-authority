@@ -1,20 +1,37 @@
 import request from '@/utils/request';
 import { ConfigForm, ConfigQuery, ConfigVO } from './types';
 import { AxiosPromise } from 'axios';
+import {parseStrEmpty} from "@/utils/ruoyi";
+
+// 接口配置项
+var prefix = '/api/infra/base/authority/manager_user/';
+var managerUrl = {
+  datatables : prefix +"datatables" ,
+  createUrl: prefix + 'add' ,
+  saveUrl: prefix + 'save' ,
+  updateUrl: prefix +"modify" ,
+  statusUrl: prefix +"changeStatus" ,
+  cleanUrl: prefix + "clean",
+  detailUrl: prefix +"detail",
+  removeUrl: prefix + "delete" ,
+  exportUrl: prefix + "exportExcel",
+  changeField: prefix + "changeField",
+  downloadfile: prefix + "downloadfile"
+}
 
 // 查询参数列表
 export function listConfig(query: ConfigQuery): AxiosPromise<ConfigVO[]> {
   return request({
-    url: '/system/config/list',
-    method: 'get',
+    url: managerUrl.datatables,
+    method: 'post',
     params: query
   });
 }
 
 // 查询参数详细
-export function getConfig(configId: string | number): AxiosPromise<ConfigVO> {
+export function getConfig(id: string | number): AxiosPromise<ConfigVO> {
   return request({
-    url: '/system/config/' + configId,
+    url: managerUrl.detailUrl + '/' + parseStrEmpty(id),
     method: 'get'
   });
 }
@@ -30,7 +47,7 @@ export function getConfigKey(configKey: string): AxiosPromise<String> {
 // 新增参数配置
 export function addConfig(data: ConfigForm) {
   return request({
-    url: '/system/config',
+    url: managerUrl.saveUrl,
     method: 'post',
     data: data
   });
@@ -39,7 +56,7 @@ export function addConfig(data: ConfigForm) {
 // 修改参数配置
 export function updateConfig(data: ConfigForm) {
   return request({
-    url: '/system/config',
+    url: managerUrl.updateUrl,
     method: 'put',
     data: data
   });
@@ -58,9 +75,9 @@ export function updateConfigByKey(key: string, value: any) {
 }
 
 // 删除参数配置
-export function delConfig(configId: string | number | Array<string | number>) {
+export function delConfig(id: string | number | Array<string | number>) {
   return request({
-    url: '/system/config/' + configId,
+    url: managerUrl.removeUrl + '/' + parseStrEmpty(id),
     method: 'delete'
   });
 }
