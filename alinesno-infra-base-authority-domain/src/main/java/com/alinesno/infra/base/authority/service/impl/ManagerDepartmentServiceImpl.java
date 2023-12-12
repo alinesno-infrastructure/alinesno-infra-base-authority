@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import com.alinesno.infra.base.authority.api.dto.AccountDeptDto;
-import com.alinesno.infra.base.authority.api.dto.DeptDto;
+import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
+import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;

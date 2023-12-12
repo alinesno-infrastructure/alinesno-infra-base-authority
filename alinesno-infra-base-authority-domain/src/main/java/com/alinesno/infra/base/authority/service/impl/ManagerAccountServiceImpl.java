@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alinesno.infra.base.authority.api.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;

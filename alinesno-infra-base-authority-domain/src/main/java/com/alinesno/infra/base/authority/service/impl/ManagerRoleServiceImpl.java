@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.alinesno.infra.base.authority.api.dto.AccountRoleDto;
+import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;

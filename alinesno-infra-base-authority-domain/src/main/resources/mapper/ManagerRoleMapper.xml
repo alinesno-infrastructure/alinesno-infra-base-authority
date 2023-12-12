@@ -3,7 +3,7 @@
 <mapper namespace="com.alinesno.cloud.base.authority.mapper.ManagerRoleMapper">
 
     <!-- 分页查询 -->
-    <select id="findByAccountIds" resultType="com.alinesno.infra.base.authority.api.dto.AccountRoleDto">
+    <select id="findByAccountIds" resultType="com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto">
         SELECT
         account.login_name AS loginName,
         account_role.account_id AS accountId,
