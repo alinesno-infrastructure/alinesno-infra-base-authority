@@ -25,12 +25,12 @@
         <module>alinesno-infra-base-authority-facade</module>  <!-- 接口和引用 -->
         <module>alinesno-infra-base-authority-domain</module>  <!-- 领域服务 -->
         <module>alinesno-infra-base-authority-adapter</module> <!-- 适配层 -->
-        <module>alinesno-infra-base-authority-api</module>  <!-- 接口服务 -->
+        <module>alinesno-infra-base-authority-gateway</module>  <!-- 接口服务 -->
         <module>alinesno-infra-base-authority-client</module>  <!-- 对外引用 -->
         <module>alinesno-infra-base-authority-boot</module>  <!-- 启动服务 -->
 
         <!-- 前端服务
-        <module>alinesno-infra-base-authority-admin</module>
+        <module>alinesno-infra-base-authority-gateway</module>
         -->
     </modules>
 

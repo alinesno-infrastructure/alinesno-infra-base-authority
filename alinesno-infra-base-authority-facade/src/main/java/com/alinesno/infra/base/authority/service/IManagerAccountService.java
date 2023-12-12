@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.api.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;

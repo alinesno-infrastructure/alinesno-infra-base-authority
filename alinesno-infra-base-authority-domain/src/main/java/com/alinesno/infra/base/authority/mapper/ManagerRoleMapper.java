@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.mapper;
 
-import com.alinesno.infra.base.authority.api.dto.AccountRoleDto;
+import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
 import org.apache.ibatis.annotations.Param;
