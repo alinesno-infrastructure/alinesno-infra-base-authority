@@ -134,7 +134,7 @@ const usedmemory = ref();
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
 const getList = async () => {
-  proxy?.$modal.loading("正在加载缓存监控数据，请稍候！");
+  // proxy?.$modal.loading("正在加载缓存监控数据，请稍候！");
   const res = await getCache();
   proxy?.$modal.closeLoading();
   cache.value = res.rows;

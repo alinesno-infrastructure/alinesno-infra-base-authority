@@ -142,6 +142,13 @@ export const constantRoutes = [
         meta: { title: '部门管理', icon: 'dashboard', affix: true }
       },
       {
+        path: '/system/group/index',
+        name: 'system/group/index',
+        hidden: true,
+        component: () => import('@/views/group/dept'),
+        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+      },
+      {
         path: '/system/user/index',
         name: 'system/user/index',
         hidden: true,
@@ -224,6 +231,48 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/monitor/cache'),
         meta: { title: '缓存监控', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/apilog/index',
+        name: 'monitor/apilog/index',
+        hidden: true,
+        component: () => import('@/views/monitor/apilog'),
+        meta: { title: '接口日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/job/index',
+        name: 'monitor/job/index',
+        hidden: true,
+        component: () => import('@/views/monitor/job'),
+        meta: { title: '定时任务', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/server/index',
+        name: 'monitor/server/index',
+        hidden: true,
+        component: () => import('@/views/monitor/server'),
+        meta: { title: '服务监控', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/cache/list',
+        name: 'monitor/cache/list',
+        hidden: true,
+        component: () => import('@/views/monitor/cachelist'),
+        meta: { title: '缓存列表', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/tool/build/index',
+        name: 'tool/build/index',
+        hidden: true,
+        component: () => import('@/views/tool/build'),
+        meta: { title: '系统主题', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/tool/swagger/index',
+        name: 'tool/swagger/index',
+        hidden: true,
+        component: () => import('@/views/tool/swagger'),
+        meta: { title: '登陆主题', icon: 'dashboard', affix: true }
       },
 
     ]
