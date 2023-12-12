@@ -197,6 +197,34 @@ export const constantRoutes = [
         component: () => import('@/views/system/notice'),
         meta: { title: '通知公告', icon: 'dashboard', affix: true }
       },
+      {
+        path: '/monitor/operlog/index',
+        name: 'monitor/operlog/index',
+        hidden: true,
+        component: () => import('@/views/monitor/operlog'),
+        meta: { title: '操作日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/logininfor/index',
+        name: 'monitor/logininfor/index',
+        hidden: true,
+        component: () => import('@/views/monitor/logininfor'),
+        meta: { title: '登录日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/online/index',
+        name: 'monitor/online/index',
+        hidden: true,
+        component: () => import('@/views/monitor/online'),
+        meta: { title: '在线用户', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/cache/index',
+        name: 'monitor/cache/index',
+        hidden: true,
+        component: () => import('@/views/monitor/cache'),
+        meta: { title: '缓存监控', icon: 'dashboard', affix: true }
+      },
 
     ]
   },
