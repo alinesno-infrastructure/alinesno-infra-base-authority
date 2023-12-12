@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "基础会员信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerUser")
+@RequestMapping("/api/infra/base/authority/manager_user")
 public class ManagerUserRest extends BaseController<ManagerUserEntity, IManagerUserService> {
 
 	// 日志记录

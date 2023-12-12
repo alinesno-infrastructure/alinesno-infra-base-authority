@@ -10,6 +10,12 @@ import useUserStore from '@/store/modules/user'
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
+export const globalHeaders = () => {
+  return {
+    Authorization: 'Bearer ' + getToken(),
+    clientid: import.meta.env.VITE_APP_CLIENT_ID
+  };
+};
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例

@@ -134,7 +134,146 @@ export const constantRoutes = [
         component: () => import('@/views/gateway/createBalanced'),
         meta: { title: '创建负载均衡', icon: 'dashboard', affix: true }
       },
-
+      {
+        path: '/system/dept/index',
+        name: 'system/dept/index',
+        hidden: true,
+        component: () => import('@/views/system/dept'),
+        meta: { title: '部门管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/group/index',
+        name: 'system/group/index',
+        hidden: true,
+        component: () => import('@/views/group/dept'),
+        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/user/index',
+        name: 'system/user/index',
+        hidden: true,
+        component: () => import('@/views/system/user'),
+        meta: { title: '用户管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/role/index',
+        name: 'system/role/index',
+        hidden: true,
+        component: () => import('@/views/system/role'),
+        meta: { title: '角色管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/post/index',
+        name: 'system/post/index',
+        hidden: true,
+        component: () => import('@/views/system/post'),
+        meta: { title: '岗位管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/group/index',
+        name: 'system/group/index',
+        hidden: true,
+        component: () => import('@/views/system/group'),
+        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/menu/index',
+        name: 'system/menu/index',
+        hidden: true,
+        component: () => import('@/views/system/menu'),
+        meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/dict/index',
+        name: 'system/dict/index',
+        hidden: true,
+        component: () => import('@/views/system/dict'),
+        meta: { title: '字典管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/config/index',
+        name: 'system/config/index',
+        hidden: true,
+        component: () => import('@/views/system/config'),
+        meta: { title: '参数设置', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/system/notice/index',
+        name: 'system/notice/index',
+        hidden: true,
+        component: () => import('@/views/system/notice'),
+        meta: { title: '通知公告', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/operlog/index',
+        name: 'monitor/operlog/index',
+        hidden: true,
+        component: () => import('@/views/monitor/operlog'),
+        meta: { title: '操作日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/logininfor/index',
+        name: 'monitor/logininfor/index',
+        hidden: true,
+        component: () => import('@/views/monitor/logininfor'),
+        meta: { title: '登录日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/online/index',
+        name: 'monitor/online/index',
+        hidden: true,
+        component: () => import('@/views/monitor/online'),
+        meta: { title: '在线用户', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/cache/index',
+        name: 'monitor/cache/index',
+        hidden: true,
+        component: () => import('@/views/monitor/cache'),
+        meta: { title: '缓存监控', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/apilog/index',
+        name: 'monitor/apilog/index',
+        hidden: true,
+        component: () => import('@/views/monitor/apilog'),
+        meta: { title: '接口日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/job/index',
+        name: 'monitor/job/index',
+        hidden: true,
+        component: () => import('@/views/monitor/job'),
+        meta: { title: '定时任务', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/server/index',
+        name: 'monitor/server/index',
+        hidden: true,
+        component: () => import('@/views/monitor/server'),
+        meta: { title: '服务监控', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/monitor/cache/list',
+        name: 'monitor/cache/list',
+        hidden: true,
+        component: () => import('@/views/monitor/cachelist'),
+        meta: { title: '缓存列表', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/tool/build/index',
+        name: 'tool/build/index',
+        hidden: true,
+        component: () => import('@/views/tool/build'),
+        meta: { title: '系统主题', icon: 'dashboard', affix: true }
+      },
+      {
+        path: '/tool/swagger/index',
+        name: 'tool/swagger/index',
+        hidden: true,
+        component: () => import('@/views/tool/swagger'),
+        meta: { title: '登陆主题', icon: 'dashboard', affix: true }
+      },
 
     ]
   },
