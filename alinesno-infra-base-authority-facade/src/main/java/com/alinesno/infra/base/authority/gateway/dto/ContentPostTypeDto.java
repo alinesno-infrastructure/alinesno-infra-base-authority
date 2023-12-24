@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 功能名： 【请填写功能名称】 数据表： content_post_type
  * 
- * @author LuoAnDong luoandon@gmail.com
+ * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
 public class ContentPostTypeDto extends BaseDto {

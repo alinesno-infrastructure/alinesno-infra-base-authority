@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
@@ -13,14 +14,17 @@ import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -60,10 +64,10 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	public ManagerAccountEntity findByLoginName(String loginName) {
 		log.debug("login name:{}", loginName);
 
-		RpcWrapper<ManagerAccountEntity> wrapper = RpcWrapper.build();
-		wrapper.eq("login_name", loginName);
+		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerAccountEntity::getLoginName , loginName);
 
-		ManagerAccountEntity account = findOne(wrapper);
+		ManagerAccountEntity account = getOne(wrapper);
 
 		Assert.notNull(account, "账号【" + loginName + "】查询为空.");
 
@@ -77,9 +81,35 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public boolean registAccount(String loginName, String password, String phoneCode, String salt, String phone) {
+	public ManagerAccountDto registAccount(String loginName, String password, String phone) {
 
-		return true;
+		loginName = StringUtils.hasLength(loginName)?loginName:phone ;
+
+		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerAccountEntity::getLoginName, loginName) ;
+		long count = count(wrapper) ;
+		Assert.isTrue(count == 0 , "登陆名已存在.");
+
+		wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerAccountEntity::getPhone , phone) ;
+		count = count(wrapper) ;
+		Assert.isTrue(count == 0 , "手机号已存在.");
+
+		ManagerAccountEntity account = new ManagerAccountEntity() ;
+		account.setLoginName(StringUtils.hasLength(loginName)?loginName:phone);
+		account.setPassword(BCrypt.hashpw(password));
+		account.setPhone(phone);
+
+		this.save(account);
+
+		wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerAccountEntity::getLoginName, loginName) ;
+		ManagerAccountEntity entity = getOne(wrapper) ;
+
+		ManagerAccountDto dto = new ManagerAccountDto() ;
+		BeanUtils.copyProperties(entity , dto);
+
+		return dto ;
 	}
  
 	@Override
@@ -177,7 +207,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		if (isEncode) {
 		}
 		managerAccountMapper.insert(entity);
-		log.info("用户信息{}:" + entity);
+		log.info("用户信息{}:" , entity);
 
 		iManagerAccountRoleService.authorizeUsers(roleIds, entity.getId(), applicationCode);
 
@@ -225,11 +255,11 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		RpcWrapper<ManagerAccountEntity> namewrapper = RpcWrapper.build();
 		namewrapper.eq("login_name", LoginName);
 		List<ManagerAccountEntity> byLoginName = this.findAll(namewrapper);
-		return byLoginName.size() > 0;
+		return !byLoginName.isEmpty();
 	}
 
 	@Override
-	public void registerAccount(ManagerAccountEntity e, List<Long> authRole, String applicationName) {
+	public void registerAccountAuthRole(ManagerAccountEntity e, List<Long> authRole, String applicationName) {
 
 		// 保存用户信息
 		this.save(e);
@@ -241,8 +271,20 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public void internetRegisterAccount(ManagerAccountDto dto) {
+	public ManagerAccountDto loginAccount(String username, String password) {
 
+		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerAccountEntity::getLoginName , username) ;
+		ManagerAccountEntity entity = getOne(wrapper) ;
+
+		boolean checkpw = BCrypt.checkpw(password, entity.getPassword());
+		log.debug("checkpw = {}" , checkpw);
+		Assert.isTrue(checkpw , "登陆密码不正确");
+
+		ManagerAccountDto dto = new ManagerAccountDto() ;
+		BeanUtils.copyProperties(entity , dto);
+
+		return dto ;
 	}
 
 	@Override

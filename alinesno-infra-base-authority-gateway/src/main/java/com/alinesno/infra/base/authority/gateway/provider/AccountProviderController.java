@@ -1,8 +1,17 @@
 package com.alinesno.infra.base.authority.gateway.provider;
 
+import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.gateway.dto.*;
+import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
+import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +21,40 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api/base/authority/account")
 public class AccountProviderController extends BaseProvider {
+
+    @Autowired
+    private IManagerAccountService managerAccountService ;
+
+    /**
+     * 用户注册信息，用于前端业务用户注册
+     * @param dto
+     * @return
+     */
+    @PostMapping("/registAccount")
+    public ManagerAccountDto registAccount(@RequestBody ManagerAccountDto dto){
+
+        String loginName = dto.getLoginName() ;
+        String password = dto.getPassword() ;
+        String phone = dto.getPhone() ;
+
+        ManagerAccountDto b = managerAccountService.registAccount(loginName , password , phone) ;
+        log.debug("registAccount = {}" , b);
+
+        return b ;
+    }
+
+    /**
+     * 用户登陆
+     * @return
+     */
+    @PostMapping("/login")
+    public ManagerAccountDto login(@RequestBody LoginBodyDto loginBodyDto){
+
+        ManagerAccountDto dto = managerAccountService.loginAccount(loginBodyDto.getUsername() , loginBodyDto.getPassword()) ;
+        log.debug("login account = {}" , dto);
+
+        return dto ;
+    }
 
     /**
      * 查询账户

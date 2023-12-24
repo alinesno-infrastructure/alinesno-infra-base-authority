@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 
  *
- * @author LuoAnDong luoandon@gmail.com
+ * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
 @Api(tags = "基础代码配置管理")

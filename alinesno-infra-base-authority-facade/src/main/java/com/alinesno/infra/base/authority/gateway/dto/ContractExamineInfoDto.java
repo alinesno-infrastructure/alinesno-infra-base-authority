@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 功能名： 【请填写功能名称】 数据表： contract_examine_info
  * 
- * @author LuoAnDong luoandon@gmail.com
+ * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
 public class ContractExamineInfoDto extends BaseDto {

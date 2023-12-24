@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 功能名： 【请填写功能名称】 数据表： payment_plans_info
  * 
- * @author LuoAnDong luoandon@gmail.com
+ * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
 public class PaymentPlansInfoDto extends BaseDto {

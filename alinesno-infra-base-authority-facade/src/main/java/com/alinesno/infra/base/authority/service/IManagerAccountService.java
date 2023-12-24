@@ -52,10 +52,9 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 *
 	 * @param loginName 邮箱
 	 * @param password  密码
-	 * @param phoneCode 验证码
 	 * @return
 	 */
-	boolean registAccount(String loginName, String password, String phoneCode, String salt, String phone);
+	ManagerAccountDto registAccount(String loginName, String password, String phone);
 
 	/**
 	 * 判断用户是否有超级管理员
@@ -144,13 +143,13 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param authRole
 	 * @param applicationName
 	 */
-	void registerAccount(ManagerAccountEntity e, List<Long> authRole, String applicationName);
+	void registerAccountAuthRole(ManagerAccountEntity e, List<Long> authRole, String applicationName);
 
 	/**
-	 * 平台互联网用户信息
-	 * 
-	 * @param dto
+	 * 用户登陆验证，获取用户信息
+	 * @param username
+	 * @param password
+	 * @return
 	 */
-	void internetRegisterAccount(ManagerAccountDto dto);
-
+	ManagerAccountDto loginAccount(String username, String password);
 }

@@ -3,7 +3,7 @@ package com.alinesno.infra.base.authority.enums;
 /**
  * 企业角色类型
  * 
- * @author LuoAnDong
+ * @author luoxiaodong
  * @since 2023年10月28日 上午11:41:34
  */
 public enum EnterpriseRoleEnums {

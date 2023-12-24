@@ -3,7 +3,7 @@ package com.alinesno.infra.base.authority.gateway.dto;
 /**
  * 密码dto
  * 
- * @author LuoAnDong
+ * @author luoxiaodong
  * @since 2022年3月17日 下午10:23:43
  */
 public class UpdatePasswordDto {

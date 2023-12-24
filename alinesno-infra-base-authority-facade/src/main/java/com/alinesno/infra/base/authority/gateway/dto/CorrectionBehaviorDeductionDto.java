@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 功能名： 操行扣分设置 数据表： correction_behavior_deduction
  * 
- * @author LuoAnDong luoandon@gmail.com
+ * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
 public class CorrectionBehaviorDeductionDto extends BaseDto {

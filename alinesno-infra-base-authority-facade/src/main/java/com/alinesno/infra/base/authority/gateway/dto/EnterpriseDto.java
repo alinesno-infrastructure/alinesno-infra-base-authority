@@ -5,7 +5,7 @@ import com.alinesno.infra.common.facade.base.BaseDto;
 /**
  * 企业信息管理
  * 
- * @author LuoAnDong
+ * @author luoxiaodong
  * @since 2023年10月27日 下午3:05:15
  */
 @SuppressWarnings("serial")
