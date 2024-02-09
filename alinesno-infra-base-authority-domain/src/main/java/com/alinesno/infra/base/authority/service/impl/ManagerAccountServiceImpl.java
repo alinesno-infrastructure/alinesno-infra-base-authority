@@ -2,13 +2,13 @@ package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleResourceEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -26,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -83,6 +80,10 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	@Override
 	public ManagerAccountDto registAccount(String loginName, String password, String phone) {
 
+		Assert.hasLength(loginName , "注册登陆名为空");
+		Assert.hasLength(password , "注册登陆密码为空");
+		Assert.hasLength(phone , "注册手机号为空");
+
 		loginName = StringUtils.hasLength(loginName)?loginName:phone ;
 
 		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
@@ -99,6 +100,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		account.setLoginName(StringUtils.hasLength(loginName)?loginName:phone);
 		account.setPassword(BCrypt.hashpw(password));
 		account.setPhone(phone);
+		account.setName(genDefaultName(phone));
 
 		this.save(account);
 
@@ -111,10 +113,27 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 		return dto ;
 	}
- 
+
+	/**
+	 * 生成默认的用户名称
+	 * @param phone
+	 * @return
+	 */
+	private String genDefaultName(String phone) {
+		// 提取手机号码的前三位
+		String prefix = phone.substring(0, 3);
+
+		// 使用随机数生成后四位
+		Random random = new Random();
+		String suffix = String.valueOf(random.nextInt(1000));
+
+		// 拼接昵称
+		return prefix + "***" + suffix;
+	}
+
 	@Override
 	public boolean isAdmin(ManagerAccountEntity dto) { 
-		return RolePowerTypeEnmus.ROLE_ADMIN.value.equals(dto.getRolePower()) ? true : false;
+		return RolePowerTypeEnmus.ROLE_ADMIN.value.equals(dto.getRolePower());
 	}
 
 	@Override
@@ -137,6 +156,10 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 		Long uId = dto.getId();
 		List<ManagerRoleEntity> roles = managerRoleService.findByAccountId(uId);
+
+		if(roles.isEmpty()){
+			return permission ;
+		}
 
 		List<Long> roleIdList = new ArrayList<Long>();
 		for (ManagerRoleEntity r : roles) {
@@ -170,7 +193,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	@Override
 	public void updateAvator(String path, String id) {
 		ManagerAccountEntity e = findEntityById(id);
-		e.setAvatorPath(path);
+		e.setAvatarPath(path);
 
 		this.update(e);
 	}
@@ -276,6 +299,8 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
 		wrapper.eq(ManagerAccountEntity::getLoginName , username) ;
 		ManagerAccountEntity entity = getOne(wrapper) ;
+
+		Assert.notNull(entity , username + "用户查询为空");
 
 		boolean checkpw = BCrypt.checkpw(password, entity.getPassword());
 		log.debug("checkpw = {}" , checkpw);

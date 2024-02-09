@@ -5,15 +5,11 @@ import com.alinesno.infra.base.authority.gateway.dto.*;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,15 +26,15 @@ public class AccountProviderController extends BaseProvider {
      * @param dto
      * @return
      */
-    @PostMapping("/registAccount")
-    public ManagerAccountDto registAccount(@RequestBody ManagerAccountDto dto){
+    @PostMapping("/registerAccount")
+    public ManagerAccountDto registerAccount(@RequestBody ManagerAccountDto dto){
 
         String loginName = dto.getLoginName() ;
         String password = dto.getPassword() ;
         String phone = dto.getPhone() ;
 
         ManagerAccountDto b = managerAccountService.registAccount(loginName , password , phone) ;
-        log.debug("registAccount = {}" , b);
+        log.debug("registerAccount = {}" , b);
 
         return b ;
     }
@@ -106,8 +102,17 @@ public class AccountProviderController extends BaseProvider {
      * @param loginName
      * @return
      */
+    @GetMapping("/findByLoginName")
     public ManagerAccountDto findByLoginName(String loginName) {
-        return null ;
+        Assert.hasLength(loginName , "用户名称为空");
+
+        ManagerAccountEntity e = managerAccountService.findByLoginName(loginName) ;
+
+        ManagerAccountDto dto = new ManagerAccountDto() ;
+        BeanUtils.copyProperties(e , dto);
+        dto.setPassword(null);
+
+        return dto ;
     }
 
     /**

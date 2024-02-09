@@ -99,7 +99,7 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 				AccountDeptDto d = new AccountDeptDto();
 
 				d.setDeptId(a.getDepartment());
-				d.setSrc(a.getAvatorPath());
+				d.setSrc(a.getAvatarPath());
 				d.setUserId(a.getId());
 				d.setUserName(a.getName());
 
@@ -150,7 +150,7 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 				AccountDeptDto d = new AccountDeptDto();
 
 				d.setDeptId(a.getDepartment());
-				d.setSrc(a.getAvatorPath());
+				d.setSrc(a.getAvatarPath());
 				d.setUserId(a.getId());
 				d.setUserName(a.getName());
 

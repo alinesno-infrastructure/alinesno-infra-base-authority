@@ -45,8 +45,8 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	@Excel(name = "用户头像")
 	@ColumnType(length = 100)
 	@ColumnComment("用户头像")
-	@TableField("avator_path")
-	private String avatorPath;
+	@TableField("avatar_path")
+	private String avatarPath;
 
 	/**
 	 * 最后登陆ip
