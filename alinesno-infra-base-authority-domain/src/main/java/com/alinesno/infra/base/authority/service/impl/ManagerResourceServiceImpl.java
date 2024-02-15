@@ -108,17 +108,17 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	public List<ManagerResourceEntity> resourceData(DatatablesPageBean page) {
 		RpcWrapper<ManagerResourceEntity> wrapper = RpcWrapper.build();
 
-		if (page != null) {
-			wrapper = page.buildWrapper();
-		}
-
-		// 删除框架自带的排序条件
-		List<Condition> condition = wrapper.getCondition();
-		if (condition != null && !condition.isEmpty()) {
-			condition = condition.stream().filter(item -> (!item.getCondition().equals(Wrapper.ORDER_BY)))
-					.collect(Collectors.toList());
-			wrapper.setCondition(condition);
-		}
+//		if (page != null) {
+//			wrapper = page.buildWrapper();
+//		}
+//
+//		// 删除框架自带的排序条件
+//		List<Condition> condition = wrapper.getCondition();
+//		if (condition != null && !condition.isEmpty()) {
+//			condition = condition.stream().filter(item -> (!item.getCondition().equals(Wrapper.ORDER_BY)))
+//					.collect(Collectors.toList());
+//			wrapper.setCondition(condition);
+//		}
 
 		// 条件查询
 		QueryWrapper<ManagerResourceEntity> queryWrapper = wrapper.toQueryWrapper();

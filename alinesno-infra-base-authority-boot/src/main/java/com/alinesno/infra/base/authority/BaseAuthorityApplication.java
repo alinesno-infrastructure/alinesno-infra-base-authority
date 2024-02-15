@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority;
 
+import com.alinesno.infra.common.core.auto.EnableCore;
 import com.alinesno.infra.common.web.adapter.exception.GlobalExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
