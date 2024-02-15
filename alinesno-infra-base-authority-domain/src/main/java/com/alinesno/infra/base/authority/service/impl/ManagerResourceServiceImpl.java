@@ -12,9 +12,7 @@ import com.alinesno.infra.common.facade.constants.FieldConstants;
 import com.alinesno.infra.common.facade.enums.HasDeleteEnums;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
-import com.alinesno.infra.common.facade.wrapper.Condition;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
-import com.alinesno.infra.common.facade.wrapper.Wrapper;
 import com.alinesno.infra.common.facade.wrapper.mybatis.WrapperGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.slf4j.Logger;
@@ -23,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
