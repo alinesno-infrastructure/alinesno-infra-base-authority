@@ -23,21 +23,21 @@ public class ManagerCodeTypeEntity extends InfraBaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 代码类型名称
+	 * 字典类型名称
 	 */
-	@Excel(name = "代码类型名称")
+	@Excel(name = "字典类型名称")
 	@TableField("code_type_name")
 	@ColumnType(length = 255)
-	@ColumnComment("代码类型名称")
+	@ColumnComment("字典类型名称")
 	private String codeTypeName;
 
 	/**
-	 * 代码类型值
+	 * 字典类型值
 	 */
-	@Excel(name = "代码类型值")
+	@Excel(name = "字典类型值")
 	@TableField("code_type_value")
 	@ColumnType(length = 255)
-	@ColumnComment("代码类型值")
+	@ColumnComment("字典类型值")
 	private String codeTypeValue;
 
 }
