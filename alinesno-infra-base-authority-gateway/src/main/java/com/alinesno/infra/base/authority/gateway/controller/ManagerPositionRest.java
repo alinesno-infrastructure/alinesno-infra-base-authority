@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "岗位管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/manager_position")
+@RequestMapping("/api/infra/base/authority/ManagerPosition")
 public class ManagerPositionRest extends BaseController<ManagerPositionEntity, IManagerPositionService> {
 
 	// 日志记录
