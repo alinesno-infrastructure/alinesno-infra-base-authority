@@ -150,9 +150,9 @@ public class CommonLoginController {
 
         Menu loggerMenu = new Menu("Log", "/log", false, "noRedirect", "Layout", true, new Menu.Meta("日志管理", "log", false, null),
                         List.of(
-                                new Menu("Operlog", "monitor/operlog/index", false,false, "monitor/operlog/index", new Menu.Meta("操作日志", "form", false, null)),
-                                new Menu("Operlog", "monitor/apilog/index", false,false, "monitor/apilog/index", new Menu.Meta("接口日志", "form", false, null)),
-                                new Menu("Logininfor", "monitor/logininfor/index", false,false, "monitor/logininfor/index", new Menu.Meta("登录日志", "logininfor", false, null))
+                                new Menu("Operlog", "monitor/operlog/index", false,false, "log/operlog/index", new Menu.Meta("操作日志", "form", false, null)),
+                                new Menu("Operlog", "monitor/apilog/index", false,false, "log/apilog/index", new Menu.Meta("接口日志", "form", false, null)),
+                                new Menu("Logininfor", "monitor/logininfor/index", false,false, "log/logininfor/index", new Menu.Meta("登录日志", "logininfor", false, null))
                         ));
 
         Menu monitorMenu = new Menu("Monitor", "/monitor", false, "noRedirect", "Layout", true, new Menu.Meta("系统监控", "monitor", false, null),

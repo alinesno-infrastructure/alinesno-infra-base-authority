@@ -205,15 +205,15 @@ export const constantRoutes = [
         meta: { title: '通知公告', icon: 'dashboard', affix: true }
       },
       {
-        path: '/monitor/operlog/index',
-        name: 'monitor/operlog/index',
+        path: '/log/operlog/index',
+        name: 'log/operlog/index',
         hidden: true,
         component: () => import('@/views/monitor/operlog'),
         meta: { title: '操作日志', icon: 'dashboard', affix: true }
       },
       {
-        path: '/monitor/logininfor/index',
-        name: 'monitor/logininfor/index',
+        path: '/log/logininfor/index',
+        name: 'log/logininfor/index',
         hidden: true,
         component: () => import('@/views/monitor/logininfor'),
         meta: { title: '登录日志', icon: 'dashboard', affix: true }
@@ -233,8 +233,8 @@ export const constantRoutes = [
         meta: { title: '缓存监控', icon: 'dashboard', affix: true }
       },
       {
-        path: '/monitor/apilog/index',
-        name: 'monitor/apilog/index',
+        path: '/log/apilog/index',
+        name: 'log/apilog/index',
         hidden: true,
         component: () => import('@/views/monitor/apilog'),
         meta: { title: '接口日志', icon: 'dashboard', affix: true }
