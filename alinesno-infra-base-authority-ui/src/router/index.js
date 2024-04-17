@@ -239,13 +239,13 @@ export const constantRoutes = [
         component: () => import('@/views/monitor/apilog'),
         meta: { title: '接口日志', icon: 'dashboard', affix: true }
       },
-      {
-        path: '/monitor/job/index',
-        name: 'monitor/job/index',
-        hidden: true,
-        component: () => import('@/views/monitor/job'),
-        meta: { title: '定时任务', icon: 'dashboard', affix: true }
-      },
+      // {
+        // path: '/monitor/job/index',
+        // name: 'monitor/job/index',
+        // hidden: true,
+        // component: () => import('@/views/monitor/job'),
+        // meta: { title: '定时任务', icon: 'dashboard', affix: true }
+      // },
       {
         path: '/monitor/server/index',
         name: 'monitor/server/index',
@@ -260,20 +260,20 @@ export const constantRoutes = [
         component: () => import('@/views/monitor/cachelist'),
         meta: { title: '缓存列表', icon: 'dashboard', affix: true }
       },
-      {
-        path: '/tool/build/index',
-        name: 'tool/build/index',
-        hidden: true,
-        component: () => import('@/views/tool/build'),
-        meta: { title: '系统主题', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/tool/swagger/index',
-        name: 'tool/swagger/index',
-        hidden: true,
-        component: () => import('@/views/tool/swagger'),
-        meta: { title: '登陆主题', icon: 'dashboard', affix: true }
-      },
+      // {
+        // path: '/tool/build/index',
+        // name: 'tool/build/index',
+        // hidden: true,
+        // component: () => import('@/views/tool/build'),
+        // meta: { title: '系统主题', icon: 'dashboard', affix: true }
+      // },
+      // {
+        // path: '/tool/swagger/index',
+        // name: 'tool/swagger/index',
+        // hidden: true,
+        // component: () => import('@/views/tool/swagger'),
+        // meta: { title: '登陆主题', icon: 'dashboard', affix: true }
+      // },
 
     ]
   },
