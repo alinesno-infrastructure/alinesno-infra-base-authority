@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "企业/团队设置")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/EnterpriseSetting")
+@RequestMapping("/api/infra/base/authority/enterpriseSetting")
 public class EnterpriseSettingRest extends BaseController<EnterpriseSettingEntity, IEnterpriseSettingService> {
 
 	// 日志记录

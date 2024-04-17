@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "账户登陆日志管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerLoginRecord")
+@RequestMapping("/api/infra/base/authority/managerLoginRecord")
 public class ManagerLoginRecordRest extends BaseController<ManagerLoginRecordEntity, IManagerLoginRecordService> {
 
 	// 日志记录

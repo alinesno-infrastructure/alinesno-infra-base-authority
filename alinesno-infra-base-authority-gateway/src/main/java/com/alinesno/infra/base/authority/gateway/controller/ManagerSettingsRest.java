@@ -28,7 +28,7 @@ import java.util.List;
 @Api(tags = "基础配置管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerSettings")
+@RequestMapping("/api/infra/base/authority/managerSettings")
 public class ManagerSettingsRest extends BaseController<ManagerSettingsEntity, IManagerSettingsService> {
 
 	// 日志记录

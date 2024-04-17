@@ -4,7 +4,7 @@ import { AxiosPromise } from 'axios';
 import {parseStrEmpty} from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/manager_user/';
+var prefix = '/api/infra/base/authority/apiRecord/';
 var managerUrl = {
   datatables : prefix +"datatables" ,
   createUrl: prefix + 'add' ,

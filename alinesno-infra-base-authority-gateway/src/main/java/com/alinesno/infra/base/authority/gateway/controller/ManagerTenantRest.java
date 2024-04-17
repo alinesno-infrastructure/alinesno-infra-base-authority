@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "租户管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerTenant")
+@RequestMapping("/api/infra/base/authority/managerTenant")
 public class ManagerTenantRest extends BaseController<ManagerTenantEntity, IManagerTenantService> {
 
 	// 日志记录

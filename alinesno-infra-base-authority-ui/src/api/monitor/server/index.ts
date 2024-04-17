@@ -28,6 +28,14 @@ export function list(query: OnlineQuery): AxiosPromise<OnlineVO[]> {
   });
 }
 
+// 获取服务信息
+export function getServer() {
+  return request({
+    url: '/monitor/server',
+    method: 'get'
+  })
+}
+
 // 强退用户
 export function forceLogout(id: string) {
   return request({

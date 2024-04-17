@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@Deprecated
 @Service
 public class ManagerAccountRecordServiceImpl extends IBaseServiceImpl<ManagerAccountRecordEntity, ManagerAccountRecordMapper> implements IManagerAccountRecordService {
 

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "企业/团队主题")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/EnterpriseTheme")
+@RequestMapping("/api/infra/base/authority/enterpriseTheme")
 public class EnterpriseThemeRest extends BaseController<EnterpriseThemeEntity, IEnterpriseThemeService> {
 
 	// 日志记录

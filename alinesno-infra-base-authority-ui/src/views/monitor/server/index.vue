@@ -1,113 +1,188 @@
 <template>
-  <div class="p-2">
-    <div class="mb-[10px]">
-      <el-card shadow="hover">
-        <el-form :model="queryParams" ref="queryFormRef" :inline="true">
-          <el-form-item label="登录地址" prop="ipaddr">
-            <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable style="width: 200px" @keyup.enter="handleQuery" />
-          </el-form-item>
-          <el-form-item label="用户名称" prop="userName">
-            <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 200px" @keyup.enter="handleQuery" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-            <el-button icon="Refresh" @click="resetQuery">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-    </div>
-    <el-card shadow="hover">
-      <el-table
-        v-loading="loading"
-        :data="onlineList.slice((queryParams.pageNum - 1) * queryParams.pageSize, queryParams.pageNum * queryParams.pageSize)"
-        style="width: 100%;"
-      >
-        <el-table-column label="序号" width="50" type="index" align="center">
-          <template #default="scope">
-            <span>{{ (queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="会话编号" align="center" prop="id" :show-overflow-tooltip="true" />
-        <el-table-column label="登录名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-        <el-table-column label="客户端" align="center" prop="clientKey" :show-overflow-tooltip="true" />
-        <el-table-column label="设备类型" align="center">
-          <template #default="scope">
-            <dict-tag :options="sys_device_type" :value="scope.row.deviceType" />
-          </template>
-        </el-table-column>
-        <el-table-column label="所属部门" align="center" prop="deptName" :show-overflow-tooltip="true" />
-        <el-table-column label="主机" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-        <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
-        <el-table-column label="操作系统" align="center" prop="os" :show-overflow-tooltip="true" />
-        <el-table-column label="浏览器" align="center" prop="browser" :show-overflow-tooltip="true" />
-        <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
-          <template #default="scope">
-            <span>{{ parseTime(scope.row.loginTime) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-          <template #default="scope">
-            <el-tooltip content="强退" placement="top">
-              <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">
-              </el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+  <div class="app-container">
+    <el-row>
+      <el-col :span="12" class="card-box">
+        <el-card shadow="never">
+          <template #header><span>CPU</span></template>
+          <div class="el-table el-table--enable-row-hover el-table--medium">
+            <table cellspacing="0" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">值</div></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">核心数</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">用户使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.used }}%</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">系统使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.sys }}%</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">当前空闲率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.free }}%</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-card>
+      </el-col>
 
-      <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" />
-    </el-card>
+      <el-col :span="12" class="card-box">
+        <el-card shadow="never">
+          <template #header><span>内存</span></template>
+          <div class="el-table el-table--enable-row-hover el-table--medium">
+            <table cellspacing="0" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">内存</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">JVM</div></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">总内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.mem">{{ server.mem.total }}G</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.total }}M</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">已用内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.mem">{{ server.mem.used}}G</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.used}}M</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">剩余内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.mem">{{ server.mem.free }}G</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.free }}M</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.mem" :class="{'text-danger': server.mem.usage > 80}">{{ server.mem.usage }}%</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm" :class="{'text-danger': server.jvm.usage > 80}">{{ server.jvm.usage }}%</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-card>
+      </el-col>
+
+      <el-col :span="24" class="card-box">
+        <el-card shadow="never">
+          <template #header><span>服务器信息</span></template>
+          <div class="el-table el-table--enable-row-hover el-table--medium">
+            <table cellspacing="0" style="width: 100%;">
+              <tbody>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">服务器名称</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.sys">{{ server.sys.computerName }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">操作系统</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.sys">{{ server.sys.osName }}</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">服务器IP</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.sys">{{ server.sys.computerIp }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">系统架构</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.sys">{{ server.sys.osArch }}</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-card>
+      </el-col>
+
+      <el-col :span="24" class="card-box">
+        <el-card shadow="never">
+          <template #header><span>Java虚拟机信息</span></template>
+          <div class="el-table el-table--enable-row-hover el-table--medium">
+            <table cellspacing="0" style="width: 100%;table-layout:fixed;">
+              <tbody>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java名称</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.name }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java版本</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.version }}</div></td>
+                </tr>
+                <tr>
+                  <td class="el-table__cell is-leaf"><div class="cell">启动时间</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.startTime }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">运行时长</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.runTime }}</div></td>
+                </tr>
+                <tr>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">安装路径</div></td>
+                  <td colspan="3" class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.home }}</div></td>
+                </tr>
+                <tr>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">项目路径</div></td>
+                  <td colspan="3" class="el-table__cell is-leaf"><div class="cell" v-if="server.sys">{{ server.sys.userDir }}</div></td>
+                </tr>
+                <tr>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">运行参数</div></td>
+                  <td colspan="3" class="el-table__cell is-leaf"><div class="cell" v-if="server.jvm">{{ server.jvm.inputArgs }}</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-card>
+      </el-col>
+
+      <el-col :span="24" class="card-box">
+        <el-card shadow="never">
+          <template #header><span>磁盘状态</span></template>
+          <div class="el-table el-table--enable-row-hover el-table--medium">
+            <table cellspacing="0" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th class="el-table__cell el-table__cell is-leaf"><div class="cell">盘符路径</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">文件系统</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">盘符类型</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">总大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">可用大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">已用大小</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">已用百分比</div></th>
+                </tr>
+              </thead>
+              <tbody v-if="server.sysFiles">
+                <tr v-for="(sysFile, index) in server.sysFiles" :key="index">
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.dirName }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.sysTypeName }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.typeName }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.total }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.free }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.used }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" :class="{'text-danger': sysFile.usage > 80}">{{ sysFile.usage }}%</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script setup name="Online" lang="ts">
-import { forceLogout, list as initData } from "@/api/monitor/server";
-import { OnlineQuery, OnlineVO } from "@/api/monitor/server/types";
-import {getCurrentInstance, onMounted, ref, toRefs} from "vue";
+<script setup>
+import { getServer } from '@/api/monitor/server'
 
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-const { sys_device_type } = toRefs<any>(proxy?.useDict("sys_device_type"));
+const server = ref([]);
+const { proxy } = getCurrentInstance();
 
-const onlineList = ref<OnlineVO[]>([]);
-const loading = ref(true);
-const total = ref(0);
+function getList() {
+  proxy.$modal.loading("正在加载服务监控数据，请稍候！");
+  proxy.$modal.closeLoading();
 
-const queryFormRef = ref<ElFormInstance>();
-
-const queryParams = ref<OnlineQuery>({
-  pageNum: 1,
-  pageSize: 10,
-  ipaddr: '',
-  userName: ''
-});
-
-/** 查询登录日志列表 */
-const getList = async () => {
-  loading.value = true;
-  const res = await initData(queryParams.value);
-  onlineList.value = res.rows;
-  total.value = res.total;
-  loading.value = false;
-}
-/** 搜索按钮操作 */
-const handleQuery = () => {
-  queryParams.value.pageNum = 1;
-  getList();
-}
-/** 重置按钮操作 */
-const resetQuery = () => {
-  queryFormRef.value?.resetFields();
-  handleQuery();
-}
-/** 强退按钮操作 */
-const handleForceLogout = async (row: OnlineVO) => {
-  await proxy?.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户?');
-  await forceLogout(row.id);
-  await getList();
-  proxy?.$modal.msgSuccess("删除成功");
+  getServer().then(response => {
+    server.value = response.data;
+  });
 }
 
-onMounted(() => {
-  getList();
-})
+getList();
 </script>

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/ManagerUser/';
+var prefix = '/api/infra/base/authority/managerAccount/';
 var managerUrl = {
     datatables: prefix + "datatables",
     createUrl: prefix + 'add',

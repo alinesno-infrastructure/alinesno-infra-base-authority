@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "资源管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerResource")
+@RequestMapping("/api/infra/base/authority/managerResource")
 public class ManagerResourceRest extends BaseController<ManagerResourceEntity, IManagerResourceService> {
 
 	// 日志记录

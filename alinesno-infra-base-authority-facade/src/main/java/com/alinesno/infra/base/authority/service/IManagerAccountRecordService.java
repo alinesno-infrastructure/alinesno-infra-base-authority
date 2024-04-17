@@ -11,7 +11,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-
+@Deprecated
 public interface IManagerAccountRecordService extends IBaseService<ManagerAccountRecordEntity> {
 
 }

@@ -293,6 +293,7 @@ $chartColor: #3b5998;
     .app-info {
       float: left;
       margin-left: 10px;
+      width: calc(100% - 50px);
     }
 
     .app-icon {
@@ -324,6 +325,9 @@ $chartColor: #3b5998;
         .app-item.desc {
           font-size: 12px;
           color: #545b64;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }

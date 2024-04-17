@@ -3,6 +3,7 @@ package com.alinesno.infra.base.authority.entity;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.util.Date;
  * @version 1.0.0
  */
 @Data
-@Table(name = "content_notice")
+@TableName("content_notice")
 public class ContentNoticeEntity extends InfraBaseEntity {
 
 	private static final long serialVersionUID = 1L;

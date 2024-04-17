@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/ManagerSettings/';
+var prefix = '/api/infra/base/authority/managerSettings/';
 var managerUrl = {
     datatables: prefix + "datatables",
     createUrl: prefix + 'add',

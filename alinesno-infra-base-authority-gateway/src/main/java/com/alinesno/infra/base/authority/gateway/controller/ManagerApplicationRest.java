@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "应用信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerApplication")
+@RequestMapping("/api/infra/base/authority/managerApplication")
 public class ManagerApplicationRest extends BaseController<ManagerApplicationEntity, IManagerApplicationService> {
 
 	// 日志记录

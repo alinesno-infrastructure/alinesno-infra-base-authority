@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "基础部门管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerDepartment")
+@RequestMapping("/api/infra/base/authority/managerDepartment")
 public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntity, IManagerDepartmentService> {
 
 	// 日志记录
@@ -72,6 +73,63 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 		Object data = managerDepartmentService.findDepByApplication(applicationId, parentDeptId);
 
 		return AjaxResult.success(data);
+	}
+
+	/**
+	 * 获取部门树列表
+	 */
+	@GetMapping("/deptTree")
+	public AjaxResult deptTree() {
+		String data = "[\n" +
+				"        {\n" +
+				"            \"id\": 100,\n" +
+				"            \"label\": \"AIP科技\",\n" +
+				"            \"children\": [\n" +
+				"                {\n" +
+				"                    \"id\": 101,\n" +
+				"                    \"label\": \"深圳总公司\",\n" +
+				"                    \"children\": [\n" +
+				"                        {\n" +
+				"                            \"id\": 103,\n" +
+				"                            \"label\": \"研发部门\"\n" +
+				"                        },\n" +
+				"                        {\n" +
+				"                            \"id\": 104,\n" +
+				"                            \"label\": \"市场部门\"\n" +
+				"                        },\n" +
+				"                        {\n" +
+				"                            \"id\": 105,\n" +
+				"                            \"label\": \"测试部门\"\n" +
+				"                        },\n" +
+				"                        {\n" +
+				"                            \"id\": 106,\n" +
+				"                            \"label\": \"财务部门\"\n" +
+				"                        },\n" +
+				"                        {\n" +
+				"                            \"id\": 107,\n" +
+				"                            \"label\": \"运维部门\"\n" +
+				"                        }\n" +
+				"                    ]\n" +
+				"                },\n" +
+				"                {\n" +
+				"                    \"id\": 102,\n" +
+				"                    \"label\": \"长沙分公司\",\n" +
+				"                    \"children\": [\n" +
+				"                        {\n" +
+				"                            \"id\": 108,\n" +
+				"                            \"label\": \"市场部门\"\n" +
+				"                        },\n" +
+				"                        {\n" +
+				"                            \"id\": 109,\n" +
+				"                            \"label\": \"财务部门\"\n" +
+				"                        }\n" +
+				"                    ]\n" +
+				"                }\n" +
+				"            ]\n" +
+				"        }\n" +
+				"    ]" ;
+
+		return AjaxResult.success(JSONUtil.parse(data)) ;
 	}
 
 	@Override

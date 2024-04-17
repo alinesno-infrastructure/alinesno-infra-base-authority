@@ -1,10 +1,12 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,10 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "账号管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerAccount")
+@RequestMapping("/api/infra/base/authority/managerAccount")
 public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IManagerAccountService> {
 
 	// 日志记录
@@ -45,7 +44,8 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 		return this.toPage(model, this.getFeign(), page);
 	}
- 
+
+
 	@Override
 	public IManagerAccountService getFeign() {
 		return this.managerAccountService;

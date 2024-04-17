@@ -11,7 +11,7 @@
               <ul>
                 <li class="app-items" v-for="item in apps" :key="item" style="width:calc(25% - 10px)">
                   <div class="app-icon">
-                    <img :src="item.icon" :alt="item.name" />
+                    <i :class="item.icon" :alt="item.name" />
                   </div>
                   <div class="app-info">
                     <div class="app-item-title">{{ item.name }}</div>
@@ -66,17 +66,17 @@ const opertionAssets = ref([
 ])
 
 const apps = ref([
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/d88319dfa5d204f019b4284149886c59-7d586ea82f792b61a8c87de60565133d.svg' , name:'自动化操作服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/9da5a168cf8194c8ee5ed192a443d563-674375b53bc8ae94f48cfdb5c81e8363.svg' , name:'分布式配置中心' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/a5ffe5487f62ef75d8e5cf78c18525a5-d4867f9d4adcd749f0c5aff987232847.svg' , name:'审计日志服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/d88319dfa5d204f019b4284149886c59-7d586ea82f792b61a8c87de60565133d.svg' , name:'容器云管理服务' , desc:'With EC2 (2 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/6e9e16955bd76c1d3a9996e0d6d3ad15-04cfc8c62f597690680d948b366980cf.svg' , name:'持续集成服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/d88319dfa5d204f019b4284149886c59-7d586ea82f792b61a8c87de60565133d.svg' , name:'自动化操作服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/9da5a168cf8194c8ee5ed192a443d563-674375b53bc8ae94f48cfdb5c81e8363.svg' , name:'分布式配置中心' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/6e9e16955bd76c1d3a9996e0d6d3ad15-04cfc8c62f597690680d948b366980cf.svg' , name:'持续集成服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/d88319dfa5d204f019b4284149886c59-7d586ea82f792b61a8c87de60565133d.svg' , name:'容器云管理服务' , desc:'With EC2 (2 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/6e9e16955bd76c1d3a9996e0d6d3ad15-04cfc8c62f597690680d948b366980cf.svg' , name:'持续集成服务' , desc:'With Route 53 (3 分钟)'},
-  {icon:'https://d1by4p17n947rt.cloudfront.net/icon/3da5e8169d2f1426f99fbef54575fe96-6382cb2dfdd2f74c99bc8a64a338358e.svg' , name:'一体化安全感触服务' , desc:'With Route 53 (3 分钟)'},
+  {icon:'fa-brands fa-slack' , name:'自动化操作服务' , desc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-list-check' , name:'分布式配置中心' , desc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-at' , name:'审计日志服务' , desc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
+  {icon:'fa-solid fa-list-check' , name:'容器云管理服务' , desc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-eye-slash' , name:'自动化操作服务' , desc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-user-shield' , name:'分布式配置中心' , desc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-comment-slash' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-brands fa-slack' , name:'容器云管理服务' , desc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-comment-slash' , name:'一体化安全感触服务' , desc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
 ]);
 
 </script>
@@ -87,5 +87,10 @@ const apps = ref([
 }
 .item-health-count{
   margin-bottom: 5px;
+}
+
+.app-icon{
+    font-size: 20px;
+    color: #3b5998 ;
 }
 </style>

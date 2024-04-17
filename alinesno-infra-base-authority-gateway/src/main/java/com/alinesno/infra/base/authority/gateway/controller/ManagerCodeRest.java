@@ -30,7 +30,7 @@ import java.util.List;
 @Api(tags = "基础代码配置管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerCode")
+@RequestMapping("/api/infra/base/authority/managerCode")
 public class ManagerCodeRest extends BaseController<ManagerCodeEntity, IManagerCodeService> {
 
 	// 日志记录

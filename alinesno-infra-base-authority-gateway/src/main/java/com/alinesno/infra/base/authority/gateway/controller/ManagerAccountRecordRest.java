@@ -26,10 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @author luoxiaodong luoandon@gmail.com
  * @version 1.0.0
  */
+@Deprecated
 @Api(tags = "用户操作用户记录信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerAccountRecord")
+@RequestMapping("/api/infra/base/authority/managerAccountRecord")
 public class ManagerAccountRecordRest
 		extends BaseController<ManagerAccountRecordEntity, IManagerAccountRecordService> {
 

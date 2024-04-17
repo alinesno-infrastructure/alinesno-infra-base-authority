@@ -25,6 +25,8 @@
               集群状态展示集群资源的概览和详情，您可以查看集群资源的监控数据和用量排行情况。
             </div>
           </div>
+
+          <!-- 
           <div class="head-app-status">
             应用集成套件
             <div class="integrated-item-box">
@@ -34,7 +36,9 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> 
+          -->
+
         </div>
       </el-col>
     </el-row>

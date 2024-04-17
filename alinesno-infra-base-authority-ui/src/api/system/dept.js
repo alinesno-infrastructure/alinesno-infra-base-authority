@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import {parseStrEmpty} from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/ManagerDepartment/';
+var prefix = '/api/infra/base/authority/managerDepartment/';
 var managerUrl = {
     datatables: prefix + "datatables",
     createUrl: prefix + 'add',
@@ -14,7 +14,8 @@ var managerUrl = {
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
-    downloadfile: prefix + "downloadfile"
+    downloadfile: prefix + "downloadfile",
+    deptTree: prefix + "deptTree",
 }
 
 // 查询部门列表
@@ -71,7 +72,7 @@ export function listDeptExcludeChild(id) {
 // 查询部门下拉树结构
 export function treeselect() {
     return request({
-        url: '/system/dept/treeselect',
+        url: managerUrl.deptTree , 
         method: 'get'
     })
 }

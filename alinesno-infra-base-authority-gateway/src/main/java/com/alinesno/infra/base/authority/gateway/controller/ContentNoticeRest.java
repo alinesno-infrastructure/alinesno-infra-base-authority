@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "基础通知")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ContentNotice")
+@RequestMapping("/api/infra/base/authority/contentNotice")
 public class ContentNoticeRest extends BaseController<ContentNoticeEntity, IContentNoticeService> {
 
 	// 日志记录

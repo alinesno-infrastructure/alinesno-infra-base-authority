@@ -132,7 +132,7 @@ public class CommonLoginController {
 
         Menu dashboardMenu = new Menu("Dashboard", "/dashboard", false, "noRedirect", "Layout", true, new Menu.Meta("仪盘表", "dashboard", false, null), List.of(
                 new Menu("Dashboard", "index", false, false , "dashboard", new Menu.Meta("概览", "dashboard", false, null)) ,
-                new Menu("Application", "application", false, false , "application", new Menu.Meta("应用管理", "dashboard", false, null))
+                new Menu("Application", "application/index", false, false , "application", new Menu.Meta("应用管理", "monitor", false, null))
         ));
 
         Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("系统管理", "post", false, null),
@@ -150,27 +150,23 @@ public class CommonLoginController {
 
         Menu loggerMenu = new Menu("Log", "/log", false, "noRedirect", "Layout", true, new Menu.Meta("日志管理", "log", false, null),
                         List.of(
-                                new Menu("Operlog", "monitor/operlog/index", false,false, "log/operlog/index", new Menu.Meta("操作日志", "form", false, null)),
-                                new Menu("Operlog", "monitor/apilog/index", false,false, "log/apilog/index", new Menu.Meta("接口日志", "form", false, null)),
+                                new Menu("Operlog", "monitor/operlog/index", false,false, "log/operlog/index", new Menu.Meta("操作日志", "message", false, null)),
+                                new Menu("Apilog", "monitor/apilog/index", false,false, "log/apilog/index", new Menu.Meta("接口日志", "form", false, null)),
                                 new Menu("Logininfor", "monitor/logininfor/index", false,false, "log/logininfor/index", new Menu.Meta("登录日志", "logininfor", false, null))
                         ));
 
         Menu monitorMenu = new Menu("Monitor", "/monitor", false, "noRedirect", "Layout", true, new Menu.Meta("系统监控", "monitor", false, null),
                 List.of(
-                        new Menu("Online", "monitor/online/index", false,false, "monitor/online/index", new Menu.Meta("在线用户", "online", false, null)),
-                        new Menu("Job", "monitor/job/index", false,false, "monitor/job/index", new Menu.Meta("定时任务", "job", false, null)),
                         new Menu("Server", "monitor/server/index", false,false, "monitor/server/index", new Menu.Meta("服务监控", "server", false, null)),
                         new Menu("Cache", "monitor/cache/index", false,false, "monitor/cache/index", new Menu.Meta("缓存监控", "redis", false, null)),
                         new Menu("CacheList", "monitor/cache/list", false, false,"monitor/cache/list", new Menu.Meta("缓存列表", "redis-list", false, null))
                 ));
 
-        Menu themeMenu = new Menu("Theme", "/theme", false, "noRedirect", "Layout", true, new Menu.Meta("团队主题", "tool", false, null),
+        Menu themeMenu = new Menu("Enterprise", "/enterprise", false, "noRedirect", "Layout", true, new Menu.Meta("团队主题", "tool", false, null),
                 List.of(
-                        new Menu("Build", "tool/build/index", false,false, "tool/build/index", new Menu.Meta("系统主题", "build", false, null)),
-                        new Menu("Swagger", "tool/swagger/index",false, false, "tool/swagger/index", new Menu.Meta("登陆主题", "swagger", false, null))
+                        new Menu("Setting", "enterprise/setting/index", false,false, "enterprise/setting/index", new Menu.Meta("系统主题", "build", false, null)),
+                        new Menu("Theme", "enterprise/theme/index",false, false, "enterprise/theme/index", new Menu.Meta("登陆主题", "swagger", false, null))
                 ));
-
-        //  Menu httpMenu = new Menu("Portal", "Layout", false, false , "http://portal.infra.linesno.com", new Menu.Meta("基设官网", "guide", false, "http://portal.infra.linesno.com"));
 
         List<Menu> menus = List.of(dashboardMenu , systemMenu, monitorMenu, loggerMenu , themeMenu);
 

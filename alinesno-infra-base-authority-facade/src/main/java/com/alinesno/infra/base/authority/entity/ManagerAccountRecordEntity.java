@@ -19,6 +19,7 @@ import java.util.Date;
  * @author WeiXiaoJin
  * @since 2019年4月8日 下午10:15:43
  */
+@Deprecated
 @SuppressWarnings("serial")
 @Data
 @TableName("manager_account_record")
