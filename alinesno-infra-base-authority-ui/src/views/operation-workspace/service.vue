@@ -4,7 +4,7 @@
       <el-col class="panel-col" :span="19">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-file-waveform"></i> 常用功能列表 </div>
+            <div class="header-title"><i class="fa-solid fa-file-waveform"></i> 新最应用列表</div>
           </div>
           <div class="panel-body acp-height-auto" >
             <div class="acp-app-list">
@@ -16,6 +16,14 @@
                   <div class="app-info">
                     <div class="app-item-title">{{ item.name }}</div>
                     <div class="app-item desc">{{ item.desc }}</div>
+                  </div>
+                </li>
+                <li class="app-items" style="width: calc(25% - 10px);background: #f5f5f5;border-radius: 5px;padding-left: 10px;cursor: pointer; margin-top: 10px;"> 
+                  <div class="app-icon" style="margin-top: 0px;">
+                    <i class="fa-solid fa-plus" />
+                  </div>
+                  <div class="app-info">
+                    <div class="app-item-title">增加应用</div>
                   </div>
                 </li>
               </ul>
@@ -31,7 +39,7 @@
       <el-col :span="5">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-user-nurse"></i> 权限资源统计</div>
+            <div class="header-title"><i class="fa-solid fa-tv"></i> 权限服务统计</div>
           </div>
           <div class="panel-body acp-height-auto">
             <ul class="panel-item-text">
@@ -57,12 +65,12 @@
 <script setup>
 
 const opertionAssets = ref([
-  {id:'1' , title:'运维脚本' , count:45} ,
-  {id:'2' , title:'服务资源' , count:145} ,
-  {id:'3' , title:'持续集成' , count:65} ,
-  {id:'4' , title:'自动配置' , count:85} ,
-  {id:'5' , title:'配置管理' , count:45} ,
-  {id:'6' , title:'安全监控' , count:45} ,
+  {id:'1' , title:'应用统计' , count:45} ,
+  {id:'2' , title:'功能统计' , count:145} ,
+  {id:'3' , title:'角色统计' , count:65} ,
+  {id:'4' , title:'用户统计' , count:85} ,
+  {id:'5' , title:'部门统计' , count:45} ,
+  {id:'6' , title:'操作统计' , count:45} ,
 ])
 
 const apps = ref([

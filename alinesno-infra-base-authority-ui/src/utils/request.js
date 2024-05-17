@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElNotification , ElMessageBox, ElMessage, ElLoading } from 'element-plus'
-import { getToken } from '@/utils/auth'
+import { getToken , getSaToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { tansParams, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/cache'
@@ -10,12 +10,6 @@ import useUserStore from '@/store/modules/user'
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
-export const globalHeaders = () => {
-  return {
-    Authorization: 'Bearer ' + getToken(),
-    clientid: import.meta.env.VITE_APP_CLIENT_ID
-  };
-};
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -34,6 +28,7 @@ service.interceptors.request.use(config => {
   const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['satoken'] = 'Bearer ' + getSaToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
   // get请求映射params参数
   if (config.method === 'get' && config.params) {
@@ -55,7 +50,7 @@ service.interceptors.request.use(config => {
       const s_url = sessionObj.url;                // 请求地址
       const s_data = sessionObj.data;              // 请求数据
       const s_time = sessionObj.time;              // 请求时间
-      const interval = 100                       // 间隔时间(ms)，小于此时间视为重复提交
+      const interval = 200;                       // 间隔时间(ms)，小于此时间视为重复提交
       if (s_data === requestObj.data && requestObj.time - s_time < interval && s_url === requestObj.url) {
         const message = '数据正在处理，请勿重复提交';
         console.warn(`[${s_url}]: ` + message)

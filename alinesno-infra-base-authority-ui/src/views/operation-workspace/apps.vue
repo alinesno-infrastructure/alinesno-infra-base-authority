@@ -9,13 +9,15 @@
           <div class="panel-body" style="height: auto;position: relative;">
               <div class="direct-box">
                 <ul>
-                  <li class="box-item" v-for="item in directContent" :key="item">
+                  <li class="box-item" v-for="item in advantages" :key="item">
                     <div class="dire-panel">
                       <div class="panel-title">
                         <i class="dire-panel-icon" :class="item.icon" :alt="item.name" />
-                        {{ item.name }}
+                        {{ item.title }}
                       </div>
-                      <div class="panel-describe">通过简单几步，图中7种主流开发环境轻松部署，摆脱海量文档搜索之苦。</div>
+                      <div class="panel-describe">
+                        {{ item.description }}
+                      </div>
                       <!-- <div class="panel-tip">访问链接</div> -->
                     </div>
                   </li>
@@ -32,13 +34,13 @@
           <div class="panel-body" style="height: auto;position: relative;">
             <div class="acp-app-list">
               <ul>
-                <li class="app-items" style="width:100%" v-for="item in apps" :key="item">
+                <li class="app-items" style="width:100%" v-for="item in selectedPermissionScenarios" :key="item">
                   <div class="app-info">
                     <div class="app-item-title">
                         <i :class="item.icon" :alt="item.name" />
                         {{ item.name }}
                     </div>
-                    <div class="app-item desc">{{ item.desc }}</div>
+                    <div class="app-item desc">{{ item.description }}</div>
                   </div>
                 </li>
               </ul>
@@ -54,18 +56,19 @@
 
 <script setup>
 
-const directContent = ref([
-  { icon: 'fa-brands fa-slack', name: '智能鉴黄', desc: '识别文本中的色情行为描述、色情资源链接、低俗交友、污秽文爱等涉黄内容' },
-  { icon: 'fa-solid fa-list-check', name: '违禁违规', desc: '识别暴力行为、恐怖描述、赌博、毒品、枪支弹药等违禁文字内容' },
-  { icon: 'fa-solid fa-at', name: '恶意推广', desc: '识别带有售卖意向的软文广告、微信/QQ/联系方式等违规广告，支持包含符号、图标等变异广告' },
-  { icon: 'fa-solid fa-list-check', name: '低俗辱骂', desc: '识别文本中的侮辱谩骂、人身攻击、消极宣泄等不良内容' },
-  { icon: 'fa-solid fa-file-word', name: '低质灌水', desc: '识别网络社区常见的乱码、水帖、刷屏等无意义的灌水信息' },
-]);
+const advantages = [
+  { icon: 'fa-solid fa-shield-alt', title: '系统安全性提升', description: '通过灵活的权限管理和细粒度的权限控制，有效保护系统免受未授权访问和恶意行为的侵害。' },
+  { icon: 'fa-solid fa-chart-line', title: '精准的权限管理', description: '支持不同角色和岗位的个性化权限设置，实现精准的权限管理，确保用户只能访问其具备权限的功能和资源。' },
+  { icon: 'fa-solid fa-clipboard-list', title: '全面的日志记录', description: '提供完善的日志记录功能，包括登陆日志、业务操作日志和系统操作日志，帮助追踪和审计系统的使用情况。' },
+  { icon: 'fa-solid fa-chart-bar', title: '实时应用监控', description: '强大的应用监控功能可以实时监控系统的运行状态和性能指标，及时发现和解决问题，确保系统稳定运行。' },
+  { icon: 'fa-solid fa-cogs', title: '灵活的企业定制', description: '允许企业进行主题配置和企业配置，定制系统的外观和行为，提升用户体验，增强企业形象。' },
+  { icon: 'fa-solid fa-users-cog', title: '高效的权限管理', description: '帮助企业和组织高效管理系统中的权限，确保只有授权用户能够访问系统的功能和资源，提升系统安全性和用户体验。' }
+];
 
-const apps = ref([
-  { icon: 'fa-solid fa-eye-slash', name: '智能内容审核', desc: '识别文章内容中的违规信息、低俗内容、暴力内容等敏感信息' },
-  { icon: 'fa-solid fa-user-shield', name: '注册信息检测', desc: '识别注册信息中的违规内容、虚假信息等不当信息' },
-  { icon: 'fa-solid fa-comment-slash', name: '评论过滤系统', desc: '过滤用户评论中的不良言论、侮辱性内容、广告等信息' },
-]);
+const selectedPermissionScenarios = [
+  { icon: 'fa-solid fa-building', name: '集团权限管理', description: '用于管理集团内部各个子公司或部门的权限，实现集中式权限管理和跨组织权限控制。' },
+  { icon: 'fa-solid fa-cogs', name: '系统级权限控制', description: '用于管理系统级别的权限，包括系统功能的权限设置、管理员权限控制等，确保系统安全和稳定运行。' },
+  { icon: 'fa-solid fa-users-cog', name: '角色权限分配', description: '用于将权限按角色进行分配和管理，实现灵活的权限控制和便捷的权限调整，提高系统的安全性和管理效率。' },
+];
 
 </script>

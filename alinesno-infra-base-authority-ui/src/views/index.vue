@@ -5,24 +5,22 @@
       <el-col :span="24">
         <div class="aip-appinfo-header">
           <div class="header-icon-banner">
-            <i class="fas fa-laptop-code"></i>
+            <i class="fa-solid fa-user-shield"></i>
           </div>
           <div class="icon">
             <div class="title">
               当前应用 
               <div class="cluster-info">
-                <span
-                  ><i class="el-icon-monitor"></i>
-                  {{ currentEnvClusterObj.clusterName }}</span
-                >
                 <span>
-                  <i class="el-icon-link"></i> 
-                  应用地址: {{ currentEnvClusterObj.apiServerUrl }}
+                  {{ currentEnvClusterObj.clusterName }}
+                </span>
+                <span>
+                  {{ currentEnvClusterObj.clusterDesc }}
                 </span>
               </div>
             </div>
             <div class="title-desc">
-              集群状态展示集群资源的概览和详情，您可以查看集群资源的监控数据和用量排行情况。
+              多应用管理组织灵活配置和管理系统中的权限，确保用户只能访问其具备权限的功能和资源
             </div>
           </div>
 
@@ -43,9 +41,6 @@
       </el-col>
     </el-row>
 
-    <!-- 应用统计 -->
-    <!-- <OperationWorkspaceCountStaitcs /> -->
-
     <!-- 应用套件和状态 -->
     <OperationWorkspaceService />
 
@@ -60,25 +55,12 @@
 import OperationWorkspaceApps from './operation-workspace/apps.vue'
 import OperationWorkspaceService from './operation-workspace/service.vue'
 
-const directContent = ref([
-  { icon: 'assets/icons/ability/backup.png', name: '集成数据备份', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/logback.png', name: '集成审计日志', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/jenkins.png', name: '集成持续集成', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/hadoop.png', name: '集成数据治理', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/opentelemetry.png', name: '集成OpenTelemetry', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/security.png', name: '集成安全扫描', desc: 'With Route 53 (3 分钟)' },
-  { icon: 'assets/icons/ability/kubernetes.png', name: '集成发布到K8S', desc: 'With EC2 (2 分钟)' },
-]);
-
 const currentEnvClusterObj = ref({
   clusterName: '统一权限管理服务'  , 
-  apiServerUrl: 'http://portal.infra.linesno.com'
+  clusterDesc: '应用业务服务描述，描述业务服务的大致情况'  , 
+  apiServerUrl: 'http://portal.infra.linesno.com' ,
+  desc: ''
 }) 
-
-// 获取assets静态资源
-const getAssetsFile = (name) => {
-   return new URL(`../` + name, import.meta.url).href
-}
 
 </script>
 

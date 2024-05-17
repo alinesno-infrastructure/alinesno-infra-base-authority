@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="系统模块" prop="title">
+      <el-form-item label="应用名称" prop="title">
         <el-input
             v-model="queryParams.title"
-            placeholder="请输入系统模块"
+            placeholder="请输入应用名称"
             clearable
             style="width: 240px;"
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="操作人员" prop="operName">
+      <el-form-item label="应用代码" prop="operName">
         <el-input
             v-model="queryParams.operName"
             placeholder="请输入操作人员"
@@ -18,21 +18,6 @@
             style="width: 240px;"
             @keyup.enter="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="类型" prop="businessType">
-        <el-select
-            v-model="queryParams.businessType"
-            placeholder="操作类型"
-            clearable
-            style="width: 240px"
-        >
-          <el-option
-              v-for="dict in sys_oper_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-          />
-        </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select
@@ -49,16 +34,6 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="操作时间" style="width: 308px">
-        <el-date-picker
-            v-model="dateRange"
-            value-format="YYYY-MM-DD"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -67,6 +42,13 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
+          <el-button
+              plain
+              type="primary"
+              icon="Plus"
+              @click="handleAdd()"
+              v-hasPermi="['system:dept:add']"
+          >新增</el-button>
         <el-button
             type="danger"
             plain
@@ -99,22 +81,31 @@
 
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="日志编号" align="center" prop="operId" />
-      <el-table-column label="系统模块" align="center" prop="title" />
-      <el-table-column label="操作类型" align="center" prop="businessType">
+      <el-table-column label="图标" align="center" width="70" key="icon" >
+          <template #default="scope">
+              <span style="font-size:25px;color:#3b5998">
+                <i :class="scope.row.icon" />
+              </span>
+          </template>
+      </el-table-column>
+      <el-table-column label="应用名称" align="center" prop="operId" />
+      <el-table-column label="应用描述" align="center" prop="title" />
+      <el-table-column label="应用链接" align="center" prop="businessType">
         <template #default="scope">
           <dict-tag :options="sys_oper_type" :value="scope.row.businessType" />
         </template>
       </el-table-column>
-      <el-table-column label="请求方式" align="center" prop="requestMethod" />
-      <el-table-column label="操作人员" align="center" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" width="100" />
-      <el-table-column label="主机" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
-      <el-table-column label="操作状态" align="center" prop="status">
+      <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
           <dict-tag :options="sys_common_status" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="操作日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
+      <el-table-column label="菜单配置" align="center" width="300" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
+          <template #default="scope">
+                <el-button type="danger" bg text> <i class="fa-solid fa-link"></i>  配置</el-button>
+          </template>
+      </el-table-column>
+      <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.operTime) }}</span>
         </template>
@@ -217,6 +208,21 @@ const data = reactive({
 
 const { queryParams, form } = toRefs(data);
 
+/** 表单重置 */
+function reset() {
+  form.value = {
+    id: undefined,
+    parentId: undefined,
+    deptName: undefined,
+    orderNum: 0,
+    leader: undefined,
+    phone: undefined,
+    email: undefined,
+    status: "0"
+  };
+  proxy.resetForm("deptRef");
+}
+
 /** 查询登录日志 */
 function getList() {
   loading.value = true;
@@ -267,6 +273,12 @@ function handleDelete(row) {
     getList();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
+}
+/** 新增按钮操作 */
+function handleAdd() {
+  reset();
+  open.value = true;
+  title.value = "添加部门";
 }
 /** 清空按钮操作 */
 // function handleClean() {
