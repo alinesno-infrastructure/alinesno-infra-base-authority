@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 
  *
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 @Api(tags = "基础配置管理")

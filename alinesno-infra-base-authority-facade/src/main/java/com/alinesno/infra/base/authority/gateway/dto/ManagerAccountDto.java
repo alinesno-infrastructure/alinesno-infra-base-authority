@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_account
  * 
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)

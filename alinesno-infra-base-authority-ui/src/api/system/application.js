@@ -12,9 +12,36 @@ var managerUrl = {
     cleanUrl: prefix + "clean",
     detailUrl: prefix + "detail",
     removeUrl: prefix + "delete",
+    choiceApplication: prefix + "choiceApplication",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
-    downloadfile: prefix + "downloadfile"
+    currentApplication: prefix + "currentApplication",
+    downloadfile: prefix + "downloadfile" ,
+    latestList: prefix + "latestList"
+}
+
+// 获取最新的应用列表
+export function getLatestList(){
+    return request({
+        url: managerUrl.latestList , 
+        method: 'get'
+    })
+}
+
+// 选择当前应用
+export function getCurrentApplication(){
+    return request({
+        url: managerUrl.currentApplication , 
+        method: 'get'
+    })
+}
+
+// 配置当前应用
+export function choiceApplication(id){
+    return request({
+        url: managerUrl.choiceApplication + '?applicationId=' + parseStrEmpty(id),
+        method: 'get'
+    })
 }
 
 // 查询用户列表

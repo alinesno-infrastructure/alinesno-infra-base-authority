@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="应用名称" prop="title">
         <el-input
@@ -19,59 +19,14 @@
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select
-            v-model="queryParams.status"
-            placeholder="操作状态"
-            clearable
-            style="width: 240px"
-        >
-          <el-option
-              v-for="dict in sys_common_status"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-          <el-button
-              plain
-              type="primary"
-              icon="Plus"
-              @click="handleAdd()"
-              v-hasPermi="['system:dept:add']"
-          >新增</el-button>
-        <el-button
-            type="danger"
-            plain
-            icon="Delete"
-            :disabled="multiple"
-            @click="handleDelete"
-            v-hasPermi="['monitor:operlog:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-            type="warning"
-            plain
-            icon="Download"
-            @click="handleExport"
-            v-hasPermi="['monitor:operlog:export']"
-        >导出</el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="index" width="55" label="序号" align="center" />
       <el-table-column label="图标" align="center" width="70" key="icon" >
           <!-- <template #default="scope">
               <span style="font-size:25px;color:#3b5998">
@@ -84,7 +39,7 @@
               </div>
           </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="left" prop="applicationName">
+      <el-table-column label="应用名称" width="250" align="left" prop="applicationName">
         <template #default="scope">
           <div>
             {{ scope.row.applicationName }}
@@ -95,11 +50,6 @@
       </template>
       </el-table-column>
       <el-table-column label="应用描述" align="left" prop="applicationDesc" />
-      <el-table-column label="应用链接" align="center" width="150" prop="businessType">
-        <template #default="scope">
-          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i> 打开配置</el-button>
-        </template>
-      </el-table-column>
       <el-table-column label="状态" width="100" align="center" prop="status">
         <!-- <template #default="scope">
           <dict-tag :options="sys_common_status" :value="scope.row.status" />
@@ -112,30 +62,16 @@
             />
         </template>
       </el-table-column>
-      <el-table-column label="菜单配置" align="center" width="200" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
-          <template #default="scope">
-                <el-button type="danger" bg link @click="openMenu(scope.row)"> <i class="fa-solid fa-link"></i> 配置</el-button>
-          </template>
-      </el-table-column>
-      <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.addTime) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="100" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button
-              type="text"
-              icon="Edit"
-              @click="handleUpdate(scope.row)"
-              v-hasPermi="['system:menu:edit']"
-          >修改</el-button>
-          <el-button
-              type="text"
-              icon="Delete"
-              @click="handleDelete(scope.row)"
-              v-hasPermi="['system:menu:remove']"
-          >删除</el-button>
+              type="primary"
+              bg 
+              link
+              @click="handleChoiceApplication(scope.row)"
+              v-hasPermi="['system:menu:edit']">
+              <i class="fa-solid fa-pen-nib"></i> 选择
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -196,13 +132,12 @@
 </template>
 
 <script setup name="Application">
-
 import { 
   listApplication, 
   delApplication , 
-  getApplication ,
   updateApplication , 
-  addApplication
+  addApplication , 
+  choiceApplication
 } from "@/api/system/application";
 
 import SvgIcon from "@/components/SvgIcon";
@@ -227,9 +162,7 @@ const dateRange = ref([]);
 const defaultSort = ref({ prop: "operTime", order: "descending" });
 
 const data = reactive({
-  form: {
-    applicationIcons: ''
-  },
+  form: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -298,6 +231,14 @@ function handleQuery() {
   queryParams.value.pageNum = 1;
   getList();
 }
+
+/** 选择应用 */
+function handleChoiceApplication(row){
+  choiceApplication(row.id).then(res => {
+    location.reload();
+  })
+}
+
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
@@ -340,8 +281,9 @@ function handleAdd() {
 /** 修改按钮操作 */
 async function handleUpdate(row) {
   reset();
+  await getTreeselect();
   getApplication(row.id).then(response => {
-    form.value = response.data;
+    form.value = response.rows;
     open.value = true;
     title.value = "修改应用";
   });
@@ -361,12 +303,11 @@ function handleExport() {
     ...queryParams.value,
   }, `config_${new Date().getTime()}.xlsx`);
 }
-
 /** 提交按钮 */
 function submitForm() {
   proxy.$refs["applicationFormRef"].validate(valid => {
     if (valid) {
-      if (form.value.id != undefined) {
+      if (form.value.menuId != undefined) {
         updateApplication(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;

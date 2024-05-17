@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 
  *
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 @Api(tags = "企业/团队SEO配置")

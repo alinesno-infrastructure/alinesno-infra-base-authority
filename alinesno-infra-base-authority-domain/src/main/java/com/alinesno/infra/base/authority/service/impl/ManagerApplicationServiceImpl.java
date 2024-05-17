@@ -9,6 +9,7 @@ import com.alinesno.infra.base.authority.mapper.ManagerApplicationMapper;
 import com.alinesno.infra.base.authority.service.IManagerApplicationService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,16 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 	public ManagerApplicationEntity insert(ManagerApplicationEntity e) {
 		repository.insert(e);
 		return e;
+	}
+
+	@Override
+	public List<ManagerApplicationEntity> latestList(long userId) {
+
+		LambdaQueryWrapper<ManagerApplicationEntity> wrapper = new LambdaQueryWrapper<>() ;
+//		wrapper.eq(ManagerApplicationEntity::getOperatorId , userId) ;
+		wrapper.orderByDesc(ManagerApplicationEntity::getAddTime) ;
+
+		return list(wrapper) ;
 	}
 
 	@Override

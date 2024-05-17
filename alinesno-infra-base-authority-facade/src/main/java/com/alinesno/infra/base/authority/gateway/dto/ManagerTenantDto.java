@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_tenant
  * 
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 public class ManagerTenantDto extends BaseDto {

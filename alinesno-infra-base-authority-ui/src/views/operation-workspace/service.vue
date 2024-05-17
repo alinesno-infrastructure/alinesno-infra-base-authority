@@ -9,16 +9,17 @@
           <div class="panel-body acp-height-auto" >
             <div class="acp-app-list">
               <ul>
-                <li class="app-items" v-for="item in apps" :key="item" style="width:calc(25% - 10px)">
+                <li class="app-items" v-for="(item,index) in apps" :key="item" style="width:calc(25% - 10px)">
                   <div class="app-icon">
-                    <i :class="item.icon" :alt="item.name" />
+                    <!-- <i :class="item.icon" :alt="item.applicationName" /> -->
+                    <img style="width:30px;height:30px;border-radius:4px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((index + 1)%10 + 5) + '.png'" />
                   </div>
                   <div class="app-info">
-                    <div class="app-item-title">{{ item.name }}</div>
-                    <div class="app-item desc">{{ item.desc }}</div>
+                    <div class="app-item-title">{{ item.applicationName }}</div>
+                    <div class="app-item desc">{{ item.applicationDesc }}</div>
                   </div>
                 </li>
-                <li class="app-items" style="width: calc(25% - 10px);background: #f5f5f5;border-radius: 5px;padding-left: 10px;cursor: pointer; margin-top: 10px;"> 
+                <li class="app-items" @click="handleAdd()" style="width: calc(25% - 10px);background: #f5f5f5;border-radius: 5px;padding-left: 10px;cursor: pointer; margin-top: 10px;"> 
                   <div class="app-icon" style="margin-top: 0px;">
                     <i class="fa-solid fa-plus" />
                   </div>
@@ -59,10 +60,63 @@
       </el-col>
 
     </el-row>
+
+    <!-- 操作日志详细 -->
+    <el-dialog :title="title" v-model="open" width="700px" append-to-body>
+      <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
+          <el-col :span="24">
+            <el-form-item label="菜单图标" prop="applicationIcons">
+              <el-popover
+                  placement="bottom-start"
+                  :width="540"
+                  trigger="click"
+                  @show="showSelectIcon">
+                <template #reference>
+                  <el-input v-model="form.applicationIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                    <template #prefix>
+                      <svg-icon
+                          v-if="form.applicationIcons"
+                          :icon-class="form.applicationIcons"
+                          class="el-input__icon"
+                          style="height: 32px;width: 16px;"
+                      />
+                      <el-icon v-else style="height: 32px;width: 16px;"><search /></el-icon>
+                    </template>
+                  </el-input>
+                </template>
+                <icon-select ref="iconSelectRef" @selected="selected" />
+              </el-popover>
+            </el-form-item>
+          </el-col>
+        <el-form-item label="应用名称" prop="applicationName">
+          <el-input v-model="form.applicationName" placeholder="请输入应用名称" />
+        </el-form-item>
+        <el-form-item label="应用描述" prop="applicationDesc">
+          <el-input v-model="form.applicationDesc" placeholder="请输入应用描述" />
+        </el-form-item>
+        <el-form-item label="应用代码" prop="applicationCode">
+          <el-input v-model="form.applicationCode" placeholder="请输入应用代码" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button :loading="buttonLoading" type="primary" @click="submitForm">确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
 <script setup>
+
+const { proxy } = getCurrentInstance();
+
+import { 
+  addApplication , 
+  getLatestList
+} from "@/api/system/application";
 
 const opertionAssets = ref([
   {id:'1' , title:'应用统计' , count:45} ,
@@ -74,18 +128,88 @@ const opertionAssets = ref([
 ])
 
 const apps = ref([
-  {icon:'fa-brands fa-slack' , name:'自动化操作服务' , desc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-list-check' , name:'分布式配置中心' , desc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-at' , name:'审计日志服务' , desc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
-  {icon:'fa-solid fa-list-check' , name:'容器云管理服务' , desc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-eye-slash' , name:'自动化操作服务' , desc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-user-shield' , name:'分布式配置中心' , desc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-comment-slash' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-brands fa-slack' , name:'容器云管理服务' , desc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , name:'持续集成服务' , desc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-comment-slash' , name:'一体化安全感触服务' , desc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
+  {icon:'fa-brands fa-slack' , applicationName:'自动化操作服务' , applicationDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-list-check' , applicationName:'分布式配置中心' , applicationDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-at' , applicationName:'审计日志服务' , applicationDesc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
+  {icon:'fa-solid fa-list-check' , applicationName:'容器云管理服务' , applicationDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-eye-slash' , applicationName:'自动化操作服务' , applicationDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-user-shield' , applicationName:'分布式配置中心' , applicationDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-comment-slash' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-brands fa-slack' , applicationName:'容器云管理服务' , applicationDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-comment-slash' , applicationName:'一体化安全感触服务' , applicationDesc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
 ]);
+
+const title = ref("");
+const open = ref(false);
+const loading = ref(true);
+
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    title: undefined,
+    operName: undefined,
+    businessType: undefined,
+    status: undefined
+  }
+});
+
+const { queryParams, form } = toRefs(data);
+
+/** 表单重置 */
+function reset() {
+  form.value = {
+    id: undefined,
+    parentId: undefined,
+    deptName: undefined,
+    orderNum: 0,
+    leader: undefined,
+    phone: undefined,
+    email: undefined,
+    status: "0"
+  };
+  proxy.resetForm("deptRef");
+}
+
+/** 新增按钮操作 */
+function handleAdd() {
+  reset();
+  open.value = true;
+  title.value = "添加应用";
+}
+
+/** 取消按钮 */
+function cancel() {
+  open.value = false;
+  reset();
+}
+
+/** 查询登录日志 */
+function handleLatestList() {
+  loading.value = true;
+  getLatestList().then(response => {
+    apps.value = response.data ;
+    loading.value = false;
+  });
+}
+
+/** 提交按钮 */
+function submitForm() {
+  proxy.$refs["applicationFormRef"].validate(valid => {
+    if (valid) {
+        addApplication(form.value).then(response => {
+          proxy.$modal.msgSuccess("新增成功");
+          open.value = false;
+          handleLatestList();
+        });
+    }
+  });
+}
+
+handleLatestList() ;
 
 </script>
 

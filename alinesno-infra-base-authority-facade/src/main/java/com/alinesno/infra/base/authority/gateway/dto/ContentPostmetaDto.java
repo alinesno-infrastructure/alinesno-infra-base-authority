@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 功能名： 【请填写功能名称】 数据表： content_postmeta
  * 
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 public class ContentPostmetaDto extends BaseDto {

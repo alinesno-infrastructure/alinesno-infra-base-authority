@@ -5,17 +5,14 @@
       <el-col :span="24">
         <div class="aip-appinfo-header">
           <div class="header-icon-banner">
-            <i class="fa-solid fa-user-shield"></i>
+            <i :class="currentEnvClusterObj.applicationIcons"></i>
           </div>
           <div class="icon">
             <div class="title">
-              当前应用 
+              {{ currentEnvClusterObj.applicationName }}
               <div class="cluster-info">
                 <span>
-                  {{ currentEnvClusterObj.clusterName }}
-                </span>
-                <span>
-                  {{ currentEnvClusterObj.clusterDesc }}
+                  {{ currentEnvClusterObj.applicationDesc }}
                 </span>
               </div>
             </div>
@@ -52,15 +49,29 @@
 
 <script setup name="Index">
 
+import { 
+  getCurrentApplication
+} from "@/api/system/application";
+
 import OperationWorkspaceApps from './operation-workspace/apps.vue'
 import OperationWorkspaceService from './operation-workspace/service.vue'
 
 const currentEnvClusterObj = ref({
-  clusterName: '统一权限管理服务'  , 
-  clusterDesc: '应用业务服务描述，描述业务服务的大致情况'  , 
+  applicationIcons: 'fa-solid fa-user-shield' ,
+  applicationName: '统一权限管理服务'  , 
+  applicationDesc: '应用业务服务描述，描述业务服务的大致情况'  , 
   apiServerUrl: 'http://portal.infra.linesno.com' ,
   desc: ''
 }) 
+
+/** 获取当前应用信息 */
+function handleCurrentApplication(){
+  getCurrentApplication().then(res => {
+    currentEnvClusterObj.value = res.data
+  })
+}
+
+handleCurrentApplication() ; 
 
 </script>
 

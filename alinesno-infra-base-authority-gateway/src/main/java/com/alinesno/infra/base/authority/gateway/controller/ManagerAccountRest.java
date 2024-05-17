@@ -13,7 +13,9 @@ import com.alinesno.infra.common.web.log.enums.BusinessType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.checkerframework.checker.index.qual.SameLen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +26,15 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 
  *
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
+@Slf4j
 @Api(tags = "账号管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/authority/managerAccount")
 public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IManagerAccountService> {
-
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerAccountRest.class);
 
 	@Autowired
 	private IManagerAccountService managerAccountService;

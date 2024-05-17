@@ -40,5 +40,18 @@ public interface IManagerApplicationService extends IBaseService<ManagerApplicat
 	 */
 	ManagerApplicationEntity findEntityByApplicationCode(String applicationCode);
 
+	/**
+	 * 插入应用列表
+	 * @param e
+	 * @return
+	 */
 	ManagerApplicationEntity insert(ManagerApplicationEntity e);
+
+	/**
+	 * 获取最新的应用列表
+	 * @param userId
+	 * @return
+	 */
+	List<ManagerApplicationEntity> latestList(long userId);
+
 }

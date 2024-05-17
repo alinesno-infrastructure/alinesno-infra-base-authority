@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 3. 企业域名更新接口 <br/>
  * 4. 企业与账号关联接口 <br/>
  *
- * @author luoxiaodong luoandon@gmail.com
+ * @author luoxiaodong 
  * @version 1.0.0
  */
 @Api(tags = "企业/团队配置")
