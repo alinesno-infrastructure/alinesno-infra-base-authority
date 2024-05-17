@@ -139,8 +139,8 @@
             <template #default="scope">
               <el-switch
                   v-model="scope.row.accountStatus"
-                  active-value="0"
-                  inactive-value="1"
+                  active-value="1"
+                  inactive-value="0"
                   @change="handleStatusChange(scope.row)"
               ></el-switch>
             </template>
@@ -477,14 +477,17 @@ function handleExport() {
 };
 /** 用户状态修改  */
 function handleStatusChange(row) {
-  let text = row.accountStatus === "0" ? "启用" : "停用";
-  proxy.$modal.confirm('确认要"' + text + '""' + row.loginName + '"用户吗?').then(function () {
-    return changeUserStatus(row.id, row.accountStatus);
-  }).then(() => {
-    proxy.$modal.msgSuccess(text + "成功");
-  }).catch(function () {
-    row.accountStatus = row.accountStatus === "0" ? "1" : "0";
-  });
+  return changeUserStatus(row.id, row.accountStatus);
+  
+  // TODO 待处理提示的问题
+  // let text = row.accountStatus === "0" ? "启用" : "停用";
+  // proxy.$modal.confirm('确认要"' + text + '""' + row.loginName + '"用户吗?').then(function () {
+  //   return changeUserStatus(row.id, row.accountStatus);
+  // }).then(() => {
+  //   proxy.$modal.msgSuccess(text + "成功");
+  // }).catch(function () {
+  //   row.accountStatus = row.accountStatus === "0" ? "1" : "0";
+  // });
 };
 /** 更多操作 */
 function handleCommand(command, row) {

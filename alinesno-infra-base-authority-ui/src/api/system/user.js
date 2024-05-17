@@ -9,6 +9,7 @@ var managerUrl = {
     saveUrl: prefix + 'save',
     updateUrl: prefix + "modify",
     statusUrl: prefix + "changeStatus",
+    changeAccountStatus: prefix + "changeAccountStatus",
     cleanUrl: prefix + "clean",
     detailUrl: prefix + "detail",
     removeUrl: prefix + "delete",
@@ -76,11 +77,11 @@ export function resetUserPwd(userId, password) {
 // 用户状态修改
 export function changeUserStatus(userId, status) {
     const data = {
-        userId,
-        status
+        id:userId,
+        accountStatus:status
     }
     return request({
-        url: '/system/user/changeStatus',
+        url: managerUrl.changeAccountStatus , 
         method: 'put',
         data: data
     })

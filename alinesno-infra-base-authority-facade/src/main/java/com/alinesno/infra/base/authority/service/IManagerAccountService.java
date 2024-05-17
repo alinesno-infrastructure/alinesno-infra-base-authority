@@ -152,4 +152,23 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @return
 	 */
 	ManagerAccountDto loginAccount(String username, String password);
+
+	/**
+	 * 检测用户的状态
+	 * @param user
+	 */
+    void checkUserAllowed(ManagerAccountEntity user);
+
+	/**
+	 * 检测用户数据范围
+	 * @param userId
+	 */
+	void checkUserDataScope(String userId);
+
+	/**
+	 * 更新用户状态
+	 * @param user
+	 * @return
+	 */
+	int updateUserStatus(ManagerAccountEntity user);
 }

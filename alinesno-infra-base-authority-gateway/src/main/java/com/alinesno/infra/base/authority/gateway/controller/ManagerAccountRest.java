@@ -8,6 +8,8 @@ import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.alinesno.infra.common.web.log.annotation.Log;
+import com.alinesno.infra.common.web.log.enums.BusinessType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +47,18 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 		return this.toPage(model, this.getFeign(), page);
 	}
 
+	/**
+	 * 状态修改
+	 */
+	@Log(title = "用户管理", businessType = BusinessType.UPDATE)
+	@PutMapping("/changeAccountStatus")
+	public AjaxResult changeAccountStatus(@RequestBody ManagerAccountEntity user) {
+
+		managerAccountService.checkUserAllowed(user);
+		managerAccountService.checkUserDataScope(user.getUserId());
+
+		return toAjax(managerAccountService.updateUserStatus(user));
+	}
 
 	@Override
 	public IManagerAccountService getFeign() {

@@ -13,9 +13,13 @@ import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
+import com.alinesno.infra.common.facade.exception.ServiceException;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+import com.alinesno.infra.common.web.log.utils.SpringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -310,6 +314,44 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		BeanUtils.copyProperties(entity , dto);
 
 		return dto ;
+	}
+
+	@Override
+	public void checkUserAllowed(ManagerAccountEntity user) {
+		if (StringUtils.hasLength(user.getUserId()) && user.getRolePower().equals(RolePowerTypeEnmus.ROLE_ADMIN.getValue()) ) {
+			throw new ServiceException("不允许操作超级管理员用户");
+		}
+	}
+
+	@Override
+	public void checkUserDataScope(String userId) {
+//		if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
+//			SysUser user = new SysUser();
+//			user.setUserId(userId);
+//			List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
+//			if (StringUtils.isEmpty(users))
+//			{
+//				throw new ServiceException("没有权限访问用户数据！");
+//			}
+//		}
+	}
+
+	@Override
+	public int updateUserStatus(ManagerAccountEntity user) {
+
+//		// 删除用户与角色关联
+//		userRoleMapper.deleteUserRoleByUserId(userId);
+//		// 新增用户与角色管理
+//		insertUserRole(user);
+//		// 删除用户与岗位关联
+//		userPostMapper.deleteUserPostByUserId(userId);
+//		// 新增用户与岗位管理
+//		insertUserPost(user);
+
+		LambdaUpdateWrapper<ManagerAccountEntity> updateWrapper = new LambdaUpdateWrapper<>();
+		updateWrapper.eq(ManagerAccountEntity::getId, user.getId());
+
+		return mapper.update(user, updateWrapper);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	@ColumnType(length = 20)
 	@ColumnComment("账户状态")
 	@TableField("account_status")
-	private String accountStatus;
+	private Integer accountStatus = 1;
 
 	/**
 	 * 用户头像
@@ -161,10 +161,10 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	@TableField("sex")
 	private String sex;
 
-	@ColumnType(length = 100)
-	@ColumnComment("CAS账户ID")
-	@TableField("cas_account_id")
-	private String casAccountId;
+//	@ColumnType(length = 100)
+//	@ColumnComment("CAS账户ID")
+//	@TableField("cas_account_id")
+//	private String casAccountId;
 
 	/**
 	 * 所属部门

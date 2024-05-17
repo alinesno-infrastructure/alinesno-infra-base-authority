@@ -82,42 +82,69 @@
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="图标" align="center" width="70" key="icon" >
-          <template #default="scope">
+          <!-- <template #default="scope">
               <span style="font-size:25px;color:#3b5998">
                 <i :class="scope.row.icon" />
               </span>
+          </template> -->
+          <template #default="scope">
+              <div class="role-icon">
+                <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
+              </div>
           </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="center" prop="operId" />
-      <el-table-column label="应用描述" align="center" prop="title" />
+      <el-table-column label="应用名称" align="left" prop="applicationName">
+        <template #default="scope">
+          <div>
+            {{ scope.row.applicationName }}
+          </div>
+          <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
+            调用码: {{ scope.row.applicationCode }} <el-icon><CopyDocument /></el-icon>
+          </div>
+      </template>
+      </el-table-column>
+      <el-table-column label="应用描述" align="center" prop="applicationDesc" />
       <el-table-column label="应用链接" align="center" prop="businessType">
         <template #default="scope">
-          <dict-tag :options="sys_oper_type" :value="scope.row.businessType" />
+          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i> 打开配置</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status">
-        <template #default="scope">
+      <el-table-column label="状态" width="100" align="center" prop="status">
+        <!-- <template #default="scope">
           <dict-tag :options="sys_common_status" :value="scope.row.status" />
+        </template> -->
+        <template #default="scope">
+            <el-switch
+              v-model="scope.row.hasStatus"
+              active-value="0"
+              inactive-value="1"
+            />
         </template>
       </el-table-column>
-      <el-table-column label="菜单配置" align="center" width="300" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
+      <el-table-column label="菜单配置" align="center" width="200" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
           <template #default="scope">
-                <el-button type="danger" bg text> <i class="fa-solid fa-link"></i>  配置</el-button>
+                <el-button type="danger" bg link @click="openMenu(scope.row)"> <i class="fa-solid fa-link"></i> 配置</el-button>
           </template>
       </el-table-column>
       <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.operTime) }}</span>
+          <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button
               type="text"
-              icon="View"
-              @click="handleView(scope.row, scope.index)"
-              v-hasPermi="['monitor:operlog:query']"
-          >详细</el-button>
+              icon="Edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:menu:edit']"
+          >修改</el-button>
+          <el-button
+              type="text"
+              icon="Delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['system:menu:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,45 +158,46 @@
     />
 
     <!-- 操作日志详细 -->
-    <el-dialog title="操作日志详细" v-model="open" width="700px" append-to-body>
-      <el-form :model="form" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="操作模块：">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
-            <el-form-item
-                label="登录信息："
-            >{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="请求地址：">{{ form.operUrl }}</el-form-item>
-            <el-form-item label="请求方式：">{{ form.requestMethod }}</el-form-item>
-          </el-col>
+    <el-dialog :title="title" v-model="open" width="700px" append-to-body>
+      <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
           <el-col :span="24">
-            <el-form-item label="操作方法：">{{ form.method }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="请求参数：">{{ form.operParam }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="返回参数：">{{ form.jsonResult }}</el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="操作状态：">
-              <div v-if="form.status === 0">正常</div>
-              <div v-else-if="form.status === 1">失败</div>
+            <el-form-item label="菜单图标" prop="applicationIcons">
+              <el-popover
+                  placement="bottom-start"
+                  :width="540"
+                  trigger="click"
+                  @show="showSelectIcon">
+                <template #reference>
+                  <el-input v-model="form.applicationIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                    <template #prefix>
+                      <svg-icon
+                          v-if="form.applicationIcons"
+                          :icon-class="form.applicationIcons"
+                          class="el-input__icon"
+                          style="height: 32px;width: 16px;"
+                      />
+                      <el-icon v-else style="height: 32px;width: 16px;"><search /></el-icon>
+                    </template>
+                  </el-input>
+                </template>
+                <icon-select ref="iconSelectRef" @selected="selected" />
+              </el-popover>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="操作时间：">{{ parseTime(form.operTime) }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="form.status === 1">{{ form.errorMsg }}</el-form-item>
-          </el-col>
-        </el-row>
+        <el-form-item label="应用名称" prop="applicationName">
+          <el-input v-model="form.applicationName" placeholder="请输入应用名称" />
+        </el-form-item>
+        <el-form-item label="应用描述" prop="applicationDesc">
+          <el-input v-model="form.applicationDesc" placeholder="请输入应用描述" />
+        </el-form-item>
+        <el-form-item label="应用代码" prop="applicationCode">
+          <el-input v-model="form.applicationCode" placeholder="请输入应用代码" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="open = false">关 闭</el-button>
+          <el-button :loading="buttonLoading" type="primary" @click="submitForm">确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
     </el-dialog>
@@ -177,7 +205,16 @@
 </template>
 
 <script setup name="Application">
-import { listApplication, delApplication} from "@/api/system/application";
+import { 
+  listApplication, 
+  delApplication , 
+  updateApplication , 
+  addApplication
+} from "@/api/system/application";
+
+import SvgIcon from "@/components/SvgIcon";
+import IconSelect from "@/components/IconSelect";
+import { ClickOutside as vClickOutside } from 'element-plus'
 
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
@@ -191,6 +228,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const showChooseIcon = ref(false);
+const iconSelectRef = ref(null);
 const dateRange = ref([]);
 const defaultSort = ref({ prop: "operTime", order: "descending" });
 
@@ -232,6 +271,29 @@ function getList() {
     loading.value = false;
   });
 }
+/** 取消按钮 */
+function cancel() {
+  open.value = false;
+  reset();
+}
+/** 展示下拉图标 */
+function showSelectIcon() {
+  iconSelectRef.value.reset();
+  showChooseIcon.value = true;
+}
+/** 选择图标 */
+function selected(name) {
+  form.value.icon = name;
+  showChooseIcon.value = false;
+}
+/** 图标外层点击隐藏下拉列表 */
+function hideSelectIcon(event) {
+  var elem = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
+  var className = elem.className;
+  if (className !== "el-input__inner") {
+    showChooseIcon.value = false;
+  }
+}
 /** 操作日志类型字典翻译 */
 function typeFormat(row, column) {
   return proxy.selectDictLabel(sys_oper_type.value, row.businessType);
@@ -250,7 +312,7 @@ function resetQuery() {
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.operId);
+  ids.value = selection.map(item => item.id);
   multiple.value = !selection.length;
 }
 /** 排序触发事件 */
@@ -266,7 +328,7 @@ function handleView(row) {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const operIds = row.operId || ids.value;
+  const operIds = row.id || ids.value;
   proxy.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
     return delApplication(operIds);
   }).then(() => {
@@ -278,7 +340,17 @@ function handleDelete(row) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加部门";
+  title.value = "添加应用";
+}
+/** 修改按钮操作 */
+async function handleUpdate(row) {
+  reset();
+  await getTreeselect();
+  getApplication(row.id).then(response => {
+    form.value = response.rows;
+    open.value = true;
+    title.value = "修改应用";
+  });
 }
 /** 清空按钮操作 */
 // function handleClean() {
@@ -294,6 +366,26 @@ function handleExport() {
   proxy.download("monitor/operlog/export",{
     ...queryParams.value,
   }, `config_${new Date().getTime()}.xlsx`);
+}
+/** 提交按钮 */
+function submitForm() {
+  proxy.$refs["applicationFormRef"].validate(valid => {
+    if (valid) {
+      if (form.value.menuId != undefined) {
+        updateApplication(form.value).then(response => {
+          proxy.$modal.msgSuccess("修改成功");
+          open.value = false;
+          getList();
+        });
+      } else {
+        addApplication(form.value).then(response => {
+          proxy.$modal.msgSuccess("新增成功");
+          open.value = false;
+          getList();
+        });
+      }
+    }
+  });
 }
 
 getList();

@@ -1,11 +1,14 @@
 package com.alinesno.infra.base.authority.enums;
 
+import lombok.Getter;
+
 /**
  * 菜单类型
  * 
  * @author WeiXiaoJin
  * @since 2019年1月14日 下午6:48:39
  */
+@Getter
 public enum RolePowerTypeEnmus {
 	// * 菜单类型(0菜单|1分类|9平台标题)
 
@@ -17,8 +20,8 @@ public enum RolePowerTypeEnmus {
 	// 用户权限(9超级管理员/1租户权限/0用户权限)
 	ROLE_ADMIN("9", "超级管理员"), ROLE_TENANT("1", "租户权限"), ROLE_USER("0", "用户权限"), ROLE_EDIT("2", "编辑权限"),;
 
-	public String value; // 菜单值
-	public String menuName; // 菜单名称
+	public final String value; // 菜单值
+	public final String menuName; // 菜单名称
 
 	RolePowerTypeEnmus(String value, String menuName) {
 		this.value = value;
