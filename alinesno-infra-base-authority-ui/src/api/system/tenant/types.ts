@@ -1,6 +1,6 @@
 export interface TenantVO extends BaseEntity {
   id: number | string;
-  tenantId: number | string;
+  groupId: number | string;
   username: string;
   contactUserName: string;
   contactPhone: string;
@@ -17,7 +17,7 @@ export interface TenantVO extends BaseEntity {
 }
 
 export interface TenantQuery extends PageQuery {
-  tenantId: string | number;
+  groupId: string | number;
 
   contactUserName: string;
 
@@ -28,7 +28,7 @@ export interface TenantQuery extends PageQuery {
 
 export interface TenantForm {
   id: number | string | undefined;
-  tenantId: number | string | undefined;
+  groupId: number | string | undefined;
   username: string;
   password: string;
   contactUserName: string;

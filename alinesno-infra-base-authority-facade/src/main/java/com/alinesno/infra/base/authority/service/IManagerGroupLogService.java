@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.entity.ManagerTenantEntity;
+import com.alinesno.infra.base.authority.entity.ManagerGroupLogEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 /**
@@ -12,6 +12,6 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * @version 1.0.0
  */
 
-public interface IManagerTenantService extends IBaseService<ManagerTenantEntity> {
+public interface IManagerGroupLogService extends IBaseService<ManagerGroupLogEntity> {
 
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -17,18 +18,19 @@ import java.util.Date;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("manager_tenant_log")
-public class ManagerTenantLogEntity extends InfraBaseEntity {
+@TableName("manager_group_log")
+public class ManagerGroupLogEntity extends InfraBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 租户操作类型(0登陆/1退出/2充值/3提取)
+	 * 组织操作类型(0登陆/1退出/2充值/3提取)
 	 */
 	@TableField("action_type")
 	@ColumnType(length = 1)
-	@ColumnComment("租户操作类型(0登陆/1退出/2充值/3提取)")
+	@ColumnComment("组织操作类型(0登陆/1退出/2充值/3提取)")
 	private String actionType;
 
 	/**

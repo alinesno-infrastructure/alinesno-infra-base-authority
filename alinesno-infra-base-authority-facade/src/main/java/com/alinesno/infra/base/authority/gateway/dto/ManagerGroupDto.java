@@ -7,12 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 
 /**
- * 功能名： 【请填写功能名称】 数据表： manager_tenant
+ * 功能名： 【请填写功能名称】 数据表： manager_group
  * 
  * @author luoxiaodong 
  * @version 1.0.0
  */
-public class ManagerTenantDto extends BaseDto {
+public class ManagerGroupDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	// fields
 	/**
@@ -32,29 +32,29 @@ public class ManagerTenantDto extends BaseDto {
 	 */
 	private Date startTime;
 	/**
-	 * "tenantAccount"
+	 * "groupAccount"
 	 */
-	private String tenantAccount;
+	private String groupAccount;
 	/**
-	 * "tenantAddress"
+	 * "groupAddress"
 	 */
-	private String tenantAddress;
+	private String groupAddress;
 	/**
-	 * "tenantCost"
+	 * "groupCost"
 	 */
-	private Long tenantCost;
+	private Long groupCost;
 	/**
-	 * "tenantName"
+	 * "groupName"
 	 */
-	private String tenantName;
+	private String groupName;
 	/**
-	 * "tenantPhone"
+	 * "groupPhone"
 	 */
-	private String tenantPhone;
+	private String groupPhone;
 	/**
-	 * "tenantStatus"
+	 * "groupStatus"
 	 */
-	private String tenantStatus;
+	private String groupStatus;
 
 	// getter and setter
 	public String getCityId()
@@ -63,7 +63,7 @@ public class ManagerTenantDto extends BaseDto {
 		return this.cityId;
 	}
 
-	public ManagerTenantDto setCityId(String arg) {
+	public ManagerGroupDto setCityId(String arg) {
 		this.cityId = arg;
 		return this;
 	}
@@ -74,7 +74,7 @@ public class ManagerTenantDto extends BaseDto {
 		return this.endTime;
 	}
 
-	public ManagerTenantDto setEndTime(Date arg) {
+	public ManagerGroupDto setEndTime(Date arg) {
 		this.endTime = arg;
 		return this;
 	}
@@ -85,7 +85,7 @@ public class ManagerTenantDto extends BaseDto {
 		return this.provinceId;
 	}
 
-	public ManagerTenantDto setProvinceId(String arg) {
+	public ManagerGroupDto setProvinceId(String arg) {
 		this.provinceId = arg;
 		return this;
 	}
@@ -96,7 +96,7 @@ public class ManagerTenantDto extends BaseDto {
 		return this.startTime;
 	}
 
-	public ManagerTenantDto setStartTime(Date arg) {
+	public ManagerGroupDto setStartTime(Date arg) {
 		this.startTime = arg;
 		return this;
 	}
@@ -104,66 +104,66 @@ public class ManagerTenantDto extends BaseDto {
 	public String getTenantAccount()
 
 	{
-		return this.tenantAccount;
+		return this.groupAccount;
 	}
 
-	public ManagerTenantDto setTenantAccount(String arg) {
-		this.tenantAccount = arg;
+	public ManagerGroupDto setTenantAccount(String arg) {
+		this.groupAccount = arg;
 		return this;
 	}
 
 	public String getTenantAddress()
 
 	{
-		return this.tenantAddress;
+		return this.groupAddress;
 	}
 
-	public ManagerTenantDto setTenantAddress(String arg) {
-		this.tenantAddress = arg;
+	public ManagerGroupDto setTenantAddress(String arg) {
+		this.groupAddress = arg;
 		return this;
 	}
 
 	public Long getTenantCost()
 
 	{
-		return this.tenantCost;
+		return this.groupCost;
 	}
 
-	public ManagerTenantDto setTenantCost(Long arg) {
-		this.tenantCost = arg;
+	public ManagerGroupDto setTenantCost(Long arg) {
+		this.groupCost = arg;
 		return this;
 	}
 
 	public String getTenantName()
 
 	{
-		return this.tenantName;
+		return this.groupName;
 	}
 
-	public ManagerTenantDto setTenantName(String arg) {
-		this.tenantName = arg;
+	public ManagerGroupDto setTenantName(String arg) {
+		this.groupName = arg;
 		return this;
 	}
 
 	public String getTenantPhone()
 
 	{
-		return this.tenantPhone;
+		return this.groupPhone;
 	}
 
-	public ManagerTenantDto setTenantPhone(String arg) {
-		this.tenantPhone = arg;
+	public ManagerGroupDto setTenantPhone(String arg) {
+		this.groupPhone = arg;
 		return this;
 	}
 
 	public String getTenantStatus()
 
 	{
-		return this.tenantStatus;
+		return this.groupStatus;
 	}
 
-	public ManagerTenantDto setTenantStatus(String arg) {
-		this.tenantStatus = arg;
+	public ManagerGroupDto setTenantStatus(String arg) {
+		this.groupStatus = arg;
 		return this;
 	}
 
@@ -172,10 +172,10 @@ public class ManagerTenantDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerTenantDto mapToDto() {
+	public ManagerGroupDto mapToDto() {
 		ObjectMapper toDtoMapper = new ObjectMapper();
 		toDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return toDtoMapper.convertValue(this, ManagerTenantDto.class);
+		return toDtoMapper.convertValue(this, ManagerGroupDto.class);
 	}
 
 	/**
@@ -183,10 +183,10 @@ public class ManagerTenantDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerTenantDto fromDto(ManagerTenantDto entity) {
+	public ManagerGroupDto fromDto(ManagerGroupDto entity) {
 		ObjectMapper fromDtoMapper = new ObjectMapper();
 		fromDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return fromDtoMapper.convertValue(entity, ManagerTenantDto.class);
+		return fromDtoMapper.convertValue(entity, ManagerGroupDto.class);
 	}
 
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -19,20 +20,19 @@ import java.util.Date;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("manager_tenant")
-public class ManagerTenantEntity extends InfraBaseEntity {
-
-	private static final long serialVersionUID = 1L;
+@TableName("manager_group")
+public class ManagerGroupEntity extends InfraBaseEntity {
 
 	/**
-	 * 租户名称
+	 * 组织名称
 	 */
-	@Excel(name = "租户名称")
-	@TableField("tenant_name")
+	@Excel(name = "组织名称")
+	@TableField("group_name")
 	@ColumnType(length = 255)
-	@ColumnComment("租户名称")
-	private String tenantName;
+	@ColumnComment("组织名称")
+	private String groupName;
 
 	/**
 	 * 开始时间
@@ -55,29 +55,12 @@ public class ManagerTenantEntity extends InfraBaseEntity {
 	private Date endTime;
 
 	/**
-	 * 租户状态(1正常/0禁止)
+	 * 组织状态(1正常/0禁止)
 	 */
-	@TableField("tenant_status")
+	@TableField("group_status")
 	@ColumnType(length = 1)
-	@ColumnComment("租户状态(1正常/0禁止)")
-	private String tenantStatus;
-
-	/**
-	 * 租户账户
-	 */
-	@TableField("tenant_account")
-	@ColumnType(length = 255)
-	@ColumnComment("租户账户")
-	private String tenantAccount;
-
-	/**
-	 * 租房费用
-	 */
-	@Excel(name = "租房费用")
-	@TableField("tenant_cost")
-	@ColumnType
-	@ColumnComment("租房费用")
-	private Integer tenantCost;
+	@ColumnComment("组织状态(1正常/0禁止)")
+	private String groupStatus;
 
 	/**
 	 * 所属城市
@@ -96,21 +79,21 @@ public class ManagerTenantEntity extends InfraBaseEntity {
 	private String provinceId;
 
 	/**
-	 * 租户地址
+	 * 组织地址
 	 */
-	@Excel(name = "租户地址")
-	@TableField("tenant_address")
+	@Excel(name = "组织地址")
+	@TableField("group_address")
 	@ColumnType(length = 255)
-	@ColumnComment("租户地址")
-	private String tenantAddress;
+	@ColumnComment("组织地址")
+	private String groupAddress;
 
 	/**
-	 * 租户联系电话
+	 * 组织联系电话
 	 */
-	@Excel(name = "租户联系电话")
-	@TableField("tenant_phone")
+	@Excel(name = "组织联系电话")
+	@TableField("group_phone")
 	@ColumnType(length = 255)
-	@ColumnComment("租户联系电话")
-	private String tenantPhone;
+	@ColumnComment("组织联系电话")
+	private String groupPhone;
 
 }

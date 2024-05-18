@@ -1,13 +1,12 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.entity.ManagerTenantEntity;
-import com.alinesno.infra.base.authority.service.IManagerTenantService;
+import com.alinesno.infra.base.authority.entity.ManagerGroupLogEntity;
+import com.alinesno.infra.base.authority.service.IManagerGroupLogService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -23,22 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 
  *
- * @author luoxiaodong 
+ * @author luoxiaodong
  * @version 1.0.0
  */
-@Api(tags = "租户管理")
+@Api(tags = "组织日志信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/managerTenant")
-public class ManagerTenantRest extends BaseController<ManagerTenantEntity, IManagerTenantService> {
+@RequestMapping("/api/infra/base/authority/managerGroupLog")
+public class ManagerGroupLogRest extends BaseController<ManagerGroupLogEntity, IManagerGroupLogService> {
 
 	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerTenantRest.class);
+	private static final Logger log = LoggerFactory.getLogger(ManagerGroupLogRest.class);
 
 	@Autowired
-	private IManagerTenantService managerTenantService;
+	private IManagerGroupLogService managerTenantLogService;
 
-	@ApiOperation("分页查询")
 	
 	@ResponseBody
 	@PostMapping("/datatables")
@@ -48,7 +46,7 @@ public class ManagerTenantRest extends BaseController<ManagerTenantEntity, IMana
 	}
 
 	@Override
-	public IManagerTenantService getFeign() {
-		return this.managerTenantService;
+	public IManagerGroupLogService getFeign() {
+		return this.managerTenantLogService;
 	}
 }

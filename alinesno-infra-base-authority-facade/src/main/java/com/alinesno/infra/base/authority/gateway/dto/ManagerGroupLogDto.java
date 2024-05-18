@@ -7,12 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 
 /**
- * 功能名： 【请填写功能名称】 数据表： manager_tenant_log
+ * 功能名： 【请填写功能名称】 数据表： manager_group_log
  * 
  * @author luoxiaodong 
  * @version 1.0.0
  */
-public class ManagerTenantLogDto extends BaseDto {
+public class ManagerGroupLogDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	// fields
 	/**
@@ -51,7 +51,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.actionType;
 	}
 
-	public ManagerTenantLogDto setActionType(String arg) {
+	public ManagerGroupLogDto setActionType(String arg) {
 		this.actionType = arg;
 		return this;
 	}
@@ -62,7 +62,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.endTime;
 	}
 
-	public ManagerTenantLogDto setEndTime(Date arg) {
+	public ManagerGroupLogDto setEndTime(Date arg) {
 		this.endTime = arg;
 		return this;
 	}
@@ -73,7 +73,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.logBusinessId;
 	}
 
-	public ManagerTenantLogDto setLogBusinessId(String arg) {
+	public ManagerGroupLogDto setLogBusinessId(String arg) {
 		this.logBusinessId = arg;
 		return this;
 	}
@@ -84,7 +84,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.logChannel;
 	}
 
-	public ManagerTenantLogDto setLogChannel(String arg) {
+	public ManagerGroupLogDto setLogChannel(String arg) {
 		this.logChannel = arg;
 		return this;
 	}
@@ -95,7 +95,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.logContent;
 	}
 
-	public ManagerTenantLogDto setLogContent(String arg) {
+	public ManagerGroupLogDto setLogContent(String arg) {
 		this.logContent = arg;
 		return this;
 	}
@@ -106,7 +106,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.logIp;
 	}
 
-	public ManagerTenantLogDto setLogIp(String arg) {
+	public ManagerGroupLogDto setLogIp(String arg) {
 		this.logIp = arg;
 		return this;
 	}
@@ -117,7 +117,7 @@ public class ManagerTenantLogDto extends BaseDto {
 		return this.logMachine;
 	}
 
-	public ManagerTenantLogDto setLogMachine(String arg) {
+	public ManagerGroupLogDto setLogMachine(String arg) {
 		this.logMachine = arg;
 		return this;
 	}
@@ -127,10 +127,10 @@ public class ManagerTenantLogDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerTenantLogDto mapToDto() {
+	public ManagerGroupLogDto mapToDto() {
 		ObjectMapper toDtoMapper = new ObjectMapper();
 		toDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return toDtoMapper.convertValue(this, ManagerTenantLogDto.class);
+		return toDtoMapper.convertValue(this, ManagerGroupLogDto.class);
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class ManagerTenantLogDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerTenantLogDto fromDto(ManagerTenantLogDto entity) {
+	public ManagerGroupLogDto fromDto(ManagerGroupLogDto entity) {
 		ObjectMapper fromDtoMapper = new ObjectMapper();
 		fromDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return fromDtoMapper.convertValue(entity, ManagerTenantLogDto.class);
+		return fromDtoMapper.convertValue(entity, ManagerGroupLogDto.class);
 	}
 
 }

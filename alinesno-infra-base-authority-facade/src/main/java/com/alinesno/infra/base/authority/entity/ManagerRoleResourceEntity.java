@@ -46,11 +46,11 @@ public class ManagerRoleResourceEntity extends InfraBaseEntity {
 	private String resourceType;
 
 	/**
-	 * 角色类型(role角色|tenant商户|account账户)
+	 * 角色类型(role角色|group商户|account账户)
 	 */
 	@TableField("role_type")
 	@ColumnType(length = 255)
-	@ColumnComment("角色类型(role角色|tenant商户|account账户)")
+	@ColumnComment("角色类型(role角色|group商户|account账户)")
 	private String roleType;
 
 }

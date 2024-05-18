@@ -2,7 +2,7 @@ package com.alinesno.infra.base.authority.gateway.provider;
 
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerApplicationDto;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerTenantDto;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerGroupDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +15,12 @@ import java.util.List;
 public class OrganizeProviderController extends BaseProvider {
 
     /**
-     * 查询租户
+     * 查询组织
      *
      * @param ids
      * @return
      */
-    public List<ManagerTenantDto> findTenantEntityByIds(List<String> ids){
+    public List<ManagerGroupDto> findTenantEntityByIds(List<String> ids){
         return null ;
     }
 

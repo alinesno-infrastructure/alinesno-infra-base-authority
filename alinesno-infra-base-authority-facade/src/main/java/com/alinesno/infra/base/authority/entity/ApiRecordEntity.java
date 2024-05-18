@@ -38,12 +38,12 @@ public class ApiRecordEntity extends InfraBaseEntity {
     private Long operId;
 
     /**
-     * 租户编号
+     * 组织编号
      */
     @TableField
     @ColumnType(value =MySqlTypeConstant.VARCHAR, length = 20)
-    @ColumnComment("租户编号")
-    private String tenantId;
+    @ColumnComment("组织编号")
+    private String groupId;
 
     /**
      * 操作模块

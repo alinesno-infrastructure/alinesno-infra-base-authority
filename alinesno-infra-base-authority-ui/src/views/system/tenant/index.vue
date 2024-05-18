@@ -4,8 +4,8 @@
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
-            <el-form-item label="租户编号" prop="tenantId">
-              <el-input v-model="queryParams.tenantId" placeholder="请输入租户编号" clearable style="width: 240px" @keyup.enter="handleQuery" />
+            <el-form-item label="组织编号" prop="groupId">
+              <el-input v-model="queryParams.groupId" placeholder="请输入组织编号" clearable style="width: 240px" @keyup.enter="handleQuery" />
             </el-form-item>
             <el-form-item label="联系人" prop="contactUserName">
               <el-input v-model="queryParams.contactUserName" placeholder="请输入联系人" clearable style="width: 240px" @keyup.enter="handleQuery" />
@@ -29,29 +29,29 @@
       <template #header>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:tenant:add']">新增</el-button>
+            <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:group:add']">新增</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate()" v-hasPermi="['system:tenant:edit']"
+            <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate()" v-hasPermi="['system:group:edit']"
               >修改</el-button
             >
           </el-col>
           <el-col :span="1.5">
-            <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete()" v-hasPermi="['system:tenant:remove']">
+            <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete()" v-hasPermi="['system:group:remove']">
               删除
             </el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['system:tenant:export']">导出</el-button>
+            <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['system:group:export']">导出</el-button>
           </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
       </template>
 
-      <el-table v-loading="loading" :data="tenantList" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" :data="groupList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="id" align="center" prop="id" v-if="false" />
-        <el-table-column label="租户编号" align="center" prop="tenantId" />
+        <el-table-column label="组织编号" align="center" prop="groupId" />
         <el-table-column label="联系人" align="center" prop="contactUserName" />
         <el-table-column label="联系电话" align="center" prop="contactPhone" />
         <el-table-column label="企业名称" align="center" prop="companyName" />
@@ -61,7 +61,7 @@
             <span>{{ parseTime(scope.row.expireTime, '{y}-{m}-{d}') }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="租户状态" align="center" prop="status">
+        <el-table-column label="组织状态" align="center" prop="status">
           <template #default="scope">
             <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
           </template>
@@ -69,14 +69,14 @@
         <el-table-column width="150" label="操作" align="center" fixed="right" class-name="small-padding fixed-width">
           <template #default="scope">
             <el-tooltip content="修改" placement="top">
-              <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:tenant:edit']"></el-button>
+              <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:group:edit']"></el-button>
             </el-tooltip>
             <el-tooltip content="同步套餐" placement="top">
-              <el-button link type="primary" icon="Refresh" @click="handleSyncTenantPackage(scope.row)" v-hasPermi="['system:tenant:edit']">
+              <el-button link type="primary" icon="Refresh" @click="handleSyncTenantPackage(scope.row)" v-hasPermi="['system:group:edit']">
               </el-button>
             </el-tooltip>
             <el-tooltip content="删除" placement="top">
-              <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:tenant:remove']"></el-button>
+              <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:group:remove']"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -84,9 +84,9 @@
 
       <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
     </el-card>
-    <!-- 添加或修改租户对话框 -->
+    <!-- 添加或修改组织对话框 -->
     <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
-      <el-form ref="tenantFormRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="groupFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="企业名称" prop="companyName">
           <el-input v-model="form.companyName" placeholder="请输入企业名称" />
         </el-form-item>
@@ -102,8 +102,8 @@
         <el-form-item v-if="!form.id" label="用户密码" prop="password">
           <el-input type="password" v-model="form.password" placeholder="请输入系统用户密码" maxlength="20" />
         </el-form-item>
-        <el-form-item label="租户套餐" prop="packageId">
-          <el-select v-model="form.packageId" :disabled="!!form.tenantId" placeholder="请选择租户套餐" clearable style="width: 100%">
+        <el-form-item label="组织套餐" prop="packageId">
+          <el-select v-model="form.packageId" :disabled="!!form.groupId" placeholder="请选择组织套餐" clearable style="width: 100%">
             <el-option v-for="item in packageList" :key="item.packageId" :label="item.packageName" :value="item.packageId" />
           </el-select>
         </el-form-item>
@@ -141,14 +141,14 @@
 </template>
 
 <script setup name="Tenant" lang="ts">
-import { listTenant, getTenant, delTenant, addTenant, updateTenant, changeTenantStatus, syncTenantPackage } from '@/api/system/tenant';
-import { selectTenantPackage } from '@/api/system/tenantPackage';
-import { TenantForm, TenantQuery, TenantVO } from '@/api/system/tenant/types';
-import { TenantPkgVO } from '@/api/system/tenantPackage/types';
+import { listTenant, getTenant, delTenant, addTenant, updateTenant, changeTenantStatus, syncTenantPackage } from '@/api/system/group';
+import { selectTenantPackage } from '@/api/system/groupPackage';
+import { TenantForm, TenantQuery, TenantVO } from '@/api/system/group/types';
+import { TenantPkgVO } from '@/api/system/groupPackage/types';
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
-const tenantList = ref<TenantVO[]>([]);
+const groupList = ref<TenantVO[]>([]);
 const packageList = ref<TenantPkgVO[]>([]);
 const buttonLoading = ref(false);
 const loading = ref(true);
@@ -159,7 +159,7 @@ const multiple = ref(true);
 const total = ref(0);
 
 const queryFormRef = ref<ElFormInstance>();
-const tenantFormRef = ref<ElFormInstance>();
+const groupFormRef = ref<ElFormInstance>();
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -168,7 +168,7 @@ const dialog = reactive<DialogOption>({
 
 const initFormData: TenantForm = {
   id: undefined,
-  tenantId: undefined,
+  groupId: undefined,
   contactUserName: '',
   contactPhone: '',
   username: '',
@@ -189,14 +189,14 @@ const data = reactive<PageData<TenantForm, TenantQuery>>({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    tenantId: '',
+    groupId: '',
     contactUserName: '',
     contactPhone: '',
     companyName: ''
   },
   rules: {
     id: [{ required: true, message: "id不能为空", trigger: "blur" }],
-    tenantId: [{ required: true, message: "租户编号不能为空", trigger: "blur" }],
+    groupId: [{ required: true, message: "组织编号不能为空", trigger: "blur" }],
     contactUserName: [{ required: true, message: "联系人不能为空", trigger: "blur" }],
     contactPhone: [{ required: true, message: "联系电话不能为空", trigger: "blur" }],
     companyName: [{ required: true, message: "企业名称不能为空", trigger: "blur" }],
@@ -213,27 +213,27 @@ const data = reactive<PageData<TenantForm, TenantQuery>>({
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询所有租户套餐 */
+/** 查询所有组织套餐 */
 const getTenantPackage = async () => {
   const res = await selectTenantPackage()
   packageList.value = res.data;
 }
 
-/** 查询租户列表 */
+/** 查询组织列表 */
 const getList = async () => {
   loading.value = true;
   const res = await listTenant(queryParams.value);
-  tenantList.value = res.rows;
+  groupList.value = res.rows;
   total.value = res.total;
   loading.value = false;
 }
 
-// 租户套餐状态修改
+// 组织套餐状态修改
 const handleStatusChange = async (row: TenantVO) => {
   let text = row.status === "0" ? "启用" : "停用";
   try {
-    await proxy?.$modal.confirm('确认要"' + text + '""' + row.companyName + '"租户吗？');
-    await changeTenantStatus(row.id, row.tenantId, row.status);
+    await proxy?.$modal.confirm('确认要"' + text + '""' + row.companyName + '"组织吗？');
+    await changeTenantStatus(row.id, row.groupId, row.status);
     proxy?.$modal.msgSuccess(text + "成功");
   } catch {
     row.status = row.status === "0" ? "1" : "0";
@@ -251,7 +251,7 @@ const cancel = () => {
 // 表单重置
 const reset = () => {
   form.value = { ...initFormData };
-  tenantFormRef.value?.resetFields();
+  groupFormRef.value?.resetFields();
 }
 
 /** 搜索按钮操作 */
@@ -278,7 +278,7 @@ const handleAdd = () => {
   reset();
   getTenantPackage();
   dialog.visible = true;
-  dialog.title = "添加租户";
+  dialog.title = "添加组织";
 }
 
 /** 修改按钮操作 */
@@ -289,12 +289,12 @@ const handleUpdate = async (row?: TenantVO) => {
   const res = await getTenant(_id);
   Object.assign(form.value, res.data)
   dialog.visible = true;
-  dialog.title = "修改租户";
+  dialog.title = "修改组织";
 }
 
 /** 提交按钮 */
 const submitForm = () => {
-  tenantFormRef.value?.validate(async (valid: boolean) => {
+  groupFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true;
       if (form.value.id) {
@@ -312,7 +312,7 @@ const submitForm = () => {
 /** 删除按钮操作 */
 const handleDelete = async (row?: TenantVO) => {
   const _ids = row?.id || ids.value;
-  await proxy?.$modal.confirm('是否确认删除租户编号为"' + _ids + '"的数据项？')
+  await proxy?.$modal.confirm('是否确认删除组织编号为"' + _ids + '"的数据项？')
   loading.value = true;
   await delTenant(_ids).finally(() => loading.value = false);
   await getList();
@@ -321,12 +321,12 @@ const handleDelete = async (row?: TenantVO) => {
 
 }
 
-/** 同步租户套餐按钮操作 */
+/** 同步组织套餐按钮操作 */
 const handleSyncTenantPackage = async (row: TenantVO) => {
   try {
-    await proxy?.$modal.confirm('是否确认同步租户套餐租户编号为"' + row.tenantId + '"的数据项？');
+    await proxy?.$modal.confirm('是否确认同步组织套餐组织编号为"' + row.groupId + '"的数据项？');
     loading.value = true;
-    await syncTenantPackage(row.tenantId, row.packageId);
+    await syncTenantPackage(row.groupId, row.packageId);
     await getList();
     proxy?.$modal.msgSuccess("同步成功");
   } catch { return } finally {
@@ -336,9 +336,9 @@ const handleSyncTenantPackage = async (row: TenantVO) => {
 
 /** 导出按钮操作 */
 const handleExport = () => {
-  proxy?.download('system/tenant/export', {
+  proxy?.download('system/group/export', {
     ...queryParams.value
-  }, `tenant_${new Date().getTime()}.xlsx`)
+  }, `group_${new Date().getTime()}.xlsx`)
 }
 
 onMounted(() => {
