@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.gateway.controller;
 
 import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentApplicationSession;
+import com.alinesno.infra.base.authority.service.IManagerApplicationAccountService;
 import com.alinesno.infra.base.authority.service.IManagerApplicationService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
@@ -41,6 +42,9 @@ public class ManagerApplicationRest extends BaseController<ManagerApplicationEnt
 	private IManagerApplicationService managerApplicationService;
 
 	@Autowired
+	private IManagerApplicationAccountService  managerApplicationAccountService;
+
+	@Autowired
 	private CurrentApplicationSession currentApplicationSession ;
 
 	@ApiOperation("分页查询") 
@@ -57,6 +61,9 @@ public class ManagerApplicationRest extends BaseController<ManagerApplicationEnt
 	 */
 	@GetMapping("/currentApplication")
 	public AjaxResult currentApplication() {
+
+		// 初始化应用
+		managerApplicationAccountService.initDefaultProject(CurrentAccountJwt.getUserId()) ;
 
 		ManagerApplicationEntity e =  currentApplicationSession.get() ;
 

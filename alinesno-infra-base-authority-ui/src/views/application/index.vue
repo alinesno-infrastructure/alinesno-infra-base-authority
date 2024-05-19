@@ -73,11 +73,6 @@
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="图标" align="center" width="70" key="icon" >
-          <!-- <template #default="scope">
-              <span style="font-size:25px;color:#3b5998">
-                <i :class="scope.row.icon" />
-              </span>
-          </template> -->
           <template #default="scope">
               <div class="role-icon">
                 <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
@@ -101,9 +96,6 @@
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100" align="center" prop="status">
-        <!-- <template #default="scope">
-          <dict-tag :options="sys_common_status" :value="scope.row.status" />
-        </template> -->
         <template #default="scope">
             <el-switch
               v-model="scope.row.hasStatus"

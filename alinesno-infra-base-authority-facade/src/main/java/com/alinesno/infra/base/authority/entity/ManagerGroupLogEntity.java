@@ -26,11 +26,11 @@ public class ManagerGroupLogEntity extends InfraBaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 组织操作类型(0登陆/1退出/2充值/3提取)
+	 * 机构操作类型(0登陆/1退出/2充值/3提取)
 	 */
 	@TableField("action_type")
 	@ColumnType(length = 1)
-	@ColumnComment("组织操作类型(0登陆/1退出/2充值/3提取)")
+	@ColumnComment("机构操作类型(0登陆/1退出/2充值/3提取)")
 	private String actionType;
 
 	/**

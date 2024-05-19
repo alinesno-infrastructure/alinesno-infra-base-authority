@@ -4,8 +4,8 @@
       <div class="mb-[10px]" v-show="showSearch">
         <el-card shadow="hover">
           <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
-            <el-form-item label="组织编号" prop="groupId">
-              <el-input v-model="queryParams.groupId" placeholder="请输入组织编号" clearable style="width: 240px" @keyup.enter="handleQuery" />
+            <el-form-item label="机构编号" prop="groupId">
+              <el-input v-model="queryParams.groupId" placeholder="请输入机构编号" clearable style="width: 240px" @keyup.enter="handleQuery" />
             </el-form-item>
             <el-form-item label="联系人" prop="contactUserName">
               <el-input v-model="queryParams.contactUserName" placeholder="请输入联系人" clearable style="width: 240px" @keyup.enter="handleQuery" />
@@ -51,7 +51,7 @@
       <el-table v-loading="loading" :data="groupList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="id" align="center" prop="id" v-if="false" />
-        <el-table-column label="组织编号" align="center" prop="groupId" />
+        <el-table-column label="机构编号" align="center" prop="groupId" />
         <el-table-column label="联系人" align="center" prop="contactUserName" />
         <el-table-column label="联系电话" align="center" prop="contactPhone" />
         <el-table-column label="企业名称" align="center" prop="companyName" />
@@ -61,7 +61,7 @@
             <span>{{ parseTime(scope.row.expireTime, '{y}-{m}-{d}') }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="组织状态" align="center" prop="status">
+        <el-table-column label="机构状态" align="center" prop="status">
           <template #default="scope">
             <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
           </template>
@@ -84,7 +84,7 @@
 
       <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
     </el-card>
-    <!-- 添加或修改组织对话框 -->
+    <!-- 添加或修改机构对话框 -->
     <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
       <el-form ref="groupFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="企业名称" prop="companyName">
@@ -102,8 +102,8 @@
         <el-form-item v-if="!form.id" label="用户密码" prop="password">
           <el-input type="password" v-model="form.password" placeholder="请输入系统用户密码" maxlength="20" />
         </el-form-item>
-        <el-form-item label="组织套餐" prop="packageId">
-          <el-select v-model="form.packageId" :disabled="!!form.groupId" placeholder="请选择组织套餐" clearable style="width: 100%">
+        <el-form-item label="机构套餐" prop="packageId">
+          <el-select v-model="form.packageId" :disabled="!!form.groupId" placeholder="请选择机构套餐" clearable style="width: 100%">
             <el-option v-for="item in packageList" :key="item.packageId" :label="item.packageName" :value="item.packageId" />
           </el-select>
         </el-form-item>
@@ -196,7 +196,7 @@ const data = reactive<PageData<TenantForm, TenantQuery>>({
   },
   rules: {
     id: [{ required: true, message: "id不能为空", trigger: "blur" }],
-    groupId: [{ required: true, message: "组织编号不能为空", trigger: "blur" }],
+    groupId: [{ required: true, message: "机构编号不能为空", trigger: "blur" }],
     contactUserName: [{ required: true, message: "联系人不能为空", trigger: "blur" }],
     contactPhone: [{ required: true, message: "联系电话不能为空", trigger: "blur" }],
     companyName: [{ required: true, message: "企业名称不能为空", trigger: "blur" }],
@@ -213,13 +213,13 @@ const data = reactive<PageData<TenantForm, TenantQuery>>({
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询所有组织套餐 */
+/** 查询所有机构套餐 */
 const getTenantPackage = async () => {
   const res = await selectTenantPackage()
   packageList.value = res.data;
 }
 
-/** 查询组织列表 */
+/** 查询机构列表 */
 const getList = async () => {
   loading.value = true;
   const res = await listTenant(queryParams.value);
@@ -228,11 +228,11 @@ const getList = async () => {
   loading.value = false;
 }
 
-// 组织套餐状态修改
+// 机构套餐状态修改
 const handleStatusChange = async (row: TenantVO) => {
   let text = row.status === "0" ? "启用" : "停用";
   try {
-    await proxy?.$modal.confirm('确认要"' + text + '""' + row.companyName + '"组织吗？');
+    await proxy?.$modal.confirm('确认要"' + text + '""' + row.companyName + '"机构吗？');
     await changeTenantStatus(row.id, row.groupId, row.status);
     proxy?.$modal.msgSuccess(text + "成功");
   } catch {
@@ -278,7 +278,7 @@ const handleAdd = () => {
   reset();
   getTenantPackage();
   dialog.visible = true;
-  dialog.title = "添加组织";
+  dialog.title = "添加机构";
 }
 
 /** 修改按钮操作 */
@@ -289,7 +289,7 @@ const handleUpdate = async (row?: TenantVO) => {
   const res = await getTenant(_id);
   Object.assign(form.value, res.data)
   dialog.visible = true;
-  dialog.title = "修改组织";
+  dialog.title = "修改机构";
 }
 
 /** 提交按钮 */
@@ -312,7 +312,7 @@ const submitForm = () => {
 /** 删除按钮操作 */
 const handleDelete = async (row?: TenantVO) => {
   const _ids = row?.id || ids.value;
-  await proxy?.$modal.confirm('是否确认删除组织编号为"' + _ids + '"的数据项？')
+  await proxy?.$modal.confirm('是否确认删除机构编号为"' + _ids + '"的数据项？')
   loading.value = true;
   await delTenant(_ids).finally(() => loading.value = false);
   await getList();
@@ -321,10 +321,10 @@ const handleDelete = async (row?: TenantVO) => {
 
 }
 
-/** 同步组织套餐按钮操作 */
+/** 同步机构套餐按钮操作 */
 const handleSyncTenantPackage = async (row: TenantVO) => {
   try {
-    await proxy?.$modal.confirm('是否确认同步组织套餐组织编号为"' + row.groupId + '"的数据项？');
+    await proxy?.$modal.confirm('是否确认同步机构套餐机构编号为"' + row.groupId + '"的数据项？');
     loading.value = true;
     await syncTenantPackage(row.groupId, row.packageId);
     await getList();

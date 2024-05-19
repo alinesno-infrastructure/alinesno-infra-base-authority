@@ -2,7 +2,7 @@ import request from '@/utils/request';
 import { TenantForm, TenantQuery, TenantVO } from './types';
 import { AxiosPromise } from 'axios';
 
-// 查询组织列表
+// 查询机构列表
 export function listTenant(query: TenantQuery): AxiosPromise<TenantVO[]> {
   return request({
     url: '/system/group/list',
@@ -11,7 +11,7 @@ export function listTenant(query: TenantQuery): AxiosPromise<TenantVO[]> {
   });
 }
 
-// 查询组织详细
+// 查询机构详细
 export function getTenant(id: string | number): AxiosPromise<TenantVO> {
   return request({
     url: '/system/group/' + id,
@@ -19,7 +19,7 @@ export function getTenant(id: string | number): AxiosPromise<TenantVO> {
   });
 }
 
-// 新增组织
+// 新增机构
 export function addTenant(data: TenantForm) {
   return request({
     url: '/system/group',
@@ -31,7 +31,7 @@ export function addTenant(data: TenantForm) {
   });
 }
 
-// 修改组织
+// 修改机构
 export function updateTenant(data: TenantForm) {
   return request({
     url: '/system/group',
@@ -40,7 +40,7 @@ export function updateTenant(data: TenantForm) {
   });
 }
 
-// 组织状态修改
+// 机构状态修改
 export function changeTenantStatus(id: string | number, groupId: string | number, status: string) {
   const data = {
     id,
@@ -54,7 +54,7 @@ export function changeTenantStatus(id: string | number, groupId: string | number
   });
 }
 
-// 删除组织
+// 删除机构
 export function delTenant(id: string | number | Array<string | number>) {
   return request({
     url: '/system/group/' + id,
@@ -62,7 +62,7 @@ export function delTenant(id: string | number | Array<string | number>) {
   });
 }
 
-// 动态切换组织
+// 动态切换机构
 export function dynamicTenant(groupId: string | number) {
   return request({
     url: '/system/group/dynamic/' + groupId,
@@ -70,7 +70,7 @@ export function dynamicTenant(groupId: string | number) {
   });
 }
 
-// 清除动态组织
+// 清除动态机构
 export function dynamicClear() {
   return request({
     url: '/system/group/dynamic/clear',
@@ -78,7 +78,7 @@ export function dynamicClear() {
   });
 }
 
-// 同步组织套餐
+// 同步机构套餐
 export function syncTenantPackage(groupId: string | number, packageId: string | number) {
   const data = {
     groupId,

@@ -15,7 +15,7 @@ import java.util.List;
 public class OrganizeProviderController extends BaseProvider {
 
     /**
-     * 查询组织
+     * 查询机构
      *
      * @param ids
      * @return

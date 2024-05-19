@@ -10,9 +10,7 @@ import com.alinesno.infra.base.authority.service.IManagerApplicationService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -27,17 +25,15 @@ import java.util.*;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerApplicationEntity, ManagerApplicationMapper> implements IManagerApplicationService {
-
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerApplicationServiceImpl.class);
 
 //	@Autowired
 //	private IManagerRoleService managerRoleService;
 
-	@Autowired
-	private ManagerApplicationMapper repository;
+//	@Autowired
+//	private ManagerApplicationMapper repository;
 
 //	@Autowired
 //	private IManagerResourceService managerResourceService;
@@ -91,7 +87,7 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 
 	@Override
 	public ManagerApplicationEntity insert(ManagerApplicationEntity e) {
-		repository.insert(e);
+		save(e);
 		return e;
 	}
 

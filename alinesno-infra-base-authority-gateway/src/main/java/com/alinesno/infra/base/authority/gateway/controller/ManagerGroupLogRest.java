@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author luoxiaodong
  * @version 1.0.0
  */
-@Api(tags = "组织日志信息")
+@Api(tags = "机构日志信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/authority/managerGroupLog")

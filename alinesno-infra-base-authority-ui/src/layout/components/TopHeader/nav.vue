@@ -58,7 +58,7 @@
 
           <router-link :to="{ path: '/dashboard/dashboardTheme' }" replace>
           <el-dropdown-item>
-            <i class="fa-solid fa-desktop"></i> 组织配置
+            <i class="fa-solid fa-desktop"></i> 机构配置
           </el-dropdown-item>
           </router-link>
 

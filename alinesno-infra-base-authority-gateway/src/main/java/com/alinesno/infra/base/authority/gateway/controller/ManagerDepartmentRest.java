@@ -60,7 +60,7 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 	}
 
 	/**
-	 * 通过应用id查询组织结构
+	 * 通过应用id查询机构结构
 	 * 
 	 * @param applicationId
 	 * @return

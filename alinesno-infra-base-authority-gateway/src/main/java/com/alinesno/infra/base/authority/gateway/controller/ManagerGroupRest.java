@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  */
 @Slf4j
-@Api(tags = "组织管理")
+@Api(tags = "机构管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/authority/managerGroup")

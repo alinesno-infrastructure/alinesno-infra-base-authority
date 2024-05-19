@@ -43,4 +43,40 @@ public class ManagerApplicationAccountServiceImpl
 
 		return CollectionUtils.isEmpty(es) ? null : applicationService.getById(es.get(0).getApplicationId());
 	}
+
+	@Override
+	public void initDefaultProject(long userId) {
+
+		LambdaQueryWrapper<ManagerApplicationEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerApplicationEntity::getOperatorId , userId) ;
+
+		long count = applicationService.count(wrapper) ;
+
+		if(count == 0){  // 账户应用为空
+			ManagerApplicationEntity e = new ManagerApplicationEntity() ;
+
+			String defaultIcon = "fa-solid fa-file-shield" ;
+
+			e.setApplicationIcons(defaultIcon);
+			e.setApplicationName("默认应用示例服务");
+			e.setApplicationDesc("默认的初始应用服务，用于默认应用示例和演示服务使用，勿使用生产");
+			e.setFieldProp("default");
+			e.setOperatorId(userId);
+			applicationService.save(e) ;
+
+			// 初始化应用的默认应用
+
+			LambdaQueryWrapper<ManagerApplicationAccountEntity>	maaWrapper = new LambdaQueryWrapper<>() ;
+			long countMaa = count(maaWrapper.eq(ManagerApplicationAccountEntity::getAccountId , userId)) ;
+
+			ManagerApplicationAccountEntity maa = new ManagerApplicationAccountEntity() ;
+			maa.setAccountId(userId);
+			maa.setApplicationId(e.getId());
+			maa.setAppOrder(countMaa + 1L);
+
+			this.save(maa) ;
+		}
+
+	}
+
 }

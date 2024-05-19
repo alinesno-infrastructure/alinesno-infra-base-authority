@@ -16,7 +16,7 @@
     </div>
 
     <!-- 应用选择弹窗管理 -->
-    <el-dialog :title="title" v-model="open" width="1200px" append-to-body>
+    <el-dialog :title="title" v-model="open" v-if="open" width="1200px" append-to-body>
       <choice-application />
 
       <template #footer>

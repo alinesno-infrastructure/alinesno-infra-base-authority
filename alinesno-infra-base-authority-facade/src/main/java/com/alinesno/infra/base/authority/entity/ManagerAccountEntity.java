@@ -118,9 +118,9 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	private String name;
 
 	/**
-	 * 用户权限(9超级管理员/1组织权限/0用户权限)
+	 * 用户权限(9超级管理员/1机构权限/0用户权限)
 	 */
-	@Excel(name = "用户权限", replace = {"超级管理员_9", "组织权限_1", "用户权限_0"})
+	@Excel(name = "用户权限", replace = {"超级管理员_9", "机构权限_1", "用户权限_0"})
 	@ColumnType(length = 100)
 	@ColumnComment("用户权限")
 	@TableField("role_power")

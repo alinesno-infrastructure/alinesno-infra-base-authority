@@ -2,7 +2,7 @@ import request from '@/utils/request';
 import { TenantPkgForm, TenantPkgQuery, TenantPkgVO } from './types';
 import { AxiosPromise } from 'axios';
 
-// 查询组织套餐列表
+// 查询机构套餐列表
 export function listTenantPackage(query?: TenantPkgQuery): AxiosPromise<TenantPkgVO[]> {
   return request({
     url: '/system/group/package/list',
@@ -11,7 +11,7 @@ export function listTenantPackage(query?: TenantPkgQuery): AxiosPromise<TenantPk
   });
 }
 
-// 查询组织套餐下拉选列表
+// 查询机构套餐下拉选列表
 export function selectTenantPackage(): AxiosPromise<TenantPkgVO[]> {
   return request({
     url: '/system/group/package/selectList',
@@ -19,7 +19,7 @@ export function selectTenantPackage(): AxiosPromise<TenantPkgVO[]> {
   });
 }
 
-// 查询组织套餐详细
+// 查询机构套餐详细
 export function getTenantPackage(packageId: string | number): AxiosPromise<TenantPkgVO> {
   return request({
     url: '/system/group/package/' + packageId,
@@ -27,7 +27,7 @@ export function getTenantPackage(packageId: string | number): AxiosPromise<Tenan
   });
 }
 
-// 新增组织套餐
+// 新增机构套餐
 export function addTenantPackage(data: TenantPkgForm) {
   return request({
     url: '/system/group/package',
@@ -36,7 +36,7 @@ export function addTenantPackage(data: TenantPkgForm) {
   });
 }
 
-// 修改组织套餐
+// 修改机构套餐
 export function updateTenantPackage(data: TenantPkgForm) {
   return request({
     url: '/system/group/package',
@@ -45,7 +45,7 @@ export function updateTenantPackage(data: TenantPkgForm) {
   });
 }
 
-// 组织套餐状态修改
+// 机构套餐状态修改
 export function changePackageStatus(packageId: number | string, status: string) {
   const data = {
     packageId,
@@ -58,7 +58,7 @@ export function changePackageStatus(packageId: number | string, status: string) 
   });
 }
 
-// 删除组织套餐
+// 删除机构套餐
 export function delTenantPackage(packageId: string | number | Array<string | number>) {
   return request({
     url: '/system/group/package/' + packageId,

@@ -146,7 +146,7 @@ export const constantRoutes = [
         name: 'system/group/index',
         hidden: true,
         component: () => import('@/views/system/group'),
-        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+        meta: { title: '机构管理', icon: 'dashboard', affix: true }
       },
       {
         path: '/system/user/index',
@@ -174,7 +174,7 @@ export const constantRoutes = [
         name: 'system/group/index',
         hidden: true,
         component: () => import('@/views/system/group'),
-        meta: { title: '组织管理', icon: 'dashboard', affix: true }
+        meta: { title: '机构管理', icon: 'dashboard', affix: true }
       },
       {
         path: '/system/menu/index',

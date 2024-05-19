@@ -26,13 +26,25 @@ import java.util.Date;
 public class ManagerGroupEntity extends InfraBaseEntity {
 
 	/**
-	 * 组织名称
+	 * 机构名称
 	 */
-	@Excel(name = "组织名称")
+	@Excel(name = "机构名称")
 	@TableField("group_name")
-	@ColumnType(length = 255)
-	@ColumnComment("组织名称")
+	@ColumnType(length = 32)
+	@ColumnComment("机构名称")
 	private String groupName;
+
+	@Excel(name = "机构代码")
+	@TableField("group_code")
+	@ColumnType(length = 32)
+	@ColumnComment("机构代码")
+	private String groupCode;
+
+	@Excel(name = "机构描述")
+	@TableField("remark")
+	@ColumnType(length = 255)
+	@ColumnComment("机构描述")
+	private String remark;
 
 	/**
 	 * 开始时间
@@ -55,11 +67,11 @@ public class ManagerGroupEntity extends InfraBaseEntity {
 	private Date endTime;
 
 	/**
-	 * 组织状态(1正常/0禁止)
+	 * 机构状态(1正常/0禁止)
 	 */
 	@TableField("group_status")
 	@ColumnType(length = 1)
-	@ColumnComment("组织状态(1正常/0禁止)")
+	@ColumnComment("机构状态(1正常/0禁止)")
 	private String groupStatus;
 
 	/**
@@ -79,21 +91,21 @@ public class ManagerGroupEntity extends InfraBaseEntity {
 	private String provinceId;
 
 	/**
-	 * 组织地址
+	 * 机构地址
 	 */
-	@Excel(name = "组织地址")
+	@Excel(name = "机构地址")
 	@TableField("group_address")
 	@ColumnType(length = 255)
-	@ColumnComment("组织地址")
+	@ColumnComment("机构地址")
 	private String groupAddress;
 
 	/**
-	 * 组织联系电话
+	 * 机构联系电话
 	 */
-	@Excel(name = "组织联系电话")
+	@Excel(name = "机构联系电话")
 	@TableField("group_phone")
 	@ColumnType(length = 255)
-	@ColumnComment("组织联系电话")
+	@ColumnComment("机构联系电话")
 	private String groupPhone;
 
 }

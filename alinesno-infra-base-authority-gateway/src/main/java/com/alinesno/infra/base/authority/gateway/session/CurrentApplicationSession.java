@@ -23,9 +23,7 @@ public class CurrentApplicationSession {
 	private IManagerApplicationAccountService managerApplicationAccountService ;
 
 	public ManagerApplicationEntity get() {
-
 		long userId = CurrentAccountJwt.getUserId();
-
 		return managerApplicationAccountService.getApplicationByAccountId(userId) ;
 	}
 

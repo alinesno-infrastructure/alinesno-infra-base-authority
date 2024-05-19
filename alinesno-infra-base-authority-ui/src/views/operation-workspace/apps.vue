@@ -62,11 +62,11 @@ const advantages = [
   { icon: 'fa-solid fa-clipboard-list', title: '全面的日志记录', description: '提供完善的日志记录功能，包括登陆日志、业务操作日志和系统操作日志，帮助追踪和审计系统的使用情况。' },
   { icon: 'fa-solid fa-chart-bar', title: '实时应用监控', description: '强大的应用监控功能可以实时监控系统的运行状态和性能指标，及时发现和解决问题，确保系统稳定运行。' },
   { icon: 'fa-solid fa-cogs', title: '灵活的企业定制', description: '允许企业进行主题配置和企业配置，定制系统的外观和行为，提升用户体验，增强企业形象。' },
-  { icon: 'fa-solid fa-users-cog', title: '高效的权限管理', description: '帮助企业和组织高效管理系统中的权限，确保只有授权用户能够访问系统的功能和资源，提升系统安全性和用户体验。' }
+  { icon: 'fa-solid fa-users-cog', title: '高效的权限管理', description: '帮助企业和机构高效管理系统中的权限，确保只有授权用户能够访问系统的功能和资源，提升系统安全性和用户体验。' }
 ];
 
 const selectedPermissionScenarios = [
-  { icon: 'fa-solid fa-building', name: '集团权限管理', description: '用于管理集团内部各个子公司或部门的权限，实现集中式权限管理和跨组织权限控制。' },
+  { icon: 'fa-solid fa-building', name: '集团权限管理', description: '用于管理集团内部各个子公司或部门的权限，实现集中式权限管理和跨机构权限控制。' },
   { icon: 'fa-solid fa-cogs', name: '系统级权限控制', description: '用于管理系统级别的权限，包括系统功能的权限设置、管理员权限控制等，确保系统安全和稳定运行。' },
   { icon: 'fa-solid fa-users-cog', name: '角色权限分配', description: '用于将权限按角色进行分配和管理，实现灵活的权限控制和便捷的权限调整，提高系统的安全性和管理效率。' },
 ];

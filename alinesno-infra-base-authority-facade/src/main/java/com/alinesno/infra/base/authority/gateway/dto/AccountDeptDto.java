@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.dto;
 
 /**
- * 组织机构人员
+ * 机构机构人员
  * 
  * @author luoxiaodong
  * @since 2023年8月23日 下午8:11:14

@@ -20,4 +20,10 @@ public interface IManagerApplicationAccountService extends IBaseService<ManagerA
      * @return
      */
     ManagerApplicationEntity getApplicationByAccountId(long userId);
+
+    /**
+     * 初始化用户应用服务
+     * @param userId
+     */
+    void initDefaultProject(long userId);
 }
