@@ -1,9 +1,11 @@
 <template>
   <div class="app-container">
+    <el-page-header @back="goBack" content="菜单管理"></el-page-header>
+    <br/>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
-      <el-form-item label="菜单名称" prop="menuName">
+      <el-form-item label="菜单名称" prop="resourceName">
         <el-input
-            v-model="queryParams.menuName"
+            v-model="queryParams.resourceName"
             placeholder="请输入菜单名称"
             clearable
             @keyup.enter="handleQuery"
@@ -54,7 +56,7 @@
         :default-expand-all="isExpandAll"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
+      <el-table-column prop="resourceName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
       <el-table-column prop="icon" label="图标" align="center" width="100">
         <template #default="scope">
           <svg-icon :icon-class="scope.row.icon" />
@@ -106,7 +108,7 @@
               <el-tree-select
                   v-model="form.parentId"
                   :data="menuOptions"
-                  :props="{ value: 'menuId', label: 'menuName', children: 'children' }"
+                  :props="{ value: 'menuId', label: 'resourceName', children: 'children' }"
                   value-key="menuId"
                   placeholder="选择上级菜单"
                   check-strictly
@@ -123,20 +125,20 @@
             </el-form-item>
           </el-col>
           <el-col :span="24" v-if="form.menuType != 'F'">
-            <el-form-item label="菜单图标" prop="icon">
+            <el-form-item label="菜单图标" prop="resourceIcon">
+                  <!-- v-model:visible="showChooseIcon" -->
               <el-popover
                   placement="bottom-start"
                   :width="540"
-                  v-model:visible="showChooseIcon"
                   trigger="click"
                   @show="showSelectIcon"
               >
                 <template #reference>
-                  <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                  <el-input v-model="form.resourceIcon" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
                     <template #prefix>
                       <svg-icon
-                          v-if="form.icon"
-                          :icon-class="form.icon"
+                          v-if="form.resourceIcon"
+                          :icon-class="form.resourceIcon"
                           class="el-input__icon"
                           style="height: 32px;width: 16px;"
                       />
@@ -149,8 +151,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单名称" prop="menuName">
-              <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
+            <el-form-item label="菜单名称" prop="resourceName">
+              <el-input v-model="form.resourceName" placeholder="请输入菜单名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -174,7 +176,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="form.menuType != 'F'">
-            <el-form-item prop="path">
+            <el-form-item prop="resourceLink">
               <template #label>
                         <span>
                            <el-tooltip content="访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头" placement="top">
@@ -183,7 +185,7 @@
                            路由地址
                         </span>
               </template>
-              <el-input v-model="form.path" placeholder="请输入路由地址" />
+              <el-input v-model="form.resourceLink" placeholder="请输入路由地址" />
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="form.menuType == 'C'">
@@ -300,6 +302,7 @@ import { ClickOutside as vClickOutside } from 'element-plus'
 const { proxy } = getCurrentInstance();
 const { sys_show_hide, sys_normal_disable } = proxy.useDict("sys_show_hide", "sys_normal_disable");
 
+const router = useRouter();
 const menuList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -314,13 +317,13 @@ const iconSelectRef = ref(null);
 const data = reactive({
   form: {},
   queryParams: {
-    menuName: undefined,
+    resourceName: undefined,
     visible: undefined
   },
   rules: {
-    menuName: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
+    resourceName: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
     orderNum: [{ required: true, message: "菜单顺序不能为空", trigger: "blur" }],
-    path: [{ required: true, message: "路由地址不能为空", trigger: "blur" }]
+    resourceLink: [{ required: true, message: "路由地址不能为空", trigger: "blur" }]
   },
 });
 
@@ -328,8 +331,12 @@ const { queryParams, form, rules } = toRefs(data);
 
 /** 查询菜单列表 */
 function getList() {
+
+  const currentAppId = router.currentRoute.value.params.appId ; 
+  console.log('currentAppId = ' + currentAppId);
+
   loading.value = true;
-  listMenu(queryParams.value).then(response => {
+  listMenu(queryParams.value , currentAppId).then(response => {
     menuList.value = proxy.handleTree(response.rows, "menuId");
     loading.value = false;
   });
@@ -338,7 +345,7 @@ function getList() {
 function getTreeselect() {
   menuOptions.value = [];
   listMenu().then(response => {
-    const menu = { menuId: 0, menuName: "主类目", children: [] };
+    const menu = { menuId: 0, resourceName: "主类目", children: [] };
     menu.children = proxy.handleTree(response.rows, "menuId");
     menuOptions.value.push(menu);
   });
@@ -353,8 +360,8 @@ function reset() {
   form.value = {
     menuId: undefined,
     parentId: 0,
-    menuName: undefined,
-    icon: undefined,
+    resourceName: undefined,
+    resourceIcon: undefined,
     menuType: "M",
     orderNum: undefined,
     isFrame: "1",
@@ -390,6 +397,10 @@ function handleQuery() {
 function resetQuery() {
   proxy.resetForm("queryRef");
   handleQuery();
+}
+/** 返回上一页 */
+function goBack() {
+  router.back();
 }
 /** 新增按钮操作 */
 function handleAdd(row) {
@@ -443,7 +454,7 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  proxy.$modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项?').then(function() {
+  proxy.$modal.confirm('是否确认删除名称为"' + row.resourceName + '"的数据项?').then(function() {
     return delMenu(row.menuId);
   }).then(() => {
     getList();
@@ -452,4 +463,5 @@ function handleDelete(row) {
 }
 
 getList();
+
 </script>

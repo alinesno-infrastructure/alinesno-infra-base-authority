@@ -68,4 +68,11 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @return
 	 */
 	List<ManagerResourceEntity> resourceData(DatatablesPageBean page);
+
+	/**
+	 * 初始化产品应用
+	 * @param currentAppId
+	 * @param userId
+	 */
+    void initApplicationMenu(String currentAppId, long userId);
 }

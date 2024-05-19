@@ -92,7 +92,7 @@
       <el-table-column label="应用描述" align="left" prop="applicationDesc" />
       <el-table-column label="应用链接" align="center" width="150" prop="businessType">
         <template #default="scope">
-          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i> 打开配置</el-button>
+          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i>&nbsp;打开配置</el-button>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100" align="center" prop="status">
@@ -106,7 +106,7 @@
       </el-table-column>
       <el-table-column label="菜单配置" align="center" width="200" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
           <template #default="scope">
-                <el-button type="danger" bg link @click="openMenu(scope.row)"> <i class="fa-solid fa-link"></i> 配置</el-button>
+                <el-button type="danger" bg link @click="openMenu(scope.row)"> <i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;配置</el-button>
           </template>
       </el-table-column>
       <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">

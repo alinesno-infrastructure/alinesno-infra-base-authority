@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.alinesno.infra.common.facade.mapper.id.SnowflakeIdWorker;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -75,9 +76,9 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	 */
 	@Excel(name = "菜单类型(0菜单|1小标题|9平台标题)")
 	@TableField("menu_type")
-	@ColumnType(length = 255)
-	@ColumnComment("菜单类型(0菜单|1小标题|9平台标题)")
-	private String menuType = "0"; // MenuEnums.MENU_ITEM.value ;
+	@ColumnType(length = 5)
+	@ColumnComment("菜单类型(MENU_PLATFORM(\"P\", \"平台菜单\"), MENU_FOLDER(\"M\", \"菜单分类\"), MENU_ITEM(\"C\", \"普通菜单\"), MENU_BUTTON(\"F\", \"平台按钮\"))")
+	private String menuType = MenuEnums.MENU_ITEM.value ;
 
 	/**
 	 * 链接打开方式

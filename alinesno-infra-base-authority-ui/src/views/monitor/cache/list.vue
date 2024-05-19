@@ -28,7 +28,7 @@
 
             <el-table-column
               label="缓存名称"
-              align="center"
+              align="left"
               prop="cacheName"
               :show-overflow-tooltip="true"
               :formatter="nameFormatter"
@@ -36,7 +36,7 @@
 
             <el-table-column
               label="备注"
-              align="center"
+              align="left"
               prop="remark"
               :show-overflow-tooltip="true"
             />

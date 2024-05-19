@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { parseStrEmpty } from '@/utils/ruoyi';
 
 // 接口配置项
 var prefix = '/api/infra/base/authority/managerResource/';
@@ -17,9 +18,9 @@ var managerUrl = {
 }
 
 // 查询菜单列表
-export function listMenu(query) {
+export function listMenu(query , currentAppId) {
     return request({
-        url: managerUrl.datatables,
+        url: managerUrl.datatables + '?currentAppId=' + parseStrEmpty(currentAppId),
         method: 'post',
         params: query
     })
