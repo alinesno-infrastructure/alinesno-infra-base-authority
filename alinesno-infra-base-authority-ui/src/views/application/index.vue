@@ -204,6 +204,7 @@ import { ClickOutside as vClickOutside } from 'element-plus'
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
 
+const router = useRouter();
 const operlogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -267,6 +268,11 @@ function cancel() {
 function showSelectIcon() {
   iconSelectRef.value.reset();
   showChooseIcon.value = true;
+}
+/** 打开菜单 */
+function openMenu(row){
+  let path =  '/application/system/menu/'
+  router.push({ path: path + row.id });
 }
 /** 选择图标 */
 function selected(name) {
@@ -338,15 +344,6 @@ async function handleUpdate(row) {
     title.value = "修改应用";
   });
 }
-/** 清空按钮操作 */
-// function handleClean() {
-//   proxy.$modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
-//     return cleanApplication();
-//   }).then(() => {
-//     getList();
-//     proxy.$modal.msgSuccess("清空成功");
-//   }).catch(() => {});
-// }
 /** 导出按钮操作 */
 function handleExport() {
   proxy.download("monitor/operlog/export",{
