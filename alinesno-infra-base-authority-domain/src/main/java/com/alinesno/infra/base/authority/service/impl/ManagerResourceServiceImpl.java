@@ -129,4 +129,18 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 
 	}
 
+	/**
+	 * 初始化应用菜单，主要初始化平台菜单
+	 * @param currentAppId
+	 * @param userId
+	 */
+	@Override
+	public void initApplicationMenu(String currentAppId, long userId) {
+
+		ManagerResourceEntity platformM = new ManagerResourceEntity();
+
+		save(platformM) ;
+
+	}
+
 }
