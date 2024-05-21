@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { parseStrEmpty } from '@/utils/ruoyi';
 
 // 接口配置项
 var prefix = '/api/infra/base/authority/managerResource/';
@@ -14,13 +13,14 @@ var managerUrl = {
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
+    treeselect: prefix + "treeselect",
     downloadfile: prefix + "downloadfile"
 }
 
 // 查询菜单列表
-export function listMenu(query , currentAppId) {
+export function listMenu(query) {
     return request({
-        url: managerUrl.datatables + '?currentAppId=' + parseStrEmpty(currentAppId),
+        url: managerUrl.datatables,
         method: 'post',
         params: query
     })
@@ -63,7 +63,7 @@ export function delMenu(id) {
 // 查询菜单下拉树结构
 export function treeselect() {
     return request({
-        url: '/system/menu/treeselect',
+        url: managerUrl.treeselect,
         method: 'get'
     })
 }

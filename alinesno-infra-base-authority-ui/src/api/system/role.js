@@ -12,6 +12,7 @@ var managerUrl = {
     detailUrl: prefix + "detail",
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
+    changeRoleStatus: prefix + "changeRoleStatus",
     changeField: prefix + "changeField",
     downloadfile: prefix + "downloadfile"
 }
@@ -75,7 +76,7 @@ export function changeRoleStatus(roleId, status) {
         status
     }
     return request({
-        url: '/system/role/changeStatus',
+        url: managerUrl.changeRoleStatus ,
         method: 'put',
         data: data
     })

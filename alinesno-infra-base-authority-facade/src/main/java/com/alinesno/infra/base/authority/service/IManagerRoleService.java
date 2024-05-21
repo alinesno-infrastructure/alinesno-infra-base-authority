@@ -75,15 +75,38 @@ public interface IManagerRoleService extends IBaseService<ManagerRoleEntity> {
 	 * @param accountId
 	 * @param roleId
 	 */
-	void apendAccountRole(Long accountId, Long[] roleId);
+	void appendAccountRole(Long accountId, Long[] roleId);
+
+//	/**
+//	 * 配置默认互联网用户
+//	 *
+//	 * @param applicationId
+//	 * @param fieldId
+//	 * @param value
+//	 */
+//	void updateDefaultNetrole(String applicationId, String fieldId, String value);
 
 	/**
-	 * 配置默认互联网用户
-	 * 
-	 * @param applicationId
-	 * @param field
-	 * @param value
+	 * 校验角色是否允许操作
+	 *
+	 * @param role 角色信息
 	 */
-	void updateDefaultNetrole(String applicationId, String fieldId, String value);
+    void checkRoleAllowed(ManagerRoleEntity role);
 
+	/**
+	 * 通过角色ID查询角色使用数量
+	 *
+	 * @param roleId 角色ID
+	 * @return 结果
+	 */
+	void checkRoleDataScope(Long roleId);
+
+	/**
+	 * 修改角色状态
+	 *
+	 * @param id 角色ID
+	 * @param hasStatus 角色状态
+	 * @return 结果
+	 */
+	int updateRoleStatus(Long id, int hasStatus);
 }

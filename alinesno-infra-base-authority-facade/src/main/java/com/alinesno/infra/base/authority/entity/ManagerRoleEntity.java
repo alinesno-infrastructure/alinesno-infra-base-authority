@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -16,24 +17,24 @@ import lombok.Data;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("manager_role")
 public class ManagerRoleEntity extends InfraBaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
-	@Excel(name = "所属应用")
-	@TableField("application_name")
-	@ColumnType(length = 255)
-	@ColumnComment("所属应用")
-	private String applicationName;
+//	private static final long serialVersionUID = 1L;
+//	@Excel(name = "所属应用")
+//	@TableField("application_name")
+//	@ColumnType(length = 255)
+//	@ColumnComment("所属应用")
+//	private String applicationName;
 
 	/**
 	 * 角色名称
 	 */
 	@Excel(name = "角色名称")
 	@TableField("role_name")
-	@ColumnType(length = 255)
+	@ColumnType(length = 64)
 	@ColumnComment("角色名称")
 	private String roleName;
 
@@ -41,6 +42,11 @@ public class ManagerRoleEntity extends InfraBaseEntity {
 	@ColumnType(length = 255)
 	@ColumnComment("角色标题")
 	private String roleTitle;
+
+	@TableField("role_key")
+	@ColumnType(length = 32)
+	@ColumnComment("角色标识")
+	private String roleKey ;
 
 	/**
 	 * 角色描述
@@ -50,6 +56,14 @@ public class ManagerRoleEntity extends InfraBaseEntity {
 	@ColumnType(length = 255)
 	@ColumnComment("角色描述")
 	private String roleDesc;
+
+	/**
+	 * 显示顺序
+	 */
+	@TableField("role_sort")
+	@ColumnType
+	@ColumnComment("显示顺序")
+	private Integer roleSort;
 
 	/**
 	 * 角色状态(1正常/0非法)

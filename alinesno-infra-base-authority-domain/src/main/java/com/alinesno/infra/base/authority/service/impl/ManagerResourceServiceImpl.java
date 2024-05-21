@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
@@ -20,7 +21,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -77,9 +81,9 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 				   .eq("default_netrole", RolePowerTypeEnmus.ROLE_NETROLE.value) ; 
 			
 			List<ManagerRoleEntity> netroleList = managerRoleService.list(wrapper) ;
-			if(netroleList != null && netroleList.size() > 0) {
+			if(netroleList != null && !netroleList.isEmpty()) {
 				ManagerRoleEntity netRole = netroleList.get(0) ;  // 默认取0
-				managerRoleService.apendAccountRole(accountId, new Long[] {netRole.getId()}) ; 
+				managerRoleService.appendAccountRole(accountId, new Long[] {netRole.getId()}) ;
 				
 				// 重新查询返回菜单
 				e = this.findMenus(resourceParent, applicationId, accountId);
@@ -130,17 +134,100 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	}
 
 	/**
-	 * 初始化应用菜单，主要初始化平台菜单
-	 * @param currentAppId
-	 * @param userId
+	 * 根据用户查询系统菜单列表
+	 *
+	 * @param userId 用户ID
+	 * @return 菜单列表
 	 */
 	@Override
-	public void initApplicationMenu(String currentAppId, long userId) {
+	public List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId) {
+		List<ManagerResourceEntity> menuList = null;
 
-		ManagerResourceEntity platformM = new ManagerResourceEntity();
+		// 管理员显示所有菜单信息
+//		if (SysUser.isAdmin(userId)) {
+//			menuList = menuMapper.selectMenuList(menu);
+//		} else {
+//			menu.getParams().put("userId", userId);
+//			menuList = menuMapper.selectMenuListByUserId(menu);
+//		}
+//		return menuList;
 
-		save(platformM) ;
+		menuList = list() ;
 
+		return menuList ;
+	}
+
+
+	@Override
+	public List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus) {
+		List<ManagerResourceEntity> menuTrees = buildMenuTree(menus);
+		return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+	}
+
+	/**
+	 * 构建前端所需要树结构
+	 *
+	 * @param menus 菜单列表
+	 * @return 树结构列表
+	 */
+	public List<ManagerResourceEntity> buildMenuTree(List<ManagerResourceEntity> menus)
+	{
+		List<ManagerResourceEntity> returnList = new ArrayList<>();
+		List<Long> tempList = menus.stream().map(ManagerResourceEntity::getId).collect(Collectors.toList());
+		for (Iterator<ManagerResourceEntity> iterator = menus.iterator(); iterator.hasNext();)
+		{
+			ManagerResourceEntity menu = (ManagerResourceEntity) iterator.next();
+			// 如果是顶级节点, 遍历该父节点的所有子节点
+			if (!tempList.contains(menu.getResourceParent()))
+			{
+				recursionFn(menus, menu);
+				returnList.add(menu);
+			}
+		}
+		if (returnList.isEmpty())
+		{
+			returnList = menus;
+		}
+		return returnList;
+	}
+
+	/**
+	 * 递归列表
+	 *
+	 * @param list 分类表
+	 * @param t 子节点
+	 */
+	private void recursionFn(List<ManagerResourceEntity> list, ManagerResourceEntity t) {
+		// 得到子节点列表
+		List<ManagerResourceEntity> childList = getChildList(list, t);
+		t.setSubResource(childList);
+		for (ManagerResourceEntity tChild : childList) {
+			if (hasChild(list, tChild)) {
+				recursionFn(list, tChild);
+			}
+		}
+	}
+
+	/**
+	 * 得到子节点列表
+	 */
+	private List<ManagerResourceEntity> getChildList(List<ManagerResourceEntity> list, ManagerResourceEntity t) {
+		List<ManagerResourceEntity> tlist = new ArrayList<ManagerResourceEntity>();
+		Iterator<ManagerResourceEntity> it = list.iterator();
+		while (it.hasNext()) {
+			ManagerResourceEntity n = (ManagerResourceEntity) it.next();
+			if (n.getResourceParent().longValue() == t.getId().longValue()) {
+				tlist.add(n);
+			}
+		}
+		return tlist;
+	}
+
+	/**
+	 * 判断是否有子节点
+	 */
+	private boolean hasChild(List<ManagerResourceEntity> list, ManagerResourceEntity t) {
+		return !getChildList(list, t).isEmpty();
 	}
 
 }

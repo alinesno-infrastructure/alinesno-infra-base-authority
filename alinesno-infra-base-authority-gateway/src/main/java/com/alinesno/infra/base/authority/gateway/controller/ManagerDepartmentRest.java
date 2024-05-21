@@ -10,6 +10,7 @@ import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +26,17 @@ import org.springframework.web.bind.annotation.*;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@Slf4j
 @Api(tags = "基础部门管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/authority/managerDepartment")
 public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntity, IManagerDepartmentService> {
 
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerDepartmentRest.class);
-
 	@Autowired
 	private IManagerDepartmentService managerDepartmentService;
 
 	
-	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
@@ -52,11 +50,10 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 		return AjaxResult.success(data);
 	}
     
-  //工作流使用，查看部门所有信息	
+  	//工作流使用，查看部门所有信息
     @GetMapping("detailById")
     public ManagerDepartmentEntity detailById(String departmentId) {
-    	ManagerDepartmentEntity managerDepartmentEntity = managerDepartmentService.findEntityById(departmentId);
-		return managerDepartmentEntity;
+        return managerDepartmentService.findEntityById(departmentId);
 	}
 
 	/**

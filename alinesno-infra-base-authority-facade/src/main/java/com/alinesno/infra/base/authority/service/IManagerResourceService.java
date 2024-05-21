@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
@@ -70,9 +71,17 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	List<ManagerResourceEntity> resourceData(DatatablesPageBean page);
 
 	/**
-	 * 初始化产品应用
-	 * @param currentAppId
+	 * 查询菜单列表
+	 * @param menu
 	 * @param userId
+	 * @return
 	 */
-    void initApplicationMenu(String currentAppId, long userId);
+    List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId);
+
+	/**
+	 * 构建树形菜单
+	 * @param menus
+	 * @return
+	 */
+	List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus);
 }

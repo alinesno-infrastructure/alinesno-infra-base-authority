@@ -1,6 +1,10 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alinesno.infra.base.authority.api.SysRoleVo;
+import com.alinesno.infra.base.authority.constants.GroupConstants;
 import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
@@ -11,8 +15,10 @@ import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
+import com.alinesno.infra.common.facade.exception.ServiceException;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,7 +179,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 	}
 
 	@Override
-	public void apendAccountRole(Long accountId, Long[] roleId) {
+	public void appendAccountRole(Long accountId, Long[] roleId) {
 		
 		// 添加新角色
 		List<ManagerAccountRoleEntity> entities = new ArrayList<ManagerAccountRoleEntity>();
@@ -191,22 +197,72 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 	}
 
 	@Override
-	public void updateDefaultNetrole(String applicationId, String fieldId, String value) {
-		
-		// 1. 把所有的都配置成非默认的
-		UpdateWrapper<ManagerRoleEntity> updateAllRoleWrapper = new UpdateWrapper<ManagerRoleEntity>();
-		updateAllRoleWrapper.eq(FieldConstants.APPLICATION_ID, applicationId) ; 
-		
-		updateAllRoleWrapper.set("default_netrole", RolePowerTypeEnmus.ROLE_NOT_NETROLE.value);
-		
-		this.update(updateAllRoleWrapper);
+	public void checkRoleAllowed(ManagerRoleEntity role) {
+		if (ObjectUtil.isNotNull(role.getId())  /*&& LoginHelper.isSuperAdmin(role.getRoleId())*/ ) {
+			throw new ServiceException("不允许操作超级管理员角色");
+		}
+		String[] keys = new String[]{GroupConstants.SUPER_ADMIN_ROLE_KEY, GroupConstants.TENANT_ADMIN_ROLE_KEY};
 
-		// 2. 设置成默认的
-		UpdateWrapper<ManagerRoleEntity> updateWrapper = new UpdateWrapper<ManagerRoleEntity>();
-		updateWrapper.set("default_netrole", value) ; 
-		updateWrapper.eq("id", fieldId);
+		// 新增不允许使用 管理员标识符
+		if (ObjectUtil.isNull(role.getId()) && StringUtils.equalsAny(role.getRoleKey(), keys)) {
+			throw new ServiceException("不允许使用系统内置管理员角色标识符!");
+		}
 
-		this.update(updateWrapper);
+		// 修改不允许修改 管理员标识符
+		if (ObjectUtil.isNotNull(role.getId())) {
+			ManagerRoleEntity sysRole = baseMapper.selectById(role.getId());
+
+			// 如果标识符不相等 判断为修改了管理员标识符
+			if (!StringUtils.equals(sysRole.getRoleKey(), role.getRoleKey())) {
+				if (StringUtils.equalsAny(sysRole.getRoleKey(), keys)) {
+					throw new ServiceException("不允许修改系统内置管理员角色标识符!");
+				} else if (StringUtils.equalsAny(role.getRoleKey(), keys)) {
+					throw new ServiceException("不允许使用系统内置管理员角色标识符!");
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public void checkRoleDataScope(Long roleId) {
+		if (ObjectUtil.isNull(roleId)) {
+			return;
+		}
+
+//		if (LoginHelper.isSuperAdmin()) {
+//			return;
+//		}
+
+//		List<SysRoleVo> roles = this.selectRoleList(new ManagerRoleEntity(roleId));
+//		if (CollUtil.isEmpty(roles)) {
+//			throw new ServiceException("没有权限访问角色数据！");
+//		}
 
 	}
+
+	@Override
+	public int updateRoleStatus(Long id, int hasStatus) {
+		return 0;
+	}
+
+//	@Override
+//	public void updateDefaultNetrole(String applicationId, String fieldId, String value) {
+//
+//		// 1. 把所有的都配置成非默认的
+//		UpdateWrapper<ManagerRoleEntity> updateAllRoleWrapper = new UpdateWrapper<ManagerRoleEntity>();
+//		updateAllRoleWrapper.eq(FieldConstants.APPLICATION_ID, applicationId) ;
+//
+//		updateAllRoleWrapper.set("default_netrole", RolePowerTypeEnmus.ROLE_NOT_NETROLE.value);
+//
+//		this.update(updateAllRoleWrapper);
+//
+//		// 2. 设置成默认的
+//		UpdateWrapper<ManagerRoleEntity> updateWrapper = new UpdateWrapper<ManagerRoleEntity>();
+//		updateWrapper.set("default_netrole", value) ;
+//		updateWrapper.eq("id", fieldId);
+//
+//		this.update(updateWrapper);
+//	}
+
 }
