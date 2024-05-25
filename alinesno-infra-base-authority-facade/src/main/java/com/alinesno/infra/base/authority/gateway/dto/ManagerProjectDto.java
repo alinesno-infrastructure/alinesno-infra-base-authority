@@ -7,74 +7,72 @@ import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 功能名： 【请填写功能名称】 数据表： manager_application
+ * 功能名： 【请填写功能名称】 数据表： manager_project
  * 
  * @author luoxiaodong 
  * @version 1.0.0
  */
-public class ManagerApplicationDto extends BaseDto {
-
-	private static final long serialVersionUID = 1L;
+public class ManagerProjectDto extends BaseDto {
 
 	// fields
 	/**
-	 * "applicationDesc"
+	 * "projectDesc"
 	 */
 	@NotBlank(message = "应用描述为空")
 	@Length(min = 4, max = 128, message = "应用描述最小长度为{min} 最大长度为{max}")
-	private String applicationDesc;
+	private String projectDesc;
 
 	@NotBlank(message = "应用名称为空")
 	@Length(min = 4, max = 32, message = "应用名称最小长度为{min} 最大长度为{max}")
-	private String applicationName; // 应用名称，唯一性，用于做应用标识【最好与springboot的applicaiotn.name对应】
+	private String projectName; // 应用名称，唯一性，用于做应用标识【最好与springboot的applicaiotn.name对应】
 
 	/**
-	 * "applicationIcons"
+	 * "projectIcons"
 	 */
-	private String applicationIcons;
+	private String projectIcons;
 	/**
 	 * "父类Id"
 	 */
 	private String pid;
 	/**
-	 * "applicationLink"
+	 * "projectLink"
 	 */
-	private String applicationLink;
+	private String projectLink;
 	/**
-	 * "applicationCode"
+	 * "projectCode"
 	 */
 	@NotBlank(message = "应用代码为空")
 	@Length(min = 4, max = 40, message = "应用代码最小长度为{min} 最大长度为{max}")
-	private String applicationCode;
+	private String projectCode;
 
 	public String getApplicationName() {
-		return applicationName;
+		return projectName;
 	}
 
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
+	public void setApplicationName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	// getter and setter
 	public String getApplicationDesc()
 
 	{
-		return this.applicationDesc;
+		return this.projectDesc;
 	}
 
-	public ManagerApplicationDto setApplicationDesc(String arg) {
-		this.applicationDesc = arg;
+	public ManagerProjectDto setApplicationDesc(String arg) {
+		this.projectDesc = arg;
 		return this;
 	}
 
 	public String getApplicationIcons()
 
 	{
-		return this.applicationIcons;
+		return this.projectIcons;
 	}
 
-	public ManagerApplicationDto setApplicationIcons(String arg) {
-		this.applicationIcons = arg;
+	public ManagerProjectDto setApplicationIcons(String arg) {
+		this.projectIcons = arg;
 		return this;
 	}
 
@@ -84,7 +82,7 @@ public class ManagerApplicationDto extends BaseDto {
 		return this.pid;
 	}
 
-	public ManagerApplicationDto setPid(String arg) {
+	public ManagerProjectDto setPid(String arg) {
 		this.pid = arg;
 		return this;
 	}
@@ -92,22 +90,22 @@ public class ManagerApplicationDto extends BaseDto {
 	public String getApplicationLink()
 
 	{
-		return this.applicationLink;
+		return this.projectLink;
 	}
 
-	public ManagerApplicationDto setApplicationLink(String arg) {
-		this.applicationLink = arg;
+	public ManagerProjectDto setApplicationLink(String arg) {
+		this.projectLink = arg;
 		return this;
 	}
 
 	public String getApplicationCode()
 
 	{
-		return this.applicationCode;
+		return this.projectCode;
 	}
 
-	public ManagerApplicationDto setApplicationCode(String arg) {
-		this.applicationCode = arg;
+	public ManagerProjectDto setApplicationCode(String arg) {
+		this.projectCode = arg;
 		return this;
 	}
 
@@ -116,10 +114,10 @@ public class ManagerApplicationDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerApplicationDto mapToDto() {
+	public ManagerProjectDto mapToDto() {
 		ObjectMapper toDtoMapper = new ObjectMapper();
 		toDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return toDtoMapper.convertValue(this, ManagerApplicationDto.class);
+		return toDtoMapper.convertValue(this, ManagerProjectDto.class);
 	}
 
 	/**
@@ -127,10 +125,10 @@ public class ManagerApplicationDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerApplicationDto fromDto(ManagerApplicationDto entity) {
+	public ManagerProjectDto fromDto(ManagerProjectDto entity) {
 		ObjectMapper fromDtoMapper = new ObjectMapper();
 		fromDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return fromDtoMapper.convertValue(entity, ManagerApplicationDto.class);
+		return fromDtoMapper.convertValue(entity, ManagerProjectDto.class);
 	}
 
 }

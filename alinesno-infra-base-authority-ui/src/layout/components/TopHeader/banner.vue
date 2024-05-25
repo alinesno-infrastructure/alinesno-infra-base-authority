@@ -10,14 +10,14 @@
       <div v-if="saasUrl" class="dashboard-home" @click="dashboardHome()">
         <i class="fa-solid fa-house"></i> 工作台
       </div>
-      <div class="dashboard-home" @click="choiceCurrentApplication()">
-        <i :class="applicationInfo.applicationIcons"></i> {{ applicationInfo.applicationName }}
+      <div class="dashboard-home" @click="choiceCurrentProject()">
+        <i :class="projectInfo.projectIcons"></i> {{ projectInfo.projectName }}
       </div>
     </div>
 
-    <!-- 应用选择弹窗管理 -->
+    <!-- 项目选择弹窗管理 -->
     <el-dialog :title="title" v-model="open" v-if="open" width="1200px" append-to-body>
-      <choice-application />
+      <choiceProject />
 
       <template #footer>
         <div class="dialog-footer">
@@ -40,19 +40,20 @@ const saasUrl = ref('http://alinesno-infra-plat-console-admin.beta.plat.infra.li
 const saasLogoUrl = 'http://portal.infra.linesno.com/logo.png' ; 
 
 import { 
-  getCurrentApplication
-} from "@/api/system/application";
+  getCurrentProject
+} from "@/api/system/project";
 
-import ChoiceApplication from '@/views/application/choiceApplication'
+import choiceProject from '@/views/project/choiceProject'
 
 /** 参数管理 */
 const open = ref(false);
 const loading = ref(true);
 const title = ref("");
-const applicationInfo = ref({
+
+const projectInfo = ref({
   id: 0 , 
-  applicationIcons: 'fa-solid fa-lemon' ,
-  applicationName: '请选择当前应用'
+  projectIcons: 'fa-solid fa-lemon' ,
+  projectName: '请选择当前项目'
 })
 
 // 进入企业官网
@@ -71,25 +72,25 @@ function cancel() {
   open.value = false;
 }
 
-function choiceCurrentApplication(){
- console.log('选择应用.') 
+function choiceCurrentProject(){
+ console.log('选择项目.') 
   open.value = true;
-  title.value = "请选择应用";
+  title.value = "请选择项目";
 }
 
-/** 获取当前应用信息 */
-function handleCurrentApplication(){
-  getCurrentApplication().then(res => {
-    applicationInfo.value = res.data
+/** 获取当前项目信息 */
+function handleCurrentProject(){
+  getCurrentProject().then(res => {
+    projectInfo.value = res.data
   })
 }
 
-handleCurrentApplication() ; 
+handleCurrentProject() ; 
 
 </script>
 
 <style lang="scss" scoped>
-.dashboard-home{
-  cursor: pointer;
-}
+  .dashboard-home{
+    cursor: pointer;
+  }
 </style>

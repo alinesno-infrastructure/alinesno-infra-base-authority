@@ -10,7 +10,7 @@ import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
-import com.alinesno.infra.base.authority.service.IManagerApplicationService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -52,7 +52,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 	@Autowired
 	private IManagerAccountRoleService managerAccountRoleService;
 	@Autowired
-	private IManagerApplicationService iManagerApplicationService;
+	private IManagerProjectService iManagerProjectService;
 
 	@Override
 	public boolean saveRole(ManagerRoleEntity e, String functionIds) {
@@ -169,7 +169,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 		if (StrUtil.isEmpty(applicationCode)) {
 			return list;
 		}
-		ManagerApplicationEntity application = iManagerApplicationService.findEntityByApplicationCode(applicationCode);
+		ManagerProjectEntity application = iManagerProjectService.findEntityByApplicationCode(applicationCode);
 		if (application == null) {
 			return list;
 		}

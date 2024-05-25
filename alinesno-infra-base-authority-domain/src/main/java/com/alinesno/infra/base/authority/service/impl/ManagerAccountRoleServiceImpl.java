@@ -1,10 +1,10 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountRoleMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
-import com.alinesno.infra.base.authority.service.IManagerApplicationService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.mybatis.WrapperGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -38,7 +38,7 @@ public class ManagerAccountRoleServiceImpl extends IBaseServiceImpl<ManagerAccou
 	private ManagerAccountRoleMapper managerAccountRoleMapper;
 	
 	@Autowired
-	private IManagerApplicationService iManagerApplicationService;
+	private IManagerProjectService iManagerProjectService;
 
 	@Override
 	public List<ManagerAccountRoleEntity> findAllByAccountId(Long accountId) { 
@@ -75,7 +75,7 @@ public class ManagerAccountRoleServiceImpl extends IBaseServiceImpl<ManagerAccou
 	@Override
 	public void authorizeUsers(List<Long> roleIds, Long accountId, String applicationCode) {
 		 
-		ManagerApplicationEntity application = iManagerApplicationService.findEntityByApplicationCode(applicationCode);
+		ManagerProjectEntity application = iManagerProjectService.findEntityByApplicationCode(applicationCode);
 		 
 		if (CollectionUtils.isEmpty(roleIds)) {
 			return;

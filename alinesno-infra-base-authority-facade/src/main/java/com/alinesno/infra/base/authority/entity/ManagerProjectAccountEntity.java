@@ -13,8 +13,8 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("manager_application_account")
-public class ManagerApplicationAccountEntity extends InfraBaseEntity {
+@TableName("manager_project_account")
+public class ManagerProjectAccountEntity extends InfraBaseEntity {
 
     @TableField("account_id")
     @ColumnType(length = 32)

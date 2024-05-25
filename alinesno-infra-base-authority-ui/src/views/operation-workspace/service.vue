@@ -11,12 +11,12 @@
               <ul>
                 <li class="app-items" v-for="(item,index) in apps" :key="item" style="width:calc(25% - 10px)">
                   <div class="app-icon">
-                    <!-- <i :class="item.icon" :alt="item.applicationName" /> -->
+                    <!-- <i :class="item.icon" :alt="item.projectName" /> -->
                     <img style="width:30px;height:30px;border-radius:4px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((index + 1)%10 + 5) + '.png'" />
                   </div>
                   <div class="app-info">
-                    <div class="app-item-title">{{ item.applicationName }}</div>
-                    <div class="app-item desc">{{ item.applicationDesc }}</div>
+                    <div class="app-item-title">{{ item.projectName }}</div>
+                    <div class="app-item desc">{{ item.projectDesc }}</div>
                   </div>
                 </li>
                 <li class="app-items" @click="handleAdd()" style="width: calc(25% - 10px);background: #f5f5f5;border-radius: 5px;padding-left: 10px;cursor: pointer; margin-top: 10px;"> 
@@ -65,18 +65,18 @@
     <el-dialog :title="title" v-model="open" width="700px" append-to-body>
       <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
           <el-col :span="24">
-            <el-form-item label="菜单图标" prop="applicationIcons">
+            <el-form-item label="菜单图标" prop="projectIcons">
               <el-popover
                   placement="bottom-start"
                   :width="540"
                   trigger="click"
                   @show="showSelectIcon">
                 <template #reference>
-                  <el-input v-model="form.applicationIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                  <el-input v-model="form.projectIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
                     <template #prefix>
                       <svg-icon
-                          v-if="form.applicationIcons"
-                          :icon-class="form.applicationIcons"
+                          v-if="form.projectIcons"
+                          :icon-class="form.projectIcons"
                           class="el-input__icon"
                           style="height: 32px;width: 16px;"
                       />
@@ -88,14 +88,14 @@
               </el-popover>
             </el-form-item>
           </el-col>
-        <el-form-item label="应用名称" prop="applicationName">
-          <el-input v-model="form.applicationName" placeholder="请输入应用名称" />
+        <el-form-item label="应用名称" prop="projectName">
+          <el-input v-model="form.projectName" placeholder="请输入应用名称" />
         </el-form-item>
-        <el-form-item label="应用描述" prop="applicationDesc">
-          <el-input v-model="form.applicationDesc" placeholder="请输入应用描述" />
+        <el-form-item label="应用描述" prop="projectDesc">
+          <el-input v-model="form.projectDesc" placeholder="请输入应用描述" />
         </el-form-item>
-        <el-form-item label="应用代码" prop="applicationCode">
-          <el-input v-model="form.applicationCode" placeholder="请输入应用代码" />
+        <el-form-item label="应用代码" prop="projectCode">
+          <el-input v-model="form.projectCode" placeholder="请输入应用代码" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -114,9 +114,9 @@
 const { proxy } = getCurrentInstance();
 
 import { 
-  addApplication , 
+  addProject , 
   getLatestList
-} from "@/api/system/application";
+} from "@/api/system/project";
 
 const opertionAssets = ref([
   {id:'1' , title:'应用统计' , count:45} ,
@@ -128,17 +128,17 @@ const opertionAssets = ref([
 ])
 
 const apps = ref([
-  {icon:'fa-brands fa-slack' , applicationName:'自动化操作服务' , applicationDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-list-check' , applicationName:'分布式配置中心' , applicationDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-at' , applicationName:'审计日志服务' , applicationDesc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
-  {icon:'fa-solid fa-list-check' , applicationName:'容器云管理服务' , applicationDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-eye-slash' , applicationName:'自动化操作服务' , applicationDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-user-shield' , applicationName:'分布式配置中心' , applicationDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-comment-slash' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-brands fa-slack' , applicationName:'容器云管理服务' , applicationDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , applicationName:'持续集成服务' , applicationDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-comment-slash' , applicationName:'一体化安全感触服务' , applicationDesc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
+  {icon:'fa-brands fa-slack' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-list-check' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-at' , projectName:'审计日志服务' , projectDesc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
+  {icon:'fa-solid fa-list-check' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-eye-slash' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  {icon:'fa-solid fa-user-shield' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  {icon:'fa-solid fa-comment-slash' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-brands fa-slack' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  {icon:'fa-solid fa-comment-slash' , projectName:'一体化安全感触服务' , projectDesc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
 ]);
 
 const title = ref("");
@@ -200,7 +200,7 @@ function handleLatestList() {
 function submitForm() {
   proxy.$refs["applicationFormRef"].validate(valid => {
     if (valid) {
-        addApplication(form.value).then(response => {
+        addProject(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           handleLatestList();
@@ -225,4 +225,4 @@ handleLatestList() ;
     font-size: 20px;
     color: #3b5998 ;
 }
-</style>
+</style>@/api/system/project

@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.provider;
 
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerApplicationDto;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerGroupDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ public class OrganizeProviderController extends BaseProvider {
      * @param ids
      * @return
      */
-    public List<ManagerApplicationDto> findApplicationEntityByIds(List<String> ids){
+    public List<ManagerProjectDto> findApplicationEntityByIds(List<String> ids){
         return null ;
     }
 

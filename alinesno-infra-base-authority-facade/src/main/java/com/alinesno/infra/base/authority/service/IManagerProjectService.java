@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @version 1.0.0
  */
 
-public interface IManagerApplicationService extends IBaseService<ManagerApplicationEntity> {
+public interface IManagerProjectService extends IBaseService<ManagerProjectEntity> {
 
 	/**
 	 * 查询用户应用
@@ -22,7 +22,7 @@ public interface IManagerApplicationService extends IBaseService<ManagerApplicat
 	 * @param accountId
 	 * @return
 	 */
-	List<ManagerApplicationEntity> findAllByAccountId(Long accountId);
+	List<ManagerProjectEntity> findAllByAccountId(Long accountId);
 
 	/**
 	 * 删除应用同步删除菜单资源
@@ -38,20 +38,20 @@ public interface IManagerApplicationService extends IBaseService<ManagerApplicat
 	 * @param applicationCode
 	 * @return
 	 */
-	ManagerApplicationEntity findEntityByApplicationCode(String applicationCode);
+	ManagerProjectEntity findEntityByApplicationCode(String applicationCode);
 
 	/**
 	 * 插入应用列表
 	 * @param e
 	 * @return
 	 */
-	ManagerApplicationEntity insert(ManagerApplicationEntity e);
+	ManagerProjectEntity insert(ManagerProjectEntity e);
 
 	/**
 	 * 获取最新的应用列表
 	 * @param userId
 	 * @return
 	 */
-	List<ManagerApplicationEntity> latestList(long userId);
+	List<ManagerProjectEntity> latestList(long userId);
 
 }

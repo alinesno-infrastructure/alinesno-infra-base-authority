@@ -132,7 +132,7 @@ public class CommonLoginController {
 
         Menu dashboardMenu = new Menu("Dashboard", "/dashboard", false, "noRedirect", "Layout", true, new Menu.Meta("仪盘表", "dashboard", false, null), List.of(
                 new Menu("Dashboard", "index", false, false , "dashboard", new Menu.Meta("概览", "dashboard", false, null)) ,
-                new Menu("Application", "application/index", false, false , "application", new Menu.Meta("应用管理", "monitor", false, null))
+                new Menu("Project", "project/index", false, false , "project", new Menu.Meta("项目管理", "monitor", false, null))
         ));
 
         Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("系统管理", "post", false, null),
@@ -142,7 +142,6 @@ public class CommonLoginController {
                         new Menu("Dept", "system/dept/index", false,false,  "system/dept/index", new Menu.Meta("部门管理", "tree", false, null)),
                         new Menu("Post", "system/post/index", false, false, "system/post/index", new Menu.Meta("岗位管理", "post", false, null)),
                         new Menu("Role", "system/role/index", false, false, "system/role/index", new Menu.Meta("角色管理", "peoples", false, null)), 
-//                        new Menu("Menu", "system/menu/index", false,false,  "system/menu/index", new Menu.Meta("菜单管理", "tree-table", false, null)),
                         new Menu("Dict", "system/dict/index", false,false,  "system/dict/index", new Menu.Meta("字典管理", "dict", false, null)),
                         new Menu("Config", "system/config/index", false,false,  "system/config/index", new Menu.Meta("参数设置", "edit", false, null)),
                         new Menu("Notice", "system/notice/index", false,false,  "system/notice/index", new Menu.Meta("通知公告", "message", false, null))

@@ -87,7 +87,7 @@ export const constantRoutes = [
       // ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       // 这是动态路由 加上：/:id
       {
-        path: "/application/system/menu/:id",
+        path: "/application/system/menu/:projectId",
         name: "/application/system/menu",
         meta: { title: "菜单管理" },
         component: () => import('@/views/system/menu/index'),

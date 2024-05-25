@@ -1,16 +1,16 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="应用名称" prop="title">
+      <el-form-item label="项目名称" prop="title">
         <el-input
             v-model="queryParams.title"
-            placeholder="请输入应用名称"
+            placeholder="请输入项目名称"
             clearable
             style="width: 240px;"
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="应用代码" prop="operName">
+      <el-form-item label="项目代码" prop="operName">
         <el-input
             v-model="queryParams.operName"
             placeholder="请输入操作人员"
@@ -19,83 +19,41 @@
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select
-            v-model="queryParams.status"
-            placeholder="操作状态"
-            clearable
-            style="width: 240px"
-        >
-          <el-option
-              v-for="dict in sys_common_status"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-          <el-button
-              plain
-              type="primary"
-              icon="Plus"
-              @click="handleAdd()"
-              v-hasPermi="['system:dept:add']"
-          >新增</el-button>
-        <el-button
-            type="danger"
-            plain
-            icon="Delete"
-            :disabled="multiple"
-            @click="handleDelete"
-            v-hasPermi="['monitor:operlog:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-            type="warning"
-            plain
-            icon="Download"
-            @click="handleExport"
-            v-hasPermi="['monitor:operlog:export']"
-        >导出</el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="index" width="55" label="序号" align="center" />
       <el-table-column label="图标" align="center" width="70" key="icon" >
+          <!-- <template #default="scope">
+              <span style="font-size:25px;color:#3b5998">
+                <i :class="scope.row.icon" />
+              </span>
+          </template> -->
           <template #default="scope">
               <div class="role-icon">
                 <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
               </div>
           </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="left" prop="applicationName">
+      <el-table-column label="项目名称" width="250" align="left" prop="projectName">
         <template #default="scope">
           <div>
-            {{ scope.row.applicationName }}
+            {{ scope.row.projectName }}
           </div>
           <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
-            调用码: {{ scope.row.applicationCode }} <el-icon><CopyDocument /></el-icon>
+            调用码: {{ scope.row.projectCode }} <el-icon><CopyDocument /></el-icon>
           </div>
       </template>
       </el-table-column>
-      <el-table-column label="应用描述" align="left" prop="applicationDesc" />
-      <el-table-column label="应用链接" align="center" width="150" prop="businessType">
-        <template #default="scope">
-          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i> 打开配置</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column label="项目描述" align="left" prop="projectDesc" />
       <el-table-column label="状态" width="100" align="center" prop="status">
+        <!-- <template #default="scope">
+          <dict-tag :options="sys_common_status" :value="scope.row.status" />
+        </template> -->
         <template #default="scope">
             <el-switch
               v-model="scope.row.hasStatus"
@@ -104,30 +62,16 @@
             />
         </template>
       </el-table-column>
-      <el-table-column label="菜单配置" align="center" width="200" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
-          <template #default="scope">
-                <el-button type="danger" bg link @click="openMenu(scope.row)"> <i class="fa-solid fa-link"></i> 配置</el-button>
-          </template>
-      </el-table-column>
-      <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.addTime) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="100" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button
-              type="text"
-              icon="Edit"
-              @click="handleUpdate(scope.row)"
-              v-hasPermi="['system:menu:edit']"
-          >修改</el-button>
-          <el-button
-              type="text"
-              icon="Delete"
-              @click="handleDelete(scope.row)"
-              v-hasPermi="['system:menu:remove']"
-          >删除</el-button>
+              type="primary"
+              bg 
+              link
+              @click="handlechoiceProject(scope.row)"
+              v-hasPermi="['system:menu:edit']">
+              <i class="fa-solid fa-pen-nib"></i> 选择
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -144,18 +88,18 @@
     <el-dialog :title="title" v-model="open" width="700px" append-to-body>
       <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
           <el-col :span="24">
-            <el-form-item label="菜单图标" prop="applicationIcons">
+            <el-form-item label="菜单图标" prop="projectIcons">
               <el-popover
                   placement="bottom-start"
                   :width="540"
                   trigger="click"
                   @show="showSelectIcon">
                 <template #reference>
-                  <el-input v-model="form.applicationIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
+                  <el-input v-model="form.projectIcons" placeholder="点击选择图标" @click="showSelectIcon" v-click-outside="hideSelectIcon" readonly>
                     <template #prefix>
                       <svg-icon
-                          v-if="form.applicationIcons"
-                          :icon-class="form.applicationIcons"
+                          v-if="form.projectIcons"
+                          :icon-class="form.projectIcons"
                           class="el-input__icon"
                           style="height: 32px;width: 16px;"
                       />
@@ -167,14 +111,14 @@
               </el-popover>
             </el-form-item>
           </el-col>
-        <el-form-item label="应用名称" prop="applicationName">
-          <el-input v-model="form.applicationName" placeholder="请输入应用名称" />
+        <el-form-item label="项目名称" prop="projectName">
+          <el-input v-model="form.projectName" placeholder="请输入项目名称" />
         </el-form-item>
-        <el-form-item label="应用描述" prop="applicationDesc">
-          <el-input v-model="form.applicationDesc" placeholder="请输入应用描述" />
+        <el-form-item label="项目描述" prop="projectDesc">
+          <el-input v-model="form.projectDesc" placeholder="请输入项目描述" />
         </el-form-item>
-        <el-form-item label="应用代码" prop="applicationCode">
-          <el-input v-model="form.applicationCode" placeholder="请输入应用代码" />
+        <el-form-item label="项目代码" prop="projectCode">
+          <el-input v-model="form.projectCode" placeholder="请输入项目代码" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -187,15 +131,14 @@
   </div>
 </template>
 
-<script setup name="Application">
-
+<script setup name="Project">
 import { 
-  listApplication, 
-  delApplication , 
-  getApplication ,
-  updateApplication , 
-  addApplication
-} from "@/api/system/application";
+  listProject, 
+  delProject , 
+  updateProject , 
+  addProject , 
+  choiceProject
+} from "@/api/system/project";
 
 import SvgIcon from "@/components/SvgIcon";
 import IconSelect from "@/components/IconSelect";
@@ -204,7 +147,6 @@ import { ClickOutside as vClickOutside } from 'element-plus'
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
 
-const router = useRouter();
 const operlogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -220,9 +162,7 @@ const dateRange = ref([]);
 const defaultSort = ref({ prop: "operTime", order: "descending" });
 
 const data = reactive({
-  form: {
-    applicationIcons: ''
-  },
+  form: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -253,32 +193,31 @@ function reset() {
 /** 查询登录日志 */
 function getList() {
   loading.value = true;
-  listApplication(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listProject(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     operlogList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
 }
+
 /** 取消按钮 */
 function cancel() {
   open.value = false;
   reset();
 }
+
 /** 展示下拉图标 */
 function showSelectIcon() {
   iconSelectRef.value.reset();
   showChooseIcon.value = true;
 }
-/** 打开菜单 */
-function openMenu(row){
-  let path =  '/application/system/menu/'
-  router.push({ path: path + row.id });
-}
+
 /** 选择图标 */
 function selected(name) {
   form.value.icon = name;
   showChooseIcon.value = false;
 }
+
 /** 图标外层点击隐藏下拉列表 */
 function hideSelectIcon(event) {
   var elem = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
@@ -287,15 +226,25 @@ function hideSelectIcon(event) {
     showChooseIcon.value = false;
   }
 }
+
 /** 操作日志类型字典翻译 */
 function typeFormat(row, column) {
   return proxy.selectDictLabel(sys_oper_type.value, row.businessType);
 }
+
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
   getList();
 }
+
+/** 选择项目 */
+function handlechoiceProject(row){
+  choiceProject(row.id).then(res => {
+    location.reload();
+  })
+}
+
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
@@ -323,7 +272,7 @@ function handleView(row) {
 function handleDelete(row) {
   const operIds = row.id || ids.value;
   proxy.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
-    return delApplication(operIds);
+    return delProject(operIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -333,17 +282,29 @@ function handleDelete(row) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加应用";
+  title.value = "添加项目";
 }
 /** 修改按钮操作 */
 async function handleUpdate(row) {
   reset();
-  getApplication(row.id).then(response => {
-    form.value = response.data;
+  await getTreeselect();
+  getProject(row.id).then(response => {
+    form.value = response.rows;
     open.value = true;
-    title.value = "修改应用";
+    title.value = "修改项目";
   });
 }
+
+/** 清空按钮操作 */
+// function handleClean() {
+//   proxy.$modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
+//     return cleanProject();
+//   }).then(() => {
+//     getList();
+//     proxy.$modal.msgSuccess("清空成功");
+//   }).catch(() => {});
+// }
+
 /** 导出按钮操作 */
 function handleExport() {
   proxy.download("monitor/operlog/export",{
@@ -355,14 +316,14 @@ function handleExport() {
 function submitForm() {
   proxy.$refs["applicationFormRef"].validate(valid => {
     if (valid) {
-      if (form.value.id != undefined) {
-        updateApplication(form.value).then(response => {
+      if (form.value.menuId != undefined) {
+        updateProject(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addApplication(form.value).then(response => {
+        addProject(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -373,4 +334,5 @@ function submitForm() {
 }
 
 getList();
+
 </script>

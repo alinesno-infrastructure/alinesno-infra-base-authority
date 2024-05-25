@@ -69,7 +69,7 @@ public class AccountProviderController extends BaseProvider {
      * @param springApplication
      * @return
      */
-    public ManagerApplicationDto findEntityByApplicationCode(String springApplication){
+    public ManagerProjectDto findEntityByApplicationCode(String springApplication){
         return null ;
     }
 

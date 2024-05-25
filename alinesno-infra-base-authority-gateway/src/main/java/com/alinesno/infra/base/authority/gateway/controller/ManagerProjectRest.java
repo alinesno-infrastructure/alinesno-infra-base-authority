@@ -1,9 +1,9 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
-import com.alinesno.infra.base.authority.gateway.session.CurrentApplicationSession;
-import com.alinesno.infra.base.authority.service.IManagerApplicationAccountService;
-import com.alinesno.infra.base.authority.service.IManagerApplicationService;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
+import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
@@ -13,9 +13,8 @@ import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -29,23 +28,21 @@ import java.util.List;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@Slf4j
 @Api(tags = "应用信息")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/managerApplication")
-public class ManagerApplicationRest extends BaseController<ManagerApplicationEntity, IManagerApplicationService> {
-
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerApplicationRest.class);
+@RequestMapping("/api/infra/base/authority/managerProject")
+public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IManagerProjectService> {
 
 	@Autowired
-	private IManagerApplicationService managerApplicationService;
+	private IManagerProjectService managerApplicationService;
 
 	@Autowired
-	private IManagerApplicationAccountService  managerApplicationAccountService;
+	private IManagerProjectAccountService  managerApplicationAccountService;
 
 	@Autowired
-	private CurrentApplicationSession currentApplicationSession ;
+	private CurrentProjectSession currentProjectSession ;
 
 	@ApiOperation("分页查询") 
 	@ResponseBody
@@ -59,16 +56,16 @@ public class ManagerApplicationRest extends BaseController<ManagerApplicationEnt
 	 * 获取当前应用
 	 * @return
 	 */
-	@GetMapping("/currentApplication")
+	@GetMapping("/currentProject")
 	public AjaxResult currentApplication() {
 
 		// 初始化应用
 		managerApplicationAccountService.initDefaultProject(CurrentAccountJwt.getUserId()) ;
 
-		ManagerApplicationEntity e =  currentApplicationSession.get() ;
+		ManagerProjectEntity e =  currentProjectSession.get() ;
 
 		String defaultIcon = "fa-solid fa-file-shield" ;
-		e.setApplicationIcons(defaultIcon);
+		e.setProjectIcons(defaultIcon);
 
 		return AjaxResult.success(e);
 	}
@@ -80,7 +77,7 @@ public class ManagerApplicationRest extends BaseController<ManagerApplicationEnt
 	@GetMapping("/latestList")
 	public AjaxResult latestList() {
 		long userId = CurrentAccountJwt.getUserId() ;
-		List<ManagerApplicationEntity> es =  managerApplicationService.latestList(userId);
+		List<ManagerProjectEntity> es =  managerApplicationService.latestList(userId);
 		return AjaxResult.success(es) ;
 	}
 
@@ -88,14 +85,14 @@ public class ManagerApplicationRest extends BaseController<ManagerApplicationEnt
 	 * 选择应用
 	 * @return
 	 */
-	@GetMapping("/choiceApplication")
-	public AjaxResult choiceApplication(Long applicationId) {
-		currentApplicationSession.set(applicationId);
+	@GetMapping("/choiceProject")
+	public AjaxResult choiceProject(Long projectId) {
+		currentProjectSession.set(projectId);
 		return ok() ;
 	}
 
 	@Override
-	public IManagerApplicationService getFeign() {
+	public IManagerProjectService getFeign() {
 		return this.managerApplicationService;
 	}
 }

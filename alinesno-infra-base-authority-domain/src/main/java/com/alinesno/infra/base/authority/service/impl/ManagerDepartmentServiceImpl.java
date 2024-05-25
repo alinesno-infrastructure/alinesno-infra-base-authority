@@ -3,12 +3,12 @@ package com.alinesno.infra.base.authority.service.impl;
 import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.enums.ResourceTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerDepartmentMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
-import com.alinesno.infra.base.authority.service.IManagerApplicationService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
@@ -41,19 +41,19 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 	private static final Logger log = LoggerFactory.getLogger(ManagerDepartmentServiceImpl.class);
 
 	@Autowired
-	private IManagerApplicationService managerApplicationService;
+	private IManagerProjectService managerApplicationService;
 
 	@Autowired
 	private IManagerAccountService accountService;
 
 	@Override
 	public List<ManagerDepartmentEntity> findAllWithApplication(RpcWrapper<ManagerDepartmentEntity> dw,
-			RpcWrapper<ManagerApplicationEntity> aw) {
+			RpcWrapper<ManagerProjectEntity> aw) {
 
 		List<ManagerDepartmentEntity> list = findAll(dw);
-		List<ManagerApplicationEntity> apps = managerApplicationService.findAll(aw);
+		List<ManagerProjectEntity> apps = managerApplicationService.findAll(aw);
 
-		for (ManagerApplicationEntity app : apps) {
+		for (ManagerProjectEntity app : apps) {
 			ManagerDepartmentEntity d = new ManagerDepartmentEntity();
 			d.setPid(ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value);
 			d.setId(app.getId());
@@ -178,9 +178,9 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 //	public List<ManagerDepartmentEntity> findAllWithApplication(RestWrapper restWrapper) {
 //	
 //		List<ManagerDepartmentEntity> list = jpa.findAll(restWrapper.toSpecification()) ; 
-//		List<ManagerApplicationEntity> apps = managerApplicationService.findAll(restWrapper.toSpecification()) ; 
+//		List<ManagerProjectEntity> apps = managerApplicationService.findAll(restWrapper.toSpecification()) ; 
 //		
-//		for(ManagerApplicationEntity app : apps) {
+//		for(ManagerProjectEntity app : apps) {
 //			ManagerDepartmentEntity d = new ManagerDepartmentEntity() ; 
 //			d.setPid(ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value);
 //			d.setId(app.getId());

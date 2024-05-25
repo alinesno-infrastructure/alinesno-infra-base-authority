@@ -2,11 +2,11 @@ package com.alinesno.infra.base.authority.service.impl;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerAccountRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
-import com.alinesno.infra.base.authority.mapper.ManagerApplicationMapper;
-import com.alinesno.infra.base.authority.service.IManagerApplicationService;
+import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -27,13 +27,13 @@ import java.util.*;
  */
 @Slf4j
 @Service
-public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerApplicationEntity, ManagerApplicationMapper> implements IManagerApplicationService {
+public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEntity, ManagerProjectMapper> implements IManagerProjectService {
 
 //	@Autowired
 //	private IManagerRoleService managerRoleService;
 
 //	@Autowired
-//	private ManagerApplicationMapper repository;
+//	private ManagerProjectMapper repository;
 
 //	@Autowired
 //	private IManagerResourceService managerResourceService;
@@ -45,10 +45,10 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 //	private IManagerAccountService managerAccountService;
  
 	@Override
-	public List<ManagerApplicationEntity> findAllByAccountId(Long accountId) {
+	public List<ManagerProjectEntity> findAllByAccountId(Long accountId) {
 		log.debug("accountId:{}", accountId);
 
-		List<ManagerApplicationEntity> list = null;
+		List<ManagerProjectEntity> list = null;
 		ManagerAccountEntity account = null ; // TODO  managerAccountService.getById(accountId);
 
 		if (MenuEnums.MENU_PLATFORM.value.equals(account.getRolePower())) {
@@ -77,26 +77,26 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 	}
  
 	@Override
-	public ManagerApplicationEntity findEntityByApplicationCode(String applicationCode) {
+	public ManagerProjectEntity findEntityByApplicationCode(String applicationCode) {
 		Assert.hasLength(applicationCode, "应用代码不能为空.");
-		RpcWrapper<ManagerApplicationEntity> wrapper = RpcWrapper.build();
+		RpcWrapper<ManagerProjectEntity> wrapper = RpcWrapper.build();
 		wrapper.eq("application_code", applicationCode);
-		List<ManagerApplicationEntity> all = this.findAll(wrapper);
+		List<ManagerProjectEntity> all = this.findAll(wrapper);
 		return !all.isEmpty() ? all.get(0) : null;
 	}
 
 	@Override
-	public ManagerApplicationEntity insert(ManagerApplicationEntity e) {
+	public ManagerProjectEntity insert(ManagerProjectEntity e) {
 		save(e);
 		return e;
 	}
 
 	@Override
-	public List<ManagerApplicationEntity> latestList(long userId) {
+	public List<ManagerProjectEntity> latestList(long userId) {
 
-		LambdaQueryWrapper<ManagerApplicationEntity> wrapper = new LambdaQueryWrapper<>() ;
-//		wrapper.eq(ManagerApplicationEntity::getOperatorId , userId) ;
-		wrapper.orderByDesc(ManagerApplicationEntity::getAddTime) ;
+		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
+//		wrapper.eq(ManagerProjectEntity::getOperatorId , userId) ;
+		wrapper.orderByDesc(ManagerProjectEntity::getAddTime) ;
 
 		return list(wrapper) ;
 	}
@@ -117,7 +117,7 @@ public class ManagerApplicationServiceImpl extends IBaseServiceImpl<ManagerAppli
 	}
 
 	@Override
-	public List<ManagerApplicationEntity> listByIds(Collection<? extends Serializable> idList) {
+	public List<ManagerProjectEntity> listByIds(Collection<? extends Serializable> idList) {
 		if (null == idList || idList.isEmpty()) {
 			return Collections.emptyList();
 		} else {

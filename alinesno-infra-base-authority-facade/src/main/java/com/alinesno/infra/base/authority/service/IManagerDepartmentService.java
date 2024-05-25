@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.entity.ManagerApplicationEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
@@ -19,7 +19,7 @@ import java.util.List;
 public interface IManagerDepartmentService extends IBaseService<ManagerDepartmentEntity> {
 
 	List<ManagerDepartmentEntity> findAllWithApplication(RpcWrapper<ManagerDepartmentEntity> dw,
-			RpcWrapper<ManagerApplicationEntity> aw);
+			RpcWrapper<ManagerProjectEntity> aw);
 
 	/**
 	 * 通过应用id查询部门相关人员

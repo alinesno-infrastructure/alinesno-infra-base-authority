@@ -84,4 +84,10 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @return
 	 */
 	List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus);
+
+	/**
+	 * 初始化应用菜单
+	 * @param platformId
+	 */
+    void initApplicationMenu(Long platformId);
 }

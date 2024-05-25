@@ -12,8 +12,6 @@ import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -37,10 +35,15 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 	@Autowired
 	private IManagerResourceService managerResourceService;
 
-	
-	@ResponseBody
 	@PostMapping("/datatables")
-	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
+	public TableDataInfo datatables(HttpServletRequest request,
+					 Model model,
+					 DatatablesPageBean page ,
+					 @RequestParam("projectId") Long projectId) {
+
+		managerResourceService.initApplicationMenu(projectId)	;
+
+		log.debug("projectId = {}" , projectId);
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 		return this.toPage(model, this.getFeign(), page);
 	}

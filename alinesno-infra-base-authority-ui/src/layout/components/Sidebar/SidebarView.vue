@@ -20,7 +20,7 @@ export default {
     this.$nextTick(() => {
       setTimeout(() => {
         var v = this.$store.state.permission.currentApp
-        this.currentApplicationName = v.applicationName
+        this.currentApplicationName = v.projectName
       }, 500)
     })
     */

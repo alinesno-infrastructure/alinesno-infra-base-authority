@@ -113,6 +113,11 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	@ColumnComment("是否可见")
 	private String visible;
 
+	@TableField("project_id")
+	@ColumnType(length = 64)
+	@ColumnComment("所属项目")
+	private Long projectId;
+
 	/**
 	 * 菜单子类
 	 */

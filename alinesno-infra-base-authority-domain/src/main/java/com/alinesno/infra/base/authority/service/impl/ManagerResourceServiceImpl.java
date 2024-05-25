@@ -2,10 +2,13 @@ package com.alinesno.infra.base.authority.service.impl;
 
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
+import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerResourceMapper;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -15,9 +18,9 @@ import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.alinesno.infra.common.facade.wrapper.mybatis.WrapperGenerator;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +37,15 @@ import java.util.stream.Collectors;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResourceEntity, ManagerResourceMapper> implements IManagerResourceService {
 
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerResourceServiceImpl.class);
-  
 	@Autowired
-	private IManagerRoleService managerRoleService ; 
+	private IManagerRoleService managerRoleService ;
+
+	@Autowired
+	private IManagerProjectService applicationService ;
 
 	/**
 	 * 通过一级目录构建菜单
@@ -162,6 +166,31 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	public List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus) {
 		List<ManagerResourceEntity> menuTrees = buildMenuTree(menus);
 		return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+	}
+
+	@Override
+	public void initApplicationMenu(Long projectId) {
+
+		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
+
+		wrapper.eq(ManagerResourceEntity::getMenuType , MenuEnums.MENU_PLATFORM.value)
+			   .eq(ManagerResourceEntity::getProjectId , projectId);
+
+		long count = count(wrapper) ;
+		if(count > 0){
+			return ;
+		}
+
+		ManagerProjectEntity project = applicationService.getById(projectId) ;
+
+		ManagerResourceEntity platformMenu = new ManagerResourceEntity() ;
+
+		platformMenu.setMenuType(MenuEnums.MENU_PLATFORM.value);
+		platformMenu.setResourceName(project.getProjectName());
+		platformMenu.setProjectId(projectId);
+		platformMenu.setResourceIcon("icon");
+
+		save(platformMenu) ;
 	}
 
 	/**
