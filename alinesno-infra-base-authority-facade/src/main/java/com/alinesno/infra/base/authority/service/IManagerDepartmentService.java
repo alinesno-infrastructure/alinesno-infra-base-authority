@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
@@ -43,4 +44,20 @@ public interface IManagerDepartmentService extends IBaseService<ManagerDepartmen
 	 * @param projectId
 	 */
     void initDept(Long projectId);
+
+	/**
+	 * 查询应用部门列表
+	 *
+	 * @return
+	 */
+    List<TreeSelect> selectDeptTreeList();
+
+	/**
+	 * 列出服务应用列表
+	 *
+	 * @param managerDepartmentEntity
+	 * @param projectId
+	 * @return
+	 */
+	List<ManagerDepartmentEntity> selectDeptList(ManagerDepartmentEntity managerDepartmentEntity, long projectId);
 }

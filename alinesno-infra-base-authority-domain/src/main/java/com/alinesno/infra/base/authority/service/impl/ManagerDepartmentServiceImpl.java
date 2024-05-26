@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
@@ -11,6 +12,7 @@ import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import com.alinesno.infra.common.core.utils.StringUtils;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
@@ -18,12 +20,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -195,34 +197,92 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 		save(d) ;
 	}
 
-//	@Override
-//	public List<ManagerDepartmentEntity> findAllWithApplication(RestWrapper restWrapper) {
-//	
-//		List<ManagerDepartmentEntity> list = jpa.findAll(restWrapper.toSpecification()) ; 
-//		List<ManagerProjectEntity> apps = managerApplicationService.findAll(restWrapper.toSpecification()) ; 
-//		
-//		for(ManagerProjectEntity app : apps) {
-//			ManagerDepartmentEntity d = new ManagerDepartmentEntity() ; 
-//			d.setPid(ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value);
-//			d.setId(app.getId());
-//			d.setFullName(app.getApplicationName());
-//			
-//			for(ManagerDepartmentEntity b : list) {
-//				if(app.getId().equals(b.getApplicationId()) && ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value.equals(b.getPid())) {
-//					b.setPid(app.getId());
-//				}
-//			}
-//			list.add(d) ; 
-//		}
-//		
-//		return list;
-//	}
-//	
-//	@Cacheable(value = "ManagerDepartmentEntity") 
-//	@Override
-//	public Optional<ManagerDepartmentEntity> findById(String id) {
-//		log.debug("ManagerDepartmentEntity.findById :{}" , id);
-//		return super.findById(id);
-//	}
+	@Override
+	public List<TreeSelect> selectDeptTreeList() {
+		LambdaQueryWrapper<ManagerDepartmentEntity> wrapper = new LambdaQueryWrapper<>() ;
+		List<ManagerDepartmentEntity> depts = list(wrapper) ;
+
+		return buildDeptTreeSelect(depts);
+	}
+
+	@Override
+	public List<ManagerDepartmentEntity> selectDeptList(ManagerDepartmentEntity managerDepartmentEntity, long projectId) {
+		return list() ;
+	}
+
+	/**
+	 * 构建前端所需要下拉树结构
+	 *
+	 * @param depts 部门列表
+	 * @return 下拉树结构列表
+	 */
+	public List<TreeSelect> buildDeptTreeSelect(List<ManagerDepartmentEntity> depts) {
+		List<ManagerDepartmentEntity> deptTrees = buildDeptTree(depts);
+		return deptTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+	}
+
+	/**
+	 * 构建前端所需要树结构
+	 *
+	 * @param depts 部门列表
+	 * @return 树结构列表
+	 */
+	public List<ManagerDepartmentEntity> buildDeptTree(List<ManagerDepartmentEntity> depts) {
+
+		List<ManagerDepartmentEntity> returnList = new ArrayList<>();
+		List<Long> tempList = depts.stream().map(ManagerDepartmentEntity::getId).toList();
+
+		for (ManagerDepartmentEntity dept : depts) {
+			// 如果是顶级节点, 遍历该父节点的所有子节点
+			if (!tempList.contains(dept.getPid())) {
+				recursionFn(depts, dept);
+				returnList.add(dept);
+			}
+		}if (returnList.isEmpty()) {
+			returnList = depts;
+		}
+
+		return returnList;
+	}
+
+	/**
+	 * 递归列表
+	 */
+	private void recursionFn(List<ManagerDepartmentEntity> list, ManagerDepartmentEntity t) {
+
+		// 得到子节点列表
+		List<ManagerDepartmentEntity> childList = getChildList(list, t);
+		t.setChildren(childList);
+
+		for (ManagerDepartmentEntity tChild : childList) {
+			if (hasChild(list, tChild)) {
+				recursionFn(list, tChild);
+			}
+		}
+
+	}
+
+	/**
+	 * 得到子节点列表
+	 */
+	private List<ManagerDepartmentEntity> getChildList(List<ManagerDepartmentEntity> list, ManagerDepartmentEntity t) {
+
+		List<ManagerDepartmentEntity> tlist = new ArrayList<>();
+
+        for (ManagerDepartmentEntity n : list) {
+            if (StringUtils.isNotNull(n.getPid()) && n.getPid().longValue() == t.getId().longValue()) {
+                tlist.add(n);
+            }
+        }
+
+		return tlist;
+	}
+
+	/**
+	 * 判断是否有子节点
+	 */
+	private boolean hasChild(List<ManagerDepartmentEntity> list, ManagerDepartmentEntity t) {
+		return !getChildList(list, t).isEmpty();
+	}
 
 }

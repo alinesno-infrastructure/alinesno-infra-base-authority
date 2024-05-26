@@ -15,6 +15,7 @@ var managerUrl = {
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
     downloadfile: prefix + "downloadfile",
+    listExclude: prefix + "listExclude",
     deptTree: prefix + "deptTree",
 }
 
@@ -24,6 +25,15 @@ export function listDept(query) {
         url: managerUrl.datatables,
         method: 'post',
         params: query
+    })
+}
+
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
     })
 }
 
@@ -64,7 +74,8 @@ export function delDept(id) {
 // 查询部门列表（排除节点）
 export function listDeptExcludeChild(id) {
     return request({
-        url: '/system/dept/list/exclude/' + id,
+        // url: '/system/dept/list/exclude/' + id,
+        url: managerUrl.listExclude + '/' + parseStrEmpty(id),
         method: 'get'
     })
 }

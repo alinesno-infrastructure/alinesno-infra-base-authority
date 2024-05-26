@@ -57,9 +57,14 @@
       <el-table-column prop="simpleName" label="部门名称"></el-table-column>
       <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
       <el-table-column prop="hasStatus" label="状态" width="100">
-<!--        <template #default="scope">-->
-<!--          <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />-->
-<!--        </template>-->
+        <template #default="scope">
+            <el-switch
+              v-model="scope.row.hasStatus"
+              :active-value="0"
+              :inactive-value="1"
+              @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
+            />
+        </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="200">
         <template #default="scope">
@@ -156,7 +161,7 @@
 </template>
 
 <script setup name="Dept">
-import { listDept, getDept, delDept, addDept, updateDept, listDeptExcludeChild } from "@/api/system/dept";
+import { listDept, getDept, delDept, addDept, changStatusField , updateDept, listDeptExcludeChild } from "@/api/system/dept";
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
@@ -250,7 +255,7 @@ function toggleExpandAll() {
 function handleUpdate(row) {
   reset();
   listDeptExcludeChild(row.id).then(response => {
-    deptOptions.value = proxy.handleTree(response.rows, "id" , "pid");
+    deptOptions.value = proxy.handleTree(response.data , "id" , "pid");
   });
   getDept(row.id).then(response => {
     form.value = response.rows;
@@ -287,6 +292,20 @@ function handleDelete(row) {
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
+ 
+const handleChangStatusField = async(field , value , id) => {
+    // 判断tags值 这样就不会进页面时调用了
+      const res = await changStatusField({
+         field: field,
+         value: value?1:0,
+         id: id
+      }).catch(() => { })
+      if (res && res.code == 200) {
+         // 刷新表格
+         getList()
+      }
+}
+
 
 getList();
 </script>

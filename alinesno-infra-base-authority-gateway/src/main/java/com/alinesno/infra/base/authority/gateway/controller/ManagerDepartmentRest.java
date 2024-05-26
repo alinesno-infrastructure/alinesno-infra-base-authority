@@ -1,10 +1,10 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.core.utils.StringUtils;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
@@ -12,15 +12,15 @@ import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 
@@ -65,6 +65,19 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 	}
 
 	/**
+	 * 查询部门列表（排除节点）
+	 */
+	@GetMapping("/listExclude/{id}")
+	public AjaxResult excludeChild(@PathVariable(value = "id", required = false) Long id) {
+		long projectId = currentProjectSession.get().getId();
+
+		List<ManagerDepartmentEntity> depts = managerDepartmentService.selectDeptList(new ManagerDepartmentEntity() , projectId);
+		depts.removeIf(d -> d.getId().intValue() == id || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), id + ""));
+
+		return AjaxResult.success(depts);
+	}
+
+	/**
 	 * 通过应用id查询机构结构
 	 * 
 	 * @param applicationId
@@ -85,56 +98,7 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 	 */
 	@GetMapping("/deptTree")
 	public AjaxResult deptTree() {
-		String data = "[\n" +
-				"        {\n" +
-				"            \"id\": 100,\n" +
-				"            \"label\": \"AIP科技\",\n" +
-				"            \"children\": [\n" +
-				"                {\n" +
-				"                    \"id\": 101,\n" +
-				"                    \"label\": \"深圳总公司\",\n" +
-				"                    \"children\": [\n" +
-				"                        {\n" +
-				"                            \"id\": 103,\n" +
-				"                            \"label\": \"研发部门\"\n" +
-				"                        },\n" +
-				"                        {\n" +
-				"                            \"id\": 104,\n" +
-				"                            \"label\": \"市场部门\"\n" +
-				"                        },\n" +
-				"                        {\n" +
-				"                            \"id\": 105,\n" +
-				"                            \"label\": \"测试部门\"\n" +
-				"                        },\n" +
-				"                        {\n" +
-				"                            \"id\": 106,\n" +
-				"                            \"label\": \"财务部门\"\n" +
-				"                        },\n" +
-				"                        {\n" +
-				"                            \"id\": 107,\n" +
-				"                            \"label\": \"运维部门\"\n" +
-				"                        }\n" +
-				"                    ]\n" +
-				"                },\n" +
-				"                {\n" +
-				"                    \"id\": 102,\n" +
-				"                    \"label\": \"长沙分公司\",\n" +
-				"                    \"children\": [\n" +
-				"                        {\n" +
-				"                            \"id\": 108,\n" +
-				"                            \"label\": \"市场部门\"\n" +
-				"                        },\n" +
-				"                        {\n" +
-				"                            \"id\": 109,\n" +
-				"                            \"label\": \"财务部门\"\n" +
-				"                        }\n" +
-				"                    ]\n" +
-				"                }\n" +
-				"            ]\n" +
-				"        }\n" +
-				"    ]" ;
-
-		return AjaxResult.success(JSONUtil.parse(data)) ;
+		return AjaxResult.success(managerDepartmentService.selectDeptTreeList()) ;
 	}
 
 	@Override

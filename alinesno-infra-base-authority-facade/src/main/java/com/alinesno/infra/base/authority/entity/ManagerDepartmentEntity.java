@@ -30,6 +30,11 @@ public class ManagerDepartmentEntity extends InfraBaseEntity {
 	@ColumnComment("父部门id")
 	private Long pid;
 
+	@TableField("ancestors")
+	@ColumnType
+	@ColumnComment("祖级列表")
+	private String ancestors;
+
 	@TableField("pids")
 	@ColumnType(length = 255)
 	@ColumnComment("父级ids")
