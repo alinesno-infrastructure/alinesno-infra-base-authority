@@ -99,14 +99,12 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	}
 
 	@Override
-	public List<ManagerResourceEntity> findResoucePermission(ManagerAccountEntity account, Long pageId) {
+	public List<ManagerResourceEntity> findResourcePermission(ManagerAccountEntity account, Long pageId) {
  
 		QueryWrapper<ManagerResourceEntity> w = WrapperGenerator.build();
 		w.eq("resource_parent", pageId);
 
-		List<ManagerResourceEntity> list = list(w);  
-
-		return list;
+        return list(w);
 	}
 
 	@Override
@@ -191,6 +189,20 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 		platformMenu.setResourceIcon("icon");
 
 		save(platformMenu) ;
+	}
+
+	/**
+	 * 查询所有项目菜单
+	 * @param projectId
+	 * @return
+	 */
+	@Override
+	public List<ManagerResourceEntity> findAllByProject(Long projectId) {
+
+		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerResourceEntity::getProjectId , projectId) ;
+
+		return list(wrapper) ;
 	}
 
 	/**

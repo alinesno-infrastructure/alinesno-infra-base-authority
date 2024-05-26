@@ -45,7 +45,22 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 
 		log.debug("projectId = {}" , projectId);
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
+
 		return this.toPage(model, this.getFeign(), page);
+	}
+
+	/**
+	 * 应用菜单查询
+	 * @param projectId
+	 * @return
+	 */
+	@PostMapping("/listResourceByProject")
+	public TableDataInfo listResourceByProject(@RequestParam("projectId") Long projectId) {
+
+		managerResourceService.initApplicationMenu(projectId)	;
+		List<ManagerResourceEntity> list = managerResourceService.findAllByProject(projectId)  ;
+
+        return new TableDataInfo(list , Integer.MAX_VALUE);
 	}
 
 	/**

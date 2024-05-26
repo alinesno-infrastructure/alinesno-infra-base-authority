@@ -28,6 +28,15 @@ export function getLatestList(){
     })
 }
 
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
+    })
+}
+
 // 选择当前应用
 export function getCurrentProject(){
     return request({

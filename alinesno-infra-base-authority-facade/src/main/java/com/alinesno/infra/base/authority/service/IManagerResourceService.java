@@ -60,7 +60,7 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param account
 	 * @return
 	 */
-	List<ManagerResourceEntity> findResoucePermission(ManagerAccountEntity account, Long pageId);
+	List<ManagerResourceEntity> findResourcePermission(ManagerAccountEntity account, Long pageId);
 
 	/**
 	 * 查询菜单 
@@ -90,4 +90,11 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param platformId
 	 */
     void initApplicationMenu(Long platformId);
+
+	/**
+	 * 查询应用所有菜单
+	 * @param projectId
+	 * @return
+	 */
+	List<ManagerResourceEntity> findAllByProject(Long projectId);
 }

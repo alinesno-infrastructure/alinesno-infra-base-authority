@@ -99,14 +99,15 @@
         <template #default="scope">
             <el-switch
               v-model="scope.row.hasStatus"
-              active-value="0"
-              inactive-value="1"
+              :active-value="0"
+              :inactive-value="1"
+              @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
             />
         </template>
       </el-table-column>
       <el-table-column label="菜单配置" align="center" width="200" key="requestCount" prop="requestCount" :show-overflow-tooltip="true">
           <template #default="scope">
-                <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;配置</el-button>
+            <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;配置</el-button>
           </template>
       </el-table-column>
       <el-table-column label="添加日期" align="center" prop="operTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
@@ -194,6 +195,7 @@ import {
   delProject , 
   getProject ,
   updateProject , 
+  changStatusField ,
   addProject
 } from "@/api/system/project";
 
@@ -370,6 +372,19 @@ function submitForm() {
       }
     }
   });
+}
+ 
+const handleChangStatusField = async(field , value , id) => {
+    // 判断tags值 这样就不会进页面时调用了
+      const res = await changStatusField({
+         field: field,
+         value: value?1:0,
+         id: id
+      }).catch(() => { })
+      if (res && res.code == 200) {
+         // 刷新表格
+         getList()
+      }
 }
 
 getList();

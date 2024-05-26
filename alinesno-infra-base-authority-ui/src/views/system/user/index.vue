@@ -130,7 +130,7 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="id" prop="id" v-if="columns[0].visible" />
+          <el-table-column label="用户编号" align="center" key="id" prop="id" v-if="columns[0].visible" :show-overflow-tooltip="true" />
           <el-table-column label="用户名称" align="center" key="loginName" prop="loginName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" key="name" prop="name" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
@@ -139,8 +139,8 @@
             <template #default="scope">
               <el-switch
                   v-model="scope.row.accountStatus"
-                  active-value="1"
-                  inactive-value="0"
+                  :active-value="1"
+                  :inactive-value="0"
                   @change="handleStatusChange(scope.row)"
               ></el-switch>
             </template>

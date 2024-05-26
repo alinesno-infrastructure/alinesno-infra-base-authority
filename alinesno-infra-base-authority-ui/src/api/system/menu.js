@@ -15,13 +15,32 @@ var managerUrl = {
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
     treeselect: prefix + "treeselect",
+    listResourceByProject: prefix + "listResourceByProject",
     downloadfile: prefix + "downloadfile"
+}
+
+// 查询菜单列表
+export function listMenuByProject(query , projectId) {
+    return request({
+        url: managerUrl.listResourceByProject+ "?projectId=" + parseStrEmpty(projectId),
+        method: 'post',
+        params: query
+    })
+}
+
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
+    })
 }
 
 // 查询菜单列表
 export function listMenu(query , projectId) {
     return request({
-        url: managerUrl.datatables + "?projectId=" + projectId,
+        url: managerUrl.datatables + "?projectId=" + parseStrEmpty(projectId),
         method: 'post',
         params: query
     })
