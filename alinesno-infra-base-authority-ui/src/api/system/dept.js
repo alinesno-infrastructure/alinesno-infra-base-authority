@@ -16,6 +16,7 @@ var managerUrl = {
     changeField: prefix + "changeField",
     downloadfile: prefix + "downloadfile",
     listExclude: prefix + "listExclude",
+    roleDeptTreeselect: prefix + "roleDeptTreeselect",
     deptTree: prefix + "deptTree",
 }
 
@@ -91,7 +92,7 @@ export function treeselect() {
 // 根据角色ID查询部门树结构
 export function roleDeptTreeselect(roleId) {
     return request({
-        url: '/system/dept/roleDeptTreeselect/' + roleId,
+        url: managerUrl.roleDeptTreeselect + '/' + roleId , 
         method: 'get'
     })
 }

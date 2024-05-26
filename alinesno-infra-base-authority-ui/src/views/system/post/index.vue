@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="岗位编码" prop="postCode">
+      <el-form-item label="岗位编码" prop="positionCode">
         <el-input
-            v-model="queryParams.postCode"
+            v-model="queryParams.positionCode"
             placeholder="请输入岗位编码"
             clearable
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="岗位名称" prop="postName">
+      <el-form-item label="岗位名称" prop="positionName">
         <el-input
-            v-model="queryParams.postName"
+            v-model="queryParams.positionName"
             placeholder="请输入岗位名称"
             clearable
             @keyup.enter="handleQuery"
@@ -77,13 +77,18 @@
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="postId" />
-      <el-table-column label="岗位编码" align="center" prop="postCode" />
-      <el-table-column label="岗位名称" align="center" prop="postName" />
-      <el-table-column label="岗位排序" align="center" prop="postSort" />
+      <el-table-column label="岗位编号" align="center" prop="positionCode" />
+      <el-table-column label="岗位编码" align="center" prop="positionCode" />
+      <el-table-column label="岗位名称" align="center" prop="positionName" />
+      <el-table-column label="岗位排序" align="center" prop="positionSort" />
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
-          <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
+            <el-switch
+              v-model="scope.row.hasStatus"
+              :active-value="0"
+              :inactive-value="1"
+              @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
+            />
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
@@ -120,14 +125,14 @@
     <!-- 添加或修改岗位对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="postRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="岗位名称" prop="postName">
-          <el-input v-model="form.postName" placeholder="请输入岗位名称" />
+        <el-form-item label="岗位名称" prop="positionName">
+          <el-input v-model="form.positionName" placeholder="请输入岗位名称" />
         </el-form-item>
-        <el-form-item label="岗位编码" prop="postCode">
-          <el-input v-model="form.postCode" placeholder="请输入编码名称" />
+        <el-form-item label="岗位编码" prop="positionCode">
+          <el-input v-model="form.positionCode" placeholder="请输入编码名称" />
         </el-form-item>
-        <el-form-item label="岗位顺序" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+        <el-form-item label="岗位顺序" prop="positionSort">
+          <el-input-number v-model="form.positionSort" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item label="岗位状态" prop="status">
           <el-radio-group v-model="form.status">
@@ -153,7 +158,7 @@
 </template>
 
 <script setup name="Post">
-import { listPost, addPost, delPost, getPost, updatePost } from "@/api/system/post";
+import { listPost, addPost, delPost, getPost, updatePost , changStatusField } from "@/api/system/post";
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
@@ -173,14 +178,14 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    postCode: undefined,
-    postName: undefined,
+    positionCode: undefined,
+    positionName: undefined,
     status: undefined
   },
   rules: {
-    postName: [{ required: true, message: "岗位名称不能为空", trigger: "blur" }],
-    postCode: [{ required: true, message: "岗位编码不能为空", trigger: "blur" }],
-    postSort: [{ required: true, message: "岗位顺序不能为空", trigger: "blur" }],
+    positionName: [{ required: true, message: "岗位名称不能为空", trigger: "blur" }],
+    positionCode: [{ required: true, message: "岗位编码不能为空", trigger: "blur" }],
+    positionSort: [{ required: true, message: "岗位顺序不能为空", trigger: "blur" }],
   }
 });
 
@@ -203,10 +208,10 @@ function cancel() {
 /** 表单重置 */
 function reset() {
   form.value = {
-    postId: undefined,
-    postCode: undefined,
-    postName: undefined,
-    postSort: 0,
+    id: undefined,
+    positionCode: undefined,
+    positionName: undefined,
+    positionSort: 0,
     status: "0",
     remark: undefined
   };
@@ -224,7 +229,7 @@ function resetQuery() {
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.postId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -237,8 +242,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const postId = row.postId || ids.value;
-  getPost(postId).then(response => {
+  const id = row.id || ids.value;
+  getPost(id).then(response => {
     form.value = response.rows;
     open.value = true;
     title.value = "修改岗位";
@@ -248,7 +253,7 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["postRef"].validate(valid => {
     if (valid) {
-      if (form.value.postId != undefined) {
+      if (form.value.id != undefined) {
         updatePost(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
@@ -266,7 +271,7 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const postIds = row.postId || ids.value;
+  const postIds = row.id || ids.value;
   proxy.$modal.confirm('是否确认删除岗位编号为"' + postIds + '"的数据项？').then(function() {
     return delPost(postIds);
   }).then(() => {
@@ -279,6 +284,19 @@ function handleExport() {
   proxy.download("system/post/export", {
     ...queryParams.value
   }, `post_${new Date().getTime()}.xlsx`);
+}
+ 
+const handleChangStatusField = async(field , value , id) => {
+    // 判断tags值 这样就不会进页面时调用了
+      const res = await changStatusField({
+         field: field,
+         value: value?1:0,
+         id: id
+      }).catch(() => { })
+      if (res && res.code == 200) {
+         // 刷新表格
+         getList()
+      }
 }
 
 getList();

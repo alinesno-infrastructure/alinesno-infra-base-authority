@@ -72,11 +72,13 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 
 	/**
 	 * 查询菜单列表
+	 *
 	 * @param menu
 	 * @param userId
+	 * @param projectId
 	 * @return
 	 */
-    List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId);
+    List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId);
 
 	/**
 	 * 构建树形菜单

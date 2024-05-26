@@ -104,14 +104,20 @@
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="字典编号" align="center" prop="id" />
-      <el-table-column label="字典名称" align="center" prop="codeName" :show-overflow-tooltip="true"/>
-      <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true"/>
+      <el-table-column label="字典名称" align="left" prop="codeName" :show-overflow-tooltip="true"/>
+      <el-table-column label="字典类型" align="left" prop="codeTypeName" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
+            <span>{{ scope.row.codeTypeName }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" align="center" prop="hasStatus">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="codeDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" align="left" prop="codeDesc" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="addTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>

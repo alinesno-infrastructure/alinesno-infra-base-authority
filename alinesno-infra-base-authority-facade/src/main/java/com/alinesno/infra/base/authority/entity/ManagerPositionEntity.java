@@ -1,12 +1,12 @@
 package com.alinesno.infra.base.authority.entity;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -16,28 +16,34 @@ import lombok.Data;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("manager_position")
 public class ManagerPositionEntity extends InfraBaseEntity {
 
-	private static final long serialVersionUID = 1L;
+	@TableField("position_code")
+	@ColumnType(length = 32)
+	@ColumnComment("岗位代码")
+	private String positionCode ;
 
-	/**
-	 * 岗位名称
-	 */
-	@Excel(name = "岗位名称")
 	@TableField("position_name")
-	@ColumnType(length = 255)
+	@ColumnType(length = 64)
 	@ColumnComment("岗位名称")
 	private String positionName;
 
-	/**
-	 * 岗位级别
-	 */
-	@Excel(name = "岗位级别")
 	@TableField("position_rank")
-	@ColumnType(length = 255)
+	@ColumnType(length = 11)
 	@ColumnComment("岗位级别")
 	private String positionRank;
+
+	@TableField("position_sort")
+	@ColumnType(length = 11)
+	@ColumnComment("岗位顺序")
+	private String positionSort;
+
+	@TableField("remark")
+	@ColumnType(length = 128)
+	@ColumnComment("备注")
+	private String remark;
 
 }

@@ -138,11 +138,12 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	/**
 	 * 根据用户查询系统菜单列表
 	 *
-	 * @param userId 用户ID
+	 * @param userId    用户ID
+	 * @param projectId
 	 * @return 菜单列表
 	 */
 	@Override
-	public List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId) {
+	public List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId) {
 		List<ManagerResourceEntity> menuList = null;
 
 		// 管理员显示所有菜单信息
@@ -154,7 +155,10 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 //		}
 //		return menuList;
 
-		menuList = list() ;
+		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerResourceEntity::getProjectId , projectId) ;
+
+		menuList = list(wrapper) ;
 
 		return menuList ;
 	}
@@ -215,12 +219,10 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	{
 		List<ManagerResourceEntity> returnList = new ArrayList<>();
 		List<Long> tempList = menus.stream().map(ManagerResourceEntity::getId).collect(Collectors.toList());
-		for (Iterator<ManagerResourceEntity> iterator = menus.iterator(); iterator.hasNext();)
-		{
+		for (Iterator<ManagerResourceEntity> iterator = menus.iterator(); iterator.hasNext();) {
 			ManagerResourceEntity menu = (ManagerResourceEntity) iterator.next();
 			// 如果是顶级节点, 遍历该父节点的所有子节点
-			if (!tempList.contains(menu.getResourceParent()))
-			{
+			if (!tempList.contains(menu.getResourceParent())) {
 				recursionFn(menus, menu);
 				returnList.add(menu);
 			}

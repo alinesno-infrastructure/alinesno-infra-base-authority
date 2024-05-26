@@ -1,13 +1,13 @@
 package com.alinesno.infra.base.authority.api.dto;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Treeselect树结构实体类
@@ -42,7 +42,9 @@ public class TreeSelect implements Serializable {
     public TreeSelect(ManagerResourceEntity menu) {
         this.id = menu.getId();
         this.label = menu.getResourceName();
-        this.children = menu.getSubResource().stream().map(TreeSelect::new).collect(Collectors.toList());
+        if(menu.getSubResource() != null){
+            this.children = menu.getSubResource().stream().map(TreeSelect::new).collect(Collectors.toList());
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
+import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
@@ -34,6 +35,9 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 
 	@Autowired
 	private IManagerResourceService managerResourceService;
+
+	@Autowired
+	private CurrentProjectSession currentProjectSession ;
 
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request,
@@ -69,8 +73,9 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 	@GetMapping("/treeselect")
 	public AjaxResult treeselect(ManagerResourceEntity menu) {
 		long userId = CurrentAccountJwt.getUserId() ;
+		long projectId = currentProjectSession.get().getId() ;
 
-		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(menu, userId);
+		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(menu, userId , projectId);
 
 		return AjaxResult.success(managerResourceService.buildMenuTreeSelect(menus));
 	}

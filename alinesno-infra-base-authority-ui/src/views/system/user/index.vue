@@ -275,7 +275,7 @@
                 <el-option
                     v-for="item in postOptions"
                     :key="item.postId"
-                    :label="item.postName"
+                    :label="item.positionName"
                     :value="item.postId"
                     :disabled="item.status == 1"
                 ></el-option>
