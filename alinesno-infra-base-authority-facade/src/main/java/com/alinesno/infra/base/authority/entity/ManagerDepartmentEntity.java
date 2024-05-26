@@ -78,6 +78,11 @@ public class ManagerDepartmentEntity extends InfraBaseEntity {
 	@ColumnComment("排序")
 	private Integer orderNum;
 
+	@TableField("project_id")
+	@ColumnType(length = 64)
+	@ColumnComment("所属项目")
+	private Long projectId;
+
 	/** 子部门 */
 	@TableField(exist = false)
 	private List<ManagerDepartmentEntity> children = new ArrayList<ManagerDepartmentEntity>();

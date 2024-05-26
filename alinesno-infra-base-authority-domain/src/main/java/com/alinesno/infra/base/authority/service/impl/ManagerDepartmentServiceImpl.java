@@ -1,24 +1,24 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.enums.ResourceTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
-import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
-import com.alinesno.infra.base.authority.enums.ResourceTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerDepartmentMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
-import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +33,9 @@ import java.util.List;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepartmentEntity, ManagerDepartmentMapper> implements IManagerDepartmentService {
-
-	// 日志记录
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(ManagerDepartmentServiceImpl.class);
 
 	@Autowired
 	private IManagerProjectService managerApplicationService;
@@ -172,6 +169,30 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 		}
 
 		return deptList;
+	}
+
+	@Override
+	public void initDept(Long projectId) {
+
+		LambdaQueryWrapper<ManagerDepartmentEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerDepartmentEntity::getProjectId , projectId);
+
+		long count = count(wrapper) ;
+		if(count > 0){
+			return ;
+		}
+
+		ManagerDepartmentEntity d = new ManagerDepartmentEntity() ;
+
+		d.setProjectId(projectId);
+
+		d.setSimpleName("父类部门");
+		d.setLeader("AIP管理员");
+		d.setEmail("aip@gmail.com");
+		d.setPhone("15578777777");
+		d.setPid(0L);
+
+		save(d) ;
 	}
 
 //	@Override

@@ -194,7 +194,7 @@ function getList() {
   loading.value = true;
   listDept(queryParams.value).then(response => {
     console.log(response)
-    deptList.value = proxy.handleTree(response.rows, "id");
+    deptList.value = proxy.handleTree(response.rows, "id" , "pid");
     loading.value = false;
   });
 }
@@ -230,7 +230,7 @@ function resetQuery() {
 function handleAdd(row) {
   reset();
   listDept(queryParams.value).then(response => {
-    deptOptions.value = proxy.handleTree(response.rows, "id");
+    deptOptions.value = proxy.handleTree(response.rows, "id" , "pid");
   });
   if (row != undefined) {
     form.value.pid = row.id;
@@ -250,7 +250,7 @@ function toggleExpandAll() {
 function handleUpdate(row) {
   reset();
   listDeptExcludeChild(row.id).then(response => {
-    deptOptions.value = proxy.handleTree(response.rows, "id");
+    deptOptions.value = proxy.handleTree(response.rows, "id" , "pid");
   });
   getDept(row.id).then(response => {
     form.value = response.rows;

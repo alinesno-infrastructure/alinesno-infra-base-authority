@@ -33,10 +33,14 @@ public interface IManagerDepartmentService extends IBaseService<ManagerDepartmen
 	/**
 	 * 通过查询部门相关人员
 	 * 
-	 * @param applicationId
 	 * @param parentDeptId
 	 * @return
 	 */
 	Object findDepByDeptId(String parentDeptId);
 
+	/**
+	 * 初始化部门应用
+	 * @param projectId
+	 */
+    void initDept(Long projectId);
 }

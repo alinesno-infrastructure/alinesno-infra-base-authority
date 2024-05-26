@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.gateway.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
+import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
@@ -12,13 +13,14 @@ import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 
@@ -36,10 +38,16 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 	@Autowired
 	private IManagerDepartmentService managerDepartmentService;
 
+	@Autowired
+	private CurrentProjectSession currentProjectSession ;
 	
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
+
+		// 初始化应用部门
+		managerDepartmentService.initDept(currentProjectSession.get().getId()) ;
+
 		return this.toPage(model, this.getFeign(), page);
 	}
 	
