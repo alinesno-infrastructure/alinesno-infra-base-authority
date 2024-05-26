@@ -107,7 +107,7 @@
       <el-table-column label="字典名称" align="left" prop="codeName" :show-overflow-tooltip="true"/>
       <el-table-column label="字典类型" align="left" prop="codeTypeName" :show-overflow-tooltip="true">
         <template #default="scope">
-          <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
+          <router-link :to="'/system/dict-data/index/' + scope.row.id" class="link-type">
             <span>{{ scope.row.codeTypeName }}</span>
           </router-link>
         </template>
