@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 接口配置项
 var prefix = '/api/infra/base/authority/managerSettings/';
@@ -13,6 +14,7 @@ var managerUrl = {
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
+    refreshCache: prefix + "refreshCache",
     downloadfile: prefix + "downloadfile"
 }
 
@@ -70,7 +72,7 @@ export function getConfigKey(configKey) {
 // 刷新参数缓存
 export function refreshCache() {
     return request({
-        url: '/system/config/refreshCache',
+        url: managerUrl.refreshCache ,
         method: 'delete'
     })
 }

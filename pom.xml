@@ -23,6 +23,7 @@
 	<modules>
 		<!-- 应用服务 -->
         <module>alinesno-infra-base-authority-facade</module>  <!-- 接口和引用 -->
+		<module>alinesno-infra-base-authority-common</module>  <!-- 模块公共包 -->
         <module>alinesno-infra-base-authority-domain</module>  <!-- 领域服务 -->
         <module>alinesno-infra-base-authority-adapter</module> <!-- 适配层 -->
         <module>alinesno-infra-base-authority-gateway</module>  <!-- 接口服务 -->

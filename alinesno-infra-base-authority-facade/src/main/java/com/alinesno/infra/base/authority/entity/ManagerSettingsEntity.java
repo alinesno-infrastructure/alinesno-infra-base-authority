@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -16,11 +17,10 @@ import lombok.Data;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("manager_settings")
 public class ManagerSettingsEntity extends InfraBaseEntity {
-
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 参数名称
@@ -62,9 +62,9 @@ public class ManagerSettingsEntity extends InfraBaseEntity {
 	 * 备注
 	 */
 	@Excel(name = "备注")
-	@TableField("config_remark")
-	@ColumnType(length = 255)
+	@TableField("remark")
+	@ColumnType(length = 128)
 	@ColumnComment("备注")
-	private String configRemark;
+	private String remark;
 
 }

@@ -98,7 +98,7 @@
 
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数主键" align="center" prop="configId" />
+      <el-table-column label="参数主键" align="center" prop="id" />
       <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
       <el-table-column label="参数键名" align="center" prop="configKey" :show-overflow-tooltip="true" />
       <el-table-column label="参数键值" align="center" prop="configValue" />
@@ -140,7 +140,7 @@
     />
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="800px" append-to-body>
       <el-form ref="configRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="参数名称" prop="configName">
           <el-input v-model="form.configName" placeholder="请输入参数名称" />
@@ -226,7 +226,7 @@ function cancel() {
 /** 表单重置 */
 function reset() {
   form.value = {
-    configId: undefined,
+    id: undefined,
     configName: undefined,
     configKey: undefined,
     configValue: undefined,
@@ -248,7 +248,7 @@ function resetQuery() {
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.configId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -261,9 +261,9 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const configId = row.configId || ids.value;
-  getConfig(configId).then(response => {
-    form.value = response.rows;
+  const id = row.id || ids.value;
+  getConfig(id).then(response => {
+    form.value = response.data ;
     open.value = true;
     title.value = "修改参数";
   });
@@ -272,7 +272,7 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["configRef"].validate(valid => {
     if (valid) {
-      if (form.value.configId != undefined) {
+      if (form.value.id != undefined) {
         updateConfig(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
@@ -290,7 +290,7 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const configIds = row.configId || ids.value;
+  const configIds = row.id || ids.value;
   proxy.$modal.confirm('是否确认删除参数编号为"' + configIds + '"的数据项？').then(function () {
     return delConfig(configIds);
   }).then(() => {

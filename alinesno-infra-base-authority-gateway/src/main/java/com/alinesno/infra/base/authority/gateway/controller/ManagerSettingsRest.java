@@ -9,6 +9,7 @@ import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,19 +26,16 @@ import java.util.List;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@Slf4j
 @Api(tags = "基础配置管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/authority/managerSettings")
 public class ManagerSettingsRest extends BaseController<ManagerSettingsEntity, IManagerSettingsService> {
 
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerSettingsRest.class);
-
 	@Autowired
 	private IManagerSettingsService managerSettingsService;
 
-	
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
@@ -48,7 +46,16 @@ public class ManagerSettingsRest extends BaseController<ManagerSettingsEntity, I
 	@GetMapping("getConfigByKey/{key}")
 	public AjaxResult getConfigByKey(@PathVariable String key) {
 		List<ManagerSettingsEntity> list = managerSettingsService.findByConfigKey(key);
-		return AjaxResult.success(list != null && list.size() > 0 ? list.get(0) : null);
+		return AjaxResult.success(list != null && !list.isEmpty() ? list.get(0) : null);
+	}
+
+	/**
+	 * 刷新参数缓存
+	 */
+	@DeleteMapping("/refreshCache")
+	public AjaxResult refreshCache() {
+		managerSettingsService.resetConfigCache();
+		return ok();
 	}
 
 	@Override
