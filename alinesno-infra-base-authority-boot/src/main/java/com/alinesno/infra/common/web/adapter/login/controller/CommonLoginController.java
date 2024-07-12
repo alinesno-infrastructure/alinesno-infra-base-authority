@@ -156,13 +156,15 @@ public class CommonLoginController {
 
         Menu monitorMenu = new Menu("Monitor", "/monitor", false, "noRedirect", "Layout", true, new Menu.Meta("系统监控", "monitor", false, null),
                 List.of(
+                        new Menu("Online", "monitor/online/index", false,false, "monitor/online/index", new Menu.Meta("在线用户", "peoples", false, null)),
                         new Menu("Server", "monitor/server/index", false,false, "monitor/server/index", new Menu.Meta("服务监控", "server", false, null)),
                         new Menu("Cache", "monitor/cache/index", false,false, "monitor/cache/index", new Menu.Meta("缓存监控", "redis", false, null)),
                         new Menu("CacheList", "monitor/cache/list", false, false,"monitor/cache/list", new Menu.Meta("缓存列表", "redis-list", false, null))
                 ));
 
-        Menu themeMenu = new Menu("Enterprise", "/enterprise", false, "noRedirect", "Layout", true, new Menu.Meta("团队主题", "tool", false, null),
+        Menu themeMenu = new Menu("Enterprise", "/enterprise", false, "noRedirect", "Layout", true, new Menu.Meta("登陆配置", "tool", false, null),
                 List.of(
+                        new Menu("AccountSync", "system/accountSync/index", false,false,  "system/accountSync/index", new Menu.Meta("账户同步", "message", false, null)),
                         new Menu("Setting", "enterprise/setting/index", false,false, "enterprise/setting/index", new Menu.Meta("系统主题", "build", false, null)),
                         new Menu("Theme", "enterprise/theme/index",false, false, "enterprise/theme/index", new Menu.Meta("登陆主题", "swagger", false, null))
                 ));
