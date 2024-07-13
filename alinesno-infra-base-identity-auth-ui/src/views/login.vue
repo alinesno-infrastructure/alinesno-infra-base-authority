@@ -3,7 +3,7 @@
     <el-header style="z-index: 100;height: 45px;background: #fff;border-bottom: 1px solid #e5e5e5;">
       <div>
         <div style="float: left;font-size: 30px;color:#fff;margin-top: 5px;">
-          <img :src="getHomeLogo()" style="width:35px" alt="">
+          <img :src="identityInfoPanel.logo" style="width:35px" alt="">
         </div>
         <div class="banner-text">
           {{ identityInfoPanel.systemName }}
@@ -80,6 +80,23 @@
                                       <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template>
                                     </el-input>
                                   </el-form-item>
+
+                                  <el-form-item prop="code" v-if="captchaEnabled">
+                                    <el-input
+                                      v-model="loginForm.code"
+                                      size="large"
+                                      auto-complete="off"
+                                      placeholder="验证码"
+                                      style="width: calc(100% - 120px)"
+                                      @keyup.enter="handleLogin"
+                                    >
+                                      <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
+                                    </el-input>
+                                    <div class="login-code">
+                                      <img :src="codeUrl" @click="getCode" class="login-code-img"/>
+                                    </div>
+                                  </el-form-item>
+
                                   <el-form-item prop="phoneCode">
                                     <el-input
                                       v-model="loginForm.phoneCode"
@@ -97,21 +114,6 @@
                                     </el-input>
                                   </el-form-item>
 
-                                  <el-form-item prop="code" v-if="captchaEnabled">
-                                    <el-input
-                                      v-model="loginForm.code"
-                                      size="large"
-                                      auto-complete="off"
-                                      placeholder="验证码"
-                                      style="width: calc(100% - 120px)"
-                                      @keyup.enter="handleLogin"
-                                    >
-                                      <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
-                                    </el-input>
-                                    <div class="login-code">
-                                      <img :src="codeUrl" @click="getCode" class="login-code-img"/>
-                                    </div>
-                                  </el-form-item>
                                   <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
                                   <el-form-item style="width:100%;">
                                     <el-button
@@ -259,7 +261,7 @@ const loginForm = ref({
 const identityInfoPanel = ref({
   systemName: "",
   bannerInfo: "",
-  logo: "",
+  logo: homeLogo ,
   version: "",
   copyrightYear: "",
   copyrightLabel: "",
@@ -391,6 +393,11 @@ function loginType(tip) {
   smsLoginEnabled.value = tip ;
 }
 
+function getHomeLogo(){
+
+  return homeLogo ;
+}
+
 function getCode() {
   getCodeImg().then(res => {
     captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled;
@@ -418,10 +425,6 @@ function getCookie() {
     password: password === undefined ? loginForm.value.password : decrypt(password),
     rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
   };
-}
-
-function getHomeLogo(){
-  return homeLogo ;
 }
 
 // 检查当前是否已经登录，如果已登录则直接开始跳转，如果未登录则等待用户输入账号密码
@@ -457,10 +460,9 @@ function getIdentityInfo(){
   identityInfoStore.getIdentityInfo().then(res => {
     initLoading.value = false;
 
-    console.log('res = ' + res) ;
+    console.log('res--> = ' + res) ;
 
     identityInfoPanel.value = res.data ;
-
     console.log('identityInfoPanel = ' + identityInfoPanel.value.systemName)
 
   }).catch((err) => {
