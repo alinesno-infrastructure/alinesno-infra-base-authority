@@ -1,6 +1,7 @@
-package com.alinesno.infra.base.identity.auth.event.controller;
+package com.alinesno.infra.base.identity.auth.controller;
 
 import cn.hutool.core.codec.Base64;
+import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
 import com.alinesno.infra.base.identity.auth.domain.dto.SmsSendDto;
 import com.alinesno.infra.base.identity.auth.notices.SmsNoticeResponse;
@@ -14,11 +15,11 @@ import com.alinesno.infra.common.security.api.annotation.RateLimiter;
 import com.alinesno.infra.common.security.api.enums.LimitType;
 import com.alinesno.infra.common.web.adapter.utils.IdUtils;
 import com.google.code.kaptcha.Producer;
-import io.jsonwebtoken.lang.Assert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.sms4j.api.entity.SmsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,6 +67,7 @@ public class CaptchaController {
         SmsResponse result = smsService.sendMessage(phone , phoneCode , null) ;
 
         log.debug("sendMessagePhoneCode = {} , result = {}" , phone + ":" + phoneCode ,result);
+        Assert.isTrue(result.isSuccess() , JSONObject.parseObject(result.getData()+"").getString("Message"));
 
         RedisUtils.setCacheObject(verifyKey, phoneCode, Duration.ofMinutes(AuthConstants.PHONE_CODE_EXPIRATION));
 

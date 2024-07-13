@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.event.controller;
+package com.alinesno.infra.base.identity.auth.controller;
 
 import com.alinesno.infra.base.identity.auth.config.IdentityAuthConfig;
 import com.alinesno.infra.common.core.utils.StringUtils;

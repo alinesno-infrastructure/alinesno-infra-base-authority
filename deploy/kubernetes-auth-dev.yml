@@ -44,10 +44,15 @@ spec:
                 -Dspring.datasource.url=jdbc:mysql://${DB_MYSQL_URL}/dev_alinesno_infra_base_identity_v100?serverTimezone=GMT%2B8&zeroDateTimeBehavior=CONVERT_TO_NULL
                 -Dspring.datasource.username=${DB_MYSQL_USRENAME}
                 -Dspring.datasource.password=${DB_MYSQL_PASSWORD}
+
                 -Dserver.port=8080 
-                -Dalinesno.infra.gateway.host=${INFRA_GATEWAY_PROXY}
-                -Dalinesno.infra.gateway.base-identity.host=http://alinesno-infra-base-identity-boot:8080
-                -Dalinesno.infra.gateway.base-identity-auth.host=http://alinesno-infra-base-identity-auth-application:8080
+                -Dalinesno.infra.authority.host=http://alinesno-infra-base-authority-boot:8080
+
+                -Dsms.blends.alibaba.accessKeyId=${SMS_ALIBABA_ACCESS_KEY_ID}
+                -Dsms.blends.alibaba.accessKeySecret=${SMS_ALIBABA_ACCESS_SECRET}
+                -Dsms.blends.alibaba.signature=${SMS_ALIBABA_SIGNATURE}
+                -Dsms.blends.alibaba.templateId=${SMS_ALIBABA_TEMPLATE_ID}
+                -Dsms.blends.alibaba.templateName=${SMS_ALIBABA_TEMPLATE_NAME}
           ports:
             - name: http
               containerPort: 8080

@@ -216,4 +216,10 @@ jobs:
 
             export INFRA_GATEWAY_PROXY=${{ secrets.DEV_INFRA_GATEWAY_PROXY }}
 
+            export SMS_ALIBABA_ACCESS_KEY_ID=${{ secrets.SMS_ALIBABA_ACCESS_KEY_ID }}
+            export SMS_ALIBABA_ACCESS_SECRET=${{ secrets.SMS_ALIBABA_ACCESS_SECRET }}
+            export SMS_ALIBABA_SIGNATURE=${{ secrets.SMS_ALIBABA_SIGNATURE }}
+            export SMS_ALIBABA_TEMPLATE_ID=${{ secrets.SMS_ALIBABA_TEMPLATE_ID }}
+            export SMS_ALIBABA_TEMPLATE_NAME=${{ secrets.SMS_ALIBABA_TEMPLATE_NAME }}
+
             envsubst < /home/github-action/${{ env.PROJECT_NAME }}/kubernetes-auth-${{ env.CURRENT_PROFIRE }}.yml | kubectl apply -f -

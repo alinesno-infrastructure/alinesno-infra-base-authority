@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.event.controller;
+package com.alinesno.infra.base.identity.auth.controller;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;

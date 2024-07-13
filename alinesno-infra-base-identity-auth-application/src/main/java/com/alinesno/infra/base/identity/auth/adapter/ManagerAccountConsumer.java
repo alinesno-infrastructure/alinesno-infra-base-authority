@@ -7,7 +7,7 @@ import com.dtflys.forest.annotation.*;
 /**
  * 账户接口
  */
-@BaseRequest(baseURL = "#{alinesno.infra.gateway.host}/base-authority" , connectTimeout = 30*1000)
+@BaseRequest(baseURL = "#{alinesno.infra.authority.host}" , connectTimeout = 30*1000)
 @Headers({
         "Content-Type: application/json",
         "Accept: */*",

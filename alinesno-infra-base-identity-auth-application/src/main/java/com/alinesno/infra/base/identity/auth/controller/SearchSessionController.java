@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.event.controller;
+package com.alinesno.infra.base.identity.auth.controller;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.session.TokenSign;
