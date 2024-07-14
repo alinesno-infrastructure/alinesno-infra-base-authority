@@ -34,9 +34,8 @@
         <module>alinesno-infra-base-authority-gateway</module>
         -->
 
-		<!-- 认证UI服务，使用非后端分离服务
+		<!-- 认证UI服务，使用非后端分离服务 -->
 		<module>alinesno-infra-base-identity-auth-ui</module>
-		-->
 		<module>alinesno-infra-base-identity-auth-application</module>  <!-- 认证服务 -->
 
     </modules>
