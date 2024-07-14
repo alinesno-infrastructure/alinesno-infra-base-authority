@@ -65,8 +65,8 @@ public class CaptchaController {
         // 保存验证码信息
         String verifyKey = AuthConstants.PHONE_CODE_KEY +  phone;
         SmsResponse result = smsService.sendMessage(phone , phoneCode , null) ;
-
-        log.debug("sendMessagePhoneCode = {} , result = {}" , phone + ":" + phoneCode ,result);
+//
+        log.debug("sendMessagePhoneCode = {}" , phone + ":" + phoneCode);
         Assert.isTrue(result.isSuccess() , JSONObject.parseObject(result.getData()+"").getString("Message"));
 
         RedisUtils.setCacheObject(verifyKey, phoneCode, Duration.ofMinutes(AuthConstants.PHONE_CODE_EXPIRATION));
