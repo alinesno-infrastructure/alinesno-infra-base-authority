@@ -55,6 +55,10 @@ forest:
   connect-timeout: 3000        # 连接超时时间，单位为毫秒
   read-timeout: 3000           # 数据读取超时时间，单位为毫秒
 
+alinesno.infra:
+  authority:
+    host: "http://localhost:30100"
+
 sa-token:
   sso:
     allow-url: "*"
