@@ -40,6 +40,7 @@
                     <div class="qrcode-wrap app-text-wrap">
                       <div class="infra-qrcode-wrapper ">
                         <img class="infra-qrcode" :src="loginQrcode" alt="二维码">
+                        <!-- <vue-qrcode :value="'http://192.168.101.18/mfa?loginName='+ loginForm.phoneNumer + ''" :options="{ width: 200 }"></vue-qrcode> -->
                       </div>
                       <div class="methods-text">使用
                         <span class="methods">TOTP登陆</span> 请先输入用户名
@@ -227,6 +228,7 @@ import Cookies from "js-cookie";
 import { encrypt, decrypt } from "@/utils/jsencrypt";
 import { getParam } from "@/utils/ruoyi" ;
 
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 import homeLogo from '@/assets/logo/logo.png'
 import loginQrcode from '@/assets/logo/loginQrcode.png'
 

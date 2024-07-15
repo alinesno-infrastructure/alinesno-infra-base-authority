@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chenfengyuan/vue-qrcode": "2",
     "@element-plus/icons-vue": "2.0.10",
     "@vueup/vue-quill": "1.1.0",
     "@vueuse/core": "9.5.0",
@@ -22,7 +23,8 @@
     "jsencrypt": "3.3.1",
     "nprogress": "0.2.0",
     "pinia": "2.0.22",
-    "vue": "3.2.45",
+    "qrcode": "1",
+    "vue": "3",
     "vue-cropper": "1.0.3",
     "vue-router": "4.1.4"
   },

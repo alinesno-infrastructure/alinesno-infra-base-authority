@@ -5,7 +5,7 @@
         <br>AIP MFA 登陆确认
     </h2>
     <div class="totp-input">
-      <input type="text" maxlength="1" v-for="n in 6" :key="n" v-model="totp[n-1]" @input="moveFocus($event, n-1)">
+      <input type="number" maxlength="1" v-for="n in 6" :key="n" v-model="totp[n-1]" @input="moveFocus($event, n-1)">
     </div>
     <button size="large" @click="confirmLogin" class="confirm-button">确认登陆</button>
   </div>
@@ -52,11 +52,11 @@ const confirmLogin = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: top;
   height: 100vh;
   font-family: Arial, sans-serif;
   text-align: center;
-  margin-top: -20%;
+  padding-top: 10%;
 }
 
 .brand-logo {
@@ -71,19 +71,19 @@ h2 {
   width: 100%;
   font-size: 1.3rem;
   line-height: 2.5rem;
-  max-width: 300px;
+  max-width: 90%;
 }
 
 .totp-input {
   display: flex;
   gap: 10px;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .totp-input input {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   font-size: 24px;
   text-align: center;
   border: 1px solid #ccc;
@@ -92,7 +92,7 @@ h2 {
 
 .confirm-button {
   width: 100%;
-  max-width: 300px;
+  max-width: 90%;
   padding: 13px;
   font-size: 16px;
   background-color: #3b5998 ;
