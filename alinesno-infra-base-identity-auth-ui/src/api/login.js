@@ -23,6 +23,18 @@ export function login(username, password, code, uuid , loginType , phoneNumber ,
   })
 }
 
+// 验证totp时间 
+export function mfaVerify(data) {
+  return request({
+    url: '/mfa/verify',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
+
 // 注册方法
 export function register(data) {
   return request({

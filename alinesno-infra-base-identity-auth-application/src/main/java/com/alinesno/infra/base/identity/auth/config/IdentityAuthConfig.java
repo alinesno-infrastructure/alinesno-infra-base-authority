@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "identity.auth")
 public class IdentityAuthConfig {
 
+    /** 背景图片 */
+    private String backgroundImage ;
+
     /** 系统logo */
     private String logo ;
 

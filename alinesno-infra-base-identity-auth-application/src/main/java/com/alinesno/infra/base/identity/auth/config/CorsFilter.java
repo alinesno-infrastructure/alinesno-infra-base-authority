@@ -3,6 +3,8 @@ package com.alinesno.infra.base.identity.auth.config;
 import java.io.IOException;
 
 import com.alinesno.infra.common.web.adapter.config.CORSProperites;
+import com.alinesno.infra.common.web.adapter.exception.GlobalExceptionHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -25,6 +27,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CorsFilter implements Filter {
 
 	private final CORSProperites corsProperites = new CORSProperites() ;
+
+	@Bean
+	public GlobalExceptionHandler getGlobalExceptionHandler(){
+		return new GlobalExceptionHandler() ;
+	}
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)

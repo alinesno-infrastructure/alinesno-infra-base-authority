@@ -39,4 +39,12 @@ public interface ManagerAccountConsumer {
     @Get(url = "/v1/api/base/authority/account/findByLoginName")
     ManagerAccountDto findByLoginName(@Query("loginName") String loginName);
 
+    /**
+     * 查询账号的MFA密钥
+     * @param loginName
+     * @return
+     */
+    @Get(url = "/v1/api/base/authority/account/queryMfaSecret")
+    String queryMfaSecret(@Query("loginName") String loginName);
+
 }

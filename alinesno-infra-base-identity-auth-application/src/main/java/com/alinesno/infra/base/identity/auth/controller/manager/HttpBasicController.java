@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.controller;
+package com.alinesno.infra.base.identity.auth.controller.manager;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.controller;
+package com.alinesno.infra.base.identity.auth.controller.manager;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;

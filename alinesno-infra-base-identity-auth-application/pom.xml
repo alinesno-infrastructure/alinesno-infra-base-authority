@@ -21,6 +21,13 @@
 
 	<dependencies>
 
+		<!-- 引入TOTP工程包 -->
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-identity-auth-mfa</artifactId>
+			<version>${revision}</version>
+		</dependency>
+
 		<!-- 公共组件包 _start -->
 		<dependency>
 			<groupId>com.alinesno.infra.common</groupId>
@@ -104,6 +111,18 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
+		</dependency>
+
+		<!-- apache common net -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.13</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.6</version>
 		</dependency>
 
 		<dependency>

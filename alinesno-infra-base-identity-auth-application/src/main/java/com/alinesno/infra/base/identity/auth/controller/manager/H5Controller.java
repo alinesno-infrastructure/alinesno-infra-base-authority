@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.identity.auth.controller;
+package com.alinesno.infra.base.identity.auth.controller.manager;
 
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginDetailsDTO;
 import lombok.extern.slf4j.Slf4j;

@@ -21,6 +21,10 @@
     </properties>
 
 	<modules>
+
+		<!-- TOTP认证信息 -->
+		<module>alinesno-infra-base-identity-auth-mfa</module>
+
 		<!-- 应用服务 -->
         <module>alinesno-infra-base-authority-facade</module>  <!-- 接口和引用 -->
 		<module>alinesno-infra-base-authority-common</module>  <!-- 模块公共包 -->

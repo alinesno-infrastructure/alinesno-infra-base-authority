@@ -1074,11 +1074,21 @@ $chartColor: #3b5998;
   .main-box {
     background-size: cover;
     // background-image: url("https://img.alicdn.com/imgextra/i3/O1CN018YDlO91csxDVQc1n9_!!6000000003657-2-tps-2880-1432.png");
+    // width: 99%;
     background-color: #f1f2f5 ; 
     display: flex;
     width: 100%;
     background-position: top;
     height: calc(100vh - 90px);
+    box-sizing: border-box;
+    min-height: 99%;
+    box-shadow: rgba(-1, 0, 0, 0.05) 0px 0px 0px 1px inset;
+    transition-property: background-image;
+    transition-duration: 179ms;
+    transition-timing-function: ease-in-out;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .show-tenant-box {

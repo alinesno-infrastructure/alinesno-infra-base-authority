@@ -15,7 +15,7 @@
         </a>
       </div>
     </el-header>
-    <el-main class="main-box" style="">
+    <el-main class="main-box" :style="'background-image: url('+ identityInfoPanel.backgroundImage +')'">
 
       <div class="login-content">
 
@@ -42,9 +42,8 @@
                         <img class="infra-qrcode" :src="loginQrcode" alt="二维码">
                       </div>
                       <div class="methods-text">使用
-                        <span class="methods">二维码登陆</span>
+                        <span class="methods">TOTP登陆</span> 请先输入用户名
                       </div>
-                      <div class="methods-text hover-orange">使用OTLP绑定登陆</div>
                     </div>
                   </div>
                 </div>
@@ -248,6 +247,7 @@ const smsLoginEnabled = ref(true);
 
 const loginForm = ref({
   loginType: smsLoginEnabled.value  ,
+  backgroundImage: "",
   phoneNumber: "",
   phoneCode: "",
   username: "",
@@ -279,8 +279,10 @@ const loginRules = {
 const codeUrl = ref("");
 const initLoading = ref(false);
 const loading = ref(false);
+
 // 验证码开关
 const captchaEnabled = ref(true);
+
 // 注册开关
 // const register = ref(true);
 
@@ -300,8 +302,9 @@ const getPhoneCode = async() => {
     return;
   }
 
-  if (!loginForm.value.phoneNumber){
+  if (!loginForm.value.phoneNumber || !loginForm.value.code ){
     proxy.$refs.loginRef.validateField("phoneNumber");
+    proxy.$refs.loginRef.validateField("code");
     return;
   }
 
@@ -310,6 +313,8 @@ const getPhoneCode = async() => {
   
   getRegistCode(loginForm.value.phoneNumber , loginForm.value.code , loginForm.value.uuid).then(res => {
     console.log('res = ' + res);
+
+    loginForm.value.phoneCode = res.data ;
 
     ElMessage({
       message: '验证码发送成功，请注意查收短信.',
@@ -391,11 +396,9 @@ onMounted(() => {
 
 function loginType(tip) {
   smsLoginEnabled.value = tip ;
-}
 
-function getHomeLogo(){
-
-  return homeLogo ;
+  loginForm.value.code = "" ;  // 切换一次则清空验证码
+  getCode();
 }
 
 function getCode() {

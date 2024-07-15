@@ -38,6 +38,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/mfa',
+    component: () => import('@/views/mfa'),
+    hidden: true
+  },
+  {
     path: "/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
     hidden: true

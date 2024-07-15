@@ -2,6 +2,7 @@
 identity:
   auth:
     logo: "https://portal.infra.linesno.com/logo.png"
+    background-image: "http://data.linesno.com/banner/quora-bg-sm.webp"
     system-name: "单点登陆服务"
     banner-info: "用户一次可通过登录凭证登入会话,在该次会话期间无需再次登录"
     version: "1.0.0-SNAPSHOT"
@@ -20,7 +21,7 @@ spring:
       database: 1
       host: 127.0.0.1
       port: 6379
-      password: aip@local
+#      password: aip@local
       timeout: 10s
       lettuce:
         pool:
@@ -42,6 +43,7 @@ sms:
   maxPoolSize: 30
   queueCapacity: 50
   shutdownStrategy: true
+  is-dev: true
   blends:
     alibaba:
       accessKeyId:

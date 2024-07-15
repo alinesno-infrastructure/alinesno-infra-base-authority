@@ -1,10 +1,9 @@
-package com.alinesno.infra.base.identity.auth.controller;
+package com.alinesno.infra.base.identity.auth.controller.manager;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.PhoneUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
-import com.alinesno.infra.base.identity.auth.domain.dto.SmsSendDto;
-import com.alinesno.infra.base.identity.auth.notices.SmsNoticeResponse;
 import com.alinesno.infra.base.identity.auth.notices.SmsService;
 import com.alinesno.infra.common.core.cache.RedisUtils;
 import com.alinesno.infra.common.core.constants.CacheConstants;
@@ -19,6 +18,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.sms4j.api.entity.SmsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +45,9 @@ public class CaptchaController {
     @Autowired
     private SmsService smsService ;
 
+    @Value("${sms.is-dev:false}")
+    private boolean isDevModel ;
+
     /**
      * 获取手机验证码
      */
@@ -56,22 +59,23 @@ public class CaptchaController {
         Assert.hasLength(phone , "手机号为空.");
         Assert.hasLength(code , "系统验证码为空.");
         Assert.hasLength(uuid , "认证唯一标识为空.");
+        Assert.isTrue(PhoneUtil.isPhone(phone) , "手机号码不正确") ;
 
         // 验证手机验证码
         verifyCaptchaCode(code, uuid);
 
         String phoneCode = String.valueOf((int)((Math.random() * 9 + 1) * Math.pow(10,5)));
 
+        if(!isDevModel){
+            SmsResponse result = smsService.sendMessage(phone , phoneCode , null) ;
+            Assert.isTrue(result.isSuccess() , JSONObject.parseObject(result.getData()+"").getString("Message"));
+        }
+
         // 保存验证码信息
         String verifyKey = AuthConstants.PHONE_CODE_KEY +  phone;
-        SmsResponse result = smsService.sendMessage(phone , phoneCode , null) ;
-//
-        log.debug("sendMessagePhoneCode = {}" , phone + ":" + phoneCode);
-        Assert.isTrue(result.isSuccess() , JSONObject.parseObject(result.getData()+"").getString("Message"));
-
         RedisUtils.setCacheObject(verifyKey, phoneCode, Duration.ofMinutes(AuthConstants.PHONE_CODE_EXPIRATION));
 
-        return AjaxResult.success() ;
+        return AjaxResult.success("操作成功." , phoneCode) ;
     }
 
     /**
