@@ -58,11 +58,6 @@
 			<artifactId>alinesno-infra-base-identity-auth-ui</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.alinesno.infra.base</groupId>
-			<artifactId>alinesno-infra-base-authority-facade</artifactId>
-			<version>${revision}</version>
-		</dependency>
 		<!-- 公共组件包 _end -->
 
 		<!-- sms -->
@@ -153,7 +148,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
