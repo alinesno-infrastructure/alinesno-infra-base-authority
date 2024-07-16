@@ -51,11 +51,13 @@ public class AllUrlHandler implements InitializingBean {
 
             // 断言PathPatternsCondition不为空
             // 获取注解上边的 path 替代 path variable 为 *
-            assert info.getPathPatternsCondition() != null;
+            // assert info.getPathPatternsCondition() != null;
 
-            // 遍历每个路径模式，替换占位符为通配符
-            Objects.requireNonNull(info.getPathPatternsCondition().getPatterns())
-                    .forEach(url -> set.add(ReUtil.replaceAll(url.getPatternString(), PATTERN, "*")));
+            if(info.getPathPatternsCondition() != null){
+                // 遍历每个路径模式，替换占位符为通配符
+                Objects.requireNonNull(info.getPathPatternsCondition().getPatterns())
+                        .forEach(url -> set.add(ReUtil.replaceAll(url.getPatternString(), PATTERN, "*")));
+            }
 
         });
 
