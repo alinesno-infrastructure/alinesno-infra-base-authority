@@ -31,6 +31,25 @@ actable:
   unique:
     prefix: alinesno_base_authority_uni_
 
+# security配置
+alinesno.security:
+  # 排除路径
+  excludes:
+    # 静态资源
+    - /*.html
+    - /**/*.html
+    - /**/*.css
+    - /**/*.js
+    # 公共路径
+    - /favicon.ico
+    - /error
+    # swagger 文档配置
+    - /*/api-docs
+    - /*/api-docs/**
+    # actuator 监控配置
+    - /actuator
+    - /actuator/**
+
 # sa-token配置
 sa-token:
   token-name: satoken

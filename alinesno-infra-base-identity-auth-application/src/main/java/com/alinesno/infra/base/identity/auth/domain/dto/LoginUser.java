@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class LoginUser {
 
-    public static final LoginUser ANON_USER = new LoginUser(0l , "anon_user");
+    public static final LoginUser ANON_USER = new LoginUser(0L, "anon_user");
 
     private long userId ;
     private String loginType;

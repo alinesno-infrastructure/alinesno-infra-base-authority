@@ -61,6 +61,12 @@ alinesno.infra:
   authority:
     host: "http://localhost:30100"
 
+ip2region:
+  external: false
+  index-block-size: 4096
+  total-header-size: 8192
+  location: classpath*:ip2region/ip2region.db
+
 sa-token:
   sso:
     allow-url: "*"

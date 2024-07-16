@@ -29,6 +29,13 @@
 			<version>${forest.version}</version>
 		</dependency>
 
+		<!-- 集成sa-token -->
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-core</artifactId>
+			<version>1.37.0</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

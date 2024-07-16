@@ -4,11 +4,10 @@ import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.session.TokenSign;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.alinesno.infra.base.authority.api.SaSessionInfoDto;
+import com.alinesno.infra.base.authority.api.TokenSignDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
-import com.alinesno.infra.base.identity.auth.domain.dto.SaSessionInfoDto;
-import com.alinesno.infra.base.identity.auth.domain.dto.TokenSignDto;
-import com.alinesno.infra.common.facade.response.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +32,7 @@ public class SearchSessionController {
 
 	// 会话查询接口
 	@GetMapping("getList")
-	public AjaxResult getList(int start, int size , String keyword) {
+	public List<SaSessionInfoDto> getList(int start, int size , String keyword) {
 
 		keyword = StringUtils.isNotBlank(keyword)?keyword:"" ;
 
@@ -46,19 +45,19 @@ public class SearchSessionController {
 
 			SaSession session = StpUtil.getSessionBySessionId(sessionId);
 
-			if(session.get(AuthConstants.CURRENT_ACCOUNT_DTO) != null){
+			if(session.get(AuthConstants.currentAccountDto) != null){
 				SaSessionInfoDto sessionDto = getSaSessionInfoDto(session);
 				sessionList.add(sessionDto);
 			}
 		}
 
 		// 返回 
-		return AjaxResult.success(sessionList);
+		return sessionList ;
 	}
 
 	@NotNull
 	private static SaSessionInfoDto getSaSessionInfoDto(SaSession session) {
-		ManagerAccountDto managerAccountDto = (ManagerAccountDto) session.get(AuthConstants.CURRENT_ACCOUNT_DTO);
+		ManagerAccountDto managerAccountDto = (ManagerAccountDto) session.get(AuthConstants.currentAccountDto);
 		log.debug("-->>> managerAccountDto = {}" , JSONObject.toJSONString(managerAccountDto));
 
 		SaSessionInfoDto sessionDto = new SaSessionInfoDto() ;
@@ -75,7 +74,29 @@ public class SearchSessionController {
 			signDtos.add(signDto) ;
 		}
 
+		String token = session.getToken() ;
+		long tokenTimeout = StpUtil.getTokenTimeout(token) ;
+		long sessionTimeout = session.getTimeout() ;
+		long disableTime = StpUtil.getDisableTime(token) ;
+
+		String browser = session.getString(AuthConstants.browser) ;
+		String osName =  session.getString(AuthConstants.osName) ;
+		String loginIP = session.getString(AuthConstants.loginIP) ;
+		String loginArea = session.getString(AuthConstants.loginIP_AREA) ;
+
+		// 登陆信息
+		sessionDto.setBrowser(browser);
+		sessionDto.setOsName(osName);
+		sessionDto.setLoginIP(loginIP);
+		sessionDto.setLoginArea(loginArea);
+
+		// 浏览器信息
+		sessionDto.setTokenTimeout(tokenTimeout);
+		sessionDto.setSessionTimeout(sessionTimeout);
+		sessionDto.setDisableTime(disableTime);
+
 		sessionDto.setTokenSignList(signDtos);
+
 		return sessionDto;
 	}
 

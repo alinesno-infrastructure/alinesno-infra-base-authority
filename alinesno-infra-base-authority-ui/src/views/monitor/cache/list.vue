@@ -31,8 +31,8 @@
               align="left"
               prop="cacheName"
               :show-overflow-tooltip="true"
-              :formatter="nameFormatter"
-            ></el-table-column>
+              :formatter="nameFormatter">
+            </el-table-column>
 
             <el-table-column
               label="备注"
@@ -84,7 +84,7 @@
             ></el-table-column>
             <el-table-column
               label="缓存键名"
-              align="center"
+              align="left"
               :show-overflow-tooltip="true"
               :formatter="keyFormatter"
             >

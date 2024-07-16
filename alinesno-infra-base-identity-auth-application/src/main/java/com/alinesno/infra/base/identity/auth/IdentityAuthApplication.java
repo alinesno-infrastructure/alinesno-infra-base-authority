@@ -5,14 +5,13 @@ import com.dtflys.forest.springboot.annotation.ForestScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 集成一个Java开发示例工具
- * @author LuoAnDong
- * @since 2023年8月3日 上午6:23:43
+ *
+ * @author luoxiaodong
+ * @version 1.0.0
  */
-@Configuration
 @ForestScan(basePackages="com.alinesno.infra.base.identity.auth.adapter")
 @EnableCore
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)

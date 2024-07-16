@@ -43,9 +43,9 @@
                </el-table-column>
 
                <!-- 业务字段-->
-               <el-table-column label="账号信息" align="left" width="230" key="dbDesc" prop="dbDesc" v-if="columns[1].visible">
+               <el-table-column label="账号信息" align="left" key="dbDesc" prop="dbDesc" v-if="columns[1].visible">
                   <template #default="scope">
-                     用户名: 平台管理员服务 <br/>
+                     用户名: {{ scope.row.name }} <br/>
                      <div style="font-size: 13px;color: #a5a5a5;">
                         登陆账号: {{ scope.row.loginName }}
                      </div>
@@ -57,44 +57,66 @@
                   </template>
                </el-table-column>
 
+               <el-table-column label="登陆信息" align="left" key="dbType" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
+                  <template #default="scope">
+                        <div style="margin-top: 5px;" v-if="scope.row.osName">
+                           <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> 系统: {{ scope.row.osName }}</el-button>
+                        </div>
+                     <div style="margin-top: 5px;" v-if="scope.row.browser">
+                        <el-button type="primary" bg text> <i class="fa-solid fa-credit-card"></i> {{ scope.row.browser }}</el-button>
+                     </div>
+                  </template>
+               </el-table-column>
+
                <el-table-column label="会话创建时间" align="left" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" >
                   <template #default="scope">
                      <span>{{ parseTime(scope.row.createTime ) }}</span> <br/>
                      <div style="font-size: 13px;color: #a5a5a5;">
-                      2天22时16分
+                     时长: {{ timeDifference(scope.row.createTime) }} 
                      </div>
-                  </template>
-               </el-table-column>
-               <el-table-column label="会话失效时间" align="left" key="dbType" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
-                  <template #default="scope">
-                     <span>{{ parseTime(scope.row.createTime) }}</span> <br/>
                      <div style="font-size: 13px;color: #a5a5a5;">
-                      3天12时16分
+                     剩余: {{ formatTimeoutSeconds(scope.row.sessionTimeout) }} 
                      </div>
                   </template>
                </el-table-column>
                <el-table-column label="登陆数量" align="center" key="jdbcUrl" prop="jdbcUrl" v-if="columns[4].visible">
                   <template #default="scope">
-                     <el-button type="primary" text bg icon="ChromeFilled"  @click="handleClientList(scope.row)">1个客户端</el-button>
+                     <el-button type="primary" text bg icon="ChromeFilled"  @click="handleClientList(scope.row)">{{ scope.row.tokenSignList.length }} 个客户端</el-button>
                   </template>
                </el-table-column>
-               <el-table-column label="登陆地址" align="left" width="150" key="hasStatus" v-if="columns[5].visible">
+               <el-table-column label="登陆地址" align="left" key="hasStatus" v-if="columns[5].visible">
                   <template #default="scope">
-                     湖南 长沙市
-                     <div style="font-size: 13px;color: #a5a5a5;">
-                      172.20.200.171
+                        <div style="margin-top: 5px;" v-if="scope.row.osName">
+                           <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> 湖南 长沙市</el-button>
+                        </div>
+                        <div style="margin-top: 5px;" v-if="scope.row.loginIP">
+                           <el-button type="danger" bg text> <i class="fa-solid fa-lemon"></i> IP: {{ scope.row.loginIP}}</el-button>
+                        </div>
+                  </template>
+               </el-table-column>
+
+               <el-table-column label="禁用" align="center" key="disableTime" prop="disableTime" v-if="columns[4].visible">
+                  <template #default="scope">
+                     <div style="margin-top: 5px;" v-if="scope.row.disableTime == -2">
+                        <el-button type="primary" text bg icon="ChromeFilled"  @click="handleClientList(scope.row)">正常</el-button>
+                     </div>
+                     <div style="margin-top: 5px;" v-if="scope.row.disableTime == -1">
+                        <el-button type="primary" text bg icon="ChromeFilled"  @click="handleClientList(scope.row)">禁用</el-button>
+                     </div>
+                     <div style="margin-top: 5px;" v-if="scope.row.disableTime > 0">
+                        <el-button type="primary" text bg icon="ChromeFilled"  @click="handleClientList(scope.row)">正常</el-button>
                      </div>
                   </template>
                </el-table-column>
 
                <!-- 操作字段  -->
-               <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
+               <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                   <template #default="scope">
                      <el-tooltip content="踢下线" placement="top">
                         <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:AccountOnline:edit']">踢下线</el-button>
                      </el-tooltip>
                      <el-tooltip content="强制注销" placement="top">
-                        <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:AccountOnline:remove']">强制注销</el-button>
+                        <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row.id)" v-hasPermi="['system:AccountOnline:remove']">强制注销</el-button>
                      </el-tooltip>
                   </template>
                </el-table-column>
@@ -118,11 +140,11 @@
             </el-table-column>
             <el-table-column prop="value" align="center" label="Token凭证" />
 
-            <el-table-column label="会话失效时间" align="center" key="dbType" width="160" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
+            <!-- <el-table-column label="会话创建时间" align="center" key="dbType" width="160" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
                <template #default="scope">
                   <span>{{ parseTime(scope.row.createTime) }}</span> <br/>
                </template>
-            </el-table-column>
+            </el-table-column>  -->
 
             <!-- 操作字段  -->
             <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
@@ -157,7 +179,15 @@ import {
    delAccountOnline,
    getAccountOnline,
    updateAccountOnline,
-   addAccountOnline
+   addAccountOnline , 
+
+   forceLogout,
+   kickUserOffline,
+   kickByTokenValue,
+   banUser,
+   unbanUser,
+   switchIdentity
+
 } from "@/api/monitor/online";
 
 const router = useRouter();
@@ -237,6 +267,96 @@ function handleQuery() {
    getList();
 };
 
+/** 强制注解用户 */
+function handleForceLogout(userId) {
+   forceLogout(userId).then(response => {
+      console.log('成功强制注销用户', response);
+   });
+}
+
+// 强制下线用户
+function handleKickUserOffline(userId) {
+    kickUserOffline(userId)
+        .then(response => {
+            console.log('成功将用户踢下线', response);
+        });
+}
+
+// 根据 Token 值踢人
+function handleKickByTokenValue(tokenValue) {
+    kickByTokenValue(tokenValue)
+        .then(response => {
+            console.log('成功根据Token踢人', response);
+        });
+}
+
+// 封禁指定账号
+function handleBanUser(userId) {
+    banUser(userId)
+        .then(response => {
+            console.log('成功封禁用户', response);
+        });
+}
+
+// 解封指定账号
+function handleUnbanUser(userId) {
+    unbanUser(userId)
+        .then(response => {
+            console.log('成功解封用户', response);
+        });
+}
+
+// 切换身份至指定用户
+function handleSwitchIdentity(userId) {
+    switchIdentity(userId)
+        .then(response => {
+            console.log('成功切换身份', response);
+        })
+}
+
+/** 与当前的时间差 */
+function timeDifference(timeStamp) {
+    const now = new Date();
+    const targetTime = new Date(timeStamp);
+    
+    // 检查时间戳是否有效
+    if (isNaN(targetTime.getTime())) {
+        return '无效的时间戳';
+    }
+    
+    const diff = now - targetTime; // 时间差以毫秒为单位
+    
+    const seconds = Math.floor(diff / 1000) % 60;
+    const minutes = Math.floor(diff / (1000 * 60)) % 60;
+    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    let result = '';
+    if (days > 0) {
+        result += `${days}天`;
+    }
+    if (hours > 0 || days > 0) {
+        result += `${hours}时`;
+    }
+    if (minutes > 0 || hours > 0 || days > 0) {
+        result += `${minutes}分`;
+    }
+    result += `${seconds}秒`;
+
+    return result;
+}
+
+function formatTimeoutSeconds(seconds) {
+    const days = Math.floor(seconds / (24 * 60 * 60));
+    seconds %= (24 * 60 * 60);
+    const hours = Math.floor(seconds / (60 * 60));
+    seconds %= (60 * 60);
+    const minutes = Math.floor(seconds / 60);
+    seconds %= 60;
+
+    return `${days}天${hours}时${minutes}分${seconds}秒`;
+}
+
 /** 重置按钮操作 */
 function resetQuery() {
    dateRange.value = [];
@@ -284,10 +404,11 @@ function cancel() {
 };
 
 /** 新增按钮操作 */
-function handleClientList() {
+function handleClientList(row) {
    reset();
    open.value = true;
    title.value = "登陆客户端列表";
+   tableData.value = row.tokenSignList ;
 };
 
 /** 修改按钮操作 */
@@ -325,3 +446,13 @@ function submitForm() {
 getList();
 
 </script>
+
+<style lang="scss">
+.role-icon{
+  img {
+   width: 45px;
+   height: 45px;
+   border-radius: 5px;
+  } 
+}
+</style>

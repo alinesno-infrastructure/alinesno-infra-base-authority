@@ -21,7 +21,69 @@ var managerUrl = {
     removeUrl: prefix + "delete" ,
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
-    downloadfile: prefix + "downloadfile"
+    downloadfile: prefix + "downloadfile" , 
+
+    // 调用配置
+    kickoutLogout: prefix + 'kickout/logout',
+    kickout: prefix + 'kickout/kickout',
+    kickoutByTokenValue: prefix + 'kickout/kickoutByTokenValue',
+    disable: prefix + 'disable/disable',
+    untieDisable: prefix + 'disable/untieDisable',
+    switchTo: prefix + 'switchTo/toUser',
+}
+
+// 将指定账号强制注销
+export function forceLogout(userId) {
+    return request({
+        url: controllerUrl.kickoutLogout,
+        method: 'get',
+        params: { userId }
+    });
+}
+
+// 将指定账号踢下线
+export function kickUserOffline(userId) {
+    return request({
+        url: controllerUrl.kickout,
+        method: 'get',
+        params: { userId }
+    });
+}
+
+// 根据 Token 值踢人
+export function kickByTokenValue(tokenValue) {
+    return request({
+        url: controllerUrl.kickoutByTokenValue,
+        method: 'get',
+        params: { tokenValue }
+    });
+}
+
+// 封禁指定账号
+export function banUser(userId) {
+    return request({
+        url: controllerUrl.disable,
+        method: 'get',
+        params: { userId }
+    });
+}
+
+// 解封指定账号
+export function unbanUser(userId) {
+    return request({
+        url: controllerUrl.untieDisable,
+        method: 'get',
+        params: { userId }
+    });
+}
+
+// 以 lambda 表达式的方式身份切换
+export function switchIdentity(userId) {
+    return request({
+        url: controllerUrl.switchTo,
+        method: 'get',
+        params: { userId }
+    });
 }
 
 // 查询数据库列表
