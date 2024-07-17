@@ -35,7 +35,7 @@ var managerUrl = {
 // 将指定账号强制注销
 export function forceLogout(userId) {
     return request({
-        url: controllerUrl.kickoutLogout,
+        url: managerUrl.kickoutLogout,
         method: 'get',
         params: { userId }
     });
@@ -44,7 +44,7 @@ export function forceLogout(userId) {
 // 将指定账号踢下线
 export function kickUserOffline(userId) {
     return request({
-        url: controllerUrl.kickout,
+        url: managerUrl.kickout,
         method: 'get',
         params: { userId }
     });
@@ -53,7 +53,7 @@ export function kickUserOffline(userId) {
 // 根据 Token 值踢人
 export function kickByTokenValue(tokenValue) {
     return request({
-        url: controllerUrl.kickoutByTokenValue,
+        url: managerUrl.kickoutByTokenValue,
         method: 'get',
         params: { tokenValue }
     });
@@ -62,7 +62,7 @@ export function kickByTokenValue(tokenValue) {
 // 封禁指定账号
 export function banUser(userId) {
     return request({
-        url: controllerUrl.disable,
+        url: managerUrl.disable,
         method: 'get',
         params: { userId }
     });
@@ -71,7 +71,7 @@ export function banUser(userId) {
 // 解封指定账号
 export function unbanUser(userId) {
     return request({
-        url: controllerUrl.untieDisable,
+        url: managerUrl.untieDisable,
         method: 'get',
         params: { userId }
     });
@@ -80,7 +80,7 @@ export function unbanUser(userId) {
 // 以 lambda 表达式的方式身份切换
 export function switchIdentity(userId) {
     return request({
-        url: controllerUrl.switchTo,
+        url: managerUrl.switchTo,
         method: 'get',
         params: { userId }
     });

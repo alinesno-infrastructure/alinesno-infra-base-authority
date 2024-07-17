@@ -38,7 +38,7 @@ public interface IManagerProjectService extends IBaseService<ManagerProjectEntit
 	 * @param applicationCode
 	 * @return
 	 */
-	ManagerProjectEntity findEntityByApplicationCode(String applicationCode);
+	ManagerProjectEntity findByProjectCode(String applicationCode);
 
 	/**
 	 * 插入应用列表

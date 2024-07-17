@@ -1,6 +1,5 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alinesno.infra.base.authority.api.dto.CacheListInfoVo;
 import com.alinesno.infra.base.authority.api.dto.SysCacheVo;
 import com.alinesno.infra.common.core.constants.CacheConstants;
@@ -30,8 +29,7 @@ public class CacheController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private final static List<SysCacheVo> caches = new ArrayList<SysCacheVo>();
-    {
+    private final static List<SysCacheVo> caches = new ArrayList<SysCacheVo>();{
         caches.add(new SysCacheVo(CacheConstants.SYS_CONFIG_KEY, "配置信息"));
         caches.add(new SysCacheVo(CacheConstants.SYS_DICT_KEY, "数据字典"));
         caches.add(new SysCacheVo(CacheConstants.CAPTCHA_CODE_KEY, "验证码"));
@@ -43,7 +41,7 @@ public class CacheController {
     /**
      * 获取缓存监控列表
      */
-    @SaCheckPermission("monitor:cache:list")
+//    @SaCheckPermission("monitor:cache:list")
     @GetMapping()
     public AjaxResult getInfo() throws Exception {
         RedisConnection connection = connectionFactory.getConnection();

@@ -5,6 +5,7 @@ import com.alinesno.infra.base.authority.service.IManagerCodeTypeService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "基础代码配置类型管理")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/authority/ManagerCodeType")
+@RequestMapping("/api/infra/base/authority/managerCodeType")
 public class ManagerCodeTypeRest extends BaseController<ManagerCodeTypeEntity, IManagerCodeTypeService> {
 
 	// 日志记录
@@ -43,6 +43,15 @@ public class ManagerCodeTypeRest extends BaseController<ManagerCodeTypeEntity, I
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 		return this.toPage(model, this.getFeign(), page);
+	}
+
+	/**
+	 * 获取字典选择框列表
+	 */
+	@GetMapping("/optionSelect")
+	public AjaxResult optionselect() {
+		List<ManagerCodeTypeEntity> dictTypes = managerCodeTypeService.list();
+		return AjaxResult.success(dictTypes);
 	}
 
 	@Override

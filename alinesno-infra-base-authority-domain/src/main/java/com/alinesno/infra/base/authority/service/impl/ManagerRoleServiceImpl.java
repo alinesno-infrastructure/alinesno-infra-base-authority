@@ -1,22 +1,17 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alinesno.infra.base.authority.api.SysRoleVo;
 import com.alinesno.infra.base.authority.constants.GroupConstants;
-import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.entity.*;
-import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
+import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
-import com.alinesno.infra.common.facade.constants.FieldConstants;
 import com.alinesno.infra.common.facade.exception.ServiceException;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -51,8 +46,9 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 
 	@Autowired
 	private IManagerAccountRoleService managerAccountRoleService;
+
 	@Autowired
-	private IManagerProjectService iManagerProjectService;
+	private IManagerProjectService managerProjectService;
 
 	@Override
 	public boolean saveRole(ManagerRoleEntity e, String functionIds) {
@@ -112,7 +108,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 		}
 
 		Object o = managerAccountRoleService.saveBatch(entities);
-		return o == null ? false : true;
+		return true;
 	}
 
 	@Override
@@ -169,7 +165,7 @@ public class ManagerRoleServiceImpl extends IBaseServiceImpl<ManagerRoleEntity, 
 		if (StrUtil.isEmpty(applicationCode)) {
 			return list;
 		}
-		ManagerProjectEntity application = iManagerProjectService.findEntityByApplicationCode(applicationCode);
+		ManagerProjectEntity application = managerProjectService.findByProjectCode(applicationCode);
 		if (application == null) {
 			return list;
 		}

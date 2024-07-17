@@ -59,14 +59,14 @@ public class AccountOnlineController extends SuperController {
 
     // 将指定账号强制注销
     @GetMapping("/kickout/logout")
-    public SaResult logout(@RequestParam("userId") String userId) {
+    public SaResult logout(@RequestParam("userId") long userId) {
         // 调用服务层方法实现强制注销逻辑
         return identityAccountConsumer.logout(userId);
     }
 
     // 将指定账号踢下线
     @GetMapping("/kickout/kickout")
-    public SaResult kickout(@RequestParam("userId") String userId) {
+    public SaResult kickout(@RequestParam("userId") long userId) {
         // 调用服务层方法实现踢下线逻辑
         return identityAccountConsumer.kickout(userId);
     }
@@ -80,21 +80,21 @@ public class AccountOnlineController extends SuperController {
 
     // 封禁指定账号
     @GetMapping("/disable/disable")
-    public SaResult disable(@RequestParam("userId") String userId) {
+    public SaResult disable(@RequestParam("userId") long userId) {
         // 调用服务层方法实现封禁账号逻辑
         return identityAccountConsumer.disable(userId);
     }
 
     // 解封指定账号
     @GetMapping("/disable/untieDisable")
-    public SaResult untieDisable(@RequestParam("userId") String userId) {
+    public SaResult untieDisable(@RequestParam("userId") long userId) {
         // 调用服务层方法实现解封账号逻辑
         return identityAccountConsumer.untieDisable(userId);
     }
 
     // 以 lambda 表达式的方式身份切换
     @GetMapping("/switchTo/toUser")
-    public SaResult toUser(@RequestParam("userId") String userId) {
+    public SaResult toUser(@RequestParam("userId") long userId) {
         // 调用服务层方法实现身份切换逻辑
         return identityAccountConsumer.toUser(userId);
     }

@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="字典名称" prop="codeName">
+      <el-form-item label="字典名称" prop="codeTypeValue">
         <el-input
-            v-model="queryParams.codeName"
+            v-model="queryParams.codeTypeValue"
             placeholder="请输入字典名称"
             clearable
             style="width: 240px"
@@ -104,7 +104,7 @@
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="字典编号" align="center" prop="id" />
-      <el-table-column label="字典名称" align="left" prop="codeName" :show-overflow-tooltip="true"/>
+      <el-table-column label="字典名称" align="left" prop="codeTypeValue" :show-overflow-tooltip="true"/>
       <el-table-column label="字典类型" align="left" prop="codeTypeName" :show-overflow-tooltip="true">
         <template #default="scope">
           <router-link :to="'/system/dict-data/index/' + scope.row.id" class="link-type">
@@ -117,7 +117,7 @@
           <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="left" prop="codeDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="addTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -152,11 +152,11 @@
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="dictRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="字典名称" prop="codeName">
-          <el-input v-model="form.codeName" placeholder="请输入字典名称" />
-        </el-form-item>
-        <el-form-item label="字典类型" prop="codeTypeName">
+        <el-form-item label="类型名称" prop="codeTypeName">
           <el-input v-model="form.codeTypeName" placeholder="请输入字典类型" />
+        </el-form-item>
+        <el-form-item label="类型值" prop="codeTypeValue">
+          <el-input v-model="form.codeTypeValue" placeholder="请输入字典名称" />
         </el-form-item>
         <el-form-item label="状态" prop="hasStatus">
           <el-radio-group v-model="form.hasStatus">
@@ -167,8 +167,8 @@
             >{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="codeDesc">
-          <el-input v-model="form.codeDesc" type="textarea" placeholder="请输入内容"></el-input>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -204,13 +204,13 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    codeName: undefined,
+    codeTypeValue: undefined,
     codeTypeName: undefined,
     hasStatus: undefined,
-    codeDesc:undefined
+    remark:undefined
   },
   rules: {
-    codeName: [{ required: true, message: "字典名称不能为空", trigger: "blur" }],
+    codeTypeValue: [{ required: true, message: "字典名称不能为空", trigger: "blur" }],
     codeTypeName: [{ required: true, message: "字典类型不能为空", trigger: "blur" }]
   },
 });
@@ -235,10 +235,10 @@ function cancel() {
 function reset() {
   form.value = {
     id: undefined,
-    codeName: undefined,
+    codeTypeValue: undefined,
     codeTypeName: undefined,
     hasStatus: "0",
-    codeDesc: undefined
+    remark: undefined
   };
   proxy.resetForm("dictRef");
 }

@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="应用名称" prop="title">
+      <el-form-item label="项目名称" prop="title">
         <el-input
             v-model="queryParams.title"
-            placeholder="请输入应用名称"
+            placeholder="请输入项目名称"
             clearable
             style="width: 240px;"
             @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="应用代码" prop="operName">
+      <el-form-item label="项目代码" prop="operName">
         <el-input
             v-model="queryParams.operName"
             placeholder="请输入操作人员"
@@ -79,18 +79,18 @@
               </div>
           </template>
       </el-table-column>
-      <el-table-column label="应用名称" align="left" prop="projectName">
+      <el-table-column label="项目名称" align="left" prop="projectName">
         <template #default="scope">
           <div>
             {{ scope.row.projectName }}
           </div>
-          <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
+          <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.projectCode">
             调用码: {{ scope.row.projectCode }} <el-icon><CopyDocument /></el-icon>
           </div>
       </template>
       </el-table-column>
-      <el-table-column label="应用描述" align="left" prop="projectDesc" />
-      <el-table-column label="应用链接" align="center" width="150" prop="businessType">
+      <el-table-column label="项目描述" align="left" prop="projectDesc" />
+      <el-table-column label="项目链接" align="center" width="150" prop="businessType">
         <template #default="scope">
           <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i>&nbsp;打开配置</el-button>
         </template>
@@ -168,14 +168,14 @@
               </el-popover>
             </el-form-item>
           </el-col>
-        <el-form-item label="应用名称" prop="projectName">
-          <el-input v-model="form.projectName" placeholder="请输入应用名称" />
+        <el-form-item label="项目名称" prop="projectName">
+          <el-input v-model="form.projectName" placeholder="请输入项目名称" />
         </el-form-item>
-        <el-form-item label="应用描述" prop="projectDesc">
-          <el-input v-model="form.projectDesc" placeholder="请输入应用描述" />
+        <el-form-item label="项目描述" prop="projectDesc">
+          <el-input v-model="form.projectDesc" placeholder="请输入项目描述" />
         </el-form-item>
-        <el-form-item label="应用代码" prop="projectCode">
-          <el-input v-model="form.projectCode" placeholder="请输入应用代码" />
+        <el-form-item label="项目代码" prop="projectCode">
+          <el-input v-model="form.projectCode" placeholder="请输入项目代码" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -335,7 +335,7 @@ function handleDelete(row) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加应用";
+  title.value = "添加项目";
 }
 /** 修改按钮操作 */
 async function handleUpdate(row) {
@@ -343,7 +343,7 @@ async function handleUpdate(row) {
   getProject(row.id).then(response => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改应用";
+    title.value = "修改项目";
   });
 }
 /** 导出按钮操作 */

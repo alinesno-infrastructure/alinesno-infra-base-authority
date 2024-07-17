@@ -32,7 +32,7 @@
           </el-icon>
         </a>
         <a class="header-label-text" target="_blank">
-          <img :src="avator" class="su70ez-0 CB-gLgKdv" alt="" />
+          <img src="http://data.linesno.com/switch_header.png" class="su70ez-0 CB-gLgKdv" alt="" />
         </a>
       </div>
 
@@ -88,7 +88,38 @@
 
   </nav>
 </template>
-<script>
+
+<script setup>
+
+import { ElMessageBox } from 'element-plus'
+import useUserStore from '@/store/modules/user'
+
+const userStore = useUserStore()
+
+const avatar = ref('http://data.linesno.com/switch_header.png') ; 
+const nickname = ref('超级管理员') ;
+const name = ref('超级管理员') ;
+
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+
+    // const logoutUrl = baseUrl + '/sso/logout?satoken=' + localStorage.getItem("satoken") + '&back=' + encodeURIComponent(location.href);
+    // location.href = logoutUrl ;
+
+    userStore.ssoLogOut().then(() => {
+      location.href = '/index';
+    })
+
+  }).catch(() => { });
+}
+
+</script>
+
+<!-- <script>
 export default {
   name: "TopHeader",
   components: {},
@@ -186,9 +217,6 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        // this.$store.dispatch('LogOut').then(res()=>{
-        //     window.location.href="/"
-        // })
         this.$store.dispatch("LogOut").then(() => {
           window.location.href = "/";
         });
@@ -196,7 +224,7 @@ export default {
     },
   },
 };
-</script>
+</script> -->
 
 <style lang="scss" scoped>
 

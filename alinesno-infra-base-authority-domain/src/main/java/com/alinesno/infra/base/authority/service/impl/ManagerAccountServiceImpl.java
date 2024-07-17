@@ -3,23 +3,18 @@ package com.alinesno.infra.base.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
-import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerRoleResourceEntity;
-import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
-import com.alinesno.infra.base.authority.service.*;
+import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
+import com.alinesno.infra.base.authority.service.IManagerAccountService;
+import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
+import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
-import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.exception.ServiceException;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
-import com.alinesno.infra.common.web.log.utils.SpringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -30,7 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * <p>
@@ -54,9 +52,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	
 	@Autowired
 	private IManagerAccountRoleService iManagerAccountRoleService;
-
-	@Autowired
-	private IManagerResourceService managerResourceService;
 
 	@Autowired
 	private IManagerRoleResourceService managerRoleResourceService;
@@ -157,39 +152,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	@Override
 	public Set<String> findPermissions(ManagerAccountEntity dto) {
 		Set<String> permission = new HashSet<String>();
-
-		Long uId = dto.getId();
-		List<ManagerRoleEntity> roles = managerRoleService.findByAccountId(uId);
-
-		if(roles.isEmpty()){
-			return permission ;
-		}
-
-		List<Long> roleIdList = new ArrayList<Long>();
-		for (ManagerRoleEntity r : roles) {
-			roleIdList.add(r.getId());
-		}
-
-		QueryWrapper<ManagerRoleResourceEntity> wrapper = new QueryWrapper<ManagerRoleResourceEntity>()
-				.in("role_id", roleIdList).eq("has_status", HasStatusEnums.LEGAL.value);
-		List<ManagerRoleResourceEntity> mrs = managerRoleResourceService.list(wrapper);
-
-		List<String> resourceIdIdList = new ArrayList<String>();
-		for (ManagerRoleResourceEntity r : mrs) {
-			resourceIdIdList.add(r.getResourceId());
-		}
-		QueryWrapper<ManagerResourceEntity> rolewrapper = new QueryWrapper<ManagerResourceEntity>().in("id",
-				resourceIdIdList);
-		List<ManagerResourceEntity> reList = managerResourceService.list(rolewrapper);
-
-		for (ManagerResourceEntity re : reList) {
-			// 如果是按钮
-			if (re != null) {
-				if (MenuEnums.MENU_BUTTON.value.equals(re.getMenuType())) {
-					permission.add(re.getPermission());
-				}
-			}
-		}
 
 		return permission;
 	}

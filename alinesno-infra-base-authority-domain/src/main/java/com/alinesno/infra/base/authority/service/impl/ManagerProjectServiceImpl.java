@@ -8,7 +8,6 @@ import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
-import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -77,12 +76,14 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 	}
  
 	@Override
-	public ManagerProjectEntity findEntityByApplicationCode(String applicationCode) {
-		Assert.hasLength(applicationCode, "应用代码不能为空.");
-		RpcWrapper<ManagerProjectEntity> wrapper = RpcWrapper.build();
-		wrapper.eq("application_code", applicationCode);
-		List<ManagerProjectEntity> all = this.findAll(wrapper);
-		return !all.isEmpty() ? all.get(0) : null;
+	public ManagerProjectEntity findByProjectCode(String projectCode) {
+
+		Assert.hasLength(projectCode, "应用代码不能为空.");
+
+		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerProjectEntity::getProjectCode , projectCode);
+
+        return getOne(wrapper);
 	}
 
 	@Override

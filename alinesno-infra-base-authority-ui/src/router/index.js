@@ -92,6 +92,12 @@ export const constantRoutes = [
         meta: { title: "菜单管理" },
         component: () => import('@/views/system/menu/index'),
       },
+      {
+        path: "/system/dict-data/index/:dictId",
+        name: "/system/dict-data/index",
+        meta: { title: "字典管理" },
+        component: () => import('@/views/system/dict/data'),
+      },
       // {
       //   path: '/createGateway',
       //   name: 'createGateway',

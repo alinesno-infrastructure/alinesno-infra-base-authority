@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
@@ -36,7 +37,7 @@ import java.util.List;
 public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IManagerProjectService> {
 
 	@Autowired
-	private IManagerProjectService managerApplicationService;
+	private IManagerProjectService managerProjectService;
 
 	@Autowired
 	private IManagerProjectAccountService  managerApplicationAccountService;
@@ -50,6 +51,16 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 		return this.toPage(model, this.getFeign(), page);
+	}
+
+	@ResponseBody
+	@PostMapping("/saveProject")
+	public AjaxResult save(@RequestBody ManagerProjectEntity entity) throws Exception {
+
+		entity.setProjectCode(IdUtil.getSnowflakeNextIdStr());
+
+		managerProjectService.save(entity);
+		return this.ok();
 	}
 
 	/**
@@ -77,7 +88,7 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	@GetMapping("/latestList")
 	public AjaxResult latestList() {
 		long userId = CurrentAccountJwt.getUserId() ;
-		List<ManagerProjectEntity> es =  managerApplicationService.latestList(userId);
+		List<ManagerProjectEntity> es =  managerProjectService.latestList(userId);
 		return AjaxResult.success(es) ;
 	}
 
@@ -93,6 +104,6 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 
 	@Override
 	public IManagerProjectService getFeign() {
-		return this.managerApplicationService;
+		return this.managerProjectService;
 	}
 }

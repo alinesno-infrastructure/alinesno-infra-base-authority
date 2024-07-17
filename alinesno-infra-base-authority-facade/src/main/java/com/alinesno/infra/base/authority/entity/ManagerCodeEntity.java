@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -16,11 +17,10 @@ import lombok.Data;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("manager_code")
 public class ManagerCodeEntity extends InfraBaseEntity {
-
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 字典名称
@@ -54,6 +54,12 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 	@ColumnComment("字典类型值")
 	private String codeTypeValue;
 
+	@Excel(name = "字典所属类型")
+	@TableField("code_type_id")
+	@ColumnType(length = 255)
+	@ColumnComment("字典类型值")
+	private String codeTypeId;
+
 	/**
 	 * 字典类型名称
 	 */
@@ -62,5 +68,38 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 	@ColumnType(length = 255)
 	@ColumnComment("字典类型名称")
 	private String codeTypeName;
+
+	/** 样式属性（其他样式扩展） */
+	@Excel(name = "样式属性")
+	@TableField("css_class")
+	@ColumnType(length = 255)
+	@ColumnComment("样式属性")
+	private String cssClass;
+
+	/** 表格字典样式 */
+	@Excel(name = "表格字典样式")
+	@TableField("list_class")
+	@ColumnType(length = 255)
+	@ColumnComment("表格字典样式")
+	private String listClass;
+
+	/** 是否默认（Y是 N否） */
+	@Excel(name = "是否默认")
+	@ColumnType(length = 255)
+	@ColumnComment("是否默认")
+	@TableField("is_default")
+	private String isDefault;
+
+	@Excel(name = "字典排序")
+	@TableField("dict_sort")
+	@ColumnType(length = 255)
+	@ColumnComment("字典排序")
+	private Long dictSort;
+
+	@Excel(name = "备注")
+	@TableField("remark")
+	@ColumnType(length = 255)
+	@ColumnComment("备注")
+	private String remark ;
 
 }

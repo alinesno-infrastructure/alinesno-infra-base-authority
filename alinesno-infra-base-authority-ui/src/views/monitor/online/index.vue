@@ -113,10 +113,10 @@
                <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                   <template #default="scope">
                      <el-tooltip content="踢下线" placement="top">
-                        <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:AccountOnline:edit']">踢下线</el-button>
+                        <el-button link type="primary" icon="Edit" @click="handleKickUserOffline(scope.row.loginId)" v-hasPermi="['system:AccountOnline:edit']">踢下线</el-button>
                      </el-tooltip>
                      <el-tooltip content="强制注销" placement="top">
-                        <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row.id)" v-hasPermi="['system:AccountOnline:remove']">强制注销</el-button>
+                        <el-button link type="primary" icon="Delete" @click="handleForceLogout(scope.row.loginId)" v-hasPermi="['system:AccountOnline:remove']">强制注销</el-button>
                      </el-tooltip>
                   </template>
                </el-table-column>
@@ -126,7 +126,7 @@
          </el-col>
       </el-row>
 
-      <!-- 添加或修改应用配置对话框 -->
+      <!-- 添加或修改应用配置对话框
       <el-dialog :title="title" v-model="open" width="1000px" append-to-body>
          
          <el-table :data="tableData" style="width: 100%">
@@ -140,17 +140,16 @@
             </el-table-column>
             <el-table-column prop="value" align="center" label="Token凭证" />
 
-            <!-- <el-table-column label="会话创建时间" align="center" key="dbType" width="160" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
+             <el-table-column label="会话创建时间" align="center" key="dbType" width="160" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
                <template #default="scope">
                   <span>{{ parseTime(scope.row.createTime) }}</span> <br/>
                </template>
-            </el-table-column>  -->
+            </el-table-column> 
 
-            <!-- 操作字段  -->
             <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
                <template #default="scope">
                   <el-tooltip content="踢下线" placement="top">
-                     <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:AccountOnline:edit']">踢下线</el-button>
+                     <el-button link type="primary" icon="Edit" @click="(scope.row)" v-hasPermi="['system:AccountOnline:edit']">踢下线</el-button>
                   </el-tooltip>
                   <el-tooltip content="强制注销" placement="top">
                      <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:AccountOnline:remove']">强制注销</el-button>
@@ -162,12 +161,12 @@
 
          <template #footer>
             <div class="dialog-footer">
-               <!-- <el-button type="primary" @click="submitForm">确 定</el-button> -->
+                <el-button type="primary" @click="submitForm">确 定</el-button> 
                <el-button @click="cancel">取 消</el-button>
             </div>
          </template>
 
-      </el-dialog>
+      </el-dialog> -->
 
    </div>
 </template>

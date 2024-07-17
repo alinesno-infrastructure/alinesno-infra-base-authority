@@ -61,4 +61,4 @@ sa-token:
     slo-url: ${sa-token.host-path}/sso/signout
     get-data-url: ${sa-token.host-path}/sso/getData
   sign:
-    secret-key:
+    secret-key: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor

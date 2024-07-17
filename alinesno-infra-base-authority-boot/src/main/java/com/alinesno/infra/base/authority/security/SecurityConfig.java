@@ -44,12 +44,21 @@ public class SecurityConfig implements WebMvcConfigurer {
                 "/*/api-docs",
                 "/*/api-docs/**",
                 "/actuator",
-                "/actuator/**"
+                "/actuator/**",
+                "/sso/**",
+                "/v1/api/base/authority/account/**",
+                "/v1/api/base/authority/resource/**"
         };
+
 
         // 注册路由拦截器，自定义验证规则
         registry.addInterceptor(new SaInterceptor(handler -> {
                 AllUrlHandler allUrlHandler = SpringUtils.getBean(AllUrlHandler.class);
+
+//                for(String uri : allUrlHandler.getUrls()){
+//                    log.debug("-->>> uri = {}", uri);
+//                }
+
                 // 登录验证 -- 排除多个路径
                 SaRouter
                     // 获取所有的
@@ -58,6 +67,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                     .check(() -> {
                         // 检查是否登录 是否有token
                         StpUtil.checkLogin();
+                        boolean isLogin = StpUtil.isLogin() ;
+
+                        log.debug("isLogin = {}" , isLogin);
 
                         // 检查 header 与 param 里的 clientid 与 token 里的是否一致
 //                        String headerCid = ServletUtils.getRequest().getHeader(LoginHelper.CLIENT_KEY);

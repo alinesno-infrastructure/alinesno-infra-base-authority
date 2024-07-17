@@ -14,8 +14,6 @@ import { getParam } from '@/utils/ruoyi'
 // 是否登录
 const isLogin = ref(false);
 
-debugger
-
 // 获取参数
 const back = getParam('back') || router.currentRoute.value.query.back;
 const ticket = getParam('ticket') || router.currentRoute.value.query.ticket;
@@ -26,12 +24,12 @@ console.log('获取 ticket 参数：', ticket)
 
 useUserStore().isSsoLogin().then((res) => {
   console.log('/isLogin 返回数据：', res);
-  debugger
   isLogin.value = res.data;
 }) ;
 
 // 页面加载后触发
 onMounted(() => {
+  debugger
   if(ticket) {
     doLoginByTicket(ticket);
   } else {
@@ -46,7 +44,6 @@ function goSsoAuthUrl() {
 
     useUserStore().goSsoAuthUrl(clientLoginUrl).then((res) => {
       console.log('/sso/getSsoAuthUrl 返回数据', res);
-
       location.href = res.data;
     });
 }

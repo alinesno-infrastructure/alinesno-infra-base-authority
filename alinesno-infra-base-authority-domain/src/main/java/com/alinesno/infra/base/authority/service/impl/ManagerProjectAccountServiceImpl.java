@@ -1,7 +1,9 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.enums.SystemInnerEnums;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectAccountMapper;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
@@ -58,10 +60,14 @@ public class ManagerProjectAccountServiceImpl
 			String defaultIcon = "fa-solid fa-file-shield" ;
 
 			e.setProjectIcons(defaultIcon);
+			e.setProjectCode(IdUtil.getSnowflakeNextIdStr());
+
 			e.setProjectName("默认应用示例服务");
 			e.setProjectDesc("默认的初始应用服务，用于默认应用示例和演示服务使用，勿使用生产");
 			e.setFieldProp("default");
 			e.setOperatorId(userId);
+			e.setSystemInner(SystemInnerEnums.YES.getCode());
+
 			applicationService.save(e) ;
 
 			// 初始化应用的默认应用

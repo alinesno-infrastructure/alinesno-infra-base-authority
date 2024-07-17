@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import {parseStrEmpty} from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/managerCode/';
+var prefix = '/api/infra/base/authority/managerCodeType/';
 var managerUrl = {
   datatables : prefix +"datatables" ,
   createUrl: prefix + 'add' ,
@@ -14,7 +14,17 @@ var managerUrl = {
   removeUrl: prefix + "delete" ,
   exportUrl: prefix + "exportExcel",
   changeField: prefix + "changeField",
+  optionselect: prefix + "optionSelect",
   downloadfile: prefix + "downloadfile"
+}
+
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
+    })
 }
 
 // 查询字典类型列表
@@ -71,7 +81,7 @@ export function refreshCache() {
 // 获取字典选择框列表
 export function optionselect() {
   return request({
-    url: '/system/dict/type/optionselect',
+    url: managerUrl.optionselect ,
     method: 'get'
   })
 }

@@ -73,9 +73,9 @@ public class ManagerAccountRoleServiceImpl extends IBaseServiceImpl<ManagerAccou
 	}
 
 	@Override
-	public void authorizeUsers(List<Long> roleIds, Long accountId, String applicationCode) {
+	public void authorizeUsers(List<Long> roleIds, Long accountId, String projectCode) {
 		 
-		ManagerProjectEntity application = iManagerProjectService.findEntityByApplicationCode(applicationCode);
+		ManagerProjectEntity application = iManagerProjectService.findByProjectCode(projectCode);
 		 
 		if (CollectionUtils.isEmpty(roleIds)) {
 			return;

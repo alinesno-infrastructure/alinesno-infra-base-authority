@@ -1,9 +1,8 @@
 package com.alinesno.infra.base.authority.service;
 
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
-import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 import java.util.List;
@@ -20,55 +19,17 @@ import java.util.List;
 public interface IManagerResourceService extends IBaseService<ManagerResourceEntity> {
 
 	/**
-	 * 通过一级目录构建菜单
-	 * 
-	 * @param resourceParent
-	 * @param applicationId
-	 * @return
+	 * 初始化应用菜单
+	 * @param platformId
 	 */
-	ManagerResourceEntity findMenus(Long resourceParent, Long applicationId);
+	void initApplicationMenu(Long platformId);
 
 	/**
-	 * 通过一级目录构建菜单
-	 * 
-	 * @param resourceParent
-	 * @param applicationId
+	 * 查询应用所有菜单
+	 * @param projectId
 	 * @return
 	 */
-	ManagerResourceEntity findMenus(Long resourceParent, Long applicationId, Long accountId);
-
-	/**
-	 * 通过所属应用id删除
-	 * 
-	 * @param id
-	 */
-	void deleteByApplicationId(String id);
-
-	/**
-	 * 查询所有应用菜单
-	 * 
-	 * @param resourceParent
-	 * @param applicationId
-	 * @param id
-	 * @return
-	 */
-	ManagerResourceEntity findMenusByApplicationAndAccount(Long resourceParent, Long applicationId, Long id);
-
-	/**
-	 * 查询菜单的操作按钮
-	 * 
-	 * @param account
-	 * @return
-	 */
-	List<ManagerResourceEntity> findResourcePermission(ManagerAccountEntity account, Long pageId);
-
-	/**
-	 * 查询菜单 
-	 * 
-	 * @param page
-	 * @return
-	 */
-	List<ManagerResourceEntity> resourceData(DatatablesPageBean page);
+	List<ManagerResourceEntity> findAllByProject(Long projectId);
 
 	/**
 	 * 查询菜单列表
@@ -78,7 +39,7 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @param projectId
 	 * @return
 	 */
-    List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId);
+	List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId);
 
 	/**
 	 * 构建树形菜单
@@ -88,15 +49,11 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus);
 
 	/**
-	 * 初始化应用菜单
-	 * @param platformId
-	 */
-    void initApplicationMenu(Long platformId);
-
-	/**
-	 * 查询应用所有菜单
-	 * @param projectId
+	 * 通过项目编码查询菜单
+	 * @param projectCode
+	 * @param accountId
 	 * @return
 	 */
-	List<ManagerResourceEntity> findAllByProject(Long projectId);
+	ManagerResourceDto findMenusByProjectCode(String projectCode, long accountId);
+
 }

@@ -15,6 +15,15 @@ var managerUrl = {
   exportUrl: prefix + "exportExcel",
   changeField: prefix + "changeField",
   downloadfile: prefix + "downloadfile"
+} 
+
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
+    })
 }
 
 // 查询字典数据列表

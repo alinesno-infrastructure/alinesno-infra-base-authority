@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
@@ -18,8 +19,8 @@ import java.util.Set;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@SuppressWarnings("serial")
 @TableName("manager_account")
 public class ManagerAccountEntity extends InfraBaseEntity {
 
@@ -161,11 +162,6 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	@TableField("sex")
 	private String sex;
 
-//	@ColumnType(length = 100)
-//	@ColumnComment("CAS账户ID")
-//	@TableField("cas_account_id")
-//	private String casAccountId;
-
 	/**
 	 * 所属部门
 	 */
@@ -184,15 +180,6 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	private String enterpriseProperties = "0";
 
 	/**
-	 * 委托人
-	 */
-	@Excel(name = "委托人")
-	@ColumnType(length = 100)
-	@ColumnComment("委托人")
-	@TableField("bailor")
-	private String bailor;
-
-	/**
 	 * 所属岗位
 	 */
 	@ColumnType(length = 100)
@@ -208,9 +195,17 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	@TableField("portal_prop")
 	private String portalProp;
 
+	/**
+	 * 用户角色集合字段。
+	 * 该字段用于存储用户所拥有的角色标识符集合，不作为数据库表的字段存在。
+	 */
 	@TableField(exist = false)
 	private Set<String> role;
 
+	/**
+	 * 用户权限集合字段。
+	 * 该字段用于存储用户所拥有的权限标识符集合，不作为数据库表的字段存在。
+	 */
 	@TableField(exist = false)
 	private Set<String> permission;
 }

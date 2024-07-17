@@ -1,5 +1,6 @@
 package com.alinesno.infra.common.web.adapter.login.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
 import com.alinesno.infra.common.web.adapter.dto.menus.Menu;
@@ -28,13 +29,22 @@ public class CommonLoginController {
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBodyDto loginBody)
-    {
+    public AjaxResult login(@RequestBody LoginBodyDto loginBody) {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = UUID.randomUUID().toString() ;
         ajax.put(TOKEN, token);
         return ajax;
+    }
+
+    /**
+     * 退出登陆
+     * @return
+     */
+    @PostMapping("/logout")
+    public AjaxResult logout() {
+        StpUtil.logout();
+        return AjaxResult.success();
     }
 
     /**
@@ -127,8 +137,7 @@ public class CommonLoginController {
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters()
-    {
+    public AjaxResult getRouters() {
 
         Menu dashboardMenu = new Menu("Dashboard", "/dashboard", false, "noRedirect", "Layout", true, new Menu.Meta("仪盘表", "dashboard", false, null), List.of(
                 new Menu("Dashboard", "index", false, false , "dashboard", new Menu.Meta("概览", "dashboard", false, null)) ,
