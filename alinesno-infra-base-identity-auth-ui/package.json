@@ -2,7 +2,7 @@
   "name": "alinesno-infra-smart-brain-admin",
   "version": "1.0.0",
   "description": "单点登陆服务(SSO)",
-  "author": "LuoXiaoDong",
+  "author": "luoxiaodong",
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",

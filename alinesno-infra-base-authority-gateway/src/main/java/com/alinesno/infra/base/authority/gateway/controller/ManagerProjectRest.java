@@ -71,7 +71,7 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	public AjaxResult currentApplication() {
 
 		// 初始化应用
-		managerApplicationAccountService.initDefaultProject(CurrentAccountJwt.getUserId()) ;
+		managerProjectService.initDefaultProject(CurrentAccountJwt.getUserId()) ;
 
 		ManagerProjectEntity e =  currentProjectSession.get() ;
 

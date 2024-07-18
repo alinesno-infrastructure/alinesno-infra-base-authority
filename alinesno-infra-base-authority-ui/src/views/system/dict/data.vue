@@ -270,7 +270,7 @@ function getTypeList() {
 function getList() {
   loading.value = true;
   listData(queryParams.value).then(response => {
-    dataList.value = response.rows;
+    dataList.value = response.data;
     total.value = response.total;
     loading.value = false;
   });

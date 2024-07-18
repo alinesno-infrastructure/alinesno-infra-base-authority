@@ -194,7 +194,7 @@ function reset() {
 function getList() {
   loading.value = true;
   listProject(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    operlogList.value = response.rows;
+    operlogList.value = response.data;
     total.value = response.total;
     loading.value = false;
   });
@@ -289,7 +289,7 @@ async function handleUpdate(row) {
   reset();
   await getTreeselect();
   getProject(row.id).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     open.value = true;
     title.value = "修改项目";
   });

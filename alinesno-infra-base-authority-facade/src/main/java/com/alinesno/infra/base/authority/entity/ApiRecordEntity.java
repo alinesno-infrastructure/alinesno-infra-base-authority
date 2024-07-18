@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  *
  * </p>
  *
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)

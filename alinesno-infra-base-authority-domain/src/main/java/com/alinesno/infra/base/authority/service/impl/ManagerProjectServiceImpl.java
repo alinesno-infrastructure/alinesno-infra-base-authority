@@ -1,17 +1,23 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerAccountRoleEntity;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
-import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
+import cn.hutool.core.util.IdUtil;
+import com.alinesno.infra.base.authority.constants.AuthorityConstants;
+import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
+import com.alinesno.infra.base.authority.enums.SystemInnerEnums;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
+import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
+import com.alinesno.infra.base.authority.service.IManagerResourceService;
+import com.alinesno.infra.base.authority.utils.ManagerResourceUtils;
+import com.alinesno.infra.common.core.context.SpringContext;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -28,51 +34,17 @@ import java.util.*;
 @Service
 public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEntity, ManagerProjectMapper> implements IManagerProjectService {
 
-//	@Autowired
-//	private IManagerRoleService managerRoleService;
+	@Autowired
+	private IManagerProjectAccountService  managerApplicationAccountService;
 
 //	@Autowired
-//	private ManagerProjectMapper repository;
+//	private IManagerResourceService resourceService;
 
-//	@Autowired
-//	private IManagerResourceService managerResourceService;
-
-//	@Autowired
-//	private IManagerAccountRoleService managerAccountRoleService;
-
-//	@Autowired
-//	private IManagerAccountService managerAccountService;
- 
 	@Override
 	public List<ManagerProjectEntity> findAllByAccountId(Long accountId) {
 		log.debug("accountId:{}", accountId);
 
-		List<ManagerProjectEntity> list = null;
-		ManagerAccountEntity account = null ; // TODO  managerAccountService.getById(accountId);
-
-		if (MenuEnums.MENU_PLATFORM.value.equals(account.getRolePower())) {
-			list = findAllByFieldProp(MenuEnums.MENU_PLATFORM.value);
-
-		} else {
-
-			List<ManagerAccountRoleEntity> roleEntityList = null ; // TODO managerAccountRoleService.findAllByAccountId(accountId);
-
-			Map<Long, ManagerAccountRoleEntity> applicationMap = new HashMap<Long, ManagerAccountRoleEntity>();
-			for (ManagerAccountRoleEntity m : roleEntityList) {
-				applicationMap.put(m.getRoleId(), m);
-			}
-
-			List<ManagerRoleEntity> roleList = null ; // TODO  managerRoleService.listByIds(applicationMap.keySet());
-																										 
-			Map<Long, ManagerRoleEntity> roleListMap = new HashMap<Long, ManagerRoleEntity>();
-			for (ManagerRoleEntity m : roleList) {
-				roleListMap.put(m.getApplicationId(), m);
-			}
-
-			list = listByIds(roleListMap.keySet()); 
-		}
-
-		return list; 
+		return null ;
 	}
  
 	@Override
@@ -103,10 +75,75 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 	}
 
 	@Override
+	public String getBaseAuthorityProjectCode() {
+		return getBaseAuthorityProject().getProjectCode();
+	}
+
+	@Override
+	public ManagerProjectEntity getBaseAuthorityProject() {
+		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerProjectEntity::getProjectCode, AuthorityConstants.BASE_AUTHORITY_PROJECT_CODE) ;
+		return getOne(wrapper);
+	}
+
+
+	@Override
+	public void initDefaultProject(long userId) {
+
+		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ManagerProjectEntity::getOperatorId , userId) ;
+
+		long count = count(wrapper) ;
+
+		if(count == 0){  // 账户应用为空
+			ManagerProjectEntity e = new ManagerProjectEntity() ;
+
+			String defaultIcon = "fa-solid fa-file-shield" ;
+
+			e.setProjectIcons(defaultIcon);
+			e.setProjectCode(IdUtil.getSnowflakeNextIdStr());
+
+			e.setProjectName("默认应用示例服务");
+			e.setProjectDesc("默认的初始应用服务，用于默认应用示例和演示服务使用，勿使用生产");
+			e.setFieldProp("default");
+			e.setOperatorId(userId);
+			e.setSystemInner(SystemInnerEnums.YES.getCode());
+
+			save(e) ;
+
+			// 初始化应用的默认应用
+			LambdaQueryWrapper<ManagerProjectAccountEntity>	maaWrapper = new LambdaQueryWrapper<>() ;
+			long countMaa = managerApplicationAccountService.count(maaWrapper.eq(ManagerProjectAccountEntity::getAccountId , userId)) ;
+
+			ManagerProjectAccountEntity maa = new ManagerProjectAccountEntity() ;
+			maa.setAccountId(userId);
+			maa.setApplicationId(e.getId());
+			maa.setAppOrder(countMaa + 1L);
+
+			managerApplicationAccountService.save(maa) ;
+		}
+
+	}
+
+	@Override
+	public ManagerProjectEntity getApplicationByAccountId(long userId) {
+
+		LambdaQueryWrapper<ManagerProjectAccountEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>() ;
+
+		lambdaQueryWrapper.eq(ManagerProjectAccountEntity::getAccountId , userId)
+				.orderByDesc(ManagerProjectAccountEntity::getAppOrder) ;
+
+		List<ManagerProjectAccountEntity> es = managerApplicationAccountService.list(lambdaQueryWrapper) ;
+
+		return CollectionUtils.isEmpty(es) ? null : getById(es.get(0).getApplicationId());
+	}
+
+
+	@Override
 	public int deleteByApplicationId(String ids) {
 		Assert.hasLength(ids, "主键不能为空");
 
-		String rowsIds[] = ids.split(",");
+		String[] rowsIds = ids.split(",");
 		// 删除菜单
 		for (String id : rowsIds) {
 			mapper.deleteById(id);

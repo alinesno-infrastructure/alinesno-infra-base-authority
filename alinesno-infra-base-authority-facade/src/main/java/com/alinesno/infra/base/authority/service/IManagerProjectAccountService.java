@@ -14,16 +14,4 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  */
 public interface IManagerProjectAccountService extends IBaseService<ManagerProjectAccountEntity> {
 
-    /**
-     * 获取用户当前应用
-     * @param userId
-     * @return
-     */
-    ManagerProjectEntity getApplicationByAccountId(long userId);
-
-    /**
-     * 初始化用户应用服务
-     * @param userId
-     */
-    void initDefaultProject(long userId);
 }

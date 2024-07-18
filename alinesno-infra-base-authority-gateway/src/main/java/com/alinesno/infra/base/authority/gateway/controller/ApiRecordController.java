@@ -27,7 +27,7 @@ import java.util.List;
  * 处理与ApiRecordEntity相关的请求的Controller。
  * 继承自BaseController类并实现IApiRecordService接口。
  *
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 @Slf4j

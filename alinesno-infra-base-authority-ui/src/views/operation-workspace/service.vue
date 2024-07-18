@@ -62,7 +62,7 @@
     </el-row>
 
     <!-- 操作日志详细 -->
-    <el-dialog :title="title" v-model="open" width="700px" append-to-body>
+    <!-- <el-dialog :title="title" v-model="open" width="700px" append-to-body>
       <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
           <el-col :span="24">
             <el-form-item label="菜单图标" prop="projectIcons">
@@ -104,7 +104,7 @@
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
-    </el-dialog>
+    </el-dialog> -->
 
   </div>
 </template>
@@ -117,6 +117,8 @@ import {
   addProject , 
   getLatestList
 } from "@/api/system/project";
+
+const router = useRouter();
 
 const opertionAssets = ref([
   {id:'1' , title:'应用统计' , count:45} ,
@@ -177,8 +179,9 @@ function reset() {
 /** 新增按钮操作 */
 function handleAdd() {
   reset();
-  open.value = true;
-  title.value = "添加应用";
+  router.push({ path: '/dashboard/project' })
+  // open.value = true;
+  // title.value = "添加应用";
 }
 
 /** 取消按钮 */

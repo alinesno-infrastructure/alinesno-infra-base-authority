@@ -77,7 +77,7 @@
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="positionCode" />
+      <el-table-column label="岗位编号" align="center" prop="id" />
       <el-table-column label="岗位编码" align="center" prop="positionCode" />
       <el-table-column label="岗位名称" align="center" prop="positionName" />
       <el-table-column label="岗位排序" align="center" prop="positionSort" />
@@ -244,7 +244,7 @@ function handleUpdate(row) {
   reset();
   const id = row.id || ids.value;
   getPost(id).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     open.value = true;
     title.value = "修改岗位";
   });

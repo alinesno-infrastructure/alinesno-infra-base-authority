@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alinesno.infra.base.authority.api.dto.CacheListInfoVo;
 import com.alinesno.infra.base.authority.api.dto.SysCacheVo;
 import com.alinesno.infra.common.core.constants.CacheConstants;
@@ -41,7 +42,7 @@ public class CacheController {
     /**
      * 获取缓存监控列表
      */
-//    @SaCheckPermission("monitor:cache:list")
+    @SaCheckPermission("monitor:cache:list")
     @GetMapping()
     public AjaxResult getInfo() throws Exception {
         RedisConnection connection = connectionFactory.getConnection();

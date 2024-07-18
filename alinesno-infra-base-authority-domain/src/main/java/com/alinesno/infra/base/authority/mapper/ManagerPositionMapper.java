@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Position
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 @Repository

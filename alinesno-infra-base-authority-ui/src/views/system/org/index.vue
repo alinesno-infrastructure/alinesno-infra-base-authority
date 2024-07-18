@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--机构数据-->
+      <!--组织数据-->
       <el-col :span="24" :xs="24">
         <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="机构名称" prop="loginName">
+          <el-form-item label="组织名称" prop="loginName">
             <el-input
                 v-model="queryParams.loginName"
-                placeholder="请输入机构名称"
+                placeholder="请输入组织名称"
                 clearable
                 style="width: 240px"
                 @keyup.enter="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="机构代码" prop="phone">
+          <el-form-item label="组织代码" prop="phone">
             <el-input
                 v-model="queryParams.phone"
                 placeholder="请输入手机号码"
@@ -22,10 +22,10 @@
                 @keyup.enter="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="状态" prop="groupStatus">
+          <el-form-item label="状态" prop="OrganizationStatus">
             <el-select
-                v-model="queryParams.groupStatus"
-                placeholder="机构状态"
+                v-model="queryParams.OrganizationStatus"
+                placeholder="组织状态"
                 clearable
                 style="width: 240px"
             >
@@ -85,27 +85,47 @@
                   </div>
               </template>
           </el-table-column>
-          <el-table-column label="机构名称" align="left" key="groupName" prop="groupName" v-if="columns[0].visible">
+          <el-table-column label="组织名称" align="left" key="orgName" prop="orgName" v-if="columns[0].visible" :show-overflow-tooltip="true">
             <template #default="scope">
                 <div>
-                  {{ scope.row.groupName }}
+                  {{ scope.row.orgName }}
                 </div>
-                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
-                  调用码: {{ scope.row.groupCode }} <el-icon><CopyDocument /></el-icon>
+                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.organizationId">
+                  组织代码: {{ scope.row.organizationId }} <el-icon><CopyDocument /></el-icon>
                 </div>
             </template>
           </el-table-column>
-          <el-table-column label="机构描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="状态" width="100" align="center" prop="groupStatus">
-            <template #default="scope">
-                <el-switch
-                  v-model="scope.row.groupStatus"
-                  active-value="0"
-                  inactive-value="1"
-                />
-            </template>
+          <el-table-column label="组织号" align="center" width="150" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible" :show-overflow-tooltip="true">
+              <template #default="scope">
+                <el-button type="primary" bg link v-copyText="scope.row.doorplateNumber"> 
+                  <i class="fa-solid fa-file-shield"></i>&nbsp;{{ scope.row.doorplateNumber }}
+                </el-button>
+              </template>
           </el-table-column>
-          <el-table-column label="手机号" align="center" width="200" key="groupPhone" prop="groupPhone" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="组织描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="成员数量" align="center" width="100" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" >
+              <template #default="scope">
+                10 人
+              </template>
+          </el-table-column>
+          <el-table-column label="管理员" align="center" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible" :show-overflow-tooltip="true">
+              <template #default="scope">
+                <el-button type="primary" bg link v-copyText="scope.row.doorplateNumber"> 
+                  <i class="fa-solid fa-file-shield"></i>&nbsp;设置管理员
+                </el-button>
+              </template>
+          </el-table-column>
+        <el-table-column label="状态" width="100" align="center" prop="status">
+          <template #default="scope">
+              <el-switch
+                v-model="scope.row.hasStatus"
+                :active-value="0"
+                :inactive-value="1"
+                @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
+              />
+          </template>
+        </el-table-column>
+          <el-table-column label="手机号" align="center" width="200" key="orgPhone" prop="orgPhone" v-if="columns[3].visible" :show-overflow-tooltip="true" />
           <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
             <template #default="scope">
               <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -150,27 +170,27 @@
       </el-col>
     </el-row>
 
-    <!-- 添加或修改机构配置对话框 -->
+    <!-- 添加或修改组织配置对话框 -->
     <el-dialog :title="title" v-model="open" width="800px" append-to-body>
-      <el-form :model="form" :rules="rules" ref="groupRef" label-width="100px">
+      <el-form :model="form" :rules="rules" ref="OrganizationRef" label-width="100px">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="机构名称" prop="groupName">
-              <el-input v-model="form.groupName" placeholder="请输入机构名称" maxlength="30" />
+            <el-form-item label="组织名称" prop="orgName">
+              <el-input v-model="form.orgName" placeholder="请输入组织名称" maxlength="30" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="联系号码" prop="groupPhone">
-              <el-input v-model="form.groupPhone" placeholder="请输入联系号码" maxlength="11" />
+            <el-form-item label="联系号码" prop="orgPhone">
+              <el-input v-model="form.orgPhone" placeholder="请输入联系号码" maxlength="11" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="机构描述">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入机构描述"></el-input>
+            <el-form-item label="组织描述">
+              <el-input v-model="form.remark" placeholder="请输入组织描述"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -186,8 +206,14 @@
   </div>
 </template>
 
-<script setup name="Group">
-import { changeGroupStatus, listGroup, delGroup, getGroup, updateGroup, addGroup } from "@/api/system/group";
+<script setup name="Organization">
+import { 
+  changStatusField, 
+  listOrganization, 
+  delOrganization, 
+  getOrganization, 
+  updateOrganization, 
+  addOrganization } from "@/api/system/org";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -206,9 +232,9 @@ const initPassword = ref(undefined);
 
 // 列显隐信息
 const columns = ref([
-  { key: 0, label: `机构编号`, visible: true },
-  { key: 1, label: `机构名称`, visible: true },
-  { key: 2, label: `机构昵称`, visible: true },
+  { key: 0, label: `组织编号`, visible: true },
+  { key: 1, label: `组织名称`, visible: true },
+  { key: 2, label: `组织昵称`, visible: true },
   { key: 3, label: `部门`, visible: true },
   { key: 4, label: `手机号码`, visible: true },
   { key: 5, label: `状态`, visible: true },
@@ -222,23 +248,23 @@ const data = reactive({
     pageSize: 10,
     loginName: undefined,
     phone: undefined,
-    groupStatus: undefined,
+    OrganizationStatus: undefined,
     department: undefined
   },
   rules: {
-    groupName: [{ required: true, message: "机构名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "机构名称长度必须介于 2 和 20 之间", trigger: "blur" }],
-    name: [{ required: true, message: "机构昵称不能为空", trigger: "blur" }],
-    remark: [{ required: true, message: "机构昵称不能为空", trigger: "blur" }],
-    groupPhone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur" }]
+    orgName: [{ required: true, message: "组织名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "组织名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+    name: [{ required: true, message: "组织昵称不能为空", trigger: "blur" }],
+    remark: [{ required: true, message: "组织昵称不能为空", trigger: "blur" }],
+    orgPhone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur" }]
   }
 });
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询机构列表 */
+/** 查询组织列表 */
 function getList() {
   loading.value = true;
-  listGroup(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
+  listOrganization(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
     loading.value = false;
     userList.value = res.rows;
     total.value = res.total;
@@ -259,8 +285,8 @@ function resetQuery() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const userIds = row.id || ids.value;
-  proxy.$modal.confirm('是否确认删除机构编号为"' + userIds + '"的数据项？').then(function () {
-    return delGroup(userIds);
+  proxy.$modal.confirm('是否确认删除组织编号为"' + userIds + '"的数据项？').then(function () {
+    return delOrganization(userIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -285,12 +311,12 @@ function reset() {
     phone: undefined,
     email: undefined,
     sex: undefined,
-    groupStatus: "0",
+    OrganizationStatus: "0",
     remark: undefined,
     postIds: [],
     roleIds: []
   };
-  proxy.resetForm("groupRef");
+  proxy.resetForm("OrganizationRef");
 };
 /** 取消按钮 */
 function cancel() {
@@ -301,32 +327,32 @@ function cancel() {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加机构";
+  title.value = "添加组织";
   form.value.password = initPassword.value;
 };
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
   const id = row.id || ids.value;
-  getGroup(id).then(response => {
-    form.value = response.rows;
+  getOrganization(id).then(response => {
+    form.value = response.data;
     open.value = true;
-    title.value = "修改机构";
+    title.value = "修改组织";
     form.password = "";
   });
 };
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["groupRef"].validate(valid => {
+  proxy.$refs["OrganizationRef"].validate(valid => {
     if (valid) {
       if (form.value.id != undefined) {
-        updateGroup(form.value).then(response => {
+        updateOrganization(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addGroup(form.value).then(response => {
+        addOrganization(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -335,6 +361,19 @@ function submitForm() {
     }
   });
 };
+
+const handleChangStatusField = async(field , value , id) => {
+    // 判断tags值 这样就不会进页面时调用了
+      const res = await changStatusField({
+         field: field,
+         value: value?1:0,
+         id: id
+      }).catch(() => { })
+      if (res && res.code == 200) {
+         // 刷新表格
+         getList()
+      }
+}
 
 getList();
 

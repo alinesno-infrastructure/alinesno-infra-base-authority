@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.mapper;
 
-import com.alinesno.infra.base.authority.entity.ManagerGroupLogEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
-public interface ManagerGroupLogMapper extends IBaseMapper<ManagerGroupLogEntity> {
+public interface OrganizationMapper extends IBaseMapper<OrganizationEntity> {
 
 }

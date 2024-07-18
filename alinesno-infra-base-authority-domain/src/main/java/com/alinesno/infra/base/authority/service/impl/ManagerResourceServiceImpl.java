@@ -13,6 +13,7 @@ import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.base.authority.utils.ManagerResourceUtils;
+import com.alinesno.infra.common.core.context.SpringContext;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -40,8 +41,8 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	@Autowired
 	private IManagerAccountService accountService;
 
-	@Autowired
-	private IManagerProjectService projectService;
+//	@Autowired
+//	private IManagerProjectService projectService;
 
 	@Override
 	public void initApplicationMenu(Long projectId) {
@@ -55,7 +56,7 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 			return ;
 		}
 
-		ManagerProjectEntity project = projectService.getById(projectId) ;
+		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).getById(projectId) ;
 
 		ManagerResourceEntity platformMenu = new ManagerResourceEntity() ;
 
@@ -100,7 +101,7 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	public ManagerResourceDto findMenusByProjectCode(String projectCode, long accountId) {
 
 		ManagerAccountEntity account = accountService.findById(accountId);
-		ManagerProjectEntity project = projectService.findByProjectCode(projectCode);
+		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).findByProjectCode(projectCode);
 
 		// 临时开发验证
 		account.setRolePower(RolePowerTypeEnmus.ROLE_ADMIN.getValue());

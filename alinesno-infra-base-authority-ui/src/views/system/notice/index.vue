@@ -208,7 +208,7 @@ const { queryParams, form, rules } = toRefs(data);
 function getList() {
   loading.value = true;
   listNotice(queryParams.value).then(response => {
-    noticeList.value = response.rows;
+    noticeList.value = response.data;
     total.value = response.total;
     loading.value = false;
   });
@@ -256,7 +256,7 @@ function handleUpdate(row) {
   reset();
   const noticeId = row.noticeId || ids.value;
   getNotice(noticeId).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     open.value = true;
     title.value = "修改公告";
   });

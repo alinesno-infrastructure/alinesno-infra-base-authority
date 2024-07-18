@@ -87,12 +87,12 @@
           <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.projectCode">
             调用码: {{ scope.row.projectCode }} <el-icon><CopyDocument /></el-icon>
           </div>
-      </template>
+        </template>
       </el-table-column>
       <el-table-column label="项目描述" align="left" prop="projectDesc" />
       <el-table-column label="项目链接" align="center" width="150" prop="businessType">
         <template #default="scope">
-          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-link"></i>&nbsp;打开配置</el-button>
+          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-file-shield"></i>&nbsp;项目空间</el-button>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100" align="center" prop="status">
@@ -126,6 +126,7 @@
           <el-button
               type="text"
               icon="Delete"
+              :disabled="scope.row.systemInner === 'Y'"
               @click="handleDelete(scope.row)"
               v-hasPermi="['system:menu:remove']"
           >删除</el-button>
@@ -174,8 +175,11 @@
         <el-form-item label="项目描述" prop="projectDesc">
           <el-input v-model="form.projectDesc" placeholder="请输入项目描述" />
         </el-form-item>
-        <el-form-item label="项目代码" prop="projectCode">
-          <el-input v-model="form.projectCode" placeholder="请输入项目代码" />
+        <el-form-item label="内置应用" prop="systemInner">
+          <el-radio-group v-model="form.systemInner">
+            <el-radio value="Y" label="Y">内置</el-radio>
+            <el-radio value="N" label="N">普通</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -256,7 +260,7 @@ function reset() {
 function getList() {
   loading.value = true;
   listProject(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    operlogList.value = response.rows;
+    operlogList.value = response.data;
     total.value = response.total;
     loading.value = false;
   });
@@ -278,7 +282,8 @@ function openMenu(row){
 }
 /** 选择图标 */
 function selected(name) {
-  form.value.icon = name;
+  // form.value.icon = name;
+  form.value.projectIcons = name;
   showChooseIcon.value = false;
 }
 /** 图标外层点击隐藏下拉列表 */

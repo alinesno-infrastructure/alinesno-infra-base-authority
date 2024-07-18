@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.entity.ManagerGroupLogEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationLogEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 /**
@@ -12,6 +12,6 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * @version 1.0.0
  */
 
-public interface IManagerGroupLogService extends IBaseService<ManagerGroupLogEntity> {
+public interface IOrganizationLogService extends IBaseService<OrganizationLogEntity> {
 
 }

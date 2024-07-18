@@ -251,7 +251,7 @@ function handleUpdate(row) {
     deptOptions.value = proxy.handleTree(response.rows, "id");
   });
   getSetting(row.id).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     open.value = true;
     title.value = "修改部门";
   });

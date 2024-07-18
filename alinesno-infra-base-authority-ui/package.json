@@ -2,7 +2,7 @@
   "name": "alinesno-infra-base-authority-ui",
   "version": "1.0.0",
   "description": "授权管理引擎服务",
-  "author": "LuoXiaoDong",
+  "author": "luoxiaodong",
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",

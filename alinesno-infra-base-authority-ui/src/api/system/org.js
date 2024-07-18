@@ -2,11 +2,11 @@ import request from '@/utils/request'
 import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/managerGroup/';
+var prefix = '/api/infra/base/authority/organization/';
 var managerUrl = {
     datatables: prefix + "datatables",
     createUrl: prefix + 'add',
-    saveUrl: prefix + 'save',
+    saveUrl: prefix + 'saveOrg',
     updateUrl: prefix + "modify",
     statusUrl: prefix + "changeStatus",
     cleanUrl: prefix + "clean",
@@ -17,8 +17,18 @@ var managerUrl = {
     downloadfile: prefix + "downloadfile" ,
 }
 
+
+// 修改字段
+export function changStatusField(data){
+    return request({
+        url: managerUrl.changeField ,
+        method: 'post',
+        data: data
+    })
+}
+
 // 查询用户列表
-export function listGroup(query) {
+export function listOrganization(query) {
     return request({
         url: managerUrl.datatables,
         method: 'post',
@@ -27,7 +37,7 @@ export function listGroup(query) {
 }
 
 // 查询用户详细
-export function getGroup(id) {
+export function getOrganization(id) {
     return request({
         url: managerUrl.detailUrl + '/' + parseStrEmpty(id),
         method: 'get'
@@ -35,7 +45,7 @@ export function getGroup(id) {
 }
 
 // 新增用户
-export function addGroup(data) {
+export function addOrganization(data) {
     return request({
         url: managerUrl.saveUrl,
         method: 'post',
@@ -44,7 +54,7 @@ export function addGroup(data) {
 }
 
 // 修改用户
-export function updateGroup(data) {
+export function updateOrganization(data) {
     return request({
         url: managerUrl.updateUrl,
         method: 'put',
@@ -53,7 +63,7 @@ export function updateGroup(data) {
 }
 
 // 删除用户
-export function delGroup(id) {
+export function delOrganization(id) {
     return request({
         url: managerUrl.removeUrl + '/' + parseStrEmpty(id),
         method: 'delete'
@@ -61,7 +71,7 @@ export function delGroup(id) {
 }
 
 // 用户密码重置
-export function resetGroupPwd(userId, password) {
+export function resetOrganizationPwd(userId, password) {
     const data = {
         userId,
         password
@@ -74,7 +84,7 @@ export function resetGroupPwd(userId, password) {
 }
 
 // 用户状态修改
-export function changeGroupStatus(userId, status) {
+export function changeOrganizationStatus(userId, status) {
     const data = {
         userId,
         status
@@ -87,7 +97,7 @@ export function changeGroupStatus(userId, status) {
 }
 
 // 查询用户个人信息
-export function getGroupProfile() {
+export function getOrganizationProfile() {
     return request({
         url: '/system/user/profile',
         method: 'get'
@@ -95,7 +105,7 @@ export function getGroupProfile() {
 }
 
 // 修改用户个人信息
-export function updateGroupProfile(data) {
+export function updateOrganizationProfile(data) {
     return request({
         url: '/system/user/profile',
         method: 'put',
@@ -104,7 +114,7 @@ export function updateGroupProfile(data) {
 }
 
 // 用户密码重置
-export function updateGroupPwd(oldPassword, newPassword) {
+export function updateOrganizationPwd(oldPassword, newPassword) {
     const data = {
         oldPassword,
         newPassword

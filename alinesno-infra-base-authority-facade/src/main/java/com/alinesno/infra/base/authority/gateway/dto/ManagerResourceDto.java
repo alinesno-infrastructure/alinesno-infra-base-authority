@@ -3,7 +3,9 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Data
+@NoArgsConstructor
 public class ManagerResourceDto implements Serializable {
 
 	private long id ; // 资源ID
@@ -32,8 +35,30 @@ public class ManagerResourceDto implements Serializable {
 	private Long projectId; // 资源所属的项目ID
 	private Long resourceParent ; // 资源的父资源ID，0表示顶级资源
 	private Integer resourceOrder; // 资源的排序值
-
 	private List<ManagerResourceDto> subResource = new ArrayList<>(); // 资源的子资源列表，用于表示资源的层级关系
+
+	public ManagerResourceDto(String resourceLink, String visible, String component, String menuType, Meta meta, List<ManagerResourceDto> subResource) {
+		this.resourceLink = resourceLink;
+		this.visible = visible;
+		this.component = component;
+		this.menuType = menuType;
+
+		this.resourceName = meta.getTitle();
+		this.resourceIcon = meta.getIcon();
+
+		this.subResource = subResource;
+	}
+
+	@Data
+	public static class Meta {
+		private String title;
+		private String icon;
+
+		public Meta(String title, String icon) {
+			this.title = title;
+			this.icon = icon;
+		}
+	}
 
 	/**
 	 * 快速从 dto 转换成 entity

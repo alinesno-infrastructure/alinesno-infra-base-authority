@@ -20,10 +20,8 @@ import java.util.Date;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("manager_group_log")
-public class ManagerGroupLogEntity extends InfraBaseEntity {
-
-	private static final long serialVersionUID = 1L;
+@TableName("organization_log")
+public class OrganizationLogEntity extends InfraBaseEntity {
 
 	/**
 	 * 机构操作类型(0登陆/1退出/2充值/3提取)

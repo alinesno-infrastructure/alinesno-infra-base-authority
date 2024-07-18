@@ -1,9 +1,13 @@
 package com.alinesno.infra.common.web.adapter.login.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
+import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
 import com.alinesno.infra.common.web.adapter.dto.menus.Menu;
+import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +20,12 @@ import java.util.UUID;
 
 @RestController
 public class CommonLoginController {
+
+    @Autowired
+    private IManagerResourceService managerResourceService ;
+
+    @Autowired
+    private IManagerProjectService managerProjectService ;
 
     /**
      * 令牌
@@ -146,7 +156,6 @@ public class CommonLoginController {
 
         Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("系统管理", "post", false, null),
                 List.of(
-                        new Menu("Group", "system/group/index", false,false,  "system/group/index", new Menu.Meta("机构管理", "tree", false, null)),
                         new Menu("User", "system/user/index", false,false,  "system/user/index", new Menu.Meta("用户管理", "user", false, null)),
                         new Menu("Dept", "system/dept/index", false,false,  "system/dept/index", new Menu.Meta("部门管理", "tree", false, null)),
                         new Menu("Post", "system/post/index", false, false, "system/post/index", new Menu.Meta("岗位管理", "post", false, null)),
@@ -171,14 +180,20 @@ public class CommonLoginController {
                         new Menu("CacheList", "monitor/cache/list", false, false,"monitor/cache/list", new Menu.Meta("缓存列表", "redis-list", false, null))
                 ));
 
-        Menu themeMenu = new Menu("Enterprise", "/enterprise", false, "noRedirect", "Layout", true, new Menu.Meta("登陆配置", "tool", false, null),
+        Menu orgMenu = new Menu("Enterprise", "/enterprise", false, "noRedirect", "Layout", true, new Menu.Meta("组织管理", "tool", false, null),
                 List.of(
+                        new Menu("Org", "system/org/index", false,false,  "system/org/index", new Menu.Meta("组织管理", "tree", false, null)),
                         new Menu("AccountSync", "system/accountSync/index", false,false,  "system/accountSync/index", new Menu.Meta("账户同步", "message", false, null)),
                         new Menu("Setting", "enterprise/setting/index", false,false, "enterprise/setting/index", new Menu.Meta("系统主题", "build", false, null)),
                         new Menu("Theme", "enterprise/theme/index",false, false, "enterprise/theme/index", new Menu.Meta("登陆主题", "swagger", false, null))
                 ));
 
-        List<Menu> menus = List.of(dashboardMenu , systemMenu, monitorMenu, loggerMenu , themeMenu);
+        List<Menu> menus = List.of(dashboardMenu , systemMenu, orgMenu, monitorMenu, loggerMenu);
+
+        String projectCode = managerProjectService.getBaseAuthorityProjectCode() ;
+        long accountId = CurrentAccountJwt.getUserId() ;
+
+        managerResourceService.findMenusByProjectCode(projectCode , accountId) ;
 
         return AjaxResult.success(menus) ;
     }

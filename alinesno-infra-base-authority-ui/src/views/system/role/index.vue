@@ -325,7 +325,7 @@ const { queryParams, form, rules } = toRefs(data);
 function getList() {
   loading.value = true;
   listRole(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    roleList.value = response.rows;
+    roleList.value = response.data;
     total.value = response.total;
     loading.value = false;
   });
@@ -444,7 +444,7 @@ function handleUpdate(row) {
   const id = row.id || ids.value;
   const roleMenu = getRoleMenuTreeselect(id);
   getRole(id).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     form.value.roleSort = Number(form.value.roleSort);
     open.value = true;
     nextTick(() => {
@@ -551,7 +551,7 @@ function handleDataScope(row) {
   reset();
   const roleDeptTreeselect = getRoleDeptTreeselect(row.id);
   getRole(row.id).then(response => {
-    form.value = response.rows;
+    form.value = response.data;
     openDataScope.value = true;
     nextTick(() => {
       roleDeptTreeselect.then(res => {

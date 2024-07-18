@@ -22,29 +22,63 @@ import java.util.Date;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("manager_group")
-public class ManagerGroupEntity extends InfraBaseEntity {
+@TableName("organization")
+public class OrganizationEntity extends InfraBaseEntity {
 
 	/**
 	 * 机构名称
 	 */
 	@Excel(name = "机构名称")
-	@TableField("group_name")
+	@TableField("org_name")
 	@ColumnType(length = 32)
 	@ColumnComment("机构名称")
-	private String groupName;
-
-	@Excel(name = "机构代码")
-	@TableField("group_code")
-	@ColumnType(length = 32)
-	@ColumnComment("机构代码")
-	private String groupCode;
+	private String orgName;
 
 	@Excel(name = "机构描述")
 	@TableField("remark")
 	@ColumnType(length = 255)
 	@ColumnComment("机构描述")
 	private String remark;
+
+	/**
+	 * LOGO 图片路径或URL
+	 */
+	@TableField("logo_url")
+	@ColumnType(length = 255)
+	@ColumnComment("组织LOGO,推荐尺寸 400*180 px，显示在工作台、打印、分享和企业域名页面，大小建议在512KB以内")
+	private String logoUrl;
+
+	/**
+	 * 组织门牌号
+	 */
+	@TableField("doorplate_number")
+	@ColumnType(length = 255)
+	@ColumnComment("成员可输入组织门牌号加入组织")
+	private String doorplateNumber;
+
+	/**
+	 * 组织唯一身份编号
+	 */
+	@TableField("organization_id")
+	@ColumnType(length = 255)
+	@ColumnComment("组织唯一身份编号,组织唯一身份编号，用于沟通反馈问题时使用")
+	private String organizationId;
+
+	/**
+	 * 二级域名(可自定义访问链接和登录背景图片)
+	 */
+	@TableField("subdomain")
+	@ColumnType(length = 255)
+	@ColumnComment("二级域名(可自定义访问链接和登录背景图片)")
+	private String subdomain;
+
+	/**
+	 * 工作地点
+	 */
+	@TableField("work_location")
+	@ColumnType(length = 255)
+	@ColumnComment("工作地点")
+	private String workLocation;
 
 	/**
 	 * 开始时间
@@ -69,10 +103,10 @@ public class ManagerGroupEntity extends InfraBaseEntity {
 	/**
 	 * 机构状态(1正常/0禁止)
 	 */
-	@TableField("group_status")
+	@TableField("org_status")
 	@ColumnType(length = 1)
 	@ColumnComment("机构状态(1正常/0禁止)")
-	private String groupStatus;
+	private String orgStatus;
 
 	/**
 	 * 所属城市
@@ -94,18 +128,18 @@ public class ManagerGroupEntity extends InfraBaseEntity {
 	 * 机构地址
 	 */
 	@Excel(name = "机构地址")
-	@TableField("group_address")
+	@TableField("org_address")
 	@ColumnType(length = 255)
 	@ColumnComment("机构地址")
-	private String groupAddress;
+	private String orgAddress;
 
 	/**
 	 * 机构联系电话
 	 */
 	@Excel(name = "机构联系电话")
-	@TableField("group_phone")
+	@TableField("org_phone")
 	@ColumnType(length = 255)
 	@ColumnComment("机构联系电话")
-	private String groupPhone;
+	private String orgPhone;
 
 }

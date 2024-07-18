@@ -8,7 +8,7 @@ import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
  * 持久层接口
  * </p>
  *
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 public interface ApiRecordMapper extends IBaseMapper<ApiRecordEntity> {

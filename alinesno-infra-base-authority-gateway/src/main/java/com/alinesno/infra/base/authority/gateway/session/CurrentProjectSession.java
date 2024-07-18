@@ -3,6 +3,7 @@ package com.alinesno.infra.base.authority.gateway.session;
 import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
+import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,12 @@ public class CurrentProjectSession {
 	@Autowired
 	private IManagerProjectAccountService managerApplicationAccountService ;
 
+	@Autowired
+	private IManagerProjectService managerProjectService ;
+
 	public ManagerProjectEntity get() {
 		long userId = CurrentAccountJwt.getUserId();
-		return managerApplicationAccountService.getApplicationByAccountId(userId) ;
+		return managerProjectService.getApplicationByAccountId(userId) ;
 	}
 
 	public void set(long applicationId) {

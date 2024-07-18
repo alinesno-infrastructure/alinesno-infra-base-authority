@@ -54,4 +54,31 @@ public interface IManagerProjectService extends IBaseService<ManagerProjectEntit
 	 */
 	List<ManagerProjectEntity> latestList(long userId);
 
+	/**
+	 * 获取到默认的内置基础应用列表
+	 * @return
+	 */
+    String getBaseAuthorityProjectCode();
+
+	/**
+	 * 获取到默认的内置基础应用列表
+	 * @return
+	 */
+	ManagerProjectEntity getBaseAuthorityProject();
+
+
+	/**
+	 * 初始化用户应用服务
+	 * @param userId
+	 */
+	void initDefaultProject(long userId);
+
+
+	/**
+	 * 获取用户当前应用
+	 * @param userId
+	 * @return
+	 */
+	ManagerProjectEntity getApplicationByAccountId(long userId);
+
 }
