@@ -121,7 +121,7 @@
                 {{ scope.row.name}}
               </div>
               <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.projectCode">
-                用户ID: {{ scope.row.id }} <el-icon><CopyDocument /></el-icon>
+                ID: {{ scope.row.id }} <el-icon><CopyDocument /></el-icon>
               </div>
             </template>
           </el-table-column>
@@ -202,6 +202,20 @@
     <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" v-model="open" width="800px" append-to-body>
       <el-form :model="form" :rules="rules" ref="userRef" label-width="80px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="组织机构" prop="department" >
+              <el-tree-select style="width:100%"
+                  v-model="form.department"
+                  :data="deptOptions"
+                  :props="{ value: 'id', label: 'label', children: 'children' }"
+                  value-key="id"
+                  placeholder="请选择归属部门"
+                  check-strictly
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="用户昵称" prop="name">

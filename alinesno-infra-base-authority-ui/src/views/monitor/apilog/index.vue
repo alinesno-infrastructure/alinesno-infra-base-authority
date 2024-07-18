@@ -221,7 +221,7 @@ const { queryParams, form } = toRefs(data);
 function getList() {
   loading.value = true;
   listOperlog(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    operlogList.value = response.data;
+    operlogList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
