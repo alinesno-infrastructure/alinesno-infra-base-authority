@@ -182,13 +182,13 @@ export const constantRoutes = [
         component: () => import('@/views/system/post'),
         meta: { title: '岗位管理', icon: 'dashboard', affix: true }
       },
-      {
-        path: '/system/group/index',
-        name: 'system/group/index',
-        hidden: true,
-        component: () => import('@/views/system/group'),
-        meta: { title: '机构管理', icon: 'dashboard', affix: true }
-      },
+      // {
+        // path: '/system/group/index',
+        // name: 'system/group/index',
+        // hidden: true,
+        // component: () => import('@/views/system/group'),
+        // meta: { title: '机构管理', icon: 'dashboard', affix: true }
+      // },
       {
         path: '/system/menu/index',
         name: 'system/menu/index',
