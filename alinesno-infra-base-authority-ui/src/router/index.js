@@ -154,13 +154,13 @@ export const constantRoutes = [
         component: () => import('@/views/system/dept'),
         meta: { title: '部门管理', icon: 'dashboard', affix: true }
       },
-      {
-        path: '/system/group/index',
-        name: 'system/group/index',
-        hidden: true,
-        component: () => import('@/views/system/group'),
-        meta: { title: '机构管理', icon: 'dashboard', affix: true }
-      },
+      // {
+        // path: '/system/group/index',
+        // name: 'system/group/index',
+        // hidden: true,
+        // component: () => import('@/views/system/group'),
+        // meta: { title: '机构管理', icon: 'dashboard', affix: true }
+      // },
       {
         path: '/system/user/index',
         name: 'system/user/index',
