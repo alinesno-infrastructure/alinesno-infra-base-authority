@@ -4,7 +4,7 @@ import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
-import com.alinesno.infra.base.authority.enums.ResourceTypeEnmus;
+import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
 import com.alinesno.infra.base.authority.mapper.ManagerDepartmentMapper;
@@ -54,16 +54,14 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 
 		for (ManagerProjectEntity app : apps) {
 			ManagerDepartmentEntity d = new ManagerDepartmentEntity();
-			d.setPid(ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value);
+			d.setPid(Long.parseLong(MenuEnums.MENU_PLATFORM.value));
 			d.setId(app.getId());
 			d.setFullName(app.getApplicationName());
 
 			for (ManagerDepartmentEntity b : list) {
-				if (app.getId().equals(b.getApplicationId())
-						&& ResourceTypeEnmus.PLATFORM_RESOURCE_PARENT.value.equals(b.getPid())) {
-					b.setPid(app.getId());
-				}
-			}
+                app.getId();
+                b.getApplicationId();
+            }
 			list.add(d);
 		}
 

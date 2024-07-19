@@ -38,6 +38,11 @@
 		<!-- 引入TOTP工程包 -->
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-identity-auth-core</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-identity-auth-mfa</artifactId>
 			<version>${revision}</version>
 		</dependency>

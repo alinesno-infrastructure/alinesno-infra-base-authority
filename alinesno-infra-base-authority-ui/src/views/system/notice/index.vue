@@ -68,30 +68,43 @@
 
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="noticeId" width="100" />
+      <el-table-column label="序号" align="center" type="index" prop="noticeId" width="50" />
       <el-table-column
           label="公告标题"
-          align="center"
+          align="left"
           prop="noticeTitle"
           :show-overflow-tooltip="true"
-      />
-      <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
+      >
+        <template #default="scope">
+          <span v-if="scope.row.isTop == 1">
+            <el-button type="danger" bg text> <i class="fa-brands fa-shopify"></i> 置顶</el-button>
+          </span>
+          {{ scope.row.noticeTitle }}
+        </template>
+      </el-table-column>
+      <el-table-column label="公告类型" align="center" prop="noticeType" width="180">
         <template #default="scope">
           <dict-tag :options="sys_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" prop="status" width="100">
         <template #default="scope">
-          <dict-tag :options="sys_notice_status" :value="scope.row.status" />
+          <div style="margin-top: 5px;">
+              <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> 已发布</el-button>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+      <el-table-column label="发布日期" align="center" prop="createBy" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.addTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="160">
+        <template #default="scope">
+          <span>{{ parseTime(scope.row.addTime) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button
               type="text"
@@ -208,7 +221,7 @@ const { queryParams, form, rules } = toRefs(data);
 function getList() {
   loading.value = true;
   listNotice(queryParams.value).then(response => {
-    noticeList.value = response.data;
+    noticeList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });

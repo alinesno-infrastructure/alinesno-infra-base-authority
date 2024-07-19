@@ -15,15 +15,22 @@
 
 	<dependencies>
 
-        <!-- 引用服务 -->
+		<!-- SSO相关依赖 -->
 		<dependency>
 			<groupId>com.alinesno.infra.common</groupId>
 			<artifactId>alinesno-infra-common-web-api-sso</artifactId>
 			<version>${revision}</version>
 		</dependency>
+
+		<!-- 权限领域相关依赖 -->
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-domain</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-meta</artifactId>
 			<version>${revision}</version>
 		</dependency>
 		<dependency>

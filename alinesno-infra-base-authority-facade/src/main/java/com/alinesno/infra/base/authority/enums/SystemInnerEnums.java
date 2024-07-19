@@ -16,12 +16,4 @@ public enum SystemInnerEnums {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
 }

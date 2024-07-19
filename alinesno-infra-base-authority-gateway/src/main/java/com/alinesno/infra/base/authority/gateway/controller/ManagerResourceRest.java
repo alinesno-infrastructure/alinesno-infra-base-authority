@@ -75,9 +75,23 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 		long userId = CurrentAccountJwt.getUserId() ;
 		long projectId = currentProjectSession.get().getId() ;
 
-		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(menu, userId , projectId);
+		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , projectId);
 
 		return AjaxResult.success(managerResourceService.buildMenuTreeSelect(menus));
+	}
+
+	@GetMapping("/roleMenuTreeselect/{roleId}")
+	public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
+
+		long userId = CurrentAccountJwt.getUserId() ;
+
+		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , 0L);
+		AjaxResult ajax = AjaxResult.success();
+
+		ajax.put("checkedKeys", managerResourceService.selectMenuListByRoleId(roleId));
+		ajax.put("menus", managerResourceService.buildMenuTreeSelect(menus));
+
+		return ajax;
 	}
  
 	@Override

@@ -34,12 +34,11 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	/**
 	 * 查询菜单列表
 	 *
-	 * @param menu
 	 * @param userId
 	 * @param projectId
 	 * @return
 	 */
-	List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId);
+	List<ManagerResourceEntity> selectMenuList(long userId, long projectId);
 
 	/**
 	 * 构建树形菜单
@@ -55,5 +54,12 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 * @return
 	 */
 	ManagerResourceDto findMenusByProjectCode(String projectCode, long accountId);
+
+	/**
+	 * 通过角色id查询菜单
+	 * @param roleId
+	 * @return
+	 */
+	List<Long> selectMenuListByRoleId(Long roleId);
 
 }

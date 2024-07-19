@@ -65,11 +65,12 @@ public class SecurityConfig implements WebMvcConfigurer {
                     .match(allUrlHandler.getUrls())
                     // 对未排除的路径进行检查
                     .check(() -> {
-                        // 检查是否登录 是否有token
-                        StpUtil.checkLogin();
-                        boolean isLogin = StpUtil.isLogin() ;
 
+                        // 检查是否登录 是否有token
+                        boolean isLogin = StpUtil.isLogin() ;
                         log.debug("isLogin = {}" , isLogin);
+
+                        StpUtil.checkLogin();
 
                         // 检查 header 与 param 里的 clientid 与 token 里的是否一致
 //                        String headerCid = ServletUtils.getRequest().getHeader(LoginHelper.CLIENT_KEY);

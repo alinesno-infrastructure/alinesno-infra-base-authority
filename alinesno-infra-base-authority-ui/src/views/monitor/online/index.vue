@@ -57,7 +57,7 @@
                   </template>
                </el-table-column>
 
-               <el-table-column label="登陆信息" align="left" key="dbType" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" >
+               <el-table-column label="登陆信息" align="center" key="dbType" prop="dbType" v-if="columns[3].visible" >
                   <template #default="scope">
                         <div style="margin-top: 5px;" v-if="scope.row.osName">
                            <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> 系统: {{ scope.row.osName }}</el-button>
@@ -68,7 +68,7 @@
                   </template>
                </el-table-column>
 
-               <el-table-column label="会话创建时间" align="left" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" >
+               <el-table-column label="会话创建时间" align="left" key="nickName" prop="nickName" v-if="columns[2].visible" >
                   <template #default="scope">
                      <span>{{ parseTime(scope.row.createTime ) }}</span> <br/>
                      <div style="font-size: 13px;color: #a5a5a5;">

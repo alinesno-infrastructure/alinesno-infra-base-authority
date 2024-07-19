@@ -98,10 +98,17 @@
     <!-- 表格数据 -->
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+
       <el-table-column label="角色编号" prop="id" width="200" />
       <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" />
       <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
       <el-table-column label="显示顺序" prop="roleSort" width="100" />
+
+      <el-table-column label="授权" align="center" key="deptName" prop="dept.deptName" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;授权</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" align="center" width="100">
         <template #default="scope">
           <el-switch
@@ -192,6 +199,7 @@
             >{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
+        <!-- 
         <el-form-item label="菜单权限">
           <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
           <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
@@ -206,7 +214,8 @@
               empty-text="加载中，请稍候"
               :props="{ label: 'label', children: 'children' }"
           ></el-tree>
-        </el-form-item>
+        </el-form-item> 
+        -->
         <el-form-item label="备注">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
@@ -238,6 +247,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="数据权限" v-show="form.dataScope == 2">
           <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
           <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
@@ -254,6 +264,7 @@
               :props="{ label: 'label', children: 'children' }"
           ></el-tree>
         </el-form-item>
+
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -518,14 +529,14 @@ function submitForm() {
   proxy.$refs["roleRef"].validate(valid => {
     if (valid) {
       if (form.value.id != undefined) {
-        form.value.menuIds = getMenuAllCheckedKeys();
+        // form.value.menuIds = getMenuAllCheckedKeys();
         updateRole(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        form.value.menuIds = getMenuAllCheckedKeys();
+        // form.value.menuIds = getMenuAllCheckedKeys();
         addRole(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;

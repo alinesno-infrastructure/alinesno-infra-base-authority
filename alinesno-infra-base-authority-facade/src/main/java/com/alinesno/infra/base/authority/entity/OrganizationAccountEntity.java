@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.entity;
 
+import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -31,6 +32,11 @@ public class OrganizationAccountEntity extends InfraBaseEntity {
 	@ColumnType
 	@ColumnComment("账号id")
 	@TableField("account_id")
-	private long accountId ; // 账号id
+	private Long accountId ; // 账号id
+
+	@ColumnType
+	@ColumnComment("组织用户类型(1管理员|2普通用户)")
+	@TableField("org_type")
+	private Integer orgType = AccountOrganizationType.REGULAR_USER.getType() ; // 组织用户类型
 
 }

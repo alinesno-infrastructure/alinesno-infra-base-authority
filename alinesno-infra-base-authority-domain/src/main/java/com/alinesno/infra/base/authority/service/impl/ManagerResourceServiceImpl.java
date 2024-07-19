@@ -4,10 +4,12 @@ import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
+import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.mapper.ManagerResourceMapper;
+import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +44,8 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	@Autowired
 	private IManagerAccountService accountService;
 
-//	@Autowired
-//	private IManagerProjectService projectService;
+	@Autowired
+	private ManagerRoleMapper roleMapper ;
 
 	@Override
 	public void initApplicationMenu(Long projectId) {
@@ -77,7 +80,7 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	}
 
 	@Override
-	public List<ManagerResourceEntity> selectMenuList(ManagerResourceEntity menu, long userId, long projectId) {
+	public List<ManagerResourceEntity> selectMenuList(long userId, long projectId) {
 		List<ManagerResourceEntity> menuList = null;
 
 		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
@@ -120,6 +123,18 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 			// 2. TODO 获取用户的角色信息，根据角色获取到角色的菜单列表
 			return null ;
 		}
+
+	}
+
+	@Override
+	public List<Long> selectMenuListByRoleId(Long roleId) {
+
+		ManagerRoleEntity role = roleMapper.selectById(roleId) ;
+
+//		SysRole role = roleMapper.selectRoleById(roleId);
+//		return menuMapper.selectMenuListByRoleId(roleId, role.isMenuCheckStrictly());
+
+		return new ArrayList<>();
 
 	}
 
