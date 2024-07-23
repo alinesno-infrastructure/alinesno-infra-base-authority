@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
+import com.alinesno.infra.common.facade.mapper.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +23,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("organization")
-public class OrganizationEntity extends InfraBaseEntity {
+public class OrganizationEntity extends BaseEntity {
 
 	/**
 	 * 机构名称
@@ -141,5 +141,10 @@ public class OrganizationEntity extends InfraBaseEntity {
 	@ColumnType(length = 255)
 	@ColumnComment("机构联系电话")
 	private String orgPhone;
+
+	@TableField
+	@ColumnType(length = 255)
+	@ColumnComment("系统内置(Y是|N否)")
+	private String systemInner;
 
 }

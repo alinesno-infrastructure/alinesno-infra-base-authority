@@ -68,12 +68,11 @@
 
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" type="index" prop="noticeId" width="50" />
+      <el-table-column label="序号" align="center" type="index" prop="id" width="50" />
       <el-table-column
           label="公告标题"
           align="left"
           prop="noticeTitle"
-          :show-overflow-tooltip="true"
       >
         <template #default="scope">
           <span v-if="scope.row.isTop == 1">
@@ -234,7 +233,7 @@ function cancel() {
 /** 表单重置 */
 function reset() {
   form.value = {
-    noticeId: undefined,
+    id: undefined,
     noticeTitle: undefined,
     noticeType: undefined,
     noticeContent: undefined,
@@ -254,7 +253,7 @@ function resetQuery() {
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.noticeId);
+  ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -267,8 +266,8 @@ function handleAdd() {
 /**修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const noticeId = row.noticeId || ids.value;
-  getNotice(noticeId).then(response => {
+  const id = row.id || ids.value;
+  getNotice(id).then(response => {
     form.value = response.data;
     open.value = true;
     title.value = "修改公告";
@@ -278,7 +277,7 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["noticeRef"].validate(valid => {
     if (valid) {
-      if (form.value.noticeId != undefined) {
+      if (form.value.id != undefined) {
         updateNotice(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
@@ -296,7 +295,7 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const noticeIds = row.noticeId || ids.value
+  const noticeIds = row.id || ids.value
   proxy.$modal.confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？').then(function() {
     return delNotice(noticeIds);
   }).then(() => {

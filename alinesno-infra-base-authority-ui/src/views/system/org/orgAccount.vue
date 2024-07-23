@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-row :gutter="20">
       <!--用户数据-->
       <el-col :span="24" :xs="24">
@@ -22,90 +22,14 @@
                 @keyup.enter="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="状态" prop="accountStatus">
-            <el-select
-                v-model="queryParams.accountStatus"
-                placeholder="用户状态"
-                clearable
-                style="width: 240px"
-            >
-              <el-option
-                  v-for="dict in sys_normal_disable"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="创建时间" style="width: 308px;" prop="addTime">
-            <el-date-picker
-                v-model="dateRange"
-                value-format="YYYY-MM-DD"
-                type="daterange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-            ></el-date-picker>
-          </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
 
-        <el-row :gutter="10" class="mb8">
-          <el-col :span="1.5">
-            <el-button
-                type="primary"
-                plain
-                icon="Plus"
-                @click="handleAdd"
-                v-hasPermi="['system:user:add']"
-            >新增</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-                type="success"
-                plain
-                icon="Edit"
-                :disabled="single"
-                @click="handleUpdate"
-                v-hasPermi="['system:user:edit']"
-            >修改</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-                type="danger"
-                plain
-                icon="Delete"
-                :disabled="multiple"
-                @click="handleDelete"
-                v-hasPermi="['system:user:remove']"
-            >删除</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-                type="info"
-                plain
-                icon="Upload"
-                @click="handleImport"
-                v-hasPermi="['system:user:import']"
-            >导入</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button
-                type="warning"
-                plain
-                icon="Download"
-                @click="handleExport"
-                v-hasPermi="['system:user:export']"
-            >导出</el-button>
-          </el-col>
-          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
-        </el-row>
-
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column label="序号" type="index" width="50" align="center" />
 
           <el-table-column label="图标" align="center" width="70" key="icon" >
               <template #default="scope">
@@ -126,66 +50,20 @@
             </template>
           </el-table-column>
           <el-table-column label="登陆名" align="left" key="loginName" prop="loginName" v-if="columns[1].visible" />
-          <el-table-column label="所在组织" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true">
-            <template #default="scope">
-              <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;组织数({{ scope.row.orgList.length }})</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column label="授权" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true">
-            <template #default="scope">
-              <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;授权</el-button>
-            </template>
-          </el-table-column>
           <el-table-column label="手机号码" align="center" key="phone" prop="phone" v-if="columns[4].visible" width="120" />
-          <el-table-column label="状态" align="center" key="accountStatus" v-if="columns[5].visible">
+          <el-table-column label="组织角色" align="center" key="accountStatus" v-if="columns[5].visible" width="120">
             <template #default="scope">
-              <el-switch
-                  v-model="scope.row.accountStatus"
-                  active-value="1"
-                  inactive-value="0"
-                  @change="handleStatusChange(scope.row)"
-              ></el-switch>
+              <el-button type="danger" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.orgType == 1" >
+                <i class="fa-solid fa-user-tag"></i>&nbsp;管理员
+              </el-button>
+              <el-button type="primary" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.orgType == 2" >
+                <i class="fa-solid fa-user-tag"></i>&nbsp;普通人员
+              </el-button>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
+          <el-table-column label="加入组织时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
             <template #default="scope">
               <span>{{ parseTime(scope.row.addTime) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
-            <template #default="scope">
-              <el-tooltip content="修改" placement="top" v-if="scope.row.id !== 1">
-                <el-button
-                    type="text"
-                    icon="Edit"
-                    @click="handleUpdate(scope.row)"
-                    v-hasPermi="['system:user:edit']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip content="删除" placement="top" v-if="scope.row.id !== 1">
-                <el-button
-                    type="text"
-                    icon="Delete"
-                    @click="handleDelete(scope.row)"
-                    v-hasPermi="['system:user:remove']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip content="重置密码" placement="top" v-if="scope.row.id !== 1">
-                <el-button
-                    type="text"
-                    icon="Key"
-                    @click="handleResetPwd(scope.row)"
-                    v-hasPermi="['system:user:resetPwd']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip content="分配角色" placement="top" v-if="scope.row.id !== 1">
-                <el-button
-                    type="text"
-                    icon="CircleCheck"
-                    @click="handleAuthRole(scope.row)"
-                    v-hasPermi="['system:user:edit']"
-                ></el-button>
-              </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
@@ -365,13 +243,21 @@
 </template>
 
 <script setup name="User">
+
+import { defineProps } from 'vue';
+
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
-import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser } from "@/api/system/user";
+import { changeUserStatus, listOrgUser , resetUserPwd, delUser, getUser, updateUser, addUser } from "@/api/system/user";
+import { listOrganizationAccount } from "@/api/system/orgAccount";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable, sys_user_sex } = proxy.useDict("sys_normal_disable", "sys_user_sex");
+
+const props = defineProps({
+  currentOrgId: Number 
+});
 
 const userList = ref([]);
 const open = ref(false);
@@ -419,6 +305,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
+    orgId: undefined ,
     loginName: undefined,
     phone: undefined,
     accountStatus: undefined,
@@ -453,7 +340,8 @@ function getTreeselect() {
 /** 查询用户列表 */
 function getList() {
   loading.value = true;
-  listUser(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
+
+  listOrganizationAccount(proxy.addDateRange(queryParams.value, dateRange.value) , props.currentOrgId).then(res => {
     loading.value = false;
     userList.value = res.rows;
     total.value = res.total;

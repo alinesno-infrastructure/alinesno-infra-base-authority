@@ -39,7 +39,9 @@ public class OrganizationRest extends BaseController<OrganizationEntity, IOrgani
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-		return this.toPage(model, this.getFeign(), page);
+		// return this.toPage(model, this.getFeign(), page);
+
+        return orgService.queryOrganization(page);
 	}
 
 	@ResponseBody

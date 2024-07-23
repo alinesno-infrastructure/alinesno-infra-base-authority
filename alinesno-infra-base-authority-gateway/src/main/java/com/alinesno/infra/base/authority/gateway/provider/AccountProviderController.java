@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.provider;
 
+import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
@@ -28,7 +29,7 @@ public class AccountProviderController extends BaseProvider {
     public ManagerAccountDto registerAccount(@RequestBody ManagerAccountDto dto){
 
         String loginName = dto.getLoginName() ;
-        String password = dto.getPassword() ;
+        String password = BCrypt.hashpw(dto.getPassword()) ;  // 密钥加密
         String phone = dto.getPhone() ;
 
         ManagerAccountDto b = managerAccountService.registAccount(loginName , password , phone) ;

@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.initialize;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 
 /**
  * 初始化应用程序
@@ -15,11 +16,28 @@ public interface IAuthorityInitService {
 	 * 
 	 * @param accountId
 	 */
-	public void initData(Long accountId);
+	void initData(Long accountId , OrganizationEntity org);
 
 	/**
 	 * 初始化超级管理员
 	 * @return
 	 */
-	ManagerAccountEntity initSuperManager();
+	ManagerAccountEntity initSuperManager(OrganizationEntity org);
+
+	/**
+	 * 初始化平台默认组织
+	 * @return
+	 */
+    OrganizationEntity initOrganization();
+
+	/**
+	 * 初始化数据字典
+	 */
+	void initManagerCode(OrganizationEntity org);
+
+	/**
+	 * 初始化系统参数
+	 */
+	void initManagerConfig(OrganizationEntity org);
+
 }

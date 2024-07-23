@@ -81,37 +81,38 @@
           <el-table-column label="图标" align="center" width="70" key="icon" >
               <template #default="scope">
                   <div class="role-icon">
-                    <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
+                    <img v-if="scope.row.logoUrl" style="width:40px;height:40px;border-radius:5px;" :src="scope.row.logoUrl" />
+                    <img v-else style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
                   </div>
               </template>
           </el-table-column>
-          <el-table-column label="组织名称" align="left" key="orgName" prop="orgName" v-if="columns[0].visible" :show-overflow-tooltip="true">
+          <el-table-column label="组织名称" align="left" key="orgName" prop="orgName" v-if="columns[0].visible">
             <template #default="scope">
                 <div>
                   {{ scope.row.orgName }}
                 </div>
-                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.organizationId">
-                  组织代码: {{ scope.row.organizationId }} <el-icon><CopyDocument /></el-icon>
+                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.doorplateNumber">
+                  组织号: {{ scope.row.doorplateNumber }} <el-icon><CopyDocument /></el-icon>
                 </div>
             </template>
           </el-table-column>
-          <el-table-column label="组织号" align="center" width="150" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible" :show-overflow-tooltip="true">
+          <!-- <el-table-column label="组织号" align="center" width="150" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible">
               <template #default="scope">
                 <el-button type="primary" bg link v-copyText="scope.row.doorplateNumber"> 
                   <i class="fa-solid fa-file-shield"></i>&nbsp;{{ scope.row.doorplateNumber }}
                 </el-button>
               </template>
-          </el-table-column>
-          <el-table-column label="组织描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="成员数量" align="center" width="100" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" >
+          </el-table-column> -->
+          <el-table-column label="组织描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" />
+          <el-table-column label="成员数量" align="center" width="100" key="remark" prop="remark" v-if="columns[1].visible" >
               <template #default="scope">
-                10 人
+                <i class="fa-solid fa-user-tag"></i>&nbsp; {{ scope.row.memberCount }} 人
               </template>
           </el-table-column>
-          <el-table-column label="管理员" align="center" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible" :show-overflow-tooltip="true">
+          <el-table-column label="管理员" align="center" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible" >
               <template #default="scope">
-                <el-button type="primary" bg link v-copyText="scope.row.doorplateNumber"> 
-                  <i class="fa-solid fa-file-shield"></i>&nbsp;设置管理员
+                <el-button type="primary" bg link @click="handleOrgAccountList(scope.row)"> 
+                  <i class="fa-solid fa-shield-halved"></i>&nbsp;组织成员
                 </el-button>
               </template>
           </el-table-column>
@@ -125,8 +126,8 @@
               />
           </template>
         </el-table-column>
-          <el-table-column label="手机号" align="center" width="200" key="orgPhone" prop="orgPhone" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
+          <el-table-column label="联系人" align="center" width="200" key="orgPhone" prop="orgPhone" v-if="columns[3].visible" />
+          <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" >
             <template #default="scope">
               <span>{{ parseTime(scope.row.addTime) }}</span>
             </template>
@@ -144,6 +145,7 @@
               <el-tooltip content="删除" placement="top" v-if="scope.row.id !== 1">
                 <el-button
                     type="text"
+                    :disabled="scope.row.systemInner === 'Y'"
                     icon="Delete"
                     @click="handleDelete(scope.row)"
                     v-hasPermi="['system:user:remove']"
@@ -203,6 +205,16 @@
       </template>
     </el-dialog>
 
+    <!-- 显示组织成员列表对话框 -->
+    <el-dialog title="组织成员列表" v-model="openOrgAccount" width="1024px" append-to-body>
+      <OrgAccount :currentOrgId="currentOrgId" />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="cancel">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -214,6 +226,8 @@ import {
   getOrganization, 
   updateOrganization, 
   addOrganization } from "@/api/system/org";
+
+import OrgAccount from './orgAccount.vue'
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -229,6 +243,9 @@ const total = ref(0);
 const title = ref("");
 const dateRange = ref([]);
 const initPassword = ref(undefined);
+
+const openOrgAccount = ref(false);
+const currentOrgId = ref("")
 
 // 列显隐信息
 const columns = ref([
@@ -295,6 +312,21 @@ function handleDelete(row) {
 
 /** 选择条数  */
 function handleSelectionChange(selection) {
+
+  let sel = false ;
+
+  selection.forEach(item => {
+    if (item.systemInner === 'Y') {
+      proxy.$modal.msgError("超级管理员不允许删除");
+      sel = true ; 
+      return;
+    }
+  });
+
+  if(sel){
+    return;
+  }
+
   ids.value = selection.map(item => item.id);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
@@ -321,6 +353,7 @@ function reset() {
 /** 取消按钮 */
 function cancel() {
   open.value = false;
+  openOrgAccount.value = false;
   reset();
 };
 /** 新增按钮操作 */
@@ -373,6 +406,12 @@ const handleChangStatusField = async(field , value , id) => {
          // 刷新表格
          getList()
       }
+}
+
+/** 组织账号管理 */
+function handleOrgAccountList(row){
+  currentOrgId.value = row.id ;
+  openOrgAccount.value = true ;
 }
 
 getList();

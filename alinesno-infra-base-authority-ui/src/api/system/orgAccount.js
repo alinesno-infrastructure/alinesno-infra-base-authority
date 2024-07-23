@@ -2,34 +2,33 @@ import request from '@/utils/request'
 import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 接口配置项
-var prefix = '/api/infra/base/authority/managerAccount/';
+var prefix = '/api/infra/base/authority/organizationAccount/';
 var managerUrl = {
     datatables: prefix + "datatables",
-    listOrgUser: prefix + "listOrgUser",
     createUrl: prefix + 'add',
-    saveUrl: prefix + 'save',
+    saveUrl: prefix + 'saveOrg',
     updateUrl: prefix + "modify",
     statusUrl: prefix + "changeStatus",
-    changeAccountStatus: prefix + "changeAccountStatus",
     cleanUrl: prefix + "clean",
     detailUrl: prefix + "detail",
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
-    downloadfile: prefix + "downloadfile"
+    downloadfile: prefix + "downloadfile" ,
 }
 
-// 查询组织用户列表
-export function listOrgUser(query , orgId) {
+
+// 修改字段
+export function changStatusField(data){
     return request({
-        url: managerUrl.listOrgUser + '?orgId=' + parseStrEmpty(orgId),
+        url: managerUrl.changeField ,
         method: 'post',
-        params: query
+        data: data
     })
 }
 
 // 查询用户列表
-export function listUser(query) {
+export function listOrganizationAccount(query) {
     return request({
         url: managerUrl.datatables,
         method: 'post',
@@ -38,7 +37,7 @@ export function listUser(query) {
 }
 
 // 查询用户详细
-export function getUser(id) {
+export function getOrganizationAccount(id) {
     return request({
         url: managerUrl.detailUrl + '/' + parseStrEmpty(id),
         method: 'get'
@@ -46,7 +45,7 @@ export function getUser(id) {
 }
 
 // 新增用户
-export function addUser(data) {
+export function addOrganizationAccount(data) {
     return request({
         url: managerUrl.saveUrl,
         method: 'post',
@@ -55,7 +54,7 @@ export function addUser(data) {
 }
 
 // 修改用户
-export function updateUser(data) {
+export function updateOrganizationAccount(data) {
     return request({
         url: managerUrl.updateUrl,
         method: 'put',
@@ -64,7 +63,7 @@ export function updateUser(data) {
 }
 
 // 删除用户
-export function delUser(id) {
+export function delOrganizationAccount(id) {
     return request({
         url: managerUrl.removeUrl + '/' + parseStrEmpty(id),
         method: 'delete'
@@ -72,7 +71,7 @@ export function delUser(id) {
 }
 
 // 用户密码重置
-export function resetUserPwd(userId, password) {
+export function resetOrganizationAccountPwd(userId, password) {
     const data = {
         userId,
         password
@@ -85,20 +84,20 @@ export function resetUserPwd(userId, password) {
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, status) {
+export function changeOrganizationAccountStatus(userId, status) {
     const data = {
-        id:userId,
-        accountStatus:status
+        userId,
+        status
     }
     return request({
-        url: managerUrl.changeAccountStatus , 
+        url: '/system/user/changeStatus',
         method: 'put',
         data: data
     })
 }
 
 // 查询用户个人信息
-export function getUserProfile() {
+export function getOrganizationAccountProfile() {
     return request({
         url: '/system/user/profile',
         method: 'get'
@@ -106,7 +105,7 @@ export function getUserProfile() {
 }
 
 // 修改用户个人信息
-export function updateUserProfile(data) {
+export function updateOrganizationAccountProfile(data) {
     return request({
         url: '/system/user/profile',
         method: 'put',
@@ -115,7 +114,7 @@ export function updateUserProfile(data) {
 }
 
 // 用户密码重置
-export function updateUserPwd(oldPassword, newPassword) {
+export function updateOrganizationAccountPwd(oldPassword, newPassword) {
     const data = {
         oldPassword,
         newPassword
