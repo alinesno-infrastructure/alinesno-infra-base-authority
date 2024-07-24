@@ -47,6 +47,7 @@ public class AppConfiguration implements CommandLineRunner {
 
         // 初始化权限引擎服务的菜单权限
         authorityInitService.initData(managerAccount.getId() , org) ;
+
     }
 
 }

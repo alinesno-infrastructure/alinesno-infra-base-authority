@@ -10,10 +10,10 @@ package com.alinesno.infra.base.authority.constants;
 public interface AuthorityConstants {
 
     // 平台默认授权引擎服务项目编码，用于标识唯一的授权项目。
-    String BASE_AUTHORITY_PROJECT_CODE = "9813839735521538066";
+    String BASE_AUTHORITY_PROJECT_CODE = "452226530000";
 
     // 平台默认组织编码，用于标识系统的默认组织结构。
-    String BASE_AUTHORITY_ORGANIZATION_CODE = "9813839735521538055";
+    String BASE_AUTHORITY_ORGANIZATION_CODE = "452226541000";
 
 }
 

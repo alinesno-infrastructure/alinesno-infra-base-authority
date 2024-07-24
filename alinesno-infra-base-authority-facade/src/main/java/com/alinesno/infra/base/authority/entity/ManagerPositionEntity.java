@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.alinesno.infra.base.authority.enums.DataSourceScope;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,5 +47,16 @@ public class ManagerPositionEntity extends InfraBaseEntity {
 	@ColumnType(length = 128)
 	@ColumnComment("备注")
 	private String remark;
+
+	@TableField("project_id")
+	@ColumnType(length = 64)
+	@ColumnComment("所属项目")
+	private Long projectId;
+
+	@Excel(name = "数据范围")
+	@TableField("data_scope")
+	@ColumnType(length = 12)
+	@ColumnComment("数据范围")
+	private String dataScope = DataSourceScope.PROJECT_SCOPE.getValue();
 
 }

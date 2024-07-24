@@ -4,7 +4,7 @@
     <br/>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="字典名称" prop="codeTypeValue">
-        <el-select v-model="queryParams.codeTypeValue">
+        <el-select v-model="queryParams.codeTypeValue" @change="changeSelect">
           <el-option
               v-for="item in typeOptions"
               :key="item.id"
@@ -91,13 +91,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column type="index" label="序号" width="55" align="center" />
       <el-table-column label="字典名称" align="center" prop="codeName" />
-      <el-table-column label="字典描述" align="center" prop="codeDesc">
+      <el-table-column label="字典键值" align="center" prop="codeValue" />
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="字典标签" align="center" prop="codeLabel">
         <template #default="scope">
-          <span v-if="scope.row.listClass == '' || scope.row.listClass == 'default'">{{ scope.row.codeDesc }}</span>
-          <el-tag v-else :type="scope.row.listClass == 'primary' ? '' : scope.row.listClass">{{ scope.row.codeDesc }}</el-tag>
+          <span v-if="scope.row.listClass == '' || scope.row.listClass == 'default'">{{ scope.row.codeLabel }}</span>
+          <el-tag v-else :type="scope.row.listClass == 'primary' ? '' : scope.row.listClass">{{ scope.row.codeLabel }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="字典键值" align="center" prop="codeValue" />
       <el-table-column label="字典排序" align="center" prop="dictSort" />
       <el-table-column label="状态" width="100" align="center" prop="status">
         <template #default="scope">
@@ -109,7 +110,6 @@
             />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -150,9 +150,9 @@
         <el-form-item label="字典名称" prop="codeDesc">
           <el-input v-model="form.codeName" placeholder="请输入字典名称" />
         </el-form-item>
-        <el-form-item label="字典描述" prop="codeDesc">
-          <el-input v-model="form.codeDesc" placeholder="请输入字典描述" />
-        </el-form-item>
+        <el-form-item label="字典标签" prop="codeLabel">
+          <el-input v-model="form.codeLabel" placeholder="请输入字典标签" />
+        </el-form-item> 
         <el-form-item label="数据键值" prop="codeValue">
           <el-input v-model="form.codeValue" placeholder="请输入数据键值" />
         </el-form-item>
@@ -392,6 +392,11 @@ const handleChangStatusField = async(field , value , id) => {
       }
 }
 
+/** 选择类型 */
+function changeSelect(val) {
+  console.log(val)
+  getList();
+}
 
 getTypes(route.params && route.params.dictId);
 getTypeList();

@@ -49,26 +49,26 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 
 	@Override
 	public void initApplicationMenu(Long projectId) {
-		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
-
-		wrapper.eq(ManagerResourceEntity::getMenuType , MenuEnums.MENU_PLATFORM.value)
-				.eq(ManagerResourceEntity::getProjectId , projectId);
-
-		long count = count(wrapper) ;
-		if(count > 0){
-			return ;
-		}
-
-		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).getById(projectId) ;
-
-		ManagerResourceEntity platformMenu = new ManagerResourceEntity() ;
-
-		platformMenu.setMenuType(MenuEnums.MENU_PLATFORM.value);
-		platformMenu.setResourceName(project.getProjectName());
-		platformMenu.setProjectId(projectId);
-		platformMenu.setResourceIcon("icon");
-
-		save(platformMenu) ;
+//		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
+//
+//		wrapper.eq(ManagerResourceEntity::getMenuType , MenuEnums.MENU_PLATFORM.value)
+//				.eq(ManagerResourceEntity::getProjectId , projectId);
+//
+//		long count = count(wrapper) ;
+//		if(count > 0){
+//			return ;
+//		}
+//
+//		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).getById(projectId) ;
+//
+//		ManagerResourceEntity platformMenu = new ManagerResourceEntity() ;
+//
+//		platformMenu.setMenuType(MenuEnums.MENU_PLATFORM.value);
+//		platformMenu.setResourceName(project.getProjectName());
+//		platformMenu.setProjectId(projectId);
+//		platformMenu.setResourceIcon("icon");
+//
+//		save(platformMenu) ;
 	}
 
 	@Override

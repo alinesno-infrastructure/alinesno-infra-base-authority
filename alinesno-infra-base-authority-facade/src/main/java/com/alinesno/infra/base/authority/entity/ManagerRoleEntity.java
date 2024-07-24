@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.alinesno.infra.base.authority.enums.DataSourceScope;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -21,13 +22,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("manager_role")
 public class ManagerRoleEntity extends InfraBaseEntity {
-
-//	private static final long serialVersionUID = 1L;
-//	@Excel(name = "所属应用")
-//	@TableField("application_name")
-//	@ColumnType(length = 255)
-//	@ColumnComment("所属应用")
-//	private String applicationName;
 
 	/**
 	 * 角色名称
@@ -81,5 +75,16 @@ public class ManagerRoleEntity extends InfraBaseEntity {
 	@ColumnType
 	@ColumnComment("是否是互联网默认角色")
 	private Integer defaultNetRole;
+
+	@TableField("project_id")
+	@ColumnType(length = 64)
+	@ColumnComment("所属项目")
+	private Long projectId;
+
+	@Excel(name = "数据范围")
+	@TableField("data_scope")
+	@ColumnType(length = 12)
+	@ColumnComment("数据范围")
+	private String dataScope = DataSourceScope.PROJECT_SCOPE.getValue();
 
 }

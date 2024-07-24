@@ -70,8 +70,10 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	@GetMapping("/currentProject")
 	public AjaxResult currentApplication() {
 
-		// 初始化应用
-		managerProjectService.initDefaultProject(CurrentAccountJwt.getUserId()) ;
+		long userId = CurrentAccountJwt.getUserId() ;
+		long orgId = 1L ;
+
+		managerProjectService.initDefaultProject(userId , orgId) ;
 
 		ManagerProjectEntity e =  currentProjectSession.get() ;
 
@@ -87,7 +89,9 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	 */
 	@GetMapping("/latestList")
 	public AjaxResult latestList() {
+
 		long userId = CurrentAccountJwt.getUserId() ;
+
 		List<ManagerProjectEntity> es =  managerProjectService.latestList(userId);
 		return AjaxResult.success(es) ;
 	}

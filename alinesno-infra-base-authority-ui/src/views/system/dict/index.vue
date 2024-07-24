@@ -103,21 +103,40 @@
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编号" align="center" prop="id" />
-      <el-table-column label="字典名称" align="left" prop="codeTypeValue" :show-overflow-tooltip="true"/>
-      <el-table-column label="字典类型" align="left" prop="codeTypeName" :show-overflow-tooltip="true">
+      <el-table-column label="字典编号" align="center" width="100" prop="id" />
+      <el-table-column label="字典名称" align="left" prop="codeTypeName" :show-overflow-tooltip="true"/>
+      <el-table-column label="字典类型" align="left" prop="codeTypeValue" :show-overflow-tooltip="true">
         <template #default="scope">
           <router-link :to="'/system/dict-data/index/' + scope.row.id" class="link-type">
-            <span>{{ scope.row.codeTypeName }}</span>
+            <span>{{ scope.row.codeTypeValue }}</span>
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="hasStatus">
+      <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="系统内置" align="center" prop="systemInner" />
+      <el-table-column label="参数范围" align="center" key="accountStatus" width="120">
         <template #default="scope">
-          <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />
+          <el-button type="danger" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'common'" >
+            <i class="fa-solid fa-user-tag"></i>&nbsp;公共
+          </el-button>
+          <el-button type="primary" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'org'" >
+            <i class="fa-solid fa-user-tag"></i>&nbsp;组织
+          </el-button>
+          <el-button type="success" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'project'" >
+            <i class="fa-solid fa-user-tag"></i>&nbsp;项目
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="状态" align="center" prop="status">
+        <template #default="scope">
+            <el-switch
+              v-model="scope.row.hasStatus"
+              :active-value="0"
+              :inactive-value="1"
+              @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
+            />
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="addTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -203,7 +222,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     codeTypeValue: undefined,
     codeTypeName: undefined,
     hasStatus: undefined,

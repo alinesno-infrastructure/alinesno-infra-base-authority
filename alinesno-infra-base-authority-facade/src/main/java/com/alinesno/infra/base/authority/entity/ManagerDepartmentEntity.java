@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.alinesno.infra.base.authority.enums.DataSourceScope;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -92,4 +93,9 @@ public class ManagerDepartmentEntity extends InfraBaseEntity {
 	@TableField(exist = false)
 	private List<ManagerDepartmentEntity> children = new ArrayList<ManagerDepartmentEntity>();
 
+	@Excel(name = "数据范围")
+	@TableField("data_scope")
+	@ColumnType(length = 12)
+	@ColumnComment("数据范围")
+	private String dataScope = DataSourceScope.PROJECT_SCOPE.getValue();
 }

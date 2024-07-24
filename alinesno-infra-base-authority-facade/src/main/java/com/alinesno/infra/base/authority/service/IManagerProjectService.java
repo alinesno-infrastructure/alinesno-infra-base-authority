@@ -71,7 +71,7 @@ public interface IManagerProjectService extends IBaseService<ManagerProjectEntit
 	 * 初始化用户应用服务
 	 * @param userId
 	 */
-	void initDefaultProject(long userId);
+	void initDefaultProject(long userId , long orgId);
 
 
 	/**
