@@ -47,7 +47,11 @@ public class AppConfiguration implements CommandLineRunner {
         ManagerAccountEntity managerAccount = authorityInitService.initSuperManager(org) ;
 
         // 初始化权限引擎服务的菜单权限
+        //ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
+
+        // 初始化权限引擎服务的菜单权限
         ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
+
 
         // 初始化部门和岗位数据
         authorityInitService.initDeptAndPost(managerAccount.getId() , org , project) ;

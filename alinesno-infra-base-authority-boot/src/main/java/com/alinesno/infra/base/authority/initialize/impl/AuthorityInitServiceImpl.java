@@ -48,7 +48,7 @@ public class AuthorityInitServiceImpl implements IAuthorityInitService {
 	private IOrganizationService orgService;
 	
 	@Override
-	public void initData(Long accountId , OrganizationEntity org) {
+	public ManagerProjectEntity initData(Long accountId , OrganizationEntity org) {
 		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
 		wrapper.eq(ManagerProjectEntity::getProjectCode, AuthorityConstants.BASE_AUTHORITY_PROJECT_CODE) ;
 
@@ -76,6 +76,7 @@ public class AuthorityInitServiceImpl implements IAuthorityInitService {
 			List<ManagerResourceEntity> es = genBaseAuthorityResources(org , e) ;
 			SpringContext.getBean(IManagerResourceService.class).saveBatch(es);
 		}
+		return null;
 	}
 
 	/**
@@ -549,6 +550,11 @@ public class AuthorityInitServiceImpl implements IAuthorityInitService {
 //		ManagerSettingsEntity(String configName, String configKey, String configValue, String configType, String remark, String dataScope) {
 
 		// 初始化组织对应参数
+
+	}
+
+	@Override
+	public void initDeptAndPost(Long id, OrganizationEntity org, ManagerProjectEntity project) {
 
 	}
 
