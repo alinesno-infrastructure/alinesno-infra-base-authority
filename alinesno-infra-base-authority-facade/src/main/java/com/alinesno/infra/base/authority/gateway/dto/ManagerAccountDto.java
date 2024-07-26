@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.dto;
 
+import com.alinesno.infra.base.authority.api.OrganizationDto;
+import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,6 +106,16 @@ public class ManagerAccountDto extends BaseDto {
 	private List<String> authRole;
 
 	/**
+	 * 组织岗位类型
+	 */
+	private Integer orgType ;
+
+	/**
+	 * 组织列表
+	 */
+	private List<OrganizationDto> orgList ;
+
+	/**
 	 * 快速从 dto 转换成 entity
 	 * 
 	 * @return dto 对应的 entity
@@ -118,7 +131,7 @@ public class ManagerAccountDto extends BaseDto {
 	 * 
 	 * @return dto 对应的 entity
 	 */
-	public ManagerAccountDto fromDto(ManagerAccountDto entity) {
+	public ManagerAccountDto fromDto(ManagerAccountEntity entity) {
 		ObjectMapper fromDtoMapper = new ObjectMapper();
 		fromDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		return fromDtoMapper.convertValue(entity, ManagerAccountDto.class);

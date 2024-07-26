@@ -21,6 +21,7 @@ import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,28 +48,14 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	@Autowired
 	private ManagerRoleMapper roleMapper ;
 
+	private final IManagerProjectService managerProjectService ;
+
+	public ManagerResourceServiceImpl(@Lazy IManagerProjectService managerProjectService) {
+		this.managerProjectService = managerProjectService;
+	}
+
 	@Override
 	public void initApplicationMenu(Long projectId) {
-		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
-
-		wrapper.eq(ManagerResourceEntity::getMenuType , MenuEnums.MENU_PLATFORM.value)
-				.eq(ManagerResourceEntity::getProjectId , projectId);
-
-		long count = count(wrapper) ;
-		if(count > 0){
-			return ;
-		}
-
-		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).getById(projectId) ;
-
-		ManagerResourceEntity platformMenu = new ManagerResourceEntity() ;
-
-		platformMenu.setMenuType(MenuEnums.MENU_PLATFORM.value);
-		platformMenu.setResourceName(project.getProjectName());
-		platformMenu.setProjectId(projectId);
-		platformMenu.setResourceIcon("icon");
-
-		save(platformMenu) ;
 	}
 
 	@Override
@@ -83,21 +70,41 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	public List<ManagerResourceEntity> selectMenuList(long userId, long projectId) {
 		List<ManagerResourceEntity> menuList = null;
 
+		// 查询出用户所有数据权限项目
+		LambdaQueryWrapper<ManagerProjectEntity> projectionWrapper =  new LambdaQueryWrapper<>() ;
+		List<ManagerProjectEntity> projects = managerProjectService.list(projectionWrapper) ;
+
+		List<Long> projectIds = projects.stream().map(ManagerProjectEntity::getId).toList() ;
+
 		LambdaQueryWrapper<ManagerResourceEntity> wrapper = new LambdaQueryWrapper<>() ;
-		wrapper.eq(ManagerResourceEntity::getProjectId , projectId) ;
+		wrapper.in(ManagerResourceEntity::getProjectId , projectIds) ;
 
 		menuList = list(wrapper) ;
+
+		// 将三个项目放到主菜单当中
+		for(ManagerProjectEntity p : projects){
+			ManagerResourceEntity menu = new ManagerResourceEntity() ;
+
+			menu.setId(p.getId()) ;
+			menu.setResourceName(p.getProjectName()) ;
+			menu.setComponent(p.getProjectIcons()) ;
+			menu.setResourceLink(p.getProjectLink()) ;
+			menu.setMenuType(MenuEnums.MENU_PLATFORM.getValue()) ;
+			menu.setVisible(true) ;
+			menu.setResourceOrder(0) ;
+			menu.setResourceParent(0L) ;
+			menu.setHasStatus(HasStatusEnums.LEGAL.value) ;
+
+			menuList.add(menu) ;
+		}
 
 		return menuList ;
 	}
 
 	@Override
 	public List<TreeSelect> buildMenuTreeSelect(List<ManagerResourceEntity> menus) {
-
-//		List<ManagerResourceEntity> menuTrees = buildMenuTree(menus);
-//		return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
-
-		return null ;
+		// 构建树形菜单
+        return TreeSelect.buildTree(menus);
 	}
 
 	@Override

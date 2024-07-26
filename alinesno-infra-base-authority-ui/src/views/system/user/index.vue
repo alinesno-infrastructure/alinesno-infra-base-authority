@@ -128,12 +128,12 @@
           <el-table-column label="登陆名" align="left" key="loginName" prop="loginName" v-if="columns[1].visible" />
           <el-table-column label="所在组织" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true">
             <template #default="scope">
-              <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;配置</el-button>
+              <el-button bg link><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;组织数({{ scope.row.orgList.length }})</el-button>
             </template>
           </el-table-column>
           <el-table-column label="授权" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true">
             <template #default="scope">
-              <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;授权</el-button>
+              <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-file-shield"></i>&nbsp;角色授权</el-button>
             </template>
           </el-table-column>
           <el-table-column label="手机号码" align="center" key="phone" prop="phone" v-if="columns[4].visible" width="120" />
@@ -141,8 +141,8 @@
             <template #default="scope">
               <el-switch
                   v-model="scope.row.accountStatus"
-                  :active-value="1"
-                  :inactive-value="0"
+                  active-value="1"
+                  inactive-value="0"
                   @change="handleStatusChange(scope.row)"
               ></el-switch>
             </template>
@@ -642,7 +642,7 @@ function submitForm() {
   });
 };
 
-getTreeselect();
+// getTreeselect();
 getList();
 
 </script>

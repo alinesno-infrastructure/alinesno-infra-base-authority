@@ -96,9 +96,15 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 	/**
 	 * 获取部门树列表
 	 */
-	@GetMapping("/deptTree")
-	public AjaxResult deptTree() {
-		return AjaxResult.success(managerDepartmentService.selectDeptTreeList()) ;
+	@GetMapping("/roleDeptTreeselect/{roleId}")
+	public AjaxResult roleDeptTreeselect(@PathVariable("roleId") Long roleId) {
+
+		AjaxResult ajax = AjaxResult.success();
+
+		ajax.put("checkedKeys", managerDepartmentService.selectDeptListByRoleId(roleId));
+		ajax.put("depts", managerDepartmentService.selectDeptTreeList());
+
+		return ajax;
 	}
 
 	@Override

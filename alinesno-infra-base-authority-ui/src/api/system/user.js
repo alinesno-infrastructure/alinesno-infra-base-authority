@@ -5,6 +5,7 @@ import { parseStrEmpty } from "@/utils/ruoyi";
 var prefix = '/api/infra/base/authority/managerAccount/';
 var managerUrl = {
     datatables: prefix + "datatables",
+    listOrgUser: prefix + "listOrgUser",
     createUrl: prefix + 'add',
     saveUrl: prefix + 'save',
     updateUrl: prefix + "modify",
@@ -16,6 +17,15 @@ var managerUrl = {
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
     downloadfile: prefix + "downloadfile"
+}
+
+// 查询组织用户列表
+export function listOrgUser(query , orgId) {
+    return request({
+        url: managerUrl.listOrgUser + '?orgId=' + parseStrEmpty(orgId),
+        method: 'post',
+        params: query
+    })
 }
 
 // 查询用户列表

@@ -98,16 +98,27 @@
 
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数主键" align="center" prop="id" />
-      <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键名" align="center" prop="configKey" :show-overflow-tooltip="true" />
+      <el-table-column label="参数主键" align="center" width="100" prop="id" :show-overflow-tooltip="true" />
+      <el-table-column label="参数名称"  align="left" prop="configName" :show-overflow-tooltip="true" />
+      <el-table-column label="参数键名" align="left" prop="configKey" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <el-button type="primary" bg link v-copyText="scope.row.configKey">
+            {{ scope.row.configKey }} &nbsp; <el-icon><CopyDocument /></el-icon>
+          </el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="参数键值" align="center" prop="configValue" />
       <el-table-column label="系统内置" align="center" prop="configType">
         <template #default="scope">
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="数据范围" align="center" key="accountStatus" width="120">
+        <template #default="scope">
+          <dict-tag :options="sys_data_scope" :value="scope.row.dataScope" />
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -124,6 +135,7 @@
           <el-button
               type="text"
               icon="Delete"
+              :disabled="scope.row.configType === 'Y'"
               @click="handleDelete(scope.row)"
               v-hasPermi="['system:config:remove']"
           >删除</el-button>
@@ -146,7 +158,7 @@
           <el-input v-model="form.configName" placeholder="请输入参数名称" />
         </el-form-item>
         <el-form-item label="参数键名" prop="configKey">
-          <el-input v-model="form.configKey" placeholder="请输入参数键名" />
+          <el-input v-model="form.configKey" placeholder="请输入参数键名" :disabled="form.configType === 'Y'"/>
         </el-form-item>
         <el-form-item label="参数键值" prop="configValue">
           <el-input v-model="form.configValue" placeholder="请输入参数键值" />
@@ -178,7 +190,7 @@
 import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
 
 const { proxy } = getCurrentInstance();
-const { sys_yes_no } = proxy.useDict("sys_yes_no");
+const { sys_yes_no , sys_data_scope } = proxy.useDict("sys_yes_no" , "sys_data_scope");
 
 const configList = ref([]);
 const open = ref(false);

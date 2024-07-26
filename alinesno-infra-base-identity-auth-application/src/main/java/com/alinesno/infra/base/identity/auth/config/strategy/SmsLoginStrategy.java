@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.identity.auth.config.strategy;
 
+import cn.dev33.satoken.secure.BCrypt;
+import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.PhoneUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.identity.auth.config.BaseLoginStrategy;
@@ -10,6 +13,7 @@ import com.alinesno.infra.common.web.adapter.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * 短信登陆服务
@@ -33,7 +37,13 @@ public class SmsLoginStrategy extends BaseLoginStrategy {
             accountDto = new ManagerAccountDto() ;
 
             String loginName = loginUser.getPhoneNumber() ;
-            String password = MD5Util.encode(loginUser.getPhoneNumber()) ;  // 设置临时密码
+
+            boolean isPhone =  PhoneUtil.isPhone(loginName) ;
+            boolean isEmail = Validator.isEmail(loginName) ;
+
+            Assert.isTrue(isPhone || isEmail , "账号必须是手机号或者邮箱") ;
+
+            String password = loginUser.getPhoneNumber() ;  // 设置临时密码
             String phone = loginUser.getPhoneNumber() ;
 
             accountDto.setLoginName(loginName);

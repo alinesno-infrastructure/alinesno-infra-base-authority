@@ -23,7 +23,7 @@ actable:
   table:
     auto: update
   model:
-    pack: com.alinesno.infra.base.authority.entity;
+    pack: com.alinesno.infra.base.authority.entity;com.alinesno.infra.base.authority.meta.entity
   database:
     type: mysql
   index:
@@ -53,7 +53,7 @@ alinesno.security:
 # sa-token配置
 sa-token:
   token-name: satoken
-  host-path: http://localhost:27001
+  host-path: http://alinesno-infra-base-identity-auth-application.beta.base.infra.linesno.com
   sso:
     auth-url: ${sa-token.host-path}/login
     is-http: true

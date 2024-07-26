@@ -87,7 +87,7 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 	@TableField("visible")
 	@ColumnType(length = 255)
 	@ColumnComment("是否可见")
-	private String visible;
+	private boolean visible = true;
 
 	@TableField("project_id")
 	@ColumnType(length = 64)

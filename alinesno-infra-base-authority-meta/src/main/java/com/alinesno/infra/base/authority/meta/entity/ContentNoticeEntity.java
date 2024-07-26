@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("content_notice")
 public class ContentNoticeEntity extends InfraBaseEntity {
@@ -50,8 +52,8 @@ public class ContentNoticeEntity extends InfraBaseEntity {
 
 	@ColumnType(length = 1)
 	@ColumnComment("是否置顶")
-	@TableField("is_top")
-	private String isTop;
+	@TableField("has_top")
+	private boolean hasTop;
 
 	/**
 	 * 文章标题

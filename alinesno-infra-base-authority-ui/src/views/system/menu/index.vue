@@ -62,7 +62,7 @@
           <svg-icon :icon-class="scope.row.resourceIcon" />
         </template>
       </el-table-column>
-      <el-table-column prop="resourceOrder" label="排序" width="60"></el-table-column>
+      <el-table-column prop="resourceOrder" label="排序" width="100"></el-table-column>
       <el-table-column prop="permission" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="menuType" label="类型" width="100" :show-overflow-tooltip="true">
         <template #default="scope">
@@ -298,7 +298,7 @@
                            菜单状态
                         </span>
               </template>
-              <el-radio-group v-model="form.status">
+              <el-radio-group v-model="form.hasStatus">
                 <el-radio
                     v-for="dict in sys_normal_disable"
                     :key="dict.value"

@@ -1,12 +1,12 @@
 package com.alinesno.infra.base.authority.config;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.initialize.IAuthorityInitService;
-import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.facade.enable.EnableActable;
 import com.alinesno.infra.common.web.adapter.sso.enable.EnableInfraSsoApi;
 import com.alinesno.infra.common.web.log.aspect.LogAspect;
-import com.dtflys.forest.annotation.Backend;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @EnableActable
 @EnableInfraSsoApi
-@MapperScan("com.alinesno.infra.base.authority.mapper")
+@MapperScan({"com.alinesno.infra.base.authority.mapper" , "com.alinesno.infra.base.authority.meta.mapper"})
 @Configuration
 public class AppConfiguration implements CommandLineRunner {
 
@@ -36,11 +36,21 @@ public class AppConfiguration implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.debug("项目启动初始化");
 
+        // 初始化平台默认组织
+        OrganizationEntity org = authorityInitService.initOrganization() ;
+
+        // 初始化平台默认参数和字典
+        authorityInitService.initManagerCode(org) ;
+        authorityInitService.initManagerConfig(org) ;
+
         // 初始化超级管理员
-        ManagerAccountEntity managerAccount = authorityInitService.initSuperManager() ;
+        ManagerAccountEntity managerAccount = authorityInitService.initSuperManager(org) ;
 
         // 初始化权限引擎服务的菜单权限
-        authorityInitService.initData(null) ;
+        ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
+
+        // 初始化部门和岗位数据
+        authorityInitService.initDeptAndPost(managerAccount.getId() , org , project) ;
     }
 
 }

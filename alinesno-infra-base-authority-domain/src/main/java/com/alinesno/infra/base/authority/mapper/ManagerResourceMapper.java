@@ -23,7 +23,6 @@ public interface ManagerResourceMapper extends IBaseMapper<ManagerResourceEntity
 	 * @param accountId
 	 * @return
 	 */
-	List<ManagerResourceEntity> findAllByApplicationAndAccount(@Param("applicationId") String applicationId,
-			@Param("accountId") String accountId);
+	List<ManagerResourceEntity> findAllByApplicationAndAccount(@Param("applicationId") String applicationId,  @Param("accountId") String accountId);
  
 }

@@ -1,15 +1,13 @@
 package com.alinesno.infra.base.authority.entity;
 
 import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
-import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
+import com.alinesno.infra.common.facade.mapper.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -22,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("organization_account")
-public class OrganizationAccountEntity extends InfraBaseEntity {
+public class OrganizationAccountEntity extends BaseEntity {
 
 	@TableField("org_id")
 	@ColumnType

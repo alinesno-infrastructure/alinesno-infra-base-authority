@@ -47,7 +47,7 @@
                   <template #default="scope">
                      用户名: {{ scope.row.name }} <br/>
                      <div style="font-size: 13px;color: #a5a5a5;">
-                        登陆账号: {{ scope.row.loginName }}
+                        账号: {{ scope.row.loginName }}
                      </div>
                   </template>
                </el-table-column>
@@ -126,7 +126,7 @@
          </el-col>
       </el-row>
 
-      <!-- 添加或修改应用配置对话框
+      <!-- 添加或修改应用配置对话框 -->
       <el-dialog :title="title" v-model="open" width="1000px" append-to-body>
          
          <el-table :data="tableData" style="width: 100%">
@@ -166,7 +166,7 @@
             </div>
          </template>
 
-      </el-dialog> -->
+      </el-dialog> 
 
    </div>
 </template>

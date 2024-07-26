@@ -81,6 +81,11 @@
       <el-table-column label="岗位编码" align="center" prop="positionCode" />
       <el-table-column label="岗位名称" align="center" prop="positionName" />
       <el-table-column label="岗位排序" align="center" prop="positionSort" />
+      <el-table-column label="数据范围" align="center" key="accountStatus" width="120">
+        <template #default="scope">
+          <dict-tag :options="sys_data_scope" :value="scope.row.dataScope" />
+        </template>
+      </el-table-column>
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
             <el-switch
@@ -161,7 +166,7 @@
 import { listPost, addPost, delPost, getPost, updatePost , changStatusField } from "@/api/system/post";
 
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const { sys_normal_disable , sys_data_scope } = proxy.useDict("sys_normal_disable" , "sys_data_scope");
 
 const postList = ref([]);
 const open = ref(false);

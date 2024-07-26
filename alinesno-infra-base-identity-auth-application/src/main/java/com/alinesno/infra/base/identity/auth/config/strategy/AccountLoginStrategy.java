@@ -1,6 +1,8 @@
 package com.alinesno.infra.base.identity.auth.config.strategy;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.PhoneUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.identity.auth.config.BaseLoginStrategy;
@@ -37,7 +39,11 @@ public class AccountLoginStrategy extends BaseLoginStrategy {
             accountDto = new ManagerAccountDto() ;
 
             String loginName = loginUser.getUsername() ;  // 账号必须是手机号
-            Assert.isTrue(PhoneUtil.isPhone(loginName) , "账号须为手机号，格式不正确");
+
+            boolean isPhone =  PhoneUtil.isPhone(loginName) ;
+            boolean isEmail = Validator.isEmail(loginName) ;
+
+            Assert.isTrue(isPhone || isEmail , "账号必须是手机号或者邮箱") ;
 
             String password = loginUser.getPassword() ;
             String phone = loginUser.getUsername() ;

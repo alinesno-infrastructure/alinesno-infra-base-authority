@@ -66,6 +66,11 @@
             />
         </template>
       </el-table-column>
+      <el-table-column label="数据范围" align="center" key="accountStatus" width="120">
+        <template #default="scope">
+          <dict-tag :options="sys_data_scope" :value="scope.row.dataScope" />
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="200">
         <template #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -140,11 +145,11 @@
           <el-col :span="24">
             <el-form-item label="部门状态">
               <el-radio-group v-model="form.hasStatus">
-<!--                <el-radio-->
-<!--                    v-for="dict in sys_normal_disable"-->
-<!--                    :key="dict.value"-->
-<!--                    :label="dict.value"-->
-<!--                >{{ dict.label }}</el-radio>-->
+               <el-radio
+                   v-for="dict in sys_normal_disable"
+                   :key="dict.value"
+                   :label="dict.value"
+               >{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -164,7 +169,7 @@
 import { listDept, getDept, delDept, addDept, changStatusField , updateDept, listDeptExcludeChild } from "@/api/system/dept";
 
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const { sys_normal_disable , sys_data_scope } = proxy.useDict("sys_normal_disable" , "sys_data_scope");
 
 const deptList = ref([]);
 const open = ref(false);

@@ -121,11 +121,10 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param rolesIds        角色列表
 	 * @param applicationCode 应用码
 	 */
-	void saveAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,
-			boolean isEncode);
+	void saveAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode, boolean isEncode);
 
-	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,
-			boolean isEncode);
+
+	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,  boolean isEncode);
 
 	/**
 	 * 校验账号是否存在

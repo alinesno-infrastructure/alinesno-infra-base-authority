@@ -1,26 +1,26 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.authority.constants.AuthorityConstants;
 import com.alinesno.infra.base.authority.entity.*;
-import com.alinesno.infra.base.authority.enums.MenuEnums;
-import com.alinesno.infra.base.authority.enums.SystemInnerEnums;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
+import com.alinesno.infra.base.authority.sample.ISampleService;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
-import com.alinesno.infra.base.authority.service.IManagerResourceService;
-import com.alinesno.infra.base.authority.utils.ManagerResourceUtils;
-import com.alinesno.infra.common.core.context.SpringContext;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.List;
 
 /**
  * <p>
@@ -37,8 +37,11 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 	@Autowired
 	private IManagerProjectAccountService  managerApplicationAccountService;
 
-//	@Autowired
-//	private IManagerResourceService resourceService;
+	private final ISampleService sampleService;
+
+	public ManagerProjectServiceImpl(@Lazy ISampleService sampleService) {
+		this.sampleService = sampleService;
+	}
 
 	@Override
 	public List<ManagerProjectEntity> findAllByAccountId(Long accountId) {
@@ -88,42 +91,18 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 
 
 	@Override
-	public void initDefaultProject(long userId) {
+	public void initDefaultProject(long userId , long orgId) {
 
 		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
 		wrapper.eq(ManagerProjectEntity::getOperatorId , userId) ;
 
 		long count = count(wrapper) ;
 
-		if(count == 0){  // 账户应用为空
-			ManagerProjectEntity e = new ManagerProjectEntity() ;
-
-			String defaultIcon = "fa-solid fa-file-shield" ;
-
-			e.setProjectIcons(defaultIcon);
-			e.setProjectCode(IdUtil.getSnowflakeNextIdStr());
-
-			e.setProjectName("默认应用示例服务");
-			e.setProjectDesc("默认的初始应用服务，用于默认应用示例和演示服务使用，勿使用生产");
-			e.setFieldProp("default");
-			e.setOperatorId(userId);
-			e.setSystemInner(SystemInnerEnums.YES.getCode());
-
-			save(e) ;
-
-			// 初始化应用的默认应用
-			LambdaQueryWrapper<ManagerProjectAccountEntity>	maaWrapper = new LambdaQueryWrapper<>() ;
-			long countMaa = managerApplicationAccountService.count(maaWrapper.eq(ManagerProjectAccountEntity::getAccountId , userId)) ;
-
-			ManagerProjectAccountEntity maa = new ManagerProjectAccountEntity() ;
-			maa.setAccountId(userId);
-			maa.setApplicationId(e.getId());
-			maa.setAppOrder(countMaa + 1L);
-
-			managerApplicationAccountService.save(maa) ;
+		if(count == 0){
+			sampleService.genSimpleProjectData(userId , orgId);
 		}
-
 	}
+
 
 	@Override
 	public ManagerProjectEntity getApplicationByAccountId(long userId) {
@@ -136,6 +115,19 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 		List<ManagerProjectAccountEntity> es = managerApplicationAccountService.list(lambdaQueryWrapper) ;
 
 		return CollectionUtils.isEmpty(es) ? null : getById(es.get(0).getApplicationId());
+	}
+
+	@Override
+	public void genProject(ManagerProjectDto dto) {
+		String genDemo = dto.getGenDemo() ;
+
+		ManagerProjectEntity e =  new ManagerProjectEntity() ;
+		BeanUtils.copyProperties(dto ,e);
+		save(e) ;
+
+		if(genDemo.equals("Y")){
+			sampleService.genSimpleProjectData(e , dto.getOperatorId() , dto.getOrgId());
+		}
 	}
 
 

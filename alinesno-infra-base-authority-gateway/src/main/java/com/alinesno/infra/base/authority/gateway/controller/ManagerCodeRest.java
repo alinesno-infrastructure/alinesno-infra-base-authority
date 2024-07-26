@@ -8,7 +8,9 @@ import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -41,24 +43,21 @@ public class ManagerCodeRest extends BaseController<ManagerCodeEntity, IManagerC
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
+//		return this.toPage(model, this.getFeign(), page);
 
-		String codeTypeId = request.getParameter("codeTypeId") ;
-		if (codeTypeId != null) {
+		TableDataInfo tableDataInfo = new TableDataInfo();
 
-			List<ConditionDto> conditionList = new ArrayList<>() ;
+		Page<ManagerCodeEntity> queryPage = new Page<>(page.getPageNum() , page.getPageSize()) ;
+		LambdaQueryWrapper<ManagerCodeEntity> queryWrapper = new LambdaQueryWrapper<>() ;
 
-			ConditionDto dto = new ConditionDto() ;
-			dto.setValue(codeTypeId);
-			dto.setColumn("code_type_id");
+		// TODO 待优化
+		queryWrapper.eq(ManagerCodeEntity::getCodeTypeValue, request.getParameter("codeTypeValue"));
+		queryPage = managerCodeService.page(queryPage, queryWrapper) ;
 
-			conditionList.add(dto) ;
+		tableDataInfo.setTotal(queryPage.getTotal());
+		tableDataInfo.setRows(queryPage.getRecords());
 
-			page.setConditionList(conditionList);
-		}
-
-		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-
-		return this.toPage(model, this.getFeign(), page);
+		return tableDataInfo ;
 	}
 
 	/**
