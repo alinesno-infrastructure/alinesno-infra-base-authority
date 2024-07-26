@@ -3,51 +3,77 @@ package com.alinesno.infra.base.authority.sample;
 import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.enums.DataSourceScope;
-import com.alinesno.infra.base.authority.mapper.ManagerDepartmentMapper;
-import com.alinesno.infra.base.authority.mapper.ManagerPositionMapper;
-import com.alinesno.infra.base.authority.mapper.ManagerRoleMapper;
 import com.alinesno.infra.base.authority.sample.bean.MenuBean;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.enums.SystemInnerEnums;
-import com.alinesno.infra.base.authority.mapper.ManagerResourceMapper;
-import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
-import com.alinesno.infra.base.authority.service.impl.ManagerProjectServiceImpl;
+import com.alinesno.infra.base.authority.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 生成示例数据服务
  */
 @Data
 @Component
-public class SampleProjectHandle {
+public class SampleProjectHandle implements ISampleService {
 
-    @Autowired
-    private IManagerProjectAccountService managerApplicationAccountService;
+    private final IManagerProjectAccountService managerApplicationAccountService;
 
-    @Autowired
-    private ManagerResourceMapper resourceMapper ;
+    private final IManagerResourceService resourceMapper ;
 
-    @Autowired
-    private ManagerRoleMapper modelRoleMapper;
+    private final IManagerRoleService modelRoleMapper;
 
-    @Autowired
-    private ManagerPositionMapper managerPositionMapper ;
+    private final IManagerPositionService managerPositionMapper ;
 
-    @Autowired
-    private ManagerDepartmentMapper managerDepartmentMapper ;
+    private final IManagerDepartmentService managerDepartmentMapper ;
 
-    public void genSimpleProjectData(ManagerProjectServiceImpl managerProjectService, long userId, long orgId){
+    private final IManagerSettingsService settingsService ;
+
+    private final IManagerCodeTypeService codeTypeService ;
+
+    private final IManagerProjectService managerProjectService ;
+
+    private final IManagerCodeService codeService; ;
+
+    public SampleProjectHandle(@Lazy IManagerProjectAccountService managerApplicationAccountService,
+                               @Lazy IManagerResourceService resourceMapper,
+                               @Lazy IManagerRoleService modelRoleMapper,
+                               @Lazy IManagerPositionService managerPositionMapper,
+                               @Lazy IManagerDepartmentService managerDepartmentMapper,
+                               @Lazy IManagerSettingsService settingsService,
+                               @Lazy IManagerCodeTypeService codeTypeService,
+                               @Lazy IManagerProjectService managerProjectService,
+                               @Lazy IManagerCodeService codeService) {
+        this.managerApplicationAccountService = managerApplicationAccountService;
+        this.resourceMapper = resourceMapper;
+        this.modelRoleMapper = modelRoleMapper;
+        this.managerPositionMapper = managerPositionMapper;
+        this.managerDepartmentMapper = managerDepartmentMapper;
+        this.settingsService = settingsService;
+        this.codeTypeService = codeTypeService;
+        this.managerProjectService = managerProjectService;
+        this.codeService = codeService;
+    }
+
+    @Override
+    public void genSimpleProjectData(long userId, long orgId){
 
         // 创建示例应用
         ManagerProjectEntity project = genProject(managerProjectService , userId , orgId) ;
 
+        genSimpleProjectData(project , userId , orgId) ;
+
+    }
+
+    @Override
+    public void genSimpleProjectData(ManagerProjectEntity project, long userId, long orgId) {
         // 创建示例菜单
         genMenu(project , managerProjectService , userId , orgId) ;
 
@@ -61,10 +87,10 @@ public class SampleProjectHandle {
         genPost(project , managerProjectService , userId , orgId) ;
 
         // 创建示例字典
-        genManagerCode() ;
+        genManagerCode(project , managerProjectService , userId , orgId) ;
 
         // 创建示例系统参数
-        genManagerSystem() ;
+        genManagerSystem(project , managerProjectService , userId , orgId) ;
 
         // 创建示例公告
         genManagerNotice() ;
@@ -79,10 +105,9 @@ public class SampleProjectHandle {
         maa.setAppOrder(countMaa + 1L);
 
         managerApplicationAccountService.save(maa) ;
-
     }
 
-    private ManagerProjectEntity genProject(ManagerProjectServiceImpl managerProjectService, long userId, long orgId) {
+    private ManagerProjectEntity genProject(IManagerProjectService managerProjectService, long userId, long orgId) {
         // 初始化应用
         ManagerProjectEntity project = new ManagerProjectEntity() ;
 
@@ -102,65 +127,65 @@ public class SampleProjectHandle {
         return project ;
     }
 
-    private void genMenu(ManagerProjectEntity project, ManagerProjectServiceImpl managerProjectService, long userId, long orgId) {
+    private void genMenu(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
         // 初始化菜单
         List<MenuBean> menus = getMenuBeans();
 
         List<ManagerResourceEntity> es = new ArrayList<>() ;
 
-        AtomicInteger pId = new AtomicInteger(1001);
+        AtomicInteger orderId = new AtomicInteger(1);
+
         menus.forEach(menu -> {
             System.out.println(menu.toString());
-
-            pId.incrementAndGet();
 
             ManagerResourceEntity e = new ManagerResourceEntity() ;
             e.setOrgId(orgId);
 
-            e.setId(pId.longValue());
+            e.setId(IdUtil.getSnowflakeNextId());
             e.setResourceName(menu.getMeta().getTitle());
             e.setResourceIcon(menu.getMeta().getIcon());
             e.setMenuType(MenuEnums.MENU_PACKAGE.getValue());  // 目录菜单
             e.setResourceLink(menu.getPath());
             e.setComponent(menu.getComponent());
-            e.setResourceOrder(pId.get());
+            e.setResourceOrder(orderId.get());
 
             e.setProjectId(project.getId());
             e.setResourceParent(project.getId());
 
-            pId.incrementAndGet();
+            orderId.incrementAndGet();
 
             es.add(e) ;
 
             List<MenuBean> subMenus = menu.getChildren();
 
-            AtomicInteger pId2 = new AtomicInteger(100*pId.intValue());
+            AtomicInteger orderId2 = new AtomicInteger(1);
 
             subMenus.forEach(item-> {
                 System.out.println(item.toString());
 
                 ManagerResourceEntity e2 = new ManagerResourceEntity() ;
                 e2.setOrgId(orgId);
+                e2.setId(IdUtil.getSnowflakeNextId()) ;
 
-                e2.setId(pId2.longValue()+pId.longValue());
                 e2.setResourceName(item.getMeta().getTitle());
                 e2.setResourceIcon(item.getMeta().getIcon());
                 e2.setMenuType(MenuEnums.MENU_ITEM.getValue());  // 目录菜单
                 e2.setResourceLink(item.getPath());
                 e2.setComponent(item.getComponent());
-                e2.setResourceOrder(pId2.get()/100);
+                e2.setResourceOrder(orderId2.get());
                 e2.setProjectId(project.getId());
                 e2.setResourceParent(e.getId());
 
                 es.add(e2) ;
 
-                pId2.incrementAndGet();
+                orderId2.incrementAndGet();
 
                 List<MenuBean> subMenusBtn = item.getChildren();
 
                 if(subMenusBtn != null && !subMenusBtn.isEmpty()){
 
-                    AtomicInteger pId3 = new AtomicInteger(10*pId2.intValue());
+                    AtomicInteger orderId3 = new AtomicInteger(1);
+
                     subMenusBtn.forEach(itemBtn -> {
 
                         ManagerResourceEntity e3 = new ManagerResourceEntity() ;
@@ -168,15 +193,15 @@ public class SampleProjectHandle {
                         e3.setOrgId(orgId);
                         e3.setProjectId(project.getId());
                         e3.setResourceParent(e2.getId());
+                        e3.setId(IdUtil.getSnowflakeNextId()) ;
 
-                        e3.setId(pId3.longValue()+pId2.longValue());
                         e3.setResourceName(itemBtn.getMeta().getTitle());
                         e3.setPermission(itemBtn.getPerms());
                         e3.setMenuType(MenuEnums.MENU_BUTTON.getValue());  // 目录菜单
-                        e3.setResourceOrder(pId2.get()/10/100);
+                        e3.setResourceOrder(orderId3.get());
 
                         es.add(e3) ;
-                        pId3.incrementAndGet();
+                        orderId3.incrementAndGet();
 
                     });
                 }
@@ -185,12 +210,14 @@ public class SampleProjectHandle {
             });
         });
 
-        es.forEach(e->{
-            resourceMapper.insert(e);
-        });
+//        es.forEach(e->{
+//            resourceMapper.insert(e);
+//        });
+
+        resourceMapper.saveBatch(es) ;
     }
 
-    private void genRole(ManagerProjectEntity project, ManagerProjectServiceImpl managerProjectService, long userId, long orgId) {
+    private void genRole(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
 
         List<ManagerRoleEntity> roleList = new ArrayList<>();
 
@@ -224,20 +251,23 @@ public class SampleProjectHandle {
             role.setOrgId(orgId);
             role.setOperatorId(userId);
             role.setProjectId(project.getId());
-
-            modelRoleMapper.insert(role);
         }) ;
+
+        modelRoleMapper.saveBatch(roleList);
     }
 
-    private void genDept(ManagerProjectEntity project, ManagerProjectServiceImpl managerProjectService, long userId, long orgId) {
+    private void genDept(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
 
         List<ManagerDepartmentEntity> departmentList = new ArrayList<>();
 
         // 创建智能体科技部门
         ManagerDepartmentEntity aipTech = new ManagerDepartmentEntity();
+        aipTech.setId(IdUtil.getSnowflakeNextId());
+
         aipTech.setPid(project.getId());
         aipTech.setAncestors("");
         aipTech.setPids("");
+        aipTech.setPid(project.getId());
         aipTech.setSimpleName("智能体科技");
         aipTech.setFullName("智能体科技");
         aipTech.setOrderNum(0);
@@ -245,7 +275,9 @@ public class SampleProjectHandle {
 
         // 创建南宁总公司部门
         ManagerDepartmentEntity nanningHeadquarters = new ManagerDepartmentEntity();
-        nanningHeadquarters.setPid(aipTech.getId()); // 假设getId()返回自动生成的主键ID
+        nanningHeadquarters.setId(IdUtil.getSnowflakeNextId());
+
+        nanningHeadquarters.setPid(aipTech.getId());
         nanningHeadquarters.setAncestors(aipTech.getAncestors() + aipTech.getId() + ",");
         nanningHeadquarters.setPids(aipTech.getPids() + aipTech.getId() + ",");
         nanningHeadquarters.setSimpleName("南宁总公司");
@@ -255,6 +287,8 @@ public class SampleProjectHandle {
 
         // 创建研发部门
         ManagerDepartmentEntity researchDept = new ManagerDepartmentEntity();
+        researchDept.setId(IdUtil.getSnowflakeNextId());
+
         researchDept.setPid(nanningHeadquarters.getId()); // 假设getId()返回自动生成的主键ID
         researchDept.setAncestors(nanningHeadquarters.getAncestors() + nanningHeadquarters.getId() + ",");
         researchDept.setPids(nanningHeadquarters.getPids() + nanningHeadquarters.getId() + ",");
@@ -265,6 +299,8 @@ public class SampleProjectHandle {
 
         // 创建市场部门
         ManagerDepartmentEntity marketingDept = new ManagerDepartmentEntity();
+        marketingDept.setId(IdUtil.getSnowflakeNextId());
+
         marketingDept.setPid(nanningHeadquarters.getId()); // 假设getId()返回自动生成的主键ID
         marketingDept.setAncestors(nanningHeadquarters.getAncestors() + nanningHeadquarters.getId() + ",");
         marketingDept.setPids(nanningHeadquarters.getPids() + nanningHeadquarters.getId() + ",");
@@ -275,6 +311,8 @@ public class SampleProjectHandle {
 
         // 创建测试部门
         ManagerDepartmentEntity testingDept = new ManagerDepartmentEntity();
+        testingDept.setId(IdUtil.getSnowflakeNextId());
+
         testingDept.setPid(nanningHeadquarters.getId()); // 假设getId()返回自动生成的主键ID
         testingDept.setAncestors(nanningHeadquarters.getAncestors() + nanningHeadquarters.getId() + ",");
         testingDept.setPids(nanningHeadquarters.getPids() + nanningHeadquarters.getId() + ",");
@@ -285,6 +323,8 @@ public class SampleProjectHandle {
 
         // 创建财务部门
         ManagerDepartmentEntity financeDept = new ManagerDepartmentEntity();
+        financeDept.setId(IdUtil.getSnowflakeNextId());
+
         financeDept.setPid(nanningHeadquarters.getId()); // 假设getId()返回自动生成的主键ID
         financeDept.setAncestors(nanningHeadquarters.getAncestors() + nanningHeadquarters.getId() + ",");
         financeDept.setPids(nanningHeadquarters.getPids() + nanningHeadquarters.getId() + ",");
@@ -295,6 +335,8 @@ public class SampleProjectHandle {
 
         // 创建运维部门
         ManagerDepartmentEntity operationDept = new ManagerDepartmentEntity();
+        operationDept.setId(IdUtil.getSnowflakeNextId());
+
         operationDept.setPid(nanningHeadquarters.getId()); // 假设getId()返回自动生成的主键ID
         operationDept.setAncestors(nanningHeadquarters.getAncestors() + nanningHeadquarters.getId() + ",");
         operationDept.setPids(nanningHeadquarters.getPids() + nanningHeadquarters.getId() + ",");
@@ -305,6 +347,8 @@ public class SampleProjectHandle {
 
         // 创建柳州分公司部门
         ManagerDepartmentEntity liuzhouBranch = new ManagerDepartmentEntity();
+        liuzhouBranch.setId(IdUtil.getSnowflakeNextId());
+
         liuzhouBranch.setPid(aipTech.getId()); // 假设getId()返回自动生成的主键ID
         liuzhouBranch.setAncestors(aipTech.getAncestors() + aipTech.getId() + ",");
         liuzhouBranch.setPids(aipTech.getPids() + aipTech.getId() + ",");
@@ -315,6 +359,8 @@ public class SampleProjectHandle {
 
         // 创建柳州分公司下的市场部门
         ManagerDepartmentEntity changshaMarketingDept = new ManagerDepartmentEntity();
+        changshaMarketingDept.setId(IdUtil.getSnowflakeNextId());
+
         changshaMarketingDept.setPid(liuzhouBranch.getId()); // 假设getId()返回自动生成的主键ID
         changshaMarketingDept.setAncestors(liuzhouBranch.getAncestors() + liuzhouBranch.getId() + ",");
         changshaMarketingDept.setPids(liuzhouBranch.getPids() + liuzhouBranch.getId() + ",");
@@ -325,6 +371,8 @@ public class SampleProjectHandle {
 
         // 创建柳州分公司下的财务部门
         ManagerDepartmentEntity changshaFinanceDept = new ManagerDepartmentEntity();
+        changshaFinanceDept.setId(IdUtil.getSnowflakeNextId());
+
         changshaFinanceDept.setPid(liuzhouBranch.getId()); // 假设getId()返回自动生成的主键ID
         changshaFinanceDept.setAncestors(liuzhouBranch.getAncestors() + liuzhouBranch.getId() + ",");
         changshaFinanceDept.setPids(liuzhouBranch.getPids() + liuzhouBranch.getId() + ",");
@@ -351,13 +399,12 @@ public class SampleProjectHandle {
             dept.setOrgId(orgId);
             dept.setOperatorId(userId);
             dept.setProjectId(project.getId());
-
-            managerDepartmentMapper.insert(dept);
         }) ;
 
+        managerDepartmentMapper.saveBatch(departmentList);
     }
 
-    private void genPost(ManagerProjectEntity project, ManagerProjectServiceImpl managerProjectService, long userId, long orgId) {
+    private void genPost(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
 
         List<ManagerPositionEntity> positionList = new ArrayList<>();
 
@@ -408,15 +455,90 @@ public class SampleProjectHandle {
             role.setOrgId(orgId);
             role.setOperatorId(userId);
             role.setProjectId(project.getId());
-
-            managerPositionMapper.insert(role);
         }) ;
+
+        managerPositionMapper.saveBatch(positionList);
     }
 
-    private void genManagerCode() {
+    private void genManagerCode(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
+
+        // 初始化公共级别系统代码
+        List<ManagerCodeTypeEntity> codeTypes = new ArrayList<>();
+
+        codeTypes.add(new ManagerCodeTypeEntity("政务面貌", "sys_political_status", "政务面貌列表", DataSourceScope.PROJECT_SCOPE.getValue()));
+        codeTypes.add(new ManagerCodeTypeEntity("学历", "sys_education", "学历列表", DataSourceScope.PROJECT_SCOPE.getValue()));
+
+        AtomicLong id = new AtomicLong(IdUtil.getSnowflakeNextId());
+
+        codeTypes.forEach(s -> {
+            id.getAndIncrement();
+
+            s.setOrgId(orgId);
+            s.setId(id.get());
+
+            s.setSystemInner(SystemInnerEnums.YES.getCode());
+        });
+
+        codeTypeService.saveOrUpdateBatch(codeTypes) ;
+
+        List<ManagerCodeEntity> dataList = new ArrayList<>();
+
+        // 政务面貌
+        dataList.add(new ManagerCodeEntity("中共党员", "0", "sys_political_status", 1, "中共党员", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("预备党员", "1", "sys_political_status", 2, "预备党员", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("共青团员", "2", "sys_political_status", 3, "共青团员", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("群众", "3", "sys_political_status", 4, "群众", DataSourceScope.PROJECT_SCOPE.getValue()));
+
+        // 学历
+        dataList.add(new ManagerCodeEntity("博士研究生", "0", "sys_education", 1, "博士研究生", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("硕士研究生", "1", "sys_education", 2, "硕士研究生", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("本科", "2", "sys_education", 3, "本科学历", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("大专", "3", "sys_education", 4, "专科学历", DataSourceScope.PROJECT_SCOPE.getValue()));
+        dataList.add(new ManagerCodeEntity("高中及以下", "4", "sys_education", 5, "高中及以下学历", DataSourceScope.PROJECT_SCOPE.getValue()));
+
+
+        AtomicLong sort = new AtomicLong(IdUtil.getSnowflakeNextId());
+        dataList.forEach(s -> {
+
+            sort.getAndIncrement();
+
+            s.setOrgId(orgId);
+            s.setId(id.getAndIncrement());
+
+            long codeTypeId =codeTypes.stream().filter(t->t.getCodeTypeValue().equals(s.getCodeTypeValue())).findFirst().get().getId();
+
+            s.setCodeLabel("default");
+            s.setCodeTypeId(codeTypeId);
+            s.setDictSort(sort.get());
+
+            s.setSystemInner(SystemInnerEnums.YES.getCode());
+        });
+
+        codeService.saveOrUpdateBatch(dataList);
+
     }
 
-    private void genManagerSystem() {
+    private void genManagerSystem(ManagerProjectEntity project, IManagerProjectService managerProjectService, long userId, long orgId) {
+
+        List<ManagerSettingsEntity> settings = new ArrayList<>();
+
+        // 添加雇员管理系统相关的系统参数
+        settings.add(new ManagerSettingsEntity("员工入职通知", "employee.onboarding.notification", "true", SystemInnerEnums.YES.getCode(), "是否开启新员工入职自动发送欢迎邮件。", DataSourceScope.PROJECT_SCOPE.getValue()));
+        settings.add(new ManagerSettingsEntity("员工离职通知",  "employee.departure.notification", "true", SystemInnerEnums.YES.getCode(), "是否开启员工离职自动发送告别邮件。", DataSourceScope.PROJECT_SCOPE.getValue()));
+        settings.add(new ManagerSettingsEntity("绩效评估周期", "performance.review.period", "6", SystemInnerEnums.YES.getCode(), "绩效评估的周期（单位：个月）。默认每半年进行一次绩效评估。", DataSourceScope.PROJECT_SCOPE.getValue()));
+        settings.add(new ManagerSettingsEntity("休假申请审批时间", "leave.application.approval.time", "3", SystemInnerEnums.YES.getCode(), "休假申请需要在多少个工作日内完成审批。", DataSourceScope.PROJECT_SCOPE.getValue()));
+        settings.add(new ManagerSettingsEntity("加班申请审批时间", "overtime.application.approval.time", "2", SystemInnerEnums.YES.getCode(), "加班申请需要在多少个工作日内完成审批。", DataSourceScope.PROJECT_SCOPE.getValue()));
+
+        AtomicLong id = new AtomicLong(IdUtil.getSnowflakeNextId());
+
+        settings.forEach(s -> {
+            id.getAndIncrement();
+            s.setOrgId(orgId);
+            s.setId(id.get());
+        });
+
+        settingsService.saveOrUpdateBatch(settings) ;
+
     }
 
     private void genManagerNotice() {

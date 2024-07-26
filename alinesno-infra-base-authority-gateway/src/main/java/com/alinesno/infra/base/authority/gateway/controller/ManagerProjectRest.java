@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.gateway.controller;
 
 import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
@@ -55,11 +56,13 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 
 	@ResponseBody
 	@PostMapping("/saveProject")
-	public AjaxResult save(@RequestBody ManagerProjectEntity entity) throws Exception {
+	public AjaxResult save(@RequestBody ManagerProjectDto dto) throws Exception {
 
-		entity.setProjectCode(IdUtil.getSnowflakeNextIdStr());
+		dto.setProjectCode(IdUtil.getSnowflakeNextIdStr());
+		dto.setOperatorId(CurrentAccountJwt.getUserId());
 
-		managerProjectService.save(entity);
+		managerProjectService.genProject(dto);
+
 		return this.ok();
 	}
 

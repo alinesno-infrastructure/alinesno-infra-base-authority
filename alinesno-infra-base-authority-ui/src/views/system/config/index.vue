@@ -98,7 +98,7 @@
 
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数主键" align="center" width="100" prop="id" />
+      <el-table-column label="参数主键" align="center" width="100" prop="id" :show-overflow-tooltip="true" />
       <el-table-column label="参数名称"  align="left" prop="configName" :show-overflow-tooltip="true" />
       <el-table-column label="参数键名" align="left" prop="configKey" :show-overflow-tooltip="true">
         <template #default="scope">
@@ -113,17 +113,9 @@
           <dict-tag :options="sys_yes_no" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column label="参数范围" align="center" key="accountStatus" width="120">
+      <el-table-column label="数据范围" align="center" key="accountStatus" width="120">
         <template #default="scope">
-          <el-button type="danger" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'common'" >
-            <i class="fa-solid fa-user-tag"></i>&nbsp;公共
-          </el-button>
-          <el-button type="primary" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'org'" >
-            <i class="fa-solid fa-user-tag"></i>&nbsp;组织
-          </el-button>
-          <el-button type="success" bg link @click="handlechoiceProject(scope.row)" v-if="scope.row.dataScope == 'project'" >
-            <i class="fa-solid fa-user-tag"></i>&nbsp;项目
-          </el-button>
+          <dict-tag :options="sys_data_scope" :value="scope.row.dataScope" />
         </template>
       </el-table-column>
       <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
@@ -198,7 +190,7 @@
 import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
 
 const { proxy } = getCurrentInstance();
-const { sys_yes_no } = proxy.useDict("sys_yes_no");
+const { sys_yes_no , sys_data_scope } = proxy.useDict("sys_yes_no" , "sys_data_scope");
 
 const configList = ref([]);
 const open = ref(false);
@@ -215,7 +207,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 10,
     configName: undefined,
     configKey: undefined,
     configType: undefined

@@ -60,4 +60,6 @@ public interface IManagerDepartmentService extends IBaseService<ManagerDepartmen
 	 * @return
 	 */
 	List<ManagerDepartmentEntity> selectDeptList(ManagerDepartmentEntity managerDepartmentEntity, long projectId);
+
+	List<Long> selectDeptListByRoleId(Long roleId);
 }

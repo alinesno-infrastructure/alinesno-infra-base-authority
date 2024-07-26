@@ -530,7 +530,7 @@ function submitForm() {
   });
 };
 
-getTreeselect();
+// getTreeselect();
 getList();
 
 </script>

@@ -97,6 +97,8 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 	@ColumnComment("数据范围")
 	private String dataScope = DataSourceScope.PROJECT_SCOPE.getValue();
 
+
+
 	public ManagerCodeEntity(String codeName, String codeValue, String codeTypeValue, long codeTypeId, String remark, String dataScope) {
 		this.codeName = codeName;
 		this.codeValue = codeValue;

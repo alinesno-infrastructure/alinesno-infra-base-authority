@@ -30,6 +30,7 @@
 		<module>alinesno-infra-base-authority-common</module>  <!-- 模块公共包 -->
 		<module>alinesno-infra-base-authority-meta</module>  <!-- 基础的元数据 -->
         <module>alinesno-infra-base-authority-domain</module>  <!-- 领域服务 -->
+		<module>alinesno-infra-base-authority-Initialize</module>  <!-- 示例工程 -->
         <module>alinesno-infra-base-authority-adapter</module> <!-- 适配层 -->
         <module>alinesno-infra-base-authority-gateway</module>  <!-- 接口服务 -->
         <module>alinesno-infra-base-authority-client</module>  <!-- 对外引用 -->

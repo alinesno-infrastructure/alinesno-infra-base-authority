@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.config;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.initialize.IAuthorityInitService;
 import com.alinesno.infra.common.facade.enable.EnableActable;
@@ -46,8 +47,10 @@ public class AppConfiguration implements CommandLineRunner {
         ManagerAccountEntity managerAccount = authorityInitService.initSuperManager(org) ;
 
         // 初始化权限引擎服务的菜单权限
-        authorityInitService.initData(managerAccount.getId() , org) ;
+        ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
 
+        // 初始化部门和岗位数据
+        authorityInitService.initDeptAndPost(managerAccount.getId() , org , project) ;
     }
 
 }

@@ -30,6 +30,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-Initialize</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-meta</artifactId>
 			<version>${revision}</version>
 		</dependency>

@@ -102,11 +102,21 @@
       <el-table-column label="角色编号" prop="id" width="200" />
       <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" />
       <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
-      <el-table-column label="显示顺序" prop="roleSort" width="100" />
+      <el-table-column label="显示顺序" align="center" prop="roleSort" width="100" />
 
-      <el-table-column label="授权" align="center" key="deptName" prop="dept.deptName" :show-overflow-tooltip="true">
+      <el-table-column label="功能" align="center" key="deptName" prop="dept.deptName" :show-overflow-tooltip="true">
         <template #default="scope">
-          <el-button type="danger" bg link @click="openMenu(scope.row)"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp;授权</el-button>
+          <el-button type="danger" bg link @click="handleUpdate(scope.row)"><i class="fa-solid fa-user-tag"></i>&nbsp;功能授权</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="数据" align="center" key="deptName" prop="dept.deptName" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <el-button type="success" bg link @click="handleDataScope(scope.row)"><i class="fa-solid fa-file-shield"></i>&nbsp;数据授权</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="数据范围" align="center" key="accountStatus" width="120">
+        <template #default="scope">
+          <dict-tag :options="sys_data_scope" :value="scope.row.dataScope" />
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" width="100">
@@ -124,8 +134,9 @@
           <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
         <template #default="scope">
+          <!-- 
           <el-tooltip content="修改" placement="top" v-if="scope.row.id !== 1">
             <el-button
                 type="text"
@@ -133,7 +144,8 @@
                 @click="handleUpdate(scope.row)"
                 v-hasPermi="['system:role:edit']"
             ></el-button>
-          </el-tooltip>
+          </el-tooltip> 
+          -->
           <el-tooltip content="删除" placement="top" v-if="scope.row.id !== 1">
             <el-button
                 type="text"
@@ -142,6 +154,7 @@
                 v-hasPermi="['system:role:remove']"
             ></el-button>
           </el-tooltip>
+          <!-- 
           <el-tooltip content="数据权限" placement="top" v-if="scope.row.id !== 1">
             <el-button
                 type="text"
@@ -149,7 +162,8 @@
                 @click="handleDataScope(scope.row)"
                 v-hasPermi="['system:role:edit']"
             ></el-button>
-          </el-tooltip>
+          </el-tooltip> 
+          -->
           <el-tooltip content="分配用户" placement="top" v-if="scope.row.id !== 1">
             <el-button
                 type="text"
@@ -171,54 +185,58 @@
     />
 
     <!-- 添加或修改角色配置对话框 -->
-    <el-dialog :title="title" v-model="open" width="980px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="1024px" append-to-body>
       <el-form ref="roleRef" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="form.roleName" placeholder="请输入角色名称" />
-        </el-form-item>
-        <el-form-item prop="roleKey">
-          <template #label>
-                  <span>
-                     <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`)" placement="top">
-                        <el-icon><question-filled /></el-icon>
-                     </el-tooltip>
-                     权限字符
-                  </span>
-          </template>
-          <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
-        </el-form-item>
-        <el-form-item label="角色顺序" prop="roleSort">
-          <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.status">
-            <el-radio
-                v-for="dict in sys_normal_disable"
-                :key="dict.value"
-                :label="dict.value"
-            >{{ dict.label }}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <!-- 
-        <el-form-item label="菜单权限">
-          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
-          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
-          <el-tree
-              class="tree-border"
-              :data="menuOptions"
-              show-checkbox
-              ref="menuRef"
-              node-key="id"
-              :check-strictly="!form.menuCheckStrictly"
-              empty-text="加载中，请稍候"
-              :props="{ label: 'label', children: 'children' }"
-          ></el-tree>
-        </el-form-item> 
-        -->
-        <el-form-item label="备注">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+              <el-form-item label="角色名称" prop="roleName">
+                <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+              </el-form-item>
+              <el-form-item prop="roleKey">
+                <template #label>
+                        <span>
+                          <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`)" placement="top">
+                              <el-icon><question-filled /></el-icon>
+                          </el-tooltip>
+                          权限字符
+                        </span>
+                </template>
+                <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
+              </el-form-item>
+              <el-form-item label="角色顺序" prop="roleSort">
+                <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
+              </el-form-item>
+              <el-form-item label="状态">
+                <el-radio-group v-model="form.status">
+                  <el-radio
+                      v-for="dict in sys_normal_disable"
+                      :key="dict.value"
+                      :label="dict.value"
+                  >{{ dict.label }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="12">
+              <el-form-item label="菜单权限">
+                <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
+                <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+                <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+                <el-tree
+                    class="tree-border"
+                    :data="menuOptions"
+                    show-checkbox
+                    ref="menuRef"
+                    node-key="id"
+                    :check-strictly="!form.menuCheckStrictly"
+                    empty-text="加载中，请稍候"
+                    :props="{ label: 'label', children: 'children' }"
+                ></el-tree>
+              </el-form-item> 
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -229,7 +247,7 @@
     </el-dialog>
 
     <!-- 分配角色数据权限对话框 -->
-    <el-dialog :title="title" v-model="openDataScope" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="openDataScope" width="1024px" append-to-body>
       <el-form :model="form" label-width="80px">
         <el-form-item label="角色名称">
           <el-input v-model="form.roleName" :disabled="true" />
@@ -283,7 +301,7 @@ import { treeselect as deptTreeselect, roleDeptTreeselect } from "@/api/system/d
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const { sys_normal_disable , sys_data_scope } = proxy.useDict("sys_normal_disable" , "sys_data_scope");
 
 const roleList = ref([]);
 const open = ref(false);
@@ -564,6 +582,7 @@ function handleDataScope(row) {
   getRole(row.id).then(response => {
     form.value = response.data;
     openDataScope.value = true;
+
     nextTick(() => {
       roleDeptTreeselect.then(res => {
         nextTick(() => {
@@ -573,6 +592,7 @@ function handleDataScope(row) {
         });
       });
     });
+
     title.value = "分配数据权限";
   });
 }

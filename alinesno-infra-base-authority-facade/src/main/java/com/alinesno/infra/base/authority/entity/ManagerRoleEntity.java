@@ -81,10 +81,17 @@ public class ManagerRoleEntity extends InfraBaseEntity {
 	@ColumnComment("所属项目")
 	private Long projectId;
 
+
+	@Excel(name = "数据权限")
+	@TableField("data_permissions")
+	@ColumnType(length = 12)
+	@ColumnComment("数据权限，用于定义角色所在的系统部门数据权限")
+	private String dataPermissions ;
+
 	@Excel(name = "数据范围")
 	@TableField("data_scope")
 	@ColumnType(length = 12)
-	@ColumnComment("数据范围")
+	@ColumnComment("数据范围，用于定义组织数据范围处理")
 	private String dataScope = DataSourceScope.PROJECT_SCOPE.getValue();
 
 }

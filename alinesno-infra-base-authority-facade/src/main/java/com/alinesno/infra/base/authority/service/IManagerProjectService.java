@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.service;
 
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 import java.util.List;
@@ -81,4 +82,9 @@ public interface IManagerProjectService extends IBaseService<ManagerProjectEntit
 	 */
 	ManagerProjectEntity getApplicationByAccountId(long userId);
 
+	/**
+	 * 生成项目信息
+	 * @param dto
+	 */
+    void genProject(ManagerProjectDto dto);
 }

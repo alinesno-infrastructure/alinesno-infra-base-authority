@@ -2,14 +2,18 @@ package com.alinesno.infra.base.authority.service.impl;
 
 import com.alinesno.infra.base.authority.constants.AuthorityConstants;
 import com.alinesno.infra.base.authority.entity.*;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
+import com.alinesno.infra.base.authority.sample.ISampleService;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
-import com.alinesno.infra.base.authority.sample.SampleProjectHandle;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -33,8 +37,11 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 	@Autowired
 	private IManagerProjectAccountService  managerApplicationAccountService;
 
-	@Autowired
-	private SampleProjectHandle demoPlatformUtils ;
+	private final ISampleService sampleService;
+
+	public ManagerProjectServiceImpl(@Lazy ISampleService sampleService) {
+		this.sampleService = sampleService;
+	}
 
 	@Override
 	public List<ManagerProjectEntity> findAllByAccountId(Long accountId) {
@@ -92,7 +99,7 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 		long count = count(wrapper) ;
 
 		if(count == 0){
-			demoPlatformUtils.genSimpleProjectData(this , userId , orgId);
+			sampleService.genSimpleProjectData(userId , orgId);
 		}
 	}
 
@@ -108,6 +115,19 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 		List<ManagerProjectAccountEntity> es = managerApplicationAccountService.list(lambdaQueryWrapper) ;
 
 		return CollectionUtils.isEmpty(es) ? null : getById(es.get(0).getApplicationId());
+	}
+
+	@Override
+	public void genProject(ManagerProjectDto dto) {
+		String genDemo = dto.getGenDemo() ;
+
+		ManagerProjectEntity e =  new ManagerProjectEntity() ;
+		BeanUtils.copyProperties(dto ,e);
+		save(e) ;
+
+		if(genDemo.equals("Y")){
+			sampleService.genSimpleProjectData(e , dto.getOperatorId() , dto.getOrgId());
+		}
 	}
 
 

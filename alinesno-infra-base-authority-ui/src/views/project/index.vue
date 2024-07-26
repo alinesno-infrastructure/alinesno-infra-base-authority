@@ -144,7 +144,7 @@
 
     <!-- 操作日志详细 -->
     <el-dialog :title="title" v-model="open" width="700px" append-to-body>
-      <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="120px">
           <el-col :span="24">
             <el-form-item label="菜单图标" prop="projectIcons">
               <el-popover
@@ -179,6 +179,12 @@
           <el-radio-group v-model="form.systemInner">
             <el-radio value="Y" label="Y">内置</el-radio>
             <el-radio value="N" label="N">普通</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="生成示例" prop="genDemo">
+          <el-radio-group v-model="form.genDemo">
+            <el-radio value="Y" label="Y">生成示例数据</el-radio>
+            <el-radio value="N" label="N">不生成示例数据</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

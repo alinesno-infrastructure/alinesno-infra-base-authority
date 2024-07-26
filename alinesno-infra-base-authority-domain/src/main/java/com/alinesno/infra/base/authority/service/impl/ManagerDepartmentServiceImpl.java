@@ -4,6 +4,7 @@ import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
@@ -21,6 +22,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,17 +42,21 @@ import java.util.stream.Collectors;
 public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepartmentEntity, ManagerDepartmentMapper> implements IManagerDepartmentService {
 
 	@Autowired
-	private IManagerProjectService managerApplicationService;
-
-	@Autowired
 	private IManagerAccountService accountService;
+
+	private final IManagerProjectService managerProjectService ;
+
+	public ManagerDepartmentServiceImpl(@Lazy IManagerProjectService managerProjectService) {
+		this.managerProjectService = managerProjectService;
+	}
+
 
 	@Override
 	public List<ManagerDepartmentEntity> findAllWithApplication(RpcWrapper<ManagerDepartmentEntity> dw,
 			RpcWrapper<ManagerProjectEntity> aw) {
 
 		List<ManagerDepartmentEntity> list = findAll(dw);
-		List<ManagerProjectEntity> apps = managerApplicationService.findAll(aw);
+		List<ManagerProjectEntity> apps = managerProjectService.findAll(aw);
 
 		for (ManagerProjectEntity app : apps) {
 			ManagerDepartmentEntity d = new ManagerDepartmentEntity();
@@ -174,38 +180,67 @@ public class ManagerDepartmentServiceImpl extends IBaseServiceImpl<ManagerDepart
 	@Override
 	public void initDept(Long projectId) {
 
-		LambdaQueryWrapper<ManagerDepartmentEntity> wrapper = new LambdaQueryWrapper<>() ;
-		wrapper.eq(ManagerDepartmentEntity::getProjectId , projectId);
+//		LambdaQueryWrapper<ManagerDepartmentEntity> wrapper = new LambdaQueryWrapper<>() ;
+//		wrapper.eq(ManagerDepartmentEntity::getProjectId , projectId);
+//
+//		long count = count(wrapper) ;
+//		if(count > 0){
+//			return ;
+//		}
+//
+//		ManagerDepartmentEntity d = new ManagerDepartmentEntity() ;
+//
+//		d.setProjectId(projectId);
+//
+//		d.setSimpleName("父类部门");
+//		d.setLeader("AIP管理员");
+//		d.setEmail("aip@gmail.com");
+//		d.setPhone("15578777777");
+//		d.setPid(0L);
+//
+//		save(d) ;
 
-		long count = count(wrapper) ;
-		if(count > 0){
-			return ;
-		}
-
-		ManagerDepartmentEntity d = new ManagerDepartmentEntity() ;
-
-		d.setProjectId(projectId);
-
-		d.setSimpleName("父类部门");
-		d.setLeader("AIP管理员");
-		d.setEmail("aip@gmail.com");
-		d.setPhone("15578777777");
-		d.setPid(0L);
-
-		save(d) ;
 	}
 
 	@Override
 	public List<TreeSelect> selectDeptTreeList() {
+
+		// 查询出用户所有数据权限项目
+		LambdaQueryWrapper<ManagerProjectEntity> projectionWrapper =  new LambdaQueryWrapper<>() ;
+		List<ManagerProjectEntity> projects = managerProjectService.list(projectionWrapper) ;
+
+		List<Long> projectIds = projects.stream().map(ManagerProjectEntity::getId).toList() ;
+
 		LambdaQueryWrapper<ManagerDepartmentEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.in(ManagerDepartmentEntity::getProjectId , projectIds) ;
+
 		List<ManagerDepartmentEntity> depts = list(wrapper) ;
 
-		return buildDeptTreeSelect(depts);
+		// 将三个项目放到主菜单当中
+		for(ManagerProjectEntity p : projects){
+			ManagerDepartmentEntity dept = new ManagerDepartmentEntity() ;
+
+			dept.setId(p.getId()) ;
+			dept.setPid(0L);
+			dept.setFullName(p.getProjectName()) ;
+			dept.setSimpleName(p.getProjectName()) ;
+			dept.setDescription(p.getProjectDesc()) ;
+
+			depts.add(dept) ;
+		}
+
+		return TreeSelect.buildDeptTree(depts);
 	}
 
 	@Override
 	public List<ManagerDepartmentEntity> selectDeptList(ManagerDepartmentEntity managerDepartmentEntity, long projectId) {
 		return list() ;
+	}
+
+	@Override
+	public List<Long> selectDeptListByRoleId(Long roleId) {
+
+		return null;
 	}
 
 	/**
