@@ -47,6 +47,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 "/actuator/**",
                 "/sso/**",
                 "/v1/api/base/authority/account/**",
+                "/v1/api/base/authority/organize/**",
                 "/v1/api/base/authority/resource/**"
         };
 
