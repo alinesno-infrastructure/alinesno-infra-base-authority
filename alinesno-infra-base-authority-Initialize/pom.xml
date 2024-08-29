@@ -20,6 +20,13 @@
 			<version>${revision}</version>
         </dependency>
 
-	</dependencies>
+		<!-- 公共核心包 -->
+        <dependency>
+            <groupId>com.alinesno.infra.base</groupId>
+            <artifactId>alinesno-infra-base-authority-core</artifactId>
+			<version>${revision}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
