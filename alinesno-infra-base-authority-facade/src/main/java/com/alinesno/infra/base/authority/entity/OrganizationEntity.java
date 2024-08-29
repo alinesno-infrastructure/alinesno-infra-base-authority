@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -43,10 +44,10 @@ public class OrganizationEntity extends BaseEntity {
 	/**
 	 * LOGO 图片路径或URL
 	 */
-	@TableField("logo_url")
-	@ColumnType(length = 255)
+	@TableField("logo_path")
+	@ColumnType(MySqlTypeConstant.BLOB)
 	@ColumnComment("组织LOGO,推荐尺寸 400*180 px，显示在工作台、打印、分享和企业域名页面，大小建议在512KB以内")
-	private String logoUrl;
+	private String logoPath;
 
 	/**
 	 * 组织门牌号
