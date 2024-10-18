@@ -33,7 +33,7 @@ export function isSsoLogin(){
 // 用户退出
 export function ssoLogout() {
   return request({
-    url: '/sso/logout?satoken=' + localStorage.getItem("satoken") , 
+    url: '/sso/logout' ,
     method: 'get'
   })
 }
