@@ -1,10 +1,13 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.services.IBaseService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,5 +32,35 @@ public interface IOrganizationService extends IBaseService<OrganizationEntity> {
      * @return
      */
     TableDataInfo queryOrganization(DatatablesPageBean page);
+
+    /**
+     * 判断用户是否存在组织,在的话则返回组织信息，不在则返回null
+     */
+    List<OrganizationEntity> checkUserInOrg(long accountId , long orgId);
+
+    /**
+     * 用户加入组织
+     */
+    void joinOrg(long accountId, long orgId);
+
+    /**
+     * 用户退出组织
+     */
+    void quitOrg(long accountId , long orgId);
+
+    /**
+     * 查询账号
+     * @param id
+     * @param orgId
+     * @return
+     */
+    OrganizationAccountEntity getByAccountIdAndOrgId(Long id, long orgId);
+
+    /**
+     * 查询账号所在组织列表
+     * @param id
+     * @return
+     */
+    List<OrganizationDto> listByAccountId(Long id);
 
 }
