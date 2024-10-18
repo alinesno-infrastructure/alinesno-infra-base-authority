@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -92,19 +92,19 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * 验证是否为唯一邮箱
 	 *
 	 * @param email
-	 * @param userId
+	 * @param accountId
 	 * @return 是true|不是false
 	 */
-	boolean checkEmailUnique(String email, String userId);
+	boolean checkEmailUnique(String email, String accountId);
 
 	/**
 	 * 验证是否为唯一手机号
 	 *
 	 * @param phone
-	 * @param userId
+	 * @param accountId
 	 * @return 是true|不是false
 	 */
-	boolean checkPhoneUnique(String phone, String userId);
+	boolean checkPhoneUnique(String phone, String accountId);
 
 	/**
 	 * 根据用户所在角色分页查询
@@ -124,6 +124,13 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	void saveAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode, boolean isEncode);
 
 
+	/**
+	 * 更新用户角色
+	 * @param entity
+	 * @param rolesIds
+	 * @param applicationCode
+	 * @param isEncode
+	 */
 	void updateAccountAndAuthRole(ManagerAccountEntity entity, List<Long> rolesIds, String applicationCode,  boolean isEncode);
 
 	/**
@@ -160,9 +167,9 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 
 	/**
 	 * 检测用户数据范围
-	 * @param userId
+	 * @param accountId
 	 */
-	void checkUserDataScope(String userId);
+	void checkUserDataScope(String accountId);
 
 	/**
 	 * 更新用户状态
@@ -170,4 +177,5 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @return
 	 */
 	int updateUserStatus(ManagerAccountEntity user);
+
 }
