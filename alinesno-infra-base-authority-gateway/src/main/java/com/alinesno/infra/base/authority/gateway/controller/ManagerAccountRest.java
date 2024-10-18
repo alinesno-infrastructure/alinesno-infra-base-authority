@@ -3,10 +3,9 @@ package com.alinesno.infra.base.authority.gateway.controller;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
-import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
-import com.alinesno.infra.base.authority.service.IOrganizationAccountService;
+import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
@@ -14,7 +13,6 @@ import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import com.alinesno.infra.common.web.log.annotation.Log;
 import com.alinesno.infra.common.web.log.enums.BusinessType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,9 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -47,7 +43,7 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 	private IManagerAccountService managerAccountService;
 
 	@Autowired
-	private IOrganizationAccountService orgAccountService ;
+	private IOrganizationService orgService ;
  
 	@ApiOperation("分页查询账户") 
 	@ResponseBody
@@ -64,7 +60,7 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 			ManagerAccountDto dto = new ManagerAccountDto() ;
 			dto = dto.fromDto(item) ;
 
-			List<OrganizationDto> orgList = orgAccountService.listByAccountId(item.getId()) ;
+			List<OrganizationDto> orgList = orgService.listByAccountId(item.getId()) ;
 			dto.setOrgList(orgList);
 
 			listDtos.add(dto);
@@ -89,7 +85,7 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 			ManagerAccountDto dto = new ManagerAccountDto() ;
 			dto = dto.fromDto(item) ;
 
-			OrganizationAccountEntity orgAccount = orgAccountService.getByAccountIdAndOrgId(item.getId() , Long.parseLong(orgId)) ;
+			OrganizationAccountEntity orgAccount = orgService.getByAccountIdAndOrgId(item.getId() , Long.parseLong(orgId)) ;
 			dto.setOrgType(orgAccount.getOrgType());
 
 			listDtos.add(dto);
