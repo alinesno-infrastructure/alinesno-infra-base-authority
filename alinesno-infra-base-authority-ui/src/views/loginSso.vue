@@ -53,8 +53,7 @@ function doLoginByTicket(ticket) {
     useUserStore().doLoginByTicket(ticket).then((res) => {
       console.log('/sso/getSsoAuthUrl 返回数据', res);
 
-      localStorage.setItem('satoken', res.data);
-      setToken(res.adminToken);
+      setToken(res.AdminToken);
 
       location.href = decodeURIComponent(back);
     });
