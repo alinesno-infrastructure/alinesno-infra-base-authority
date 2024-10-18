@@ -111,6 +111,11 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	public ManagerResourceDto findMenusByProjectCode(String projectCode, long accountId) {
 
 		ManagerAccountEntity account = accountService.findById(accountId);
+
+		if(account == null){
+			return null ;
+		}
+
 		ManagerProjectEntity project = SpringContext.getBean(IManagerProjectService.class).findByProjectCode(projectCode);
 
 		// 临时开发验证
