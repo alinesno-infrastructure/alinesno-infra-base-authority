@@ -6,6 +6,8 @@ import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
+import com.alinesno.infra.base.authority.mapper.OrganizationAccountMapper;
+import com.alinesno.infra.base.authority.mapper.OrganizationMapper;
 import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
@@ -16,9 +18,8 @@ import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,18 +39,22 @@ import java.util.Set;
  * @author WeiXiaoJin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEntity, ManagerAccountMapper> implements IManagerAccountService {
-
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ManagerAccountServiceImpl.class);
 
 	@Autowired
 	private ManagerAccountMapper managerAccountMapper; 
 	
 	@Autowired
 	private IManagerRoleService managerRoleService;
-	
+
+	@Autowired
+	private OrganizationAccountMapper organizationAccountMapper;
+
+	@Autowired
+	private OrganizationMapper organizationMapper;
+
 	@Autowired
 	private IManagerAccountRoleService iManagerAccountRoleService;
 
@@ -165,13 +170,13 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public boolean checkEmailUnique(String email, String userId) {
+	public boolean checkEmailUnique(String email, String accountId) {
 
 		return true;
 	}
 
 	@Override
-	public boolean checkPhoneUnique(String phone, String userId) {
+	public boolean checkPhoneUnique(String phone, String accountId) {
 		return true;
 	}
 
@@ -270,6 +275,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 		boolean checkpw = BCrypt.checkpw(password, entity.getPassword());
 		log.debug("checkpw = {}" , checkpw);
+
 		Assert.isTrue(checkpw , "登陆密码不正确");
 
 		ManagerAccountDto dto = new ManagerAccountDto() ;
@@ -286,10 +292,10 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public void checkUserDataScope(String userId) {
+	public void checkUserDataScope(String accountId) {
 //		if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
 //			SysUser user = new SysUser();
-//			user.setUserId(userId);
+//			user.setUserId(accountId);
 //			List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
 //			if (StringUtils.isEmpty(users))
 //			{
@@ -302,11 +308,11 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	public int updateUserStatus(ManagerAccountEntity user) {
 
 //		// 删除用户与角色关联
-//		userRoleMapper.deleteUserRoleByUserId(userId);
+//		userRoleMapper.deleteUserRoleByUserId(accountId);
 //		// 新增用户与角色管理
 //		insertUserRole(user);
 //		// 删除用户与岗位关联
-//		userPostMapper.deleteUserPostByUserId(userId);
+//		userPostMapper.deleteUserPostByUserId(accountId);
 //		// 新增用户与岗位管理
 //		insertUserPost(user);
 
@@ -325,5 +331,4 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	public void resetPassword(String id, String newPassword, boolean isEncode) {
 
 	}
-
 }
