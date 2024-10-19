@@ -1,8 +1,8 @@
 package com.alinesno.infra.base.authority.service;
 
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 
