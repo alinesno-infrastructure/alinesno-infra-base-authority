@@ -4,7 +4,6 @@ import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
-import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.gateway.dto.AccountDeptDto;
 import com.alinesno.infra.base.authority.gateway.dto.DeptDto;
