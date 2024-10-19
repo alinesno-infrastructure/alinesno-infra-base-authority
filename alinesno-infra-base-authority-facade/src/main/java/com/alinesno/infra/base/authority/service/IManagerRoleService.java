@@ -1,8 +1,8 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
+import com.alinesno.infra.base.authority.gateway.dto.AccountRoleDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 import java.util.List;
