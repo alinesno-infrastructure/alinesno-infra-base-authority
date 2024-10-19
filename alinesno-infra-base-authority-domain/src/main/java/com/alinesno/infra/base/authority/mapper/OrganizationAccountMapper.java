@@ -1,7 +1,6 @@
 package com.alinesno.infra.base.authority.mapper;
 
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
-import com.alinesno.infra.base.authority.entity.OrganizationLogEntity;
 import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
 
 /**
