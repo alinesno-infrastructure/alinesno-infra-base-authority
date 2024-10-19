@@ -1,8 +1,6 @@
 package com.alinesno.infra.common.web.adapter.base.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.service.IManagerCodeService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
