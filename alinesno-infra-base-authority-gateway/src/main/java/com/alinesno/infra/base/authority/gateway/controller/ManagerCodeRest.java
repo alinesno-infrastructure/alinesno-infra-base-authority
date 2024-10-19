@@ -3,7 +3,6 @@ package com.alinesno.infra.base.authority.gateway.controller;
 import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
 import com.alinesno.infra.base.authority.service.IManagerCodeService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
-import com.alinesno.infra.common.facade.pageable.ConditionDto;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
@@ -14,14 +13,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
