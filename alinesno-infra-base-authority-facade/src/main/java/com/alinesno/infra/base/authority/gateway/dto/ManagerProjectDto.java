@@ -1,16 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.dto;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.common.facade.base.BaseDto;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_project
