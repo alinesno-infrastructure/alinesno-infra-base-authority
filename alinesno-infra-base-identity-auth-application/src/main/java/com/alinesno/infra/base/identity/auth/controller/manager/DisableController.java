@@ -1,11 +1,10 @@
 package com.alinesno.infra.base.identity.auth.controller.manager;
 
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
 
 /**
  * Sa-Token 账号封禁示例 
