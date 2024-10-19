@@ -1,10 +1,9 @@
 package com.alinesno.infra.base.identity.auth.controller.manager;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import cn.dev33.satoken.basic.SaBasicUtil;
 import cn.dev33.satoken.util.SaResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Sa-Token Http Basic 认证 
