@@ -1,8 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.provider;
 
+import com.alinesno.infra.base.authority.entity.ManagerSettingsEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerCodeDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerSettingsDto;
-import com.alinesno.infra.base.authority.entity.ManagerSettingsEntity;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
