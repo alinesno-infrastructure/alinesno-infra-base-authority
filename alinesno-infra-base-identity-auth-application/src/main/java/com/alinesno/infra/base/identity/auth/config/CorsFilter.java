@@ -1,22 +1,16 @@
 package com.alinesno.infra.base.identity.auth.config;
 
-import java.io.IOException;
-
 import com.alinesno.infra.common.web.adapter.config.CORSProperites;
 import com.alinesno.infra.common.web.adapter.exception.GlobalExceptionHandler;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author luoxiaodong
