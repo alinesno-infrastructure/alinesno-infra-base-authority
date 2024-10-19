@@ -2,17 +2,15 @@ package com.alinesno.infra.base.identity.auth.config.strategy;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.PhoneUtil;
-import cn.hutool.crypto.digest.BCrypt;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
-import com.alinesno.infra.base.identity.auth.config.BaseLoginStrategy;
 import com.alinesno.infra.base.identity.auth.adapter.ManagerAccountConsumer;
+import com.alinesno.infra.base.identity.auth.config.BaseLoginStrategy;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginParamDto;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginUser;
 import com.alinesno.infra.common.core.utils.StringUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
