@@ -130,7 +130,12 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 
 			List<ManagerResourceEntity> resources = list(queryWrapper) ;
 
-			return ManagerResourceUtils.treeResource(resources) ;
+			// 构建父类节点
+			ManagerResourceEntity root = new ManagerResourceEntity() ;
+			root.setId(project.getId());
+			root.setResourceName(project.getProjectName());
+
+			return ManagerResourceUtils.treeResource(resources , root) ;
 		}else{
 			// 2. TODO 获取用户的角色信息，根据角色获取到角色的菜单列表
 			return null ;
