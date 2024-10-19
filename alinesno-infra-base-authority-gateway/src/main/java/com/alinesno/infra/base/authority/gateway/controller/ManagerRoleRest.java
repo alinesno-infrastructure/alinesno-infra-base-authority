@@ -1,6 +1,5 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -12,8 +11,6 @@ import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
