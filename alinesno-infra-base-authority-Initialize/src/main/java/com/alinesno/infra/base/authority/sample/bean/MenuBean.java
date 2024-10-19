@@ -2,7 +2,6 @@ package com.alinesno.infra.base.authority.sample.bean;
 
 import lombok.Data;
 
-import java.awt.*;
 import java.util.List;
 
 /**
