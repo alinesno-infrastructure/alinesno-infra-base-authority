@@ -1,12 +1,15 @@
 package com.alinesno.infra.common.web.adapter.login.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONUtil;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
 import com.alinesno.infra.common.web.adapter.dto.menus.Menu;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 public class CommonLoginController {
 
@@ -193,8 +197,10 @@ public class CommonLoginController {
         String projectCode = managerProjectService.getBaseAuthorityProjectCode() ;
         long accountId = CurrentAccountJwt.getUserId() ;
 
-        managerResourceService.findMenusByProjectCode(projectCode , accountId) ;
+        ManagerResourceDto resourceDto = managerResourceService.findMenusByProjectCode(projectCode , accountId) ;
+        log.debug("resourceDto : {}" , JSONUtil.toJsonPrettyStr(resourceDto));
 
-        return AjaxResult.success(menus) ;
+        return AjaxResult.success(resourceDto.getChildren()) ;
     }
+
 }
