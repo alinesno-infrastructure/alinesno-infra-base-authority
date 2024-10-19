@@ -2,7 +2,6 @@ package com.alinesno.infra.base.authority.gateway.dto;
 
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
