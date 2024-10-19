@@ -1,12 +1,12 @@
 package com.alinesno.infra.base.authority.utils;
 
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
-import com.alinesno.infra.base.authority.enums.MenuEnums;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
-import org.springframework.beans.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 
-import java.awt.*;
 import java.util.List;
+
+import static com.alinesno.infra.base.authority.enums.MenuEnums.MENU_ITEM;
 
 /**
  * 管理员资源工具类，提供资源树的构建方法。
@@ -14,6 +14,7 @@ import java.util.List;
  * @author luoxiaodong
  * @version 1.0.0
  */
+@Slf4j
 public class ManagerResourceUtils {
 
     /**
@@ -22,27 +23,16 @@ public class ManagerResourceUtils {
      * @param resources 资源实体列表，代表所有待构建树的资源。
      * @return ManagerResourceDto 对象，包含构建好的资源树。
      */
-    public static ManagerResourceDto treeResource(List<ManagerResourceEntity> resources) {
+    public static ManagerResourceDto treeResource(List<ManagerResourceEntity> resources , ManagerResourceEntity parentResource) {
         // 创建 ManagerResourceDto 实例，用于存储构建好的资源树
         ManagerResourceDto dto = new ManagerResourceDto() ;
 
-        // 寻找平台级别的资源作为树的根节点
-        ManagerResourceEntity parentResource = null ;
-        for(ManagerResourceEntity item : resources){
-            if(item.getMenuType().equals(MenuEnums.MENU_PLATFORM.getValue())){  // 平台级菜单
-                parentResource = item ;
-                break ;
-            }
-        }
-
-        if(parentResource != null){
-            // 递归处理子菜单，构建资源树
-            BeanUtils.copyProperties(parentResource , dto);
-            handleSubmenus(parentResource , resources , dto) ;
-        }
+        copyProperties(parentResource , dto);
+        handleSubmenus(parentResource , resources , dto) ;
 
         return dto ;
     }
+
 
     /**
      * 递归处理子菜单，构建资源树的辅助方法。
@@ -53,6 +43,8 @@ public class ManagerResourceUtils {
      */
     private static void handleSubmenus(ManagerResourceEntity parentResource, List<ManagerResourceEntity> resources, ManagerResourceDto dto) {
 
+        log.debug("handleSubmenus: " + parentResource.getMenuType());
+
         List<ManagerResourceEntity> subResources = resources.stream()
                 .filter(item -> item.getResourceParent() != null && item.getResourceParent().equals(parentResource.getId()))
                 .toList();
@@ -61,17 +53,28 @@ public class ManagerResourceUtils {
 
             // 创建一个新的 ManagerResourceDto 实例来存储当前子资源的信息
             ManagerResourceDto childDto =  new ManagerResourceDto();
-            BeanUtils.copyProperties(subResource, childDto);
+            copyProperties(subResource, childDto);
 
             // 递归处理当前子资源的子资源
             handleSubmenus(subResource, resources, childDto);
 
             // 将当前子资源的 DTO 添加到父资源 DTO 的子资源列表中
-            dto.getSubResource().add(childDto);
+            dto.getChildren().add(childDto);
         }
 
     }
 
+    private static void copyProperties(ManagerResourceEntity r , ManagerResourceDto dto) {
+
+        dto.setName(r.getResourceName());
+        dto.setPath(r.getResourceLink());
+        dto.setHidden(false);
+        dto.setRedirect("");
+        dto.setComponent(r.getComponent());
+        dto.setAlwaysShow(false);
+        dto.setMeta(new ManagerResourceDto.Meta(r.getResourceName(), r.getResourceIcon(), false, ""));
+        dto.setPerms(r.getPermission());
+    }
 
 }
 
