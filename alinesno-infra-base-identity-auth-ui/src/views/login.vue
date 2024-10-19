@@ -350,6 +350,8 @@ function handleLogin() {
     if (valid) {
       loading.value = true;
 
+      debugger
+
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
       if (loginForm.value.rememberMe) {
         Cookies.set("username", loginForm.value.username, { expires: 30 });
@@ -464,8 +466,6 @@ function getIdentityInfo(){
 
   identityInfoStore.getIdentityInfo().then(res => {
     initLoading.value = false;
-
-    console.log('res--> = ' + res) ;
 
     identityInfoPanel.value = res.data ;
     console.log('identityInfoPanel = ' + identityInfoPanel.value.systemName)
