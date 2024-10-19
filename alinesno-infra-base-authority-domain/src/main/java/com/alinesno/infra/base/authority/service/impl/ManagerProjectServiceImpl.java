@@ -1,7 +1,8 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import com.alinesno.infra.base.authority.constants.AuthorityConstants;
-import com.alinesno.infra.base.authority.entity.*;
+import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
+import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.mapper.ManagerProjectMapper;
 import com.alinesno.infra.base.authority.sample.ISampleService;
@@ -9,7 +10,6 @@ import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
 import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
