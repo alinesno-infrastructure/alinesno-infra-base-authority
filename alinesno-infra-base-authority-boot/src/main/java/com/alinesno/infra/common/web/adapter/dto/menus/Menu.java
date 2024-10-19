@@ -112,6 +112,28 @@ public class Menu {
         this.children = children;
     }
 
+    /**
+     * 构造方法
+     * 创建一个具有完整属性的菜单对象。
+     *
+     * @param name 菜单名称
+     * @param path 菜单路径
+     * @param hidden 是否隐藏菜单
+     * @param redirect 重定向路径
+     * @param component 组件路径
+     * @param alwaysShow 是否总是显示
+     * @param meta 菜单元信息
+     */
+    public Menu(String name, String path, boolean hidden, String redirect, String component, boolean alwaysShow, Meta meta) {
+        this.name = name;
+        this.path = path;
+        this.hidden = hidden;
+        this.redirect = redirect;
+        this.component = component;
+        this.alwaysShow = alwaysShow;
+        this.meta = meta;
+    }
+
     @Data
     public static class Meta {
         private String title; // 菜单标题
