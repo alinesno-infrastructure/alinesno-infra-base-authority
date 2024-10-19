@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.identity.auth.totp.secret;
 
 import org.apache.commons.codec.binary.Base32;
+
 import java.security.SecureRandom;
 
 @SuppressWarnings("WeakerAccess")
