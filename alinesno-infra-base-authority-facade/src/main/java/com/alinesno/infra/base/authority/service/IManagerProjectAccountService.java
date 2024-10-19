@@ -1,7 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
 import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 /**
