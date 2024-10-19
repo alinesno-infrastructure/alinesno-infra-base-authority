@@ -29,11 +29,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         log.debug("securityProperties = {}", securityProperties.toString());
 
-        String[] patterns = {
-                "/sso/**",
-                "/v1/api/base/authority/account/registAccount" ,
-                "/v1/api/base/authority/**"
-        };
+        String[] patterns = securityProperties.getExcludes() ;
 
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
         registry.addInterceptor(new SaInterceptor(handle -> {
