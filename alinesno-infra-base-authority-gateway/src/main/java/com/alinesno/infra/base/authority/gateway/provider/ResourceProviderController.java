@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/v1/api/base/authority/resource")
@@ -30,14 +32,14 @@ public class ResourceProviderController extends BaseProvider {
      * @return
      */
     @GetMapping("/findMenusByProjectCode")
-    public R<ManagerResourceDto> findMenusByProjectCode(
+    public R<List<ManagerResourceDto>> findMenusByProjectCode(
             @RequestParam String projectCode,
             @RequestParam long accountId) {
 
         Assert.hasLength(projectCode,  "项目标识为空");
         Assert.hasLength(accountId+"",  "用户标识代码为空");
 
-        return R.ok(managerResourceService.findMenusByProjectCode(projectCode , accountId)) ;
+        return R.ok(managerResourceService.findMenusByProjectCode(projectCode , accountId).getChildren()) ;
     }
 
 
