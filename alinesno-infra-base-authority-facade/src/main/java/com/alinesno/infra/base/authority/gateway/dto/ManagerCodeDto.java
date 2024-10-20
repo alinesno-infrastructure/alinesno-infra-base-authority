@@ -3,6 +3,8 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_code
@@ -10,9 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ManagerCodeDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
-	// fields
 	/**
 	 * "codeName"
 	 */
@@ -33,62 +35,6 @@ public class ManagerCodeDto extends BaseDto {
 	 * "codeDesc"
 	 */
 	private String codeDesc;
-
-	// getter and setter
-	public String getCodeName()
-
-	{
-		return this.codeName;
-	}
-
-	public ManagerCodeDto setCodeName(String arg) {
-		this.codeName = arg;
-		return this;
-	}
-
-	public String getCodeTypeName()
-
-	{
-		return this.codeTypeName;
-	}
-
-	public ManagerCodeDto setCodeTypeName(String arg) {
-		this.codeTypeName = arg;
-		return this;
-	}
-
-	public String getCodeTypeValue()
-
-	{
-		return this.codeTypeValue;
-	}
-
-	public ManagerCodeDto setCodeTypeValue(String arg) {
-		this.codeTypeValue = arg;
-		return this;
-	}
-
-	public String getCodeValue()
-
-	{
-		return this.codeValue;
-	}
-
-	public ManagerCodeDto setCodeValue(String arg) {
-		this.codeValue = arg;
-		return this;
-	}
-
-	public String getCodeDesc()
-
-	{
-		return this.codeDesc;
-	}
-
-	public ManagerCodeDto setCodeDesc(String arg) {
-		this.codeDesc = arg;
-		return this;
-	}
 
 	/**
 	 * 快速从 dto 转换成 entity
