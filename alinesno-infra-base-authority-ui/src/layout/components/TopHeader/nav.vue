@@ -25,7 +25,7 @@
       <div class="acp-header-item " style="display: flex">
         <a class="header-label-text">
           <i class="fa-solid fa-shield-halved"></i>
-          {{ nickname }}
+          {{ userStore.nickName }}
           {{ account }}
           <el-icon>
             <ArrowDownBold />
@@ -41,8 +41,8 @@
 
           <el-container style="margin-bottom: 15px">
             <el-header class="bg-color-base info-h" style="">
-              <p class="color-text-secondary f-e-s">名称: {{ nickname }}</p>
-              <p class="color-text-primary f-e-s">账号ID: 417-14778-7888  
+              <p class="color-text-secondary f-e-s">登陆名: {{ userStore.name }}</p>
+              <p class="color-text-primary f-e-s">部门: {{ userStore.dept.deptName }} 
                 <span class="copy-user-id">
                   <i class="fa-solid fa-clone"></i> 
                 </span>
@@ -107,9 +107,6 @@ function logout() {
     type: 'warning'
   }).then(() => {
 
-    // const logoutUrl = baseUrl + '/sso/logout?satoken=' + localStorage.getItem("satoken") + '&back=' + encodeURIComponent(location.href);
-    // location.href = logoutUrl ;
-
     userStore.ssoLogOut().then(() => {
       location.href = '/index';
     })
@@ -117,114 +114,12 @@ function logout() {
   }).catch(() => { });
 }
 
-</script>
+console.log('avatar = ' + userStore.avatar)
+console.log('name = ' + userStore.name)
+console.log('dept = ' + JSON.stringify(userStore.dept))
+console.log('role = ' + JSON.stringify(userStore.roles))
 
-<!-- <script>
-export default {
-  name: "TopHeader",
-  components: {},
-  data() {
-    return {
-      drawer: false,
-      direction: 'rtl',
-    };
-  },
-  computed: {
-    role: {
-      get() {
-        return this.$store.state.user.roles;
-      },
-    },
-    account: {
-      get() {
-        // const { account } =  null ; // this.$store.state.user;
-        // return account ? account : "";
-        return "";
-      },
-    },
-    nickname: {
-      get() {
-        const nickname = '超级管理员' //  this.$store.state.user.nickname;
-        return nickname;
-      },
-    },
-    name: {
-      get() {
-        const name = '超级管理员'; //  this.$store.state.user.name;
-        return name;
-      },
-    },
-    avator: {
-      get() {
-        const avatar = "http://data.linesno.com/switch_header.png"; //  this.$store.state.user.avatar;
-        return avatar;
-      },
-    },
-    setting: {
-      get() {
-        return this.$store.state.settings.showSettings;
-      },
-      set(val) {
-        this.$store.dispatch("settings/changeSetting", {
-          key: "showSettings",
-          value: val,
-        });
-      },
-    },
-    topNav: {
-      get() {
-        return this.$store.state.settings.topNav;
-      },
-    },
-  },
-  methods: {
-    lockScreen() {
-      this.$message({
-        message: '功能在内测试中',
-        type: 'success'
-      });
-    },
-    handleCommand(command) {
-      this.$router.push({ name: command });
-    },
-    toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
-    },
-    submitForm() { },
-    cancel() { },
-    dashboardHome() {
-      window.location.href = this.saasUrl;
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        noticeId: undefined,
-        noticeTitle: undefined,
-        noticeType: undefined,
-        noticeContent: undefined,
-        status: "0",
-      };
-      this.resetForm("form");
-    },
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加工单";
-    },
-    async logout() {
-      this.$confirm("确定注销并退出系统吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        this.$store.dispatch("LogOut").then(() => {
-          window.location.href = "/";
-        });
-      });
-    },
-  },
-};
-</script> -->
+</script>
 
 <style lang="scss" scoped>
 
