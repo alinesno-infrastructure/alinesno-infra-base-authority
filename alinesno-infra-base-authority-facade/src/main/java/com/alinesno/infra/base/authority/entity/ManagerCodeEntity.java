@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.alinesno.infra.base.authority.enums.DataSourceScope;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerCodeDto;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,6 +11,7 @@ import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 /**
  * <p>
@@ -108,4 +110,9 @@ public class ManagerCodeEntity extends InfraBaseEntity {
 		this.dataScope = dataScope;
 	}
 
+    public ManagerCodeDto mapToDto() {
+		ManagerCodeDto dto = new ManagerCodeDto();
+		BeanUtils.copyProperties(this , dto);
+		return dto ;
+    }
 }
