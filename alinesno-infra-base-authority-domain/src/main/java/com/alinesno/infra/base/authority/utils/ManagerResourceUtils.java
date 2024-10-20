@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.utils;
 
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
+import com.alinesno.infra.base.authority.gateway.dto.Meta;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -28,7 +29,24 @@ public class ManagerResourceUtils {
         ManagerResourceDto dto = new ManagerResourceDto() ;
 
         copyProperties(parentResource , dto);
-        handleSubmenus(parentResource , resources , dto) ;
+        handleSubmenus(parentResource , resources , dto, false) ;
+
+        return dto ;
+    }
+
+    /**
+     * 根据资源列表构建资源树。
+     * @param resources
+     * @param parentResource
+     * @param all  是否所有菜单包括按钮
+     * @return
+     */
+    public static ManagerResourceDto treeResource(List<ManagerResourceEntity> resources , ManagerResourceEntity parentResource , boolean all) {
+        // 创建 ManagerResourceDto 实例，用于存储构建好的资源树
+        ManagerResourceDto dto = new ManagerResourceDto() ;
+
+        copyProperties(parentResource , dto);
+        handleSubmenus(parentResource , resources , dto , all) ;
 
         return dto ;
     }
@@ -40,10 +58,17 @@ public class ManagerResourceUtils {
      * @param parentResource 父资源实体，用于构建资源树的节点。
      * @param resources
      * @param dto            ManagerResourceDto 对象，用于存储构建好的资源树。
+     * @param all
      */
-    private static void handleSubmenus(ManagerResourceEntity parentResource, List<ManagerResourceEntity> resources, ManagerResourceDto dto) {
+    private static void handleSubmenus(ManagerResourceEntity parentResource, List<ManagerResourceEntity> resources, ManagerResourceDto dto, boolean all) {
 
         log.debug("handleSubmenus: " + parentResource.getMenuType());
+
+        if(!all){
+            if(parentResource.getMenuType() != null && parentResource.getMenuType().equals(MENU_ITEM.getValue())){
+                return ;
+            }
+        }
 
         List<ManagerResourceEntity> subResources = resources.stream()
                 .filter(item -> item.getResourceParent() != null && item.getResourceParent().equals(parentResource.getId()))
@@ -56,7 +81,7 @@ public class ManagerResourceUtils {
             copyProperties(subResource, childDto);
 
             // 递归处理当前子资源的子资源
-            handleSubmenus(subResource, resources, childDto);
+            handleSubmenus(subResource, resources, childDto, all);
 
             // 将当前子资源的 DTO 添加到父资源 DTO 的子资源列表中
             dto.getChildren().add(childDto);
@@ -72,7 +97,7 @@ public class ManagerResourceUtils {
         dto.setRedirect("");
         dto.setComponent(r.getComponent());
         dto.setAlwaysShow(false);
-        dto.setMeta(new ManagerResourceDto.Meta(r.getResourceName(), r.getResourceIcon(), false, ""));
+        dto.setMeta(new Meta(r.getResourceName(), r.getResourceIcon(), false, ""));
         dto.setPerms(r.getPermission());
     }
 
