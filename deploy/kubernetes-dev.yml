@@ -41,6 +41,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: |
                 -Dserver.servlet.context-path=/
+                -Dalinesno.infra.gateway.host=http://localhost:8080
 
                 -Dspring.data.redis.host=${REDIS_HOST}
                 -Dspring.data.redis.password=${REDIS_KEY}
