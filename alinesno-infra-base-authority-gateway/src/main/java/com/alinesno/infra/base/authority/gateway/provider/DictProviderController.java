@@ -1,10 +1,16 @@
 package com.alinesno.infra.base.authority.gateway.provider;
 
+import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
 import com.alinesno.infra.base.authority.entity.ManagerSettingsEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerCodeDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerSettingsDto;
+import com.alinesno.infra.base.authority.service.IManagerCodeService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
+import com.alinesno.infra.common.facade.response.R;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,12 +20,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api/base/authority/dict")
 public class DictProviderController extends BaseProvider {
+
+    @Autowired
+    private IManagerCodeService managerCodeService ;
+
     /**
      * 通过代码类型查询代码
      *
      * @return
      */
-    public List<ManagerCodeDto> codeListByType(String codeType) {
+    public R<List<ManagerCodeDto>> codeListByType(String dictType) {
         return null ;
     }
 
@@ -28,18 +38,26 @@ public class DictProviderController extends BaseProvider {
      *
      * @return
      */
-    public List<ManagerCodeDto> codeListByType(String codeType,String applicationId){
-        return null ;
+    @GetMapping("/codeListByType")
+    public R<List<ManagerCodeDto>> codeListByType(String dictType,String projectCode){
+
+        LambdaQueryWrapper<ManagerCodeEntity> queryWrapper = new LambdaQueryWrapper<>() ;
+        queryWrapper.eq(ManagerCodeEntity::getCodeTypeValue , dictType) ;
+
+        List<ManagerCodeEntity> codes = managerCodeService.list(queryWrapper) ;
+        List<ManagerCodeDto> dtoList = codes.stream().map(ManagerCodeEntity::mapToDto).toList() ;
+        
+        return R.ok(dtoList) ;
     }
 
     /**
      * 代码查询
      *
-     * @param codeType
+     * @param dictType
      * @param codeValue
      * @return
      */
-    public ManagerCodeDto codeByType(Object codeType, Object codeValue){
+    public ManagerCodeDto codeByType(Object dictType, Object codeValue){
         return null ;
     }
 
