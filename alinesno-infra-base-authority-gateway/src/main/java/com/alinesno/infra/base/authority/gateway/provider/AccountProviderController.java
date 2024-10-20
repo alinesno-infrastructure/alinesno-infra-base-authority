@@ -8,7 +8,7 @@ import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.facade.response.R;
-import com.alinesno.infra.common.web.adapter.dto.LoginBodyDto;
+import com.alinesno.infra.common.web.adapter.base.dto.LoginBodyDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,18 @@ public class AccountProviderController extends BaseProvider {
 
     @Autowired
     private IOrganizationService organizationService;
+
+    /**
+     * 通过id获取到用户信息getById
+     */
+    @GetMapping("/getById")
+    public R<ManagerAccountDto> getById(long id) {
+        ManagerAccountEntity e = managerAccountService.getById(id);
+        ManagerAccountDto dto = new ManagerAccountDto();
+        BeanUtils.copyProperties(e, dto);
+        dto.setPassword(null);
+        return R.ok(dto) ;
+    }
 
     /**
      * 用户注册信息，用于前端业务用户注册
