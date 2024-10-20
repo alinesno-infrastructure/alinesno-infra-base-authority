@@ -7,6 +7,7 @@ import com.alinesno.infra.base.authority.initialize.IAuthorityInitService;
 import com.alinesno.infra.common.facade.enable.EnableActable;
 import com.alinesno.infra.common.web.adapter.sso.enable.EnableInfraSsoApi;
 import com.alinesno.infra.common.web.log.aspect.LogAspect;
+import com.dtflys.forest.springboot.annotation.ForestScan;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @EnableActable
+@ForestScan({"com.alinesno.infra.common.web.adapter.base.consumer" , "com.alinesno.infra.base.authority.adapter"})
 @EnableInfraSsoApi
 @MapperScan({"com.alinesno.infra.base.authority.mapper" , "com.alinesno.infra.base.authority.meta.mapper"})
 @Configuration
