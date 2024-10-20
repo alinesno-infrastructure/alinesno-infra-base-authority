@@ -59,7 +59,7 @@ forest:
 
 alinesno.infra:
   authority:
-    host: "http://localhost:30100"
+    host: "http://localhost:30100/base-authority"
 
 ip2region:
   external: false
