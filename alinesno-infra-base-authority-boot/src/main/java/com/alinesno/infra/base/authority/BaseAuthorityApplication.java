@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BaseAuthorityApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(BaseAuthorityApplication.class, args);
 	}
 
