@@ -6,8 +6,8 @@ var prefix = '/api/infra/base/authority/managerResource/';
 var managerUrl = {
     datatables: prefix + "datatables",
     createUrl: prefix + 'add',
-    saveUrl: prefix + 'save',
-    updateUrl: prefix + "modify",
+    saveUrl: prefix + 'saveResource',
+    updateUrl: prefix + "modifyResource",
     statusUrl: prefix + "changeStatus",
     cleanUrl: prefix + "clean",
     detailUrl: prefix + "detail",
