@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.api.vo.ManagerResourceVo;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
@@ -7,12 +8,15 @@ import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
+import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountBean;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
+import com.alinesno.infra.common.web.adapter.login.annotation.CurrentAccount;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -51,6 +55,47 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 
 		return this.toPage(model, this.getFeign(), page);
+	}
+
+	/**
+	 * 保存菜单
+	 */
+	@PostMapping("/saveResource")
+	public AjaxResult saveResource(@RequestBody ManagerResourceVo resource ,
+								   @CurrentAccount CurrentAccountBean account) {
+
+		log.debug("resource = {}" , resource);
+
+		ManagerResourceEntity resourceEntity = new ManagerResourceEntity() ;
+		BeanUtils.copyProperties(resource, resourceEntity);
+		resourceEntity.setVisible(true) ;
+
+		resourceEntity.setOrgId(account.getOrgId());
+
+		managerResourceService.save(resourceEntity);
+
+		return AjaxResult.success();
+	}
+
+
+	/**
+	 * 保存菜单
+	 */
+	@PutMapping("/modifyResource")
+	public AjaxResult modifyResource(@RequestBody ManagerResourceVo resource ,
+									 @CurrentAccount CurrentAccountBean account) {
+
+		log.debug("resource = {}" , resource);
+
+		ManagerResourceEntity resourceEntity = new ManagerResourceEntity() ;
+		BeanUtils.copyProperties(resource, resourceEntity);
+		resourceEntity.setVisible(true) ;
+
+		resourceEntity.setOrgId(account.getOrgId());
+
+		managerResourceService.update(resourceEntity);
+
+		return AjaxResult.success();
 	}
 
 	/**
