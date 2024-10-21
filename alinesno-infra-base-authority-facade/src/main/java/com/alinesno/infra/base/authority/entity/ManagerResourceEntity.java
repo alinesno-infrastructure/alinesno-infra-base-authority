@@ -85,7 +85,7 @@ public class ManagerResourceEntity extends InfraBaseEntity {
 
 	@Excel(name = "是否可见", replace = {"隐藏_0", "显示_1"})
 	@TableField("visible")
-	@ColumnType(length = 255)
+	@ColumnType
 	@ColumnComment("是否可见")
 	private boolean visible = true;
 
