@@ -19,8 +19,14 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @EnableActable
-@ForestScan({"com.alinesno.infra.common.web.adapter.base.consumer" , "com.alinesno.infra.base.authority.adapter"})
-@MapperScan({"com.alinesno.infra.base.authority.mapper" , "com.alinesno.infra.base.authority.meta.mapper"})
+@ForestScan({
+    "com.alinesno.infra.common.web.adapter.base.consumer" ,
+    "com.alinesno.infra.base.authority.adapter"
+})
+@MapperScan({
+    "com.alinesno.infra.base.authority.mapper" ,
+    "com.alinesno.infra.base.authority.meta.mapper"
+})
 @EnableInfraAuthorityApi
 @Configuration
 public class AppConfiguration implements CommandLineRunner {
