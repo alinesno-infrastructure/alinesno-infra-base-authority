@@ -70,6 +70,10 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 		BeanUtils.copyProperties(resource, resourceEntity);
 		resourceEntity.setVisible(true) ;
 
+		if(resourceEntity.getResourceParent() == 0L){ // 为一级目录，设置为当前项目id
+			resourceEntity.setResourceParent(resource.getProjectId());
+		}
+
 		resourceEntity.setOrgId(account.getOrgId());
 
 		managerResourceService.save(resourceEntity);
@@ -90,6 +94,10 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 		ManagerResourceEntity resourceEntity = new ManagerResourceEntity() ;
 		BeanUtils.copyProperties(resource, resourceEntity);
 		resourceEntity.setVisible(true) ;
+
+		if(resourceEntity.getResourceParent() == 0L){ // 为一级目录，设置为当前项目id
+			resourceEntity.setResourceParent(resource.getProjectId());
+		}
 
 		resourceEntity.setOrgId(account.getOrgId());
 
