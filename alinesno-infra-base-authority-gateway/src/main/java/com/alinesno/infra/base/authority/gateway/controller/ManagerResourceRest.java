@@ -72,7 +72,6 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 
 		if(resourceEntity.getResourceParent() == 0L){ // 为一级目录，设置为当前项目id
 			resourceEntity.setComponent("Layout");
-			resourceEntity.setResourceParent(resource.getProjectId());
 		}
 
 		resourceEntity.setOrgId(account.getOrgId());
@@ -98,7 +97,6 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 
 		if(resourceEntity.getResourceParent() == 0L){ // 为一级目录，设置为当前项目id
 			resourceEntity.setComponent("Layout");
-			resourceEntity.setResourceParent(resource.getProjectId());
 		}
 
 		resourceEntity.setOrgId(account.getOrgId());
