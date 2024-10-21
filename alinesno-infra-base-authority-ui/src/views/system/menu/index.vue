@@ -347,7 +347,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 100,
     resourceName: undefined,
-    visible: undefined
+    visible: 0 
   },
   rules: {
     resourceName: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
@@ -403,7 +403,7 @@ function reset() {
     resourceOrder: undefined,
     isFrame: "1",
     isCache: "0",
-    visible: "0",
+    visible: 0,
     status: "0"
   };
   proxy.resetForm("menuRef");
