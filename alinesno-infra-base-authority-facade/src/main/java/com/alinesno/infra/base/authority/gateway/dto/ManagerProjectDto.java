@@ -34,7 +34,7 @@ public class ManagerProjectDto extends BaseDto {
 	private String systemInner;
 	// 是否生成演示示例
 	private String genDemo;
-	// 所在组织id
-	private long orgId ;
+//	// 所在组织id
+//	private long orgId ;
 
 }
