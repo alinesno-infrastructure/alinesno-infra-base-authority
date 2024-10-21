@@ -132,7 +132,7 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 
 			// 构建父类节点
 			ManagerResourceEntity root = new ManagerResourceEntity() ;
-			root.setId(project.getId());
+			root.setId(0L);
 			root.setResourceName(project.getProjectName());
 
 			return ManagerResourceUtils.treeResource(resources , root) ;
