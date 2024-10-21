@@ -43,21 +43,22 @@ public class AppConfiguration implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.debug("项目启动初始化");
 
-        // 初始化平台默认组织
-        OrganizationEntity org = authorityInitService.initOrganization() ;
+//        // 初始化平台默认组织
+//        OrganizationEntity org = authorityInitService.initOrganization() ;
+//
+//        // 初始化平台默认参数和字典
+//        authorityInitService.initManagerCode(org) ;
+//        authorityInitService.initManagerConfig(org) ;
+//
+//        // 初始化超级管理员
+//        ManagerAccountEntity managerAccount = authorityInitService.initSuperManager(org) ;
+//
+//        // 初始化权限引擎服务的菜单权限
+//        ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
+//
+//        // 初始化部门和岗位数据
+//        authorityInitService.initDeptAndPost(managerAccount.getId() , org , project) ;
 
-        // 初始化平台默认参数和字典
-        authorityInitService.initManagerCode(org) ;
-        authorityInitService.initManagerConfig(org) ;
-
-        // 初始化超级管理员
-        ManagerAccountEntity managerAccount = authorityInitService.initSuperManager(org) ;
-
-        // 初始化权限引擎服务的菜单权限
-        ManagerProjectEntity project = authorityInitService.initData(managerAccount.getId() , org) ;
-
-        // 初始化部门和岗位数据
-        authorityInitService.initDeptAndPost(managerAccount.getId() , org , project) ;
     }
 
 }
