@@ -1,7 +1,5 @@
 server:
   port: 30100
-  servlet:
-    context-path: /base-authority
 
 # spring 配置
 spring:
@@ -37,12 +35,11 @@ actable:
 
 # security配置
 alinesno:
-  infra.gateway:
-    host: http://localhost:30100
   security:
     # 排除路径
     excludes:
       - /sso/**
+      - /logout
       - /v1/api/base/authority/dict/*
       - /v1/api/base/authority/account/*
       - /v1/api/base/authority/organize/*
