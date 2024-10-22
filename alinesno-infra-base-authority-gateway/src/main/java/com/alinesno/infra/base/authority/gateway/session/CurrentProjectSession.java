@@ -28,10 +28,18 @@ public class CurrentProjectSession {
 
 	public ManagerProjectEntity get() {
 		long userId = CurrentAccountJwt.getUserId();
-		return managerProjectService.getApplicationByAccountId(userId) ;
+
+		ManagerProjectAccountEntity e = managerApplicationAccountService.getOne(new LambdaQueryWrapper<ManagerProjectAccountEntity>()
+				.eq(ManagerProjectAccountEntity::getAccountId , userId)) ;
+
+		if(e != null){
+			return managerProjectService.getById(e.getApplicationId()) ;
+		}
+
+		return null ;
 	}
 
-	public void set(long applicationId) {
+	public void set(long projectId) {
 
 		long userId = CurrentAccountJwt.getUserId();
 
@@ -42,7 +50,7 @@ public class CurrentProjectSession {
 		ManagerProjectAccountEntity e = new ManagerProjectAccountEntity() ;
 
 		e.setAccountId(userId);
-		e.setApplicationId(applicationId);
+		e.setApplicationId(projectId);
 		e.setAppOrder(count+1);
 
 		managerApplicationAccountService.save(e);
