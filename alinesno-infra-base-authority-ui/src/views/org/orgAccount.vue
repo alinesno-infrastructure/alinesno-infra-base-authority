@@ -255,9 +255,9 @@ const router = useRouter();
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable, sys_user_sex } = proxy.useDict("sys_normal_disable", "sys_user_sex");
 
-const props = defineProps({
-  currentOrgId: Number 
-});
+// const props = defineProps({
+//   currentOrgId: Number 
+// });
 
 const userList = ref([]);
 const open = ref(false);
@@ -274,6 +274,9 @@ const deptOptions = ref(undefined);
 const initPassword = ref(undefined);
 const postOptions = ref([]);
 const roleOptions = ref([]);
+
+const currentOrgId = ref(null)
+
 /*** 用户导入参数 */
 const upload = reactive({
   // 是否显示弹出层（用户导入）
@@ -341,7 +344,7 @@ function getTreeselect() {
 function getList() {
   loading.value = true;
 
-  listOrganizationAccount(proxy.addDateRange(queryParams.value, dateRange.value) , props.currentOrgId).then(res => {
+  listOrganizationAccount(proxy.addDateRange(queryParams.value, dateRange.value) , currentOrgId.value).then(res => {
     loading.value = false;
     userList.value = res.rows;
     total.value = res.total;
@@ -531,6 +534,13 @@ function submitForm() {
 };
 
 // getTreeselect();
-getList();
+// getList();
+function searchOrgAccount(orgId){
+  currentOrgId.value = orgId ;
+  getList();
+}
 
+defineExpose({
+  searchOrgAccount
+})
 </script>
