@@ -1,8 +1,5 @@
 package com.alinesno.infra.base.authority.config;
 
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
-import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.initialize.IAuthorityInitService;
 import com.alinesno.infra.common.facade.enable.EnableActable;
 import com.alinesno.infra.common.web.log.aspect.LogAspect;
