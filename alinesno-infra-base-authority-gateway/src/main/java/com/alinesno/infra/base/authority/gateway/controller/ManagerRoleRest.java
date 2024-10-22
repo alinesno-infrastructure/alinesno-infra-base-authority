@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -31,12 +33,19 @@ public class ManagerRoleRest extends BaseController<ManagerRoleEntity, IManagerR
 
 	@Autowired
 	private IManagerRoleService managerRoleService;
- 
+
+	@DataPermissionScope
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 		return this.toPage(model, this.getFeign(), page);
+	}
+
+	@DataPermissionSave
+	@Override
+	public AjaxResult save(Model model, ManagerRoleEntity entity) throws Exception {
+		return super.save(model, entity);
 	}
 
 	/**
