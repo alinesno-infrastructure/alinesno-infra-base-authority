@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
@@ -40,7 +41,8 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 
 	@Autowired
 	private CurrentProjectSession currentProjectSession ;
-	
+
+	@DataPermissionScope
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
