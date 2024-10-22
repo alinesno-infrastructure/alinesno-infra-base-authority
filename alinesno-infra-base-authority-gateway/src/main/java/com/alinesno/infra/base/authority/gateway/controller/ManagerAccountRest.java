@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
@@ -44,7 +46,8 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 
 	@Autowired
 	private IOrganizationService orgService ;
- 
+
+	@DataPermissionScope
 	@ApiOperation("分页查询账户") 
 	@ResponseBody
 	@PostMapping("/datatables")
