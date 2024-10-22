@@ -3,6 +3,7 @@ package com.alinesno.infra.base.authority.gateway.provider;
 import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -31,14 +33,21 @@ public class AccountProviderController extends BaseProvider {
     /**
      * 通过id获取到用户信息getById
      */
-    @GetMapping("/getById")
-    public R<ManagerAccountDto> getById(long id) {
-        ManagerAccountEntity e = managerAccountService.getById(id);
-        ManagerAccountDto dto = new ManagerAccountDto();
-        BeanUtils.copyProperties(e, dto);
-        dto.setPassword(null);
+    @GetMapping("/getManagerAccountDto")
+    public R<ManagerAccountDto> getManagerAccountDto(long id) {
+        ManagerAccountDto dto = managerAccountService.getManagerAccountDto(id);
         return R.ok(dto) ;
     }
+
+    /**
+     * 通过id获取到用户信息getById
+     */
+    @GetMapping("/getAccountInfo")
+    public R<Map<String, Object>> getAccountInfo(long id) {
+        Map<String, Object> dto = managerAccountService.getAccountInfo(id);
+        return R.ok(dto) ;
+    }
+
 
     /**
      * 用户注册信息，用于前端业务用户注册
@@ -99,6 +108,11 @@ public class AccountProviderController extends BaseProvider {
         ManagerAccountDto dto = new ManagerAccountDto();
         BeanUtils.copyProperties(e, dto);
         dto.setPassword(null);
+
+        // 设置组织信息
+        OrganizationAccountEntity org = organizationService.getByAccountId(e.getId()) ;
+        dto.setOrgId(org.getId());
+        dto.setOrgType(org.getOrgType());
 
         return dto;
     }
