@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.entity.ManagerCodeEntity;
 import com.alinesno.infra.base.authority.service.IManagerCodeService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -37,15 +40,18 @@ public class ManagerCodeRest extends BaseController<ManagerCodeEntity, IManagerC
 	@Autowired
 	private IManagerCodeService managerCodeService;
 
+	@DataPermissionQuery
 	@ResponseBody
 	@PostMapping("/datatables")
-	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
+	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page , PermissionQuery query) {
 //		return this.toPage(model, this.getFeign(), page);
 
 		TableDataInfo tableDataInfo = new TableDataInfo();
 
 		Page<ManagerCodeEntity> queryPage = new Page<>(page.getPageNum() , page.getPageSize()) ;
 		LambdaQueryWrapper<ManagerCodeEntity> queryWrapper = new LambdaQueryWrapper<>() ;
+		queryWrapper.setEntityClass(ManagerCodeEntity.class) ;
+		query.toWrapper(queryWrapper);
 
 		// TODO 待优化
 		queryWrapper.eq(ManagerCodeEntity::getCodeTypeValue, request.getParameter("codeTypeValue"));
