@@ -1,9 +1,10 @@
 package com.alinesno.infra.base.authority.controller;
 
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
-import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
@@ -13,6 +14,7 @@ import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountBean;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.login.annotation.CurrentAccount;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -77,65 +78,24 @@ public class AuthCommonLoginController {
 
         log.debug("account : {}" , account);
 
-        long userId = CurrentAccountJwt.getUserId() ;
-        Assert.notNull(userId , "用户未登录") ;
+        long accountId = CurrentAccountJwt.getUserId() ;
+        Assert.notNull(accountId , "用户未登录") ;
 
-        ManagerAccountEntity accountEntity = accountService.getById(userId) ;
+        Map<String, Object> accountInfo = accountService.getAccountInfo(accountId) ;
 
-        Map<String, Object> data = new HashMap<>();
+        SaSession session = StpUtil.getSession();
 
-        // 将数据填充到data中...
-        data.put("permissions", new String[]{"*:*:*"});
+        // TODO 待处理重名的问题
+        ManagerAccountDto dto = accountService.getManagerAccountDto(accountId) ;
+        com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto dto2 = new com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto() ;
+        BeanUtils.copyProperties(dto, dto2);
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("userId", userId);
-        user.put("deptId", accountEntity.getDepartment());
-        user.put("userName", accountEntity.getLoginName());
-        user.put("nickName", accountEntity.getName());
-        user.put("email", accountEntity.getEmail());
-        user.put("phoneNumber", accountEntity.getPhone());
-        user.put("sex", accountEntity.getSex());
-        user.put("avatar", accountEntity.getAvatarPath());
-
-        Map<String, Object> dept = new HashMap<>();
-        dept.put("deptId", 103);
-        dept.put("parentId", 101);
-        dept.put("ancestors", "0,100,101");
-        dept.put("deptName", "研发部门");
-        dept.put("orderNum", 1);
-        dept.put("leader", "AIP技术团队");
-        dept.put("phone", null);
-        dept.put("email", null);
-        dept.put("status", "0");
-        dept.put("delFlag", null);
-        dept.put("parentName", null);
-        dept.put("children", new Object[]{});
-
-        user.put("dept", dept);
-
-        Map<String, Object> role = new HashMap<>();
-        role.put("remark", null);
-        role.put("roleId", 1);
-        role.put("roleName", "超级管理员");
-        role.put("roleKey", "admin");
-        role.put("roleSort", 1);
-        role.put("dataScope", "1");
-        role.put("menuCheckStrictly", false);
-        role.put("deptCheckStrictly", false);
-        role.put("status", "0");
-        role.put("delFlag", null);
-        role.put("flag", false);
-        role.put("menuIds", null);
-        role.put("deptIds", null);
-        role.put("permissions", null);
-        role.put("admin", true);
-
-        user.put("roles", new Object[]{role});
+        session.set("CURRENT_ACCOUNT_DTO", dto2);
 
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        ajax.put("roles", user.get("roles"));
-        ajax.put("permissions", data.get("permissions"));
+        ajax.put("user", accountInfo.get("user"));
+        ajax.put("roles", accountInfo.get("roles"));
+        ajax.put("permissions", accountInfo.get("permissions"));
 
         return ajax;
     }
