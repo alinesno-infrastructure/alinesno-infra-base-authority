@@ -130,17 +130,17 @@ const opertionAssets = ref([
 ])
 
 const apps = ref([
-  {icon:'fa-brands fa-slack' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-list-check' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-at' , projectName:'审计日志服务' , projectDesc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
-  {icon:'fa-solid fa-list-check' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-eye-slash' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
-  {icon:'fa-solid fa-user-shield' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
-  {icon:'fa-solid fa-comment-slash' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-brands fa-slack' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
-  {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
-  {icon:'fa-solid fa-comment-slash' , projectName:'一体化安全感触服务' , projectDesc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
+  // {icon:'fa-brands fa-slack' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  // {icon:'fa-solid fa-list-check' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  // {icon:'fa-solid fa-at' , projectName:'审计日志服务' , projectDesc:'审计日志服务记录和监控系统中发生的各种操作，以确保系统安全和合规性。'},
+  // {icon:'fa-solid fa-list-check' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  // {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  // {icon:'fa-solid fa-eye-slash' , projectName:'自动化操作服务' , projectDesc:'自动化操作服务提供了自动化操作的功能，使您能够轻松管理您的操作任务。'},
+  // {icon:'fa-solid fa-user-shield' , projectName:'分布式配置中心' , projectDesc:'分布式配置中心用于集中管理和分发应用程序的配置信息，帮助您简化配置管理。'},
+  // {icon:'fa-solid fa-comment-slash' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  // {icon:'fa-brands fa-slack' , projectName:'容器云管理服务' , projectDesc:'容器云管理服务帮助您管理和监控容器化应用程序在云环境中的部署和运行。'},
+  // {icon:'fa-solid fa-file-word' , projectName:'持续集成服务' , projectDesc:'持续集成服务通过自动化构建和测试过程，帮助团队更快地交付高质量的软件。'},
+  // {icon:'fa-solid fa-comment-slash' , projectName:'一体化安全感触服务' , projectDesc:'一体化安全感触服务提供了全面的安全感知和响应功能，帮助您确保系统安全。'},
 ]);
 
 const title = ref("");
