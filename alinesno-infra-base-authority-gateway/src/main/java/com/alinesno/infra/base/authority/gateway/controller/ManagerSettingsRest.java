@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerSettingsEntity;
 import com.alinesno.infra.base.authority.service.IManagerSettingsService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -34,6 +35,7 @@ public class ManagerSettingsRest extends BaseController<ManagerSettingsEntity, I
 	@Autowired
 	private IManagerSettingsService managerSettingsService;
 
+	@DataPermissionScope
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
