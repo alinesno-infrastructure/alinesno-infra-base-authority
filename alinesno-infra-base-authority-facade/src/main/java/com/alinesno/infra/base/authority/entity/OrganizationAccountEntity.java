@@ -37,4 +37,7 @@ public class OrganizationAccountEntity extends BaseEntity {
 	@TableField("org_type")
 	private Integer orgType = AccountOrganizationType.REGULAR_USER.getType() ; // 组织用户类型
 
+	@TableField(exist = false)
+	private OrganizationEntity organizationEntity ;
+
 }
