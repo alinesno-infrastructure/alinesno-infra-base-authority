@@ -120,6 +120,7 @@ public class SampleProjectHandle implements ISampleService {
         project.setProjectDesc("默认的初始应用服务，用于默认应用示例和演示服务使用，勿使用生产");
         project.setFieldProp("default");
         project.setOperatorId(userId);
+        project.setOrgId(orgId);
         project.setSystemInner(SystemInnerEnums.YES.getCode());
 
         managerProjectService.save(project) ;
@@ -140,6 +141,7 @@ public class SampleProjectHandle implements ISampleService {
 
             ManagerResourceEntity e = new ManagerResourceEntity() ;
             e.setOrgId(orgId);
+            e.setOperatorId(userId);
 
             e.setId(IdUtil.getSnowflakeNextId());
             e.setResourceName(menu.getMeta().getTitle());
@@ -165,6 +167,7 @@ public class SampleProjectHandle implements ISampleService {
 
                 ManagerResourceEntity e2 = new ManagerResourceEntity() ;
                 e2.setOrgId(orgId);
+                e.setOperatorId(userId);
                 e2.setId(IdUtil.getSnowflakeNextId()) ;
 
                 e2.setResourceName(item.getMeta().getTitle());
