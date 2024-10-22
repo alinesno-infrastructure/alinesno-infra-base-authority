@@ -82,16 +82,16 @@ public class AccountProviderController extends BaseProvider {
         return dto;
     }
 
-    /**
-     * 查询用户菜单
-     *
-     * @param projectCode
-     * @param accountId
-     * @return
-     */
-    public ManagerResourceDto findMenusByProjectCode(String projectCode, String accountId) {
-        return null;
-    }
+//    /**
+//     * 查询用户菜单
+//     *
+//     * @param projectCode
+//     * @param accountId
+//     * @return
+//     */
+//    public ManagerResourceDto findMenusByProjectCode(String projectCode, String accountId) {
+//        return null;
+//    }
 
     /**
      * 通过用户名查询用户
@@ -115,6 +115,25 @@ public class AccountProviderController extends BaseProvider {
         dto.setOrgType(org.getOrgType());
 
         return dto;
+    }
+
+    /**
+     * 通过用户名查询，如果不存在则自动注册
+     */
+    @GetMapping("/findByLoginNameWithRegister")
+    public R<ManagerAccountDto> findByLoginNameWithRegister(String loginName , String password) {
+
+        log.debug("loginName = {} , password = {}" , loginName , password);
+        Assert.hasLength(loginName, "用户名称为空");
+
+        try{
+            ManagerAccountDto dto = managerAccountService.findByLoginNameWithRegister(loginName , password);
+            return R.ok(dto);
+        }catch (Exception e){
+            log.error("findByLoginNameWithRegister error", e);
+            return R.fail(e.getMessage());
+        }
+
     }
 
     /**
