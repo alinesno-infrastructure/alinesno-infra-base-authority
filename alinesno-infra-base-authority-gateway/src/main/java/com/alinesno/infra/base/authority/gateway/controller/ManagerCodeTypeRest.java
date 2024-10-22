@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerCodeTypeEntity;
 import com.alinesno.infra.base.authority.service.IManagerCodeTypeService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -37,7 +38,8 @@ public class ManagerCodeTypeRest extends BaseController<ManagerCodeTypeEntity, I
 	@Autowired
 	private IManagerCodeTypeService managerCodeTypeService;
 
-	
+
+	@DataPermissionScope
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
