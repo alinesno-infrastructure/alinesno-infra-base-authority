@@ -192,4 +192,13 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @return
 	 */
 	ManagerAccountDto getManagerAccountDto(long id);
+
+	/**
+	 * 根据用户名查询用户信息，如果不存在，则自动注册
+	 *
+	 * @param loginName
+	 * @param password
+	 * @return
+	 */
+    ManagerAccountDto findByLoginNameWithRegister(String loginName, String password);
 }
