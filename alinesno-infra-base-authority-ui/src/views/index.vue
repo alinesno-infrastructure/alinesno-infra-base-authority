@@ -21,19 +21,6 @@
             </div>
           </div>
 
-          <!-- 
-          <div class="head-app-status">
-            应用集成套件
-            <div class="integrated-item-box">
-              <ul>
-                <li v-for="item in directContent" :key="item.icon" style="font-size: 1.4rem;color:#3b5998">
-                  <img :src="getAssetsFile(item.icon)" />
-                </li>
-              </ul>
-            </div>
-          </div> 
-          -->
-
         </div>
       </el-col>
     </el-row>
@@ -71,7 +58,9 @@ function handleCurrentApplication(){
   })
 }
 
-handleCurrentApplication() ; 
+onMounted(() => {
+  handleCurrentApplication() ; 
+})
 
 </script>
 
