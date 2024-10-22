@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
@@ -50,10 +51,10 @@ public interface IManagerProjectService extends IBaseService<ManagerProjectEntit
 
 	/**
 	 * 获取最新的应用列表
-	 * @param userId
+	 * @param query
 	 * @return
 	 */
-	List<ManagerProjectEntity> latestList(long userId);
+	List<ManagerProjectEntity> latestList(PermissionQuery query);
 
 	/**
 	 * 获取到默认的内置基础应用列表
