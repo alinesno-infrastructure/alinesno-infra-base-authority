@@ -2,19 +2,15 @@ package com.alinesno.infra.base.identity.auth.config;
 
 import cn.dev33.satoken.config.SaSsoConfig;
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
-import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
 import com.alinesno.infra.base.identity.auth.domain.LoginRecordEntity;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginUser;
 import com.alinesno.infra.base.identity.auth.event.LoginRecordEvent;
 import com.alinesno.infra.base.identity.auth.event.PublishService;
-import com.alinesno.infra.base.identity.auth.utils.LoginInfoUtil;
 import com.alinesno.infra.common.core.context.SpringContext;
 import com.dtflys.forest.Forest;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,11 +47,11 @@ public class SaTokenConfigure {
             accountDto.setPassword(null);
             StpUtil.login(accountDto.getId());
 
-            // -->>> 设置会话信息_start
-            SaSession session = StpUtil.getSession();
-            session.set(AuthConstants.currentAccountDto , accountDto);
-            LoginInfoUtil.handleLoginInfo(session , (HttpServletRequest)SaHolder.getRequest().getSource()) ;
-            // -->>> 设置会话信息_end
+//            // -->>> 设置会话信息_start
+//            SaSession session = StpUtil.getSession();
+//            session.set(AuthConstants.currentAccountDto , accountDto);
+//            LoginInfoUtil.handleLoginInfo(session , (HttpServletRequest)SaHolder.getRequest().getSource()) ;
+//            // -->>> 设置会话信息_end
 
             // 登陆成功记录
             loginRecord() ;
