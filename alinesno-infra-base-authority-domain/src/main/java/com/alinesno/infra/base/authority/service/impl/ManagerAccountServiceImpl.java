@@ -242,10 +242,14 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 	public boolean checkLoginName(String LoginName) {
 		// 数据校验
-		RpcWrapper<ManagerAccountEntity> namewrapper = RpcWrapper.build();
-		namewrapper.eq("login_name", LoginName);
-		List<ManagerAccountEntity> byLoginName = this.findAll(namewrapper);
-		return !byLoginName.isEmpty();
+//		RpcWrapper<ManagerAccountEntity> nameWrapper = RpcWrapper.build();
+//		nameWrapper.eq("login_name", LoginName);
+//		List<ManagerAccountEntity> byLoginName = this.findAll(nameWrapper);
+//		return !byLoginName.isEmpty();
+
+		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>();
+		wrapper.eq(ManagerAccountEntity::getLoginName, LoginName);
+		return count(wrapper) > 0;
 	}
 
 	@Override
@@ -404,12 +408,29 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		// 设置组织信息
 		OrganizationAccountEntity org = organizationService.getByAccountId(id) ;
 		if(org != null){
-			dto.setOrgId(org.getId());
+			dto.setOrgId(org.getOrgId());
 			dto.setOrgType(org.getOrgType());
 		}
 
 		dto.setPassword(null);
 		return dto;
+	}
+
+	@Override
+	public ManagerAccountDto findByLoginNameWithRegister(String loginName, String password) {
+
+		ManagerAccountDto dto;
+
+		if (!checkLoginName(loginName)) {  // 如果用户不存在，则自动注册
+			dto =  this.registAccount(loginName, password, loginName) ;
+		}else{  // 如果存在则直接查询返回
+			ManagerAccountEntity e = findByLoginName(loginName);
+			dto = new ManagerAccountDto() ;
+			BeanUtils.copyProperties(e, dto);
+		}
+
+		dto.setPassword(null);
+		return dto ;
 	}
 
 	@Override
