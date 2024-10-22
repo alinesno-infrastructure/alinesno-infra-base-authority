@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.constants.AuthorityConstants;
 import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
@@ -69,10 +70,13 @@ public class ManagerProjectServiceImpl extends IBaseServiceImpl<ManagerProjectEn
 	}
 
 	@Override
-	public List<ManagerProjectEntity> latestList(long userId) {
+	public List<ManagerProjectEntity> latestList(PermissionQuery query) {
 
+		// TODO 待优化
 		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
-//		wrapper.eq(ManagerProjectEntity::getOperatorId , userId) ;
+		wrapper.setEntityClass(ManagerProjectEntity.class) ;
+		query.toWrapper(wrapper) ;
+
 		wrapper.orderByDesc(ManagerProjectEntity::getAddTime) ;
 
 		return list(wrapper) ;
