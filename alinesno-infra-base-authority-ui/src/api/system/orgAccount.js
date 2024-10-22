@@ -28,9 +28,9 @@ export function changStatusField(data){
 }
 
 // 查询用户列表
-export function listOrganizationAccount(query) {
+export function listOrganizationAccount(query , orgId) {
     return request({
-        url: managerUrl.datatables,
+        url: managerUrl.datatables + '?orgId=' + parseStrEmpty(orgId),
         method: 'post',
         params: query
     })
