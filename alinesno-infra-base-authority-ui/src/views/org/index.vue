@@ -207,7 +207,7 @@
 
     <!-- 显示组织成员列表对话框 -->
     <el-dialog title="组织成员列表" v-model="openOrgAccount" width="1024px" append-to-body>
-      <OrgAccount :currentOrgId="currentOrgId" />
+      <OrgAccount ref="orgAccountRef" />
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="cancel">取 消</el-button>
@@ -244,6 +244,7 @@ const title = ref("");
 const dateRange = ref([]);
 const initPassword = ref(undefined);
 
+const orgAccountRef = ref(null)
 const openOrgAccount = ref(false);
 const currentOrgId = ref("")
 
@@ -410,8 +411,12 @@ const handleChangStatusField = async(field , value , id) => {
 
 /** 组织账号管理 */
 function handleOrgAccountList(row){
-  currentOrgId.value = row.id ;
+  // currentOrgId.value = row.id ;
   openOrgAccount.value = true ;
+
+  nextTick(() => {
+    orgAccountRef.value.searchOrgAccount(row.id);
+  })
 }
 
 getList();
