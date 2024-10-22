@@ -18,90 +18,25 @@ import java.util.Date;
 @Data
 public class OrganizationDto extends BaseDto {
 
-    /**
-     * 组织名称
-     */
-    private String orgName;
-
-    /**
-     * 组织备注信息
-     */
-    private String remark;
-
-    /**
-     * 组织logo的URL地址
-     */
-    private String logoUrl;
-
-    /**
-     * 组织门牌号
-     */
-    private String doorplateNumber;
-
-    /**
-     * 组织在系统中的唯一标识ID
-     */
-    private String organizationId;
-
-    /**
-     * 组织的子域名
-     */
-    private String subdomain;
-
-    /**
-     * 组织的工作地点
-     */
-    private String workLocation;
-
-    /**
-     * 组织的开始运营时间
-     */
-    private Date startTime;
-
-    /**
-     * 组织的结束运营时间
-     */
-    private Date endTime;
-
-    /**
-     * 组织的状态，如：正常、暂停、注销等
-     */
-    private String orgStatus;
-
-    /**
-     * 组织所在的城市ID
-     */
-    private String cityId;
-
-    /**
-     * 组织所在的省份ID
-     */
-    private String provinceId;
-
-    /**
-     * 组织的详细地址
-     */
-    private String orgAddress;
-
-    /**
-     * 组织的联系电话
-     */
-    private String orgPhone;
-
-    /**
-     * 标记组织是否为系统内部组织
-     */
-    private String systemInner;
-
-    /**
-     * 组织成员的数量
-     */
-    private long memberCount;
-
-    /**
-     * 账户所在组织角色类型
-     */
-    private int accountOrgType ;
+    private int type; // 组织创建类型(加入1|创建0)
+    private String joinDoorplateNumber ; // 加入的组织ID
+    private String orgName;      // 组织名称
+    private String remark;       // 备注
+    private String logoUrl;      // LOGO图片地址
+    private String doorplateNumber; // 门牌号
+    private String organizationId; // 组织ID
+    private String subdomain;    // 子域名
+    private String workLocation; // 工作地点
+    private Date startTime;      // 开始时间
+    private Date endTime;        // 结束时间
+    private String orgStatus;    // 组织状态
+    private String cityId;       // 城市ID
+    private String provinceId;   // 省份ID
+    private String orgAddress;   // 组织地址
+    private String orgPhone;     // 组织电话
+    private String systemInner;  // 内部系统标识
+    private long memberCount;    // 成员数量
+    private int accountOrgType;  // 账户组织类型
 
 }
 
