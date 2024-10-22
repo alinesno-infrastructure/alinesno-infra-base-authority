@@ -3,15 +3,14 @@ package com.alinesno.infra.base.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
+import com.alinesno.infra.base.authority.entity.OrganizationEntity;
+import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.mapper.OrganizationAccountMapper;
-import com.alinesno.infra.base.authority.mapper.OrganizationMapper;
-import com.alinesno.infra.base.authority.service.IManagerAccountRoleService;
-import com.alinesno.infra.base.authority.service.IManagerAccountService;
-import com.alinesno.infra.base.authority.service.IManagerRoleResourceService;
-import com.alinesno.infra.base.authority.service.IManagerRoleService;
+import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.exception.ServiceException;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
@@ -26,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -53,7 +49,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	private OrganizationAccountMapper organizationAccountMapper;
 
 	@Autowired
-	private OrganizationMapper organizationMapper;
+	private IOrganizationService organizationService;
 
 	@Autowired
 	private IManagerAccountRoleService iManagerAccountRoleService;
@@ -320,6 +316,100 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		updateWrapper.eq(ManagerAccountEntity::getId, user.getId());
 
 		return mapper.update(user, updateWrapper);
+	}
+
+	@Override
+	public Map<String, Object> getAccountInfo(long accountId) {
+
+        ManagerAccountEntity accountEntity = getById(accountId) ;
+
+		OrganizationAccountEntity orgAccount = organizationService.getByAccountId(accountId) ;
+
+		Map<String, Object> data = new HashMap<>();
+
+		Map<String, Object> user = new HashMap<>();
+		user.put("userId", accountId);
+		user.put("deptId", accountEntity.getDepartment());
+		user.put("userName", accountEntity.getLoginName());
+		user.put("nickName", accountEntity.getName());
+		user.put("email", accountEntity.getEmail());
+		user.put("phoneNumber", accountEntity.getPhone());
+		user.put("sex", accountEntity.getSex());
+		user.put("avatar", accountEntity.getAvatarPath());
+
+		// --->>>>>>>>>> 组织
+		if(orgAccount != null){
+
+			OrganizationEntity organizationDto =  orgAccount.getOrganizationEntity() ;
+
+			Map<String, Object> org = new HashMap<>();
+			org.put("orgId", organizationDto.getId());
+			org.put("doorplateNumber", organizationDto.getDoorplateNumber()) ;
+			org.put("orgName", organizationDto.getOrgName());
+			org.put("roleType", orgAccount.getOrgType());
+			org.put("roleName", AccountOrganizationType.fromType(orgAccount.getOrgType()).getName());
+			user.put("org", org);
+		}
+
+		// --->>>>>>>>>> 部门
+		Map<String, Object> dept = new HashMap<>();
+		dept.put("deptId", 103);
+		dept.put("parentId", 101);
+		dept.put("ancestors", "0,100,101");
+		dept.put("deptName", "研发部门");
+		dept.put("orderNum", 1);
+		dept.put("leader", "AIP技术团队");
+		dept.put("phone", null);
+		dept.put("email", null);
+		dept.put("status", "0");
+		dept.put("delFlag", null);
+		dept.put("parentName", null);
+		dept.put("children", new Object[]{});
+
+		user.put("dept", dept);
+
+		Map<String, Object> role = new HashMap<>();
+		role.put("remark", null);
+		role.put("roleId", 1);
+		role.put("roleName", "超级管理员");
+		role.put("roleKey", "admin");
+		role.put("roleSort", 1);
+		role.put("dataScope", "1");
+		role.put("menuCheckStrictly", false);
+		role.put("deptCheckStrictly", false);
+		role.put("status", "0");
+		role.put("delFlag", null);
+		role.put("flag", false);
+		role.put("menuIds", null);
+		role.put("deptIds", null);
+		role.put("permissions", null);
+		role.put("admin", true);
+
+		// 数据返回
+		data.put("user", user) ;
+		data.put("roles", new Object[]{role});
+		data.put("permissions", new String[]{"*:*:*"});
+
+		return data;
+	}
+
+	@Override
+	public ManagerAccountDto getManagerAccountDto(long id) {
+
+		ManagerAccountEntity e = getById(id);
+
+		ManagerAccountDto dto = new ManagerAccountDto();
+		BeanUtils.copyProperties(e, dto);
+
+		// 设置组织信息
+		OrganizationAccountEntity org = organizationService.getByAccountId(id) ;
+		if(org != null){
+			dto.setOrgId(org.getId());
+			dto.setOrgType(org.getOrgType());
+		}
+
+		dto.setPassword(null);
+		return dto;
 	}
 
 	@Override
