@@ -11,6 +11,7 @@ const useUserStore = defineStore(
       name: '',
       avatar: '',
       roles: [],
+      org: {},
       dept: [],
       permissions: []
     }),
@@ -82,6 +83,8 @@ const useUserStore = defineStore(
 
             this.avatar = avatar;
             this.dept = user.dept 
+            this.org = user.org
+
             resolve(res)
           }).catch(error => {
             reject(error)
