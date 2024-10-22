@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
@@ -28,15 +29,17 @@ public interface IOrganizationService extends IBaseService<OrganizationEntity> {
 
     /**
      * 分页查询组织信息
+     *
      * @param page
+     * @param accountId
      * @return
      */
-    TableDataInfo queryOrganization(DatatablesPageBean page);
+    TableDataInfo queryOrganization(DatatablesPageBean page, long accountId);
 
     /**
      * 判断用户是否存在组织,在的话则返回组织信息，不在则返回null
      */
-    List<OrganizationEntity> checkUserInOrg(long accountId , long orgId);
+    OrganizationEntity checkUserInOrg(long accountId , long orgId);
 
     /**
      * 用户加入组织
@@ -63,4 +66,16 @@ public interface IOrganizationService extends IBaseService<OrganizationEntity> {
      */
     List<OrganizationDto> listByAccountId(Long id);
 
+    /**
+     * 创建或者加入组织
+     * @param dto
+     */
+    void createOrJoinOrg(OrganizationDto dto, long accountId);
+
+    /**
+     * 通过用户id查询出用户所在组织信息
+     * @param accountId
+     * @return
+     */
+    OrganizationAccountEntity getByAccountId(long accountId);
 }
