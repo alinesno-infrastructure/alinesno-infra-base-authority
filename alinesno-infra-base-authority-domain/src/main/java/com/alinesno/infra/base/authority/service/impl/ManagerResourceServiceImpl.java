@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
@@ -67,11 +69,13 @@ public class ManagerResourceServiceImpl extends IBaseServiceImpl<ManagerResource
 	}
 
 	@Override
-	public List<ManagerResourceEntity> selectMenuList(long userId, long projectId) {
+	public List<ManagerResourceEntity> selectMenuList(long userId, long projectId, PermissionQuery query) {
 		List<ManagerResourceEntity> menuList = null;
 
 		// 查询出用户所有数据权限项目
 		LambdaQueryWrapper<ManagerProjectEntity> projectionWrapper =  new LambdaQueryWrapper<>() ;
+		projectionWrapper.setEntityClass(ManagerProjectEntity.class);
+		query.toWrapper(projectionWrapper);
 		List<ManagerProjectEntity> projects = managerProjectService.list(projectionWrapper) ;
 
 		List<Long> projectIds = projects.stream().map(ManagerProjectEntity::getId).toList() ;
