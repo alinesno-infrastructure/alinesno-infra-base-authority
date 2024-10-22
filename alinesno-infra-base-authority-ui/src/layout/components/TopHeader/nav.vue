@@ -41,12 +41,13 @@
 
           <el-container style="margin-bottom: 15px">
             <el-header class="bg-color-base info-h" style="">
-              <p class="color-text-secondary f-e-s">登陆名: {{ userStore.name }}</p>
-              <p class="color-text-primary f-e-s">部门: {{ userStore.dept.deptName }} 
+              <p class="color-text-secondary f-e-s">登陆名: {{ userStore.name }}
                 <span class="copy-user-id">
                   <i class="fa-solid fa-clone"></i> 
                 </span>
               </p>
+              <p class="color-text-primary f-e-s" v-if="userStore.org">组织: {{ userStore.org.orgName }} </p>
+              <p class="color-text-secondary f-e-s" v-if="userStore.org">角色: {{ userStore.org.roleName }}</p>
             </el-header>
           </el-container>
 
@@ -68,6 +69,7 @@
             </el-dropdown-item>
           </router-link>
 
+          <!--
           <el-dropdown-item @click="setting = true">
             <i class="fa-solid fa-pen-ruler"></i> 布局设置
           </el-dropdown-item>
@@ -75,6 +77,7 @@
           <el-dropdown-item>
             <i class="fa-solid fa-rocket"></i> 账单面板
           </el-dropdown-item>
+          -->
 
           <el-container>
             <el-main>
@@ -95,10 +98,11 @@ import { ElMessageBox } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 
 const userStore = useUserStore()
+const router = useRouter();
 
-const avatar = ref('http://data.linesno.com/switch_header.png') ; 
-const nickname = ref('超级管理员') ;
-const name = ref('超级管理员') ;
+// const avatar = ref('http://data.linesno.com/switch_header.png') ; 
+// const nickname = ref('超级管理员') ;
+// const name = ref('超级管理员') ;
 
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
@@ -113,6 +117,18 @@ function logout() {
 
   }).catch(() => { });
 }
+
+/** 判断用户是否已经存在组织 */
+function handleInOrg(){
+  let org = userStore.org ;   
+  if(!org){ // 如果不存在则跳转到组织配置界面
+    router.push('/createOrg')
+  }
+}
+
+onMounted(() => {
+  handleInOrg()
+})
 
 console.log('avatar = ' + userStore.avatar)
 console.log('name = ' + userStore.name)
