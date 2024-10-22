@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.vo.ManagerResourceVo;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
@@ -123,22 +125,24 @@ public class ManagerResourceRest extends BaseController<ManagerResourceEntity, I
 	/**
 	 * 获取菜单下拉树列表
 	 */
+	@DataPermissionQuery
 	@GetMapping("/treeselect")
-	public AjaxResult treeselect(ManagerResourceEntity menu) {
+	public AjaxResult treeselect(ManagerResourceEntity menu , PermissionQuery query) {
 		long userId = CurrentAccountJwt.getUserId() ;
 		long projectId = currentProjectSession.get().getId() ;
 
-		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , projectId);
+		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , projectId , query);
 
 		return AjaxResult.success(managerResourceService.buildMenuTreeSelect(menus));
 	}
 
+	@DataPermissionQuery
 	@GetMapping("/roleMenuTreeselect/{roleId}")
-	public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
+	public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId , PermissionQuery query) {
 
 		long userId = CurrentAccountJwt.getUserId() ;
 
-		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , 0L);
+		List<ManagerResourceEntity> menus = managerResourceService.selectMenuList(userId , 0L, query);
 
 		AjaxResult ajax = AjaxResult.success();
 		ajax.put("checkedKeys", managerResourceService.selectMenuListByRoleId(roleId));
