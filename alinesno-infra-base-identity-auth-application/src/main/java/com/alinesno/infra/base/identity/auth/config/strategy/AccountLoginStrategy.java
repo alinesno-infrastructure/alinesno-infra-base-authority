@@ -9,6 +9,7 @@ import com.alinesno.infra.base.identity.auth.config.BaseLoginStrategy;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginParamDto;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginUser;
 import com.alinesno.infra.common.core.utils.StringUtils;
+import com.alinesno.infra.common.facade.response.R;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,36 +30,18 @@ public class AccountLoginStrategy extends BaseLoginStrategy {
 
         log.debug("账号登陆.");
 
+        String loginName = loginUser.getUsername();
+
+        boolean isPhone =  PhoneUtil.isPhone(loginName) ;
+        boolean isEmail = Validator.isEmail(loginName) ;
+
+        Assert.isTrue(isPhone || isEmail , "账号必须是手机号或者邮箱") ;
+
         // 判断用户是否已经存在，如果没有存在，则自动注册
-        ManagerAccountDto accountDto = accountConsumer.findByLoginName(loginUser.getUsername()) ;
+        R<ManagerAccountDto> accountDtoR = accountConsumer.findByLoginNameWithRegister(loginUser.getUsername() , loginUser.getPassword()) ;
+        Assert.isTrue(accountDtoR.getCode() == 200, accountDtoR.getMsg());
 
-        if(accountDto == null || StringUtils.isBlank(accountDto.getLoginName())){
-
-            accountDto = new ManagerAccountDto() ;
-
-            String loginName = loginUser.getUsername() ;  // 账号必须是手机号
-
-            boolean isPhone =  PhoneUtil.isPhone(loginName) ;
-            boolean isEmail = Validator.isEmail(loginName) ;
-
-            Assert.isTrue(isPhone || isEmail , "账号必须是手机号或者邮箱") ;
-
-            String password = loginUser.getPassword() ;
-            String phone = loginUser.getUsername() ;
-
-            accountDto.setLoginName(loginName);
-            accountDto.setPassword(password);
-            accountDto.setPhone(phone);
-
-            accountConsumer.registerAccount (accountDto) ;
-        }
-
-        // 获取登陆用户
-        LoginParamDto dto = new LoginParamDto() ;
-        dto.setUsername(loginUser.getUsername());
-        dto.setPassword(loginUser.getPassword());
-
-        accountDto = accountConsumer.loginAccount(dto) ;
+        ManagerAccountDto accountDto = accountDtoR.getData() ;
         log.debug("accountDto = {}" , JSONObject.toJSONString(accountDto));
 
         return accountDto;
