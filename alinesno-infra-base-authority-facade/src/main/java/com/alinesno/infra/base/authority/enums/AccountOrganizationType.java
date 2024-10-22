@@ -10,15 +10,17 @@ import lombok.Getter;
 public enum AccountOrganizationType {
 
     // 管理员角色类型
-    ADMINISTRATOR(1),
-    // 普通用户角色类型
-    REGULAR_USER(2);
+    ADMINISTRATOR("管理员" , 1),
+    // 普通成员角色类型
+    REGULAR_USER("成员" , 2);
 
     // 角色类型的整数表示
     private final int type;
+    private final String name;
 
     // 构造函数，初始化角色类型的整数表示
-    AccountOrganizationType(int type) {
+    AccountOrganizationType(String name , int type) {
+        this.name = name;
         this.type = type;
     }
 
