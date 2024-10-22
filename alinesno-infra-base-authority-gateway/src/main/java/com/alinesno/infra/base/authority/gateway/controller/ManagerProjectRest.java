@@ -14,7 +14,6 @@ import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
-import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
@@ -79,17 +78,20 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	@GetMapping("/currentProject")
 	public AjaxResult currentApplication() {
 
-		long userId = CurrentAccountJwt.getUserId() ;
-		long orgId = 1L ;
+//		long userId = CurrentAccountJwt.getUserId() ;
+//		long orgId = CurrentAccountJwt.get().getOrgId() ;
+//		managerProjectService.initDefaultProject(userId , orgId) ;
 
-		managerProjectService.initDefaultProject(userId , orgId) ;
+		ManagerProjectEntity e = currentProjectSession.get() ;
 
-		ManagerProjectEntity e =  currentProjectSession.get() ;
+		if(e != null){
+			String defaultIcon = "fa-solid fa-file-shield" ;
+			e.setProjectIcons(defaultIcon);
 
-		String defaultIcon = "fa-solid fa-file-shield" ;
-		e.setProjectIcons(defaultIcon);
+			return AjaxResult.success(e);
+		}
 
-		return AjaxResult.success(e);
+		return AjaxResult.success();
 	}
 
 	/**
