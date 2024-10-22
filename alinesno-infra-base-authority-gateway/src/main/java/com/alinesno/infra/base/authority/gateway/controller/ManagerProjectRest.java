@@ -1,6 +1,10 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
 import cn.hutool.core.util.IdUtil;
+import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
+import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
@@ -13,7 +17,6 @@ import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -46,7 +49,7 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	@Autowired
 	private CurrentProjectSession currentProjectSession ;
 
-	@ApiOperation("分页查询") 
+	@DataPermissionScope
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
@@ -54,12 +57,15 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 		return this.toPage(model, this.getFeign(), page);
 	}
 
+	@DataPermissionSave
 	@ResponseBody
 	@PostMapping("/saveProject")
 	public AjaxResult save(@RequestBody ManagerProjectDto dto) throws Exception {
 
 		dto.setProjectCode(IdUtil.getSnowflakeNextIdStr());
-		dto.setOperatorId(CurrentAccountJwt.getUserId());
+
+//		dto.setOperatorId(CurrentAccountJwt.getUserId());
+//		dto.setOrgId(CurrentAccountJwt.getAccount().getOrgId());
 
 		managerProjectService.genProject(dto);
 
@@ -90,12 +96,10 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	 * 获取最新的应用
 	 * @return
 	 */
+	@DataPermissionQuery
 	@GetMapping("/latestList")
-	public AjaxResult latestList() {
-
-		long userId = CurrentAccountJwt.getUserId() ;
-
-		List<ManagerProjectEntity> es =  managerProjectService.latestList(userId);
+	public AjaxResult latestList(PermissionQuery query) {
+		List<ManagerProjectEntity> es =  managerProjectService.latestList(query);
 		return AjaxResult.success(es) ;
 	}
 
