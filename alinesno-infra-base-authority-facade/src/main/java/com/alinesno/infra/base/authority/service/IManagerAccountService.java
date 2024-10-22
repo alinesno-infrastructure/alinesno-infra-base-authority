@@ -7,6 +7,7 @@ import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -178,4 +179,17 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 */
 	int updateUserStatus(ManagerAccountEntity user);
 
+	/**
+	 * 获取账户的基本信息
+	 * @param accountId
+	 * @return
+	 */
+    Map<String, Object> getAccountInfo(long accountId);
+
+	/**
+	 * 获取用户基本信息
+	 * @param id
+	 * @return
+	 */
+	ManagerAccountDto getManagerAccountDto(long id);
 }
