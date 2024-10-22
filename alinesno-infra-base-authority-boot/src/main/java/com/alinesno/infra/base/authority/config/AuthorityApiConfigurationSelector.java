@@ -7,7 +7,6 @@ import com.alinesno.infra.common.web.adapter.enable.CommonApiImport;
 import com.alinesno.infra.common.web.adapter.login.controller.CommonCaptchaController;
 import com.alinesno.infra.common.web.adapter.login.controller.kaptcha.CaptchaConfig;
 import com.alinesno.infra.common.web.adapter.login.controller.kaptcha.KaptchaTextCreator;
-import com.alinesno.infra.common.web.adapter.login.interceptor.CurrentAccountMethodArgumentResolver;
 import com.alinesno.infra.common.web.adapter.login.security.SecurityProperties;
 import com.alinesno.infra.common.web.adapter.login.security.StpInterfaceImpl;
 import com.alinesno.infra.common.web.adapter.sso.controller.SsoClientController;
