@@ -5,6 +5,7 @@ import { parseStrEmpty } from "@/utils/ruoyi";
 var prefix = '/api/infra/base/authority/organization/';
 var managerUrl = {
     datatables: prefix + "datatables",
+    createOrg: prefix + 'createOrg',
     createUrl: prefix + 'add',
     saveUrl: prefix + 'saveOrg',
     updateUrl: prefix + "modify",
@@ -17,6 +18,14 @@ var managerUrl = {
     downloadfile: prefix + "downloadfile" ,
 }
 
+// 新增加组织
+export function createOrg(data){
+    return request({
+        url: managerUrl.createOrg ,
+        method: 'post',
+        data: data
+    })
+}
 
 // 修改字段
 export function changStatusField(data){
