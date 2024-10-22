@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.authority.service;
 
+import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
@@ -36,9 +38,10 @@ public interface IManagerResourceService extends IBaseService<ManagerResourceEnt
 	 *
 	 * @param userId
 	 * @param projectId
+	 * @param query
 	 * @return
 	 */
-	List<ManagerResourceEntity> selectMenuList(long userId, long projectId);
+	List<ManagerResourceEntity> selectMenuList(long userId, long projectId, PermissionQuery query);
 
 	/**
 	 * 构建树形菜单
