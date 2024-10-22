@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
+import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
@@ -48,11 +49,17 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 	}
 
 	@Override
-	public TableDataInfo queryOrganization(DatatablesPageBean page) {
+	public TableDataInfo queryOrganization(DatatablesPageBean page, long accountId) {
 
 		TableDataInfo tableDataInfo = new TableDataInfo();
 
+		LambdaQueryWrapper<OrganizationAccountEntity> queryOrgAccountWrapper = new LambdaQueryWrapper<>() ;
+		queryOrgAccountWrapper.eq(OrganizationAccountEntity::getAccountId, accountId) ;
+
+		List<OrganizationAccountEntity> list = organizationAccountMapper.selectList(queryOrgAccountWrapper) ;
+
 		LambdaQueryWrapper<OrganizationEntity> queryWrapper = new LambdaQueryWrapper<>() ;
+		queryWrapper.in(OrganizationEntity::getId, list.stream().map(OrganizationAccountEntity::getOrgId).toList()) ;
 		queryWrapper.orderByDesc(OrganizationEntity::getAddTime) ;
 
 		Page<OrganizationEntity> mpPage = new Page<>(page.getPageNum(), page.getPageSize());
@@ -85,7 +92,7 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 	}
 
 	@Override
-	public List<OrganizationEntity> checkUserInOrg(long accountId , long orgId) {
+	public OrganizationEntity checkUserInOrg(long accountId , long orgId) {
 
 		// 判断组织是否存在
 		checkAccountInfo(accountId, orgId);
@@ -96,13 +103,7 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 
 		List<OrganizationAccountEntity> list = organizationAccountMapper.selectList(wrapper);
 
-		List<OrganizationEntity> orgList = mapper
-				.selectList(new LambdaQueryWrapper<OrganizationEntity>()
-						.in(OrganizationEntity::getId, list.stream()
-								.map(OrganizationAccountEntity::getOrgId)
-								.toList()));
-
-		return list.isEmpty() ? null : orgList ;
+		return list.isEmpty() ? null : getById(orgId) ;
 	}
 
 	@Override
@@ -147,6 +148,57 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 		}
 
 		return orgDtoList ;
+	}
+
+	@Override
+	public void createOrJoinOrg(OrganizationDto dto, long accountId) {
+		int type = dto.getType();
+
+		String doorplateNumber = dto.getJoinDoorplateNumber() ;
+
+		if(type == 1){  // 加入组织(成为成员)
+
+			LambdaQueryWrapper<OrganizationEntity> wrapper = new LambdaQueryWrapper<>();
+			wrapper.eq(OrganizationEntity::getDoorplateNumber, doorplateNumber);
+			long joinOrgId = getOne(wrapper).getId();
+
+			this.joinOrg(accountId, joinOrgId);
+		}else if(type == 0){ // 创建组织(则成为管理员)
+
+			ManagerAccountEntity managerAccountEntity = managerAccountMapper.selectById(accountId);
+
+			OrganizationEntity entity = new OrganizationEntity();
+			BeanUtils.copyProperties(dto, entity);
+
+			// 联系人设置成管理员
+			entity.setOrgPhone(managerAccountEntity.getPhone());
+			entity.setSystemInner("N");
+
+			save(entity) ;
+
+			OrganizationAccountEntity organizationAccountEntity = new OrganizationAccountEntity();
+
+			organizationAccountEntity.setAccountId(accountId);
+			organizationAccountEntity.setOrgId(entity.getId());
+			organizationAccountEntity.setOrgType(AccountOrganizationType.ADMINISTRATOR.getType());
+
+			organizationAccountMapper.insert(organizationAccountEntity);
+
+		}
+	}
+
+	@Override
+	public OrganizationAccountEntity getByAccountId(long accountId) {
+		OrganizationAccountEntity entity = organizationAccountMapper.selectOne(new LambdaQueryWrapper<OrganizationAccountEntity>()
+				.eq(OrganizationAccountEntity::getAccountId, accountId)) ;
+
+		if(entity != null){
+			OrganizationEntity e = getById(entity.getOrgId());
+			entity.setOrganizationEntity(e);
+			return entity ;
+		}
+
+		return null;
 	}
 
 	@Override
