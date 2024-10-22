@@ -81,7 +81,9 @@ function choiceCurrentProject(){
 /** 获取当前项目信息 */
 function handleCurrentProject(){
   getCurrentProject().then(res => {
-    projectInfo.value = res.data
+    if(res.data){
+      projectInfo.value = res.data
+    }
   })
 }
 
