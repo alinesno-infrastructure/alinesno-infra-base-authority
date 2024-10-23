@@ -33,7 +33,10 @@ public class SmsLoginStrategy extends BaseLoginStrategy {
         Assert.isTrue(isPhone, "账号必须是手机号");
 
         // 判断用户是否已经存在，如果没有存在，则自动注册
-        R<ManagerAccountDto> accountDtoR = accountConsumer.findByLoginNameWithRegister(loginUser.getPhoneNumber(), loginUser.getPassword());
+        R<ManagerAccountDto> accountDtoR = accountConsumer.findByLoginNameWithRegister(
+                loginUser.getPhoneNumber(),
+                loginUser.getPassword() ,
+                "sms");
         Assert.isTrue(accountDtoR.getCode() == 200, accountDtoR.getMsg());
 
         ManagerAccountDto accountDto = accountDtoR.getData();
