@@ -17,7 +17,16 @@ var managerUrl = {
     changeField: prefix + "changeField",
     currentProject: prefix + "currentProject",
     downloadfile: prefix + "downloadfile" ,
+    statusCount: prefix + "statusCount",
     latestList: prefix + "latestList"
+}
+
+// 获取应用统计
+export function getStatusCount(){
+    return request({
+        url: managerUrl.statusCount , 
+        method: 'get'
+    })
 }
 
 // 获取最新的应用列表
