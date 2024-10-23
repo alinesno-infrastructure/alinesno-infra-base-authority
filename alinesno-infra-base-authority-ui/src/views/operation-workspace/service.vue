@@ -46,7 +46,7 @@
             <ul class="panel-item-text">
               <li style="width:50%;padding:4px;border-bottom: 0px;" v-for="item in opertionAssets" :key="item.id">
                 <div class="item-health-box">
-                  <div class="item-health-title">{{ item.title }}</div>
+                  <div class="item-health-title">{{ item.name }}</div>
                   <div class="item-health-count">{{ item.count }}</div>
                 </div>
               </li>
@@ -115,18 +115,19 @@ const { proxy } = getCurrentInstance();
 
 import { 
   addProject , 
+  getStatusCount ,
   getLatestList
 } from "@/api/system/project";
 
 const router = useRouter();
 
 const opertionAssets = ref([
-  {id:'1' , title:'应用统计' , count:45} ,
-  {id:'2' , title:'功能统计' , count:145} ,
-  {id:'3' , title:'角色统计' , count:65} ,
-  {id:'4' , title:'用户统计' , count:85} ,
-  {id:'5' , title:'部门统计' , count:45} ,
-  {id:'6' , title:'操作统计' , count:45} ,
+  // {id:'1' , title:'应用统计' , count:45} ,
+  // {id:'2' , title:'功能统计' , count:145} ,
+  // {id:'3' , title:'角色统计' , count:65} ,
+  // {id:'4' , title:'用户统计' , count:85} ,
+  // {id:'5' , title:'部门统计' , count:45} ,
+  // {id:'6' , title:'操作统计' , count:45} ,
 ])
 
 const apps = ref([
@@ -197,6 +198,11 @@ function handleLatestList() {
     apps.value = response.data ;
     loading.value = false;
   });
+
+  getStatusCount().then(response => {
+    opertionAssets.value = response.data ;
+  });
+
 }
 
 /** 提交按钮 */
@@ -212,7 +218,12 @@ function submitForm() {
   });
 }
 
-handleLatestList() ;
+
+
+onMounted(() => {
+  handleLatestList() ;
+});
+
 
 </script>
 
