@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
-import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionSave;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerRoleEntity;
 import com.alinesno.infra.base.authority.service.IManagerRoleService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
