@@ -40,7 +40,12 @@
             <artifactId>alinesno-infra-base-authority-adapter</artifactId>
 			<version>${revision}</version>
         </dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-authority-datascope</artifactId>
+			<version>${revision}</version>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 
 </project>
