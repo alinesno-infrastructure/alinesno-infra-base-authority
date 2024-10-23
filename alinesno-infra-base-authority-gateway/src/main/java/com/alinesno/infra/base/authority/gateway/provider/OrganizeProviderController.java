@@ -22,20 +22,13 @@ public class OrganizeProviderController extends BaseProvider {
     /**
      * 创建组织信息
      */
-    @PostMapping("/createOrg")
-    public R<OrganizationDto> createOrg(@RequestBody OrganizationDto dto){
-
-        OrganizationEntity entity = new OrganizationEntity() ;
-
-        BeanUtils.copyProperties(dto,entity);
-
-        entity.setOrganizationId(IdUtil.getSnowflakeNextIdStr());
-        entity.setDoorplateNumber(IdUtil.nanoId(8));
-
-        boolean b = organizationService.save(entity);
-
-        return b?R.ok():R.fail();
+    @PostMapping("/createOrJoinOrg")
+    public R<OrganizationDto> createOrJoinOrg(@RequestBody OrganizationDto dto , long userId){
+        organizationService.createOrJoinOrg(dto , userId);
+        return R.ok() ;
    }
+
+
 
     /**
      * 查询组织信息
