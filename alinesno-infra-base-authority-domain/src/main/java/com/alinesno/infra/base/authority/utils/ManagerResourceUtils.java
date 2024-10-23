@@ -96,7 +96,7 @@ public class ManagerResourceUtils {
         dto.setHidden(false);
         dto.setRedirect("");
         dto.setComponent(r.getComponent());
-        dto.setAlwaysShow(true);
+        dto.setAlwaysShow(false);
         dto.setMeta(new Meta(r.getResourceName(), r.getResourceIcon(), false, ""));
         dto.setPerms(r.getPermission());
     }
