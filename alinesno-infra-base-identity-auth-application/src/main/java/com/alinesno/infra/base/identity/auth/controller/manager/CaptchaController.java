@@ -3,7 +3,7 @@ package com.alinesno.infra.base.identity.auth.controller.manager;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.PhoneUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
+import com.alinesno.infra.base.authority.constants.AuthConstants;
 import com.alinesno.infra.base.identity.auth.notices.SmsService;
 import com.alinesno.infra.common.core.cache.RedisUtils;
 import com.alinesno.infra.common.core.constants.CacheConstants;
