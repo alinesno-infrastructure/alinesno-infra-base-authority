@@ -198,7 +198,8 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 *
 	 * @param loginName
 	 * @param password
+	 * @param loginType 登陆方式(sms手机验证码登陆|account账号密码登陆)
 	 * @return
 	 */
-    ManagerAccountDto findByLoginNameWithRegister(String loginName, String password);
+    ManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType);
 }
