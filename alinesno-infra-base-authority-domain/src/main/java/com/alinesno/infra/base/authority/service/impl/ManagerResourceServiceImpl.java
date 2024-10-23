@@ -1,7 +1,6 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
+import com.alinesno.infra.base.authority.api.PermissionQuery;
 import com.alinesno.infra.base.authority.api.dto.TreeSelect;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
