@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
 import com.alinesno.infra.base.authority.entity.ApiRecordEntity;
 import com.alinesno.infra.base.authority.service.IApiRecordService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -48,6 +49,7 @@ public class ApiRecordController extends BaseController<ApiRecordEntity, IApiRec
      * @param page    DatatablesPageBean对象。
      * @return 包含DataTables数据的TableDataInfo对象。
      */
+    @DataPermissionQuery
     @ResponseBody
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
