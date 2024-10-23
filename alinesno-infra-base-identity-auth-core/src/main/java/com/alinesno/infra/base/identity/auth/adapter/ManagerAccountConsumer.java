@@ -39,7 +39,9 @@ public interface ManagerAccountConsumer {
      * @return
      */
     @Get(url = "/v1/api/base/authority/account/findByLoginNameWithRegister")
-    R<ManagerAccountDto> findByLoginNameWithRegister(@Query("loginName") String loginName, @Query("password") String password);
+    R<ManagerAccountDto> findByLoginNameWithRegister(@Query("loginName") String loginName,
+                                                     @Query("password") String password ,
+                                                     @Query("loginType") String loginType);
 
     /**
      * 查询账号的MFA密钥
