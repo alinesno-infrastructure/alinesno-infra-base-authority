@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
 import com.alinesno.infra.base.authority.entity.ManagerLoginRecordEntity;
 import com.alinesno.infra.base.authority.service.IManagerLoginRecordService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -37,7 +38,7 @@ public class ManagerLoginRecordRest extends BaseController<ManagerLoginRecordEnt
 	@Autowired
 	private IManagerLoginRecordService managerLoginRecordService;
 
-	
+	@DataPermissionQuery
 	@ResponseBody
 	@PostMapping("/datatables")
 	public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
