@@ -2,6 +2,7 @@ package com.alinesno.infra.base.authority.gateway.provider;
 
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
+import com.alinesno.infra.common.core.utils.StringUtils;
 import com.alinesno.infra.common.facade.response.R;
 import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -36,8 +38,13 @@ public class ResourceProviderController extends BaseProvider {
             @RequestParam String projectCode,
             @RequestParam long accountId) {
 
-        Assert.hasLength(projectCode,  "项目标识为空");
         Assert.hasLength(accountId+"",  "用户标识代码为空");
+
+        log.warn("查询用户菜单，projectCode:{}, accountId:{}", projectCode, accountId);
+
+        if(StringUtils.isBlank(projectCode)){  // 项目为空则直接返回空的列表
+           return R.ok(new ArrayList<>()) ;
+        }
 
         return R.ok(managerResourceService.findMenusByProjectCode(projectCode , accountId).getChildren()) ;
     }
