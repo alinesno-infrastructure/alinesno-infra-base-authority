@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
@@ -417,11 +418,16 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public ManagerAccountDto findByLoginNameWithRegister(String loginName, String password) {
+	public ManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType) {
 
 		ManagerAccountDto dto;
 
 		if (!checkLoginName(loginName)) {  // 如果用户不存在，则自动注册
+
+			if("sms".equals(loginType)){ // 手机注册则动态生成6位随机密码
+				password = RandomUtil.randomNumbers(6) ;
+			}
+
 			dto =  this.registAccount(loginName, password, loginName) ;
 		}else{  // 如果存在则直接查询返回
 			ManagerAccountEntity e = findByLoginName(loginName);
