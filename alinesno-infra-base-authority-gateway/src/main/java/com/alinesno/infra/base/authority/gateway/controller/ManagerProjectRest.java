@@ -1,22 +1,23 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
 import cn.hutool.core.util.IdUtil;
-import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
-import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
-import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
-import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
+import com.alinesno.infra.base.authority.api.PermissionQuery;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionSave;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.entity.*;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerProjectDto;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
-import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
-import com.alinesno.infra.base.authority.service.IManagerProjectService;
+import com.alinesno.infra.base.authority.service.*;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +43,18 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 
 	@Autowired
 	private IManagerProjectService managerProjectService;
+
+	@Autowired
+	private IManagerResourceService resourceService;
+
+	@Autowired
+	private IManagerRoleService roleService;
+
+	@Autowired
+	private IManagerAccountService accountService;
+
+	@Autowired
+	private IManagerDepartmentService departmentService;
 
 	@Autowired
 	private IManagerProjectAccountService  managerApplicationAccountService;
@@ -103,6 +117,75 @@ public class ManagerProjectRest extends BaseController<ManagerProjectEntity, IMa
 	public AjaxResult latestList(PermissionQuery query) {
 		List<ManagerProjectEntity> es =  managerProjectService.latestList(query);
 		return AjaxResult.success(es) ;
+	}
+
+	/**
+	 * 应用状态统计
+	 */
+	@DataPermissionQuery
+	@GetMapping("/statusCount")
+	public AjaxResult statusCount(PermissionQuery query) {
+
+		log.debug("query = {}" , query);
+
+		long projectCount = 0 ;  // 项目数量
+		long functionCount = 0 ;  // 功能数量
+		long roleCount = 0 ;  // 角色数量
+		long accountCount = 0 ;  // 账号数量
+		long deptCount = 0 ;  // 部门数量
+
+		// 项目数量统计
+		LambdaQueryWrapper<ManagerProjectEntity> wrapper = new LambdaQueryWrapper<>();
+		wrapper.setEntityClass(ManagerProjectEntity.class) ;
+		query.toWrapper(wrapper);
+		projectCount = managerProjectService.count(wrapper);
+
+		// 功能数量统计
+		LambdaQueryWrapper<ManagerResourceEntity> resourceWrapper = new LambdaQueryWrapper<>();
+		resourceWrapper.setEntityClass(ManagerResourceEntity.class) ;
+		query.toWrapper(resourceWrapper);
+		functionCount = resourceService.count(resourceWrapper);
+
+		// 角色统计
+		LambdaQueryWrapper<ManagerRoleEntity> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.setEntityClass(ManagerRoleEntity.class) ;
+		query.toWrapper(queryWrapper);
+		roleCount = roleService.count(queryWrapper) ;
+
+		// 账号数量
+		LambdaQueryWrapper<ManagerAccountEntity> accountWrapper = new LambdaQueryWrapper<>();
+		accountWrapper.setEntityClass(ManagerAccountEntity.class) ;
+		query.toWrapper(accountWrapper);
+		accountCount = accountService.count(accountWrapper) ;
+
+		// 部门数量
+		LambdaQueryWrapper<ManagerDepartmentEntity> departmentWrapper = new LambdaQueryWrapper<>();
+		departmentWrapper.setEntityClass(ManagerDepartmentEntity.class) ;
+		query.toWrapper(departmentWrapper);
+		deptCount = departmentService.count(departmentWrapper) ;
+
+		List<CountBean> list = new ArrayList<>() ;
+		list.add(new CountBean(projectCount, "项目数量", projectCount)) ;
+		list.add(new CountBean(functionCount, "功能数量", functionCount)) ;
+		list.add(new CountBean(roleCount,"角色统计" , roleCount)) ;
+		list.add(new CountBean(accountCount,"账号数量" , accountCount)) ;
+		list.add(new CountBean(deptCount , "部门数量" , deptCount)) ;
+
+		return AjaxResult.success(list) ;
+	}
+
+	@Data
+	static class CountBean {
+
+		private long id ;
+		private String name ;
+		private long count ;
+
+		public CountBean(long id, String name, long count) {
+			this.id = id;
+			this.name = name;
+			this.count = count;
+		}
 	}
 
 	/**
