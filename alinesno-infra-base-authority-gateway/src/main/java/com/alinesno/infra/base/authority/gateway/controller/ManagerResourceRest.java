@@ -1,8 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.annotation.DataPermissionQuery;
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
+import com.alinesno.infra.base.authority.api.PermissionQuery;
 import com.alinesno.infra.base.authority.api.vo.ManagerResourceVo;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
 import com.alinesno.infra.base.authority.entity.ManagerResourceEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
