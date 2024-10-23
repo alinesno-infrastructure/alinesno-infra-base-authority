@@ -37,7 +37,7 @@ const TopHeader = ref('') ;
 const saasTitle = 'AIP智能设施'
 const enableLogo = ref(true);
 const saasUrl = ref('http://alinesno-infra-plat-console-admin.beta.plat.infra.linesno.com') ;
-const saasLogoUrl = 'http://portal.infra.linesno.com/logo.png' ; 
+const saasLogoUrl = 'http://data.linesno.com/logo_2.png' ;
 
 import { 
   getCurrentProject
