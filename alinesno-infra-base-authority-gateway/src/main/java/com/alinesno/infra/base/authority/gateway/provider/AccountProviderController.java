@@ -5,7 +5,6 @@ import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.facade.response.R;
@@ -121,13 +120,13 @@ public class AccountProviderController extends BaseProvider {
      * 通过用户名查询，如果不存在则自动注册
      */
     @GetMapping("/findByLoginNameWithRegister")
-    public R<ManagerAccountDto> findByLoginNameWithRegister(String loginName , String password) {
+    public R<ManagerAccountDto> findByLoginNameWithRegister(String loginName , String password , String loginType) {
 
-        log.debug("loginName = {} , password = {}" , loginName , password);
+        log.debug("loginName = {} , password = {} , loginType = {}" , loginName , password , loginType);
         Assert.hasLength(loginName, "用户名称为空");
 
         try{
-            ManagerAccountDto dto = managerAccountService.findByLoginNameWithRegister(loginName , password);
+            ManagerAccountDto dto = managerAccountService.findByLoginNameWithRegister(loginName , password , loginType);
             return R.ok(dto);
         }catch (Exception e){
             log.error("findByLoginNameWithRegister error", e);
