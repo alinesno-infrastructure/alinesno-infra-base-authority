@@ -29,6 +29,19 @@
 			<version>0.4.8</version>
 		</dependency>
 
+		<!-- 登陆信息检测 -->
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.21</version>
+		</dependency>
+
+		<!-- Sa-Token 权限认证 -->
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-spring-boot3-starter</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>
