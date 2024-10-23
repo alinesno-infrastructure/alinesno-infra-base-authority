@@ -1,11 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.session;
 
-import com.alinesno.infra.base.authority.entity.ManagerProjectAccountEntity;
 import com.alinesno.infra.base.authority.entity.ManagerProjectEntity;
 import com.alinesno.infra.base.authority.service.IManagerProjectAccountService;
-import com.alinesno.infra.base.authority.service.IManagerProjectService;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,40 +17,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrentProjectSession {
 
-	@Autowired
-	private IManagerProjectAccountService managerApplicationAccountService ;
+    // 注入管理项目账户服务
+    @Autowired
+    private IManagerProjectAccountService managerApplicationAccountService ;
 
-	@Autowired
-	private IManagerProjectService managerProjectService ;
+    /**
+     * 获取当前用户的项目实体
+     *
+     * @return ManagerProjectEntity 当前用户的项目实体
+     */
+    public ManagerProjectEntity get() {
+        // 获取当前用户ID
+        long userId = CurrentAccountJwt.getUserId();
+        // 调用服务获取当前项目
+        return managerApplicationAccountService.getCurrentProject(userId) ;
+    }
 
-	public ManagerProjectEntity get() {
-		long userId = CurrentAccountJwt.getUserId();
-
-		ManagerProjectAccountEntity e = managerApplicationAccountService.getOne(new LambdaQueryWrapper<ManagerProjectAccountEntity>()
-				.eq(ManagerProjectAccountEntity::getAccountId , userId)) ;
-
-		if(e != null){
-			return managerProjectService.getById(e.getApplicationId()) ;
-		}
-
-		return null ;
-	}
-
-	public void set(long projectId) {
-
-		long userId = CurrentAccountJwt.getUserId();
-
-		// 查询当前用户配置记录
-		long count = managerApplicationAccountService.count(new LambdaQueryWrapper<ManagerProjectAccountEntity>()
-				.eq(ManagerProjectAccountEntity::getAccountId , userId)) ;
-
-		ManagerProjectAccountEntity e = new ManagerProjectAccountEntity() ;
-
-		e.setAccountId(userId);
-		e.setApplicationId(projectId);
-		e.setAppOrder(count+1);
-
-		managerApplicationAccountService.save(e);
-	}
+    /**
+     * 设置当前用户关联的项目
+     *
+     * @param projectId 需要设置为当前项目的项目ID
+     */
+    public void set(long projectId) {
+        // 获取当前用户ID
+        long userId = CurrentAccountJwt.getUserId();
+        // 调用服务设置当前项目
+        managerApplicationAccountService.setCurrentProject(projectId , userId);
+    }
 
 }
+
