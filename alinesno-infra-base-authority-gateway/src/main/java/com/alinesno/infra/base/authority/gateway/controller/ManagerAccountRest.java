@@ -1,8 +1,14 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.annotation.DataPermissionSave;
-import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
+import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.session.TokenSign;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
+import com.alinesno.infra.base.authority.api.SaSessionInfoDto;
+import com.alinesno.infra.base.authority.api.TokenSignDto;
+import com.alinesno.infra.base.authority.constants.AuthConstants;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
@@ -19,7 +25,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -116,5 +125,7 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 	public IManagerAccountService getFeign() {
 		return this.managerAccountService;
 	}
- 
+
+
+
 }
