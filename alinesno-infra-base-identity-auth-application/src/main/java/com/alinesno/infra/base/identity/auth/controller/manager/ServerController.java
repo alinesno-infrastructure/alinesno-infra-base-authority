@@ -1,9 +1,6 @@
 package com.alinesno.infra.base.identity.auth.controller.manager;
 
-import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.sign.SaSignUtil;
 import cn.dev33.satoken.sso.SaSsoProcessor;
-import cn.dev33.satoken.util.SaResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,22 +40,22 @@ public class ServerController {
 		return SaSsoProcessor.instance.serverDister();
 	}
 
-	// 示例：获取数据接口（用于在模式三下，为 client 端开放拉取数据的接口）
-	@GetMapping("/sso/getData")
-	public SaResult getData(String apiType, String loginId) {
-		System.out.println("---------------- 获取数据 ----------------");
-		System.out.println("apiType=" + apiType);
-		System.out.println("loginId=" + loginId);
-
-		// 校验签名：只有拥有正确秘钥发起的请求才能通过校验
-		SaSignUtil.checkRequest(SaHolder.getRequest());
-
-		// 自定义返回结果（模拟）
-		return SaResult.ok()
-				.set("id", loginId)
-				.set("name", "LinXiaoYu")
-				.set("sex", "女")
-				.set("age", 18);
-	}
+//	// 示例：获取数据接口（用于在模式三下，为 client 端开放拉取数据的接口）
+//	@GetMapping("/sso/getData")
+//	public SaResult getData(String apiType, String loginId) {
+//		System.out.println("---------------- 获取数据 ----------------");
+//		System.out.println("apiType=" + apiType);
+//		System.out.println("loginId=" + loginId);
+//
+//		// 校验签名：只有拥有正确秘钥发起的请求才能通过校验
+//		SaSignUtil.checkRequest(SaHolder.getRequest());
+//
+//		// 自定义返回结果（模拟）
+//		return SaResult.ok()
+//				.set("id", loginId)
+//				.set("name", "LinXiaoYu")
+//				.set("sex", "女")
+//				.set("age", 18);
+//	}
 
 }
