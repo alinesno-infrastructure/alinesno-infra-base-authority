@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerDepartmentEntity;
 import com.alinesno.infra.base.authority.gateway.session.CurrentProjectSession;
 import com.alinesno.infra.base.authority.service.IManagerDepartmentService;
@@ -48,7 +48,9 @@ public class ManagerDepartmentRest extends BaseController<ManagerDepartmentEntit
 		log.debug("page = {}", ToStringBuilder.reflectionToString(page));
 
 		// 初始化应用部门
-		managerDepartmentService.initDept(currentProjectSession.get().getId()) ;
+		if(currentProjectSession.get() != null){
+			managerDepartmentService.initDept(currentProjectSession.get().getId()) ;
+		}
 
 		return this.toPage(model, this.getFeign(), page);
 	}
