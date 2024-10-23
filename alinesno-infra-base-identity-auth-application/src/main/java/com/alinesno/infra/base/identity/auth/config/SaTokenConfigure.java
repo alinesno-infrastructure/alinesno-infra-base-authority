@@ -47,12 +47,6 @@ public class SaTokenConfigure {
             accountDto.setPassword(null);
             StpUtil.login(accountDto.getId());
 
-//            // -->>> 设置会话信息_start
-//            SaSession session = StpUtil.getSession();
-//            session.set(AuthConstants.currentAccountDto , accountDto);
-//            LoginInfoUtil.handleLoginInfo(session , (HttpServletRequest)SaHolder.getRequest().getSource()) ;
-//            // -->>> 设置会话信息_end
-
             // 登陆成功记录
             loginRecord() ;
 
