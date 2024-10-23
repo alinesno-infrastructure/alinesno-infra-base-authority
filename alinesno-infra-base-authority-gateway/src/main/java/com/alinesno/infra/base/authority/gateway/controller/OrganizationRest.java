@@ -1,9 +1,8 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
 import cn.hutool.core.util.IdUtil;
-import com.alinesno.infra.base.authority.annotation.DataPermissionScope;
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
