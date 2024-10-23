@@ -1,6 +1,5 @@
 package com.alinesno.infra.base.authority.service;
 
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
@@ -78,4 +77,5 @@ public interface IOrganizationService extends IBaseService<OrganizationEntity> {
      * @return
      */
     OrganizationAccountEntity getByAccountId(long accountId);
+
 }
