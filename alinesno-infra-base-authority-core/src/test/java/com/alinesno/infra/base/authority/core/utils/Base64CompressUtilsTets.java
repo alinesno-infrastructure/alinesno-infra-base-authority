@@ -18,7 +18,7 @@ public class Base64CompressUtilsTets {
         String ste2= ImageUtils.getImageAsBase64(imgPath) ;
         System.out.println(ste2);
 
-        imgPath = "http://portal.infra.linesno.com/logo.png" ;
+        imgPath = "http://data.linesno.com/logo_2.png" ;
 
         //在线压缩
         ste2= ImageUtils.getImageAsBase64(imgPath) ;
