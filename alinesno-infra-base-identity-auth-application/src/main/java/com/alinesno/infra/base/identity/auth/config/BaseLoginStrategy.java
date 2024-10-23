@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.identity.auth.config;
 
+import com.alinesno.infra.base.authority.constants.AuthConstants;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
-import com.alinesno.infra.base.identity.auth.constants.AuthConstants;
 import com.alinesno.infra.base.identity.auth.domain.dto.LoginUser;
 import com.alinesno.infra.base.identity.auth.enums.LoginTypeEnums;
 import com.alinesno.infra.common.core.cache.RedisUtils;
