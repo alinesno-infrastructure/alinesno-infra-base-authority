@@ -1,6 +1,5 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import com.alinesno.infra.base.authority.annotation.PermissionQuery;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
