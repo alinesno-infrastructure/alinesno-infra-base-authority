@@ -133,6 +133,9 @@ jobs:
 
           mv nexus-config.xml /usr/share/apache-maven-3.8.8/conf/settings.xml
 
+    - name: Build and Deploy to Nexus
+      run: mvn clean package --settings nexus-config.xml
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
@@ -146,3 +149,4 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+
