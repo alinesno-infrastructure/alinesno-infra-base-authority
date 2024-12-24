@@ -309,6 +309,13 @@ $chartColor: #3b5998;
       padding: 0px;
       margin: 0px;
 
+      li.dashboard-project-item{
+        width: calc(25% - 10px) !important;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
       li.app-items {
         list-style: none;
         float: left;
@@ -1407,4 +1414,9 @@ $chartColor: #3b5998;
   li.box-item:nth-child(3n+1) {
     border-left: 0px solid #eee !important;
   }
+}
+
+.role-icon {
+    font-size: 20px;
+    color: #3b5998;
 }
