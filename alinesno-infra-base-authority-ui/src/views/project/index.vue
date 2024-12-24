@@ -72,10 +72,10 @@
 
     <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="图标" align="center" width="70" key="icon" >
+      <el-table-column label="图标" align="center" width="50" key="icon" >
           <template #default="scope">
               <div class="role-icon">
-                <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
+                <i :class="scope.row.projectIcons" />
               </div>
           </template>
       </el-table-column>
@@ -146,6 +146,18 @@
     <el-dialog :title="title" v-model="open" width="700px" append-to-body>
       <el-form ref="applicationFormRef" :model="form" :rules="rules" label-width="120px">
           <el-col :span="24">
+            <el-form-item label="图标" prop="projectIcons">
+              <el-radio-group v-model="form.projectIcons">
+                <el-radio v-for="item in icons"
+                  :value="item.icon"
+                  :key="item.icon"
+                  :label="item.icon"
+                  >
+                  <i :class="item.icon"></i>
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <!--
             <el-form-item label="菜单图标" prop="projectIcons">
               <el-popover
                   placement="bottom-start"
@@ -168,6 +180,7 @@
                 <icon-select ref="iconSelectRef" @selected="selected" />
               </el-popover>
             </el-form-item>
+            -->
           </el-col>
         <el-form-item label="项目名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
@@ -246,6 +259,18 @@ const data = reactive({
 });
 
 const { queryParams, form } = toRefs(data);
+
+const icons = ref([
+  { id: 1, icon: 'fa-solid fa-charging-station'} ,
+  { id: 1, icon: 'fa-solid fa-truck'} ,
+  { id: 2, icon: 'fa-solid fa-paper-plane'} ,
+  { id: 2, icon: 'fa-solid fa-ship'} ,
+  { id: 3, icon: 'fa-solid fa-chart-column'},
+  { id: 4, icon: 'fa-solid fa-server'}, 
+  { id: 5, icon: 'fa-solid fa-box-open'}, 
+  { id: 8, icon: 'fa-solid fa-file-invoice-dollar'}, 
+  { id: 9, icon: 'fa-solid fa-user-tie'},
+]);
 
 /** 表单重置 */
 function reset() {
