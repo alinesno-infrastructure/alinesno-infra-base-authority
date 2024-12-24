@@ -9,10 +9,9 @@
           <div class="panel-body acp-height-auto" >
             <div class="acp-app-list">
               <ul>
-                <li class="app-items" v-for="(item,index) in apps" :key="item" style="width:calc(25% - 10px)">
-                  <div class="app-icon">
-                    <!-- <i :class="item.icon" :alt="item.projectName" /> -->
-                    <img style="width:30px;height:30px;border-radius:4px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((index + 1)%10 + 5) + '.png'" />
+                <li class="app-items dashboard-project-item" v-for="(item,index) in apps" :key="item">
+                  <div class="role-icon">
+                      <i :class="item.projectIcons" />
                   </div>
                   <div class="app-info">
                     <div class="app-item-title">{{ item.projectName }}</div>
