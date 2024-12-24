@@ -27,10 +27,10 @@
 
                 <configuration>
                     <!-- 若不方便访问官网，可使用国内淘宝镜像
-                    <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+                        <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+                    -->
                     <npmDownloadRoot>https://registry.npm.taobao.org/npm/-/</npmDownloadRoot>
                     <yarnDownloadRoot>http://data.linesno.com/web-tools/yarn/</yarnDownloadRoot>
-                    -->
                 </configuration>
 
                 <executions>
@@ -44,17 +44,15 @@
                             <yarnVersion>v1.22.10</yarnVersion>
                         </configuration>
                     </execution>
-                    <!-- 配置下载地址
                     <execution>
-                        <id>yarn set registry</id>
+                        <id>yarn config</id>
                         <goals>
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>config set registry ${npm.registry.url}</arguments>
+                            <arguments>config set registry https://registry.npmmirror.com/</arguments>
                         </configuration>
                     </execution>
-                    -->
                     <execution>
                         <id>yarn install</id>
                         <goals>
