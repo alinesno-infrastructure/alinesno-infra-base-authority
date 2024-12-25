@@ -5,7 +5,7 @@
       <el-col :xs="24" :md="12" :style="{height: '350px'}">
         <vue-cropper
             ref="cropper"
-            :img="options.img"
+            :img="options.img" 
             :info="true"
             :autoCrop="options.autoCrop"
             :autoCropWidth="options.autoCropWidth"
@@ -112,11 +112,13 @@ function beforeUpload(file) {
 /** 上传图片 */
 function uploadImg() {
   proxy.$refs.cropper.getCropBlob(data => {
+    console.log('data = ' + data)
+
     let formData = new FormData();
     formData.append("avatarfile", data);
     uploadAvatar(formData).then(response => {
       open.value = false;
-      options.img = import.meta.env.VITE_APP_BASE_API + response.imgUrl;
+      options.img = 'data:image/jpeg;base64,' + response.data;
       userStore.avatar = options.img;
       proxy.$modal.msgSuccess("修改成功");
       visible.value = false;
