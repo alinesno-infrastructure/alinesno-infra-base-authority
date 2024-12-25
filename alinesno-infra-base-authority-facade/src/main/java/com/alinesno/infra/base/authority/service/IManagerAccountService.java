@@ -202,4 +202,18 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @return
 	 */
     ManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType);
+
+	/**
+	 * 更新账户信息
+	 * @param dto
+	 */
+    void updateAccount(ManagerAccountDto dto);
+
+	/**
+	 * 更新用户头像
+	 * @param base64Encoded
+	 * @param userId
+	 */
+	void updateAvatorBase64(String base64Encoded, long userId);
+
 }
