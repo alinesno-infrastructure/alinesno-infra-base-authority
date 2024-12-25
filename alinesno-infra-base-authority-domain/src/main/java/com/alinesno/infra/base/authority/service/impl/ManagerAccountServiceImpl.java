@@ -3,12 +3,14 @@ package com.alinesno.infra.base.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.alinesno.infra.base.authority.entity.ManagerAccountAvatarEntity;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.mapper.ManagerAccountAvatarMapper;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.mapper.OrganizationAccountMapper;
 import com.alinesno.infra.base.authority.service.*;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -41,8 +44,11 @@ import java.util.*;
 public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEntity, ManagerAccountMapper> implements IManagerAccountService {
 
 	@Autowired
-	private ManagerAccountMapper managerAccountMapper; 
-	
+	private ManagerAccountMapper managerAccountMapper;
+
+	@Autowired
+	private ManagerAccountAvatarMapper managerAccountAvatarMapper;
+
 	@Autowired
 	private IManagerRoleService managerRoleService;
 
@@ -101,7 +107,8 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		account.setLoginName(StringUtils.hasLength(loginName)?loginName:phone);
 		account.setPassword(BCrypt.hashpw(password));
 		account.setPhone(phone);
-		account.setName(genDefaultName(phone));
+		account.setName(genDefaultName());
+		account.setAvatarPath("");
 
 		this.save(account);
 
@@ -117,19 +124,31 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 	/**
 	 * 生成默认的用户名称
-	 * @param phone
 	 * @return
 	 */
-	private String genDefaultName(String phone) {
-		// 提取手机号码的前三位
-		String prefix = phone.substring(0, 3);
+	private String genDefaultName() {
 
-		// 使用随机数生成后四位
-		Random random = new Random();
-		String suffix = String.valueOf(random.nextInt(1000));
+//		// 提取手机号码的前三位
+//		String prefix = phone.substring(0, 3);
+//
+//		// 使用随机数生成后四位
+//		Random random = new Random();
+//		String suffix = String.valueOf(random.nextInt(1000));
+//
+//		// 拼接昵称
+//		return prefix + "***" + suffix;
 
-		// 拼接昵称
-		return prefix + "***" + suffix;
+		String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		int NAME_LENGTH = 8;
+		SecureRandom RANDOM = new SecureRandom();
+
+		StringBuilder sb = new StringBuilder(NAME_LENGTH);
+		for (int i = 0; i < NAME_LENGTH; i++) {
+			int randomIndex = RANDOM.nextInt(CHARACTERS.length());
+			sb.append(CHARACTERS.charAt(randomIndex));
+		}
+
+		return sb.toString();
 	}
 
 	@Override
@@ -162,7 +181,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	public void updateAvator(String path, String id) {
 		ManagerAccountEntity e = findEntityById(id);
 		e.setAvatarPath(path);
-
 		this.update(e);
 	}
 
@@ -327,8 +345,15 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	public Map<String, Object> getAccountInfo(long accountId) {
 
         ManagerAccountEntity accountEntity = getById(accountId) ;
-
 		OrganizationAccountEntity orgAccount = organizationService.getByAccountId(accountId) ;
+
+		// 头像信息
+		LambdaQueryWrapper<ManagerAccountAvatarEntity> wrapper = new LambdaQueryWrapper<>();
+		wrapper.eq(ManagerAccountAvatarEntity::getAccountId , accountId);
+		ManagerAccountAvatarEntity avatar = managerAccountAvatarMapper.selectOne(wrapper);
+		if(avatar != null){
+			accountEntity.setAvatarPath(avatar.getAvatarBase64());
+		}
 
 		Map<String, Object> data = new HashMap<>();
 
@@ -406,6 +431,14 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		ManagerAccountDto dto = new ManagerAccountDto();
 		BeanUtils.copyProperties(e, dto);
 
+		// 头像信息
+		LambdaQueryWrapper<ManagerAccountAvatarEntity> wrapper = new LambdaQueryWrapper<>();
+		wrapper.eq(ManagerAccountAvatarEntity::getAccountId , id);
+		ManagerAccountAvatarEntity avatar = managerAccountAvatarMapper.selectOne(wrapper);
+		if(avatar != null){
+			dto.setAvatarPath(avatar.getAvatarBase64());
+		}
+
 		// 设置组织信息
 		OrganizationAccountEntity org = organizationService.getByAccountId(id) ;
 		if(org != null){
@@ -437,6 +470,34 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 		dto.setPassword(null);
 		return dto ;
+	}
+
+	@Override
+	public void updateAccount(ManagerAccountDto dto) {
+
+		ManagerAccountEntity e = new ManagerAccountEntity() ;
+		BeanUtils.copyProperties(dto, e , new String[]{
+				"password",
+				"addTime",
+				"avatarPath"
+		});
+		updateById(e);
+
+	}
+
+	@Override
+	public void updateAvatorBase64(String base64Encoded, long userId) {
+
+		// 删除之前的头像
+		managerAccountAvatarMapper.delete(new LambdaUpdateWrapper<ManagerAccountAvatarEntity>()
+				.eq(ManagerAccountAvatarEntity::getAccountId, userId));
+
+		// 添加新的头像
+		ManagerAccountAvatarEntity avatarEntity = new ManagerAccountAvatarEntity() ;
+		avatarEntity.setAccountId(userId);
+		avatarEntity.setAvatarBase64(base64Encoded);
+
+		managerAccountAvatarMapper.insert(avatarEntity) ;
 	}
 
 	@Override
