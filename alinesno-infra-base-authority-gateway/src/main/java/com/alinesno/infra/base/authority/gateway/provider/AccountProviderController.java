@@ -9,12 +9,15 @@ import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.facade.response.R;
 import com.alinesno.infra.common.web.adapter.base.dto.LoginBodyDto;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -166,4 +169,31 @@ public class AccountProviderController extends BaseProvider {
         return R.ok();
     }
 
+    /**
+     * 更新账号信息
+     * @param dto
+     * @return
+     */
+    @PutMapping("/updateProfile")
+    public R<String> updateProfile(@RequestBody ManagerAccountDto dto) {
+        managerAccountService.updateAccount(dto);
+        return R.ok() ;
+    }
+
+    /**
+     * 更新头像
+     * @param avatarfile
+     * @param userId
+     * @return
+     */
+    @SneakyThrows
+    @PostMapping("/updateAvatar")
+    public R<String> updateAvatar(@RequestParam("avatarfile") MultipartFile avatarfile, long userId) {
+
+        byte[] bytes = avatarfile.getBytes();
+        String base64Encoded = Base64.getEncoder().encodeToString(bytes);
+
+        managerAccountService.updateAvatorBase64(base64Encoded, userId);
+        return R.ok(base64Encoded) ;
+    }
 }
