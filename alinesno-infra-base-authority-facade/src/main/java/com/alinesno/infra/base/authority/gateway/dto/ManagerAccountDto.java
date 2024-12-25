@@ -87,7 +87,7 @@ public class ManagerAccountDto extends BaseDto {
 	/**
 	 * "用户头像"
 	 */
-	private String avatorPath;
+	private String avatarPath;
 	/**
 	 * "企业属性"
 	 */
