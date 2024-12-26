@@ -3,6 +3,7 @@ package com.alinesno.infra.base.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.alinesno.infra.base.authority.constants.AuthConstants;
 import com.alinesno.infra.base.authority.entity.ManagerAccountAvatarEntity;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
@@ -353,6 +354,8 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		ManagerAccountAvatarEntity avatar = managerAccountAvatarMapper.selectOne(wrapper);
 		if(avatar != null){
 			accountEntity.setAvatarPath(avatar.getAvatarBase64());
+		}else{
+			accountEntity.setAvatarPath(AuthConstants.defaultBase64Icon) ;
 		}
 
 		Map<String, Object> data = new HashMap<>();
@@ -437,6 +440,8 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		ManagerAccountAvatarEntity avatar = managerAccountAvatarMapper.selectOne(wrapper);
 		if(avatar != null){
 			dto.setAvatarPath(avatar.getAvatarBase64());
+		}else{
+			dto.setAvatarPath(AuthConstants.defaultBase64Icon) ;
 		}
 
 		// 设置组织信息
