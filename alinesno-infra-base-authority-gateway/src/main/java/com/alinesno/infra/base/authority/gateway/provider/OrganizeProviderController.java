@@ -28,8 +28,6 @@ public class OrganizeProviderController extends BaseProvider {
         return R.ok() ;
    }
 
-
-
     /**
      * 查询组织信息
      * @return
