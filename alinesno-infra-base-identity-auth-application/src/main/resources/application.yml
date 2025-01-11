@@ -1,7 +1,7 @@
 # 系统信息
 identity:
   auth:
-    logo: "https://portal.infra.linesno.com/logo.png"
+    logo: "http://data.linesno.com/logo_2.png"
     background-image: "http://data.linesno.com/banner/quora-bg-sm.webp"
     system-name: "单点登陆服务"
     banner-info: "用户一次可通过登录凭证登入会话,在该次会话期间无需再次登录"
