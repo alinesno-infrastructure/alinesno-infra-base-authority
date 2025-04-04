@@ -75,7 +75,7 @@ public class CaptchaController {
         String verifyKey = AuthConstants.PHONE_CODE_KEY +  phone;
         RedisUtils.setCacheObject(verifyKey, phoneCode, Duration.ofMinutes(AuthConstants.PHONE_CODE_EXPIRATION));
 
-        return AjaxResult.success("操作成功." , phoneCode) ;
+         return AjaxResult.success("操作成功.", !isDevModel ? "" : phoneCode) ;
     }
 
     /**
