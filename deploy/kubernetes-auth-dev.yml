@@ -48,6 +48,7 @@ spec:
                 -Dserver.port=8080 
                 -Dalinesno.infra.authority.host=http://alinesno-infra-base-authority-boot:8080
 
+                -Dsms.is-dev=${SMS_IS_DEV}
                 -Dsms.blends.alibaba.accessKeyId=${SMS_ALIBABA_ACCESS_KEY_ID}
                 -Dsms.blends.alibaba.accessKeySecret=${SMS_ALIBABA_ACCESS_SECRET}
                 -Dsms.blends.alibaba.signature=${SMS_ALIBABA_SIGNATURE}
