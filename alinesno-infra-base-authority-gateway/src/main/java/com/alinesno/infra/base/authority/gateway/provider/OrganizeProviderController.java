@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/v1/api/base/authority/organize")
@@ -42,6 +44,25 @@ public class OrganizeProviderController extends BaseProvider {
         BeanUtils.copyProperties(entity,dto);
 
         return R.ok(dto);
+    }
+
+    /**
+     * 查询组织信息
+     * @return
+     */
+    @PostMapping("/findOrgByIds")
+    public R<List<OrganizationDto>> findOrgByIds(@RequestBody List<Long> ids){
+
+        List<OrganizationEntity> entity = organizationService.listByIds(ids) ;
+        Assert.notNull(entity , "组织信息不存在");
+
+        List<OrganizationDto> dtos = entity.stream().map(item -> {
+            OrganizationDto dto = new OrganizationDto() ;
+            BeanUtils.copyProperties(item,dto);
+            return dto ;
+        }).toList() ;
+
+        return R.ok(dtos);
     }
 
     /**
