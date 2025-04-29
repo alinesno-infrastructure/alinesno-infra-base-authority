@@ -62,8 +62,6 @@ public class ManagerResourceUtils {
      */
     private static void handleSubmenus(ManagerResourceEntity parentResource, List<ManagerResourceEntity> resources, ManagerResourceDto dto, boolean all) {
 
-        log.debug("handleSubmenus: " + parentResource.getMenuType());
-
         if(!all){
             if(parentResource.getMenuType() != null && parentResource.getMenuType().equals(MENU_ITEM.getValue())){
                 return ;
