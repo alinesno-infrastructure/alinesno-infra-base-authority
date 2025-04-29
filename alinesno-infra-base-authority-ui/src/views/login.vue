@@ -3,10 +3,10 @@
     <el-header style="z-index: 100;height: 45px;background: #3b5998;box-shadow: 0 2px 4px 0 var(--cb-color-shadow,rgba(0,0,0,.16));">
       <div>
         <div style="float: left;font-size: 30px;color: rgb(255, 255, 255);margin-top: 5px;">
-          <img src="http://portal.infra.linesno.com/logo.png" style="width:35px" alt="">
+          <img src="http://data.linesno.com/logo_white.png" style="width:35px" alt="">
         </div>
         <div class="banner-text">
-          授权管理引擎服务
+          单点登陆认证服务
         </div>
         <a href="http://portal.infra.linesno.com/" target="_blank" lass="banner-text" style="float: right;font-weight: 500;font-size: 13px;margin-top: 14px;color: rgb(255, 255, 255);">
           <i class="fas fa-link"></i> 官网
@@ -20,28 +20,25 @@
           <img class="market-img" src="" alt="">
           <div class="title-header">
             <span class="main-title">利用AIP构筑创新业务 构建业务服务实现数字转型高质量发展</span>
-            <span class="sub-title">个人和企业版本免费下载使用</span>
           </div>
         </div>
         <div class=" logo-box">
           <div class="wrapper">
             <div class="qr-method method ">
               <div class="alipay-channel">
-                <div class="next-loading next-loading-inline" style="display: block; height: 100%;">
-                  <div class="next-loading-wrap">
-                    <div class="qrlogin-title">扫码登录</div>
-                    <div class="qrcode-wrap app-text-wrap">
-                      <div class="alipay-qrcode-wrapper ">
-                        <img class="alipay-qrcode"
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQAQAAAACoxAthAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAd2KE6QAAAAJcEhZcwAAFxEAABcRAcom8z8AAAMpSURBVHja7ZwxcvNACIXxuHC5R9BRfDTraD6Kj6DShUf8Ah67sv+4SBGHzLytNPJ+aRAsPNiIfnsJESJEfhi5Siydz6pLPNvT6XHQ7XFa2v2oik1HIpWRyWy62ndwk+b2veitLYKN25Mc7N227kRqI9u7YyDNbW5fRGzUWSYFsn0ljcgvIPP5tlkyfVFOYdQ0IJE/hLh/3iOQwlMDFiJ/BekBVtPm8XMgGqH2TUwmUgkZaQ9i8oZ4srPu373JlIgUQvZrs/4DsLu0p0ISR24uIoWRzdKwvrgjR6bkT7OYSwNu6chEaiLhyJbgutM+lSVWa8YXYQXKi+8TKYdMEAY8Eo8K0ywdNtdAbBuRyohbNa2PWiUsvco4VF0L6jGZyKcQgX9G2pPSjb9rMGXKOUSqIlZX5kaBWGD7MoPFn5Hz3pGJlEQkstWoHBXZ6uJnpavkseZeYRKpiuiIxNnciLoyNNh0ZIfvREojKEZc44m6ckh4lx6no4ulRAoj2QXxqNtCTj/n8QqJPay/j8lECiLqDrrKcOTIj+5ArMJcs/4kUhrJLqXlR0uqPdLGQRvdEv8OlEhhJKyKVHeRiMSQ021jr1+wiHwG0eweX/zJWo4QcTRUuK9KUSIVkewjjxRHn7Jaa0iueaYSqYz46hsjxZFsPnZpNU5SItWR5RQ56k3GnAcyWOnDAfvjlUhRBHLA0GB9UCfbHJIdK32RCIhUQzxbVcTk3lFuQ8LL4Z2cviJSFXHrHzUXorM5dgy1Lm8EIiLlkJ4p7dUep9cYBICs91XSS6QUEpNWByg7cOTuvvuRACXyQcRSHMzaIAEaT2FK7b8SKY34ywfua8jIZWPA0UuTY7Yh70QqI1F4PI9NpRwQ4zm4FiCNSG2kL/vZXTqU12xz9HtX+wyWSEXkCtviJa4sLhg79mQH1+VGpkSkJjLZL2vkR+nIUypAJuEprK9EqiOL5M1HiHSXmMPCSB0GdbI1SaQ+0gf/3ZF7NSlDlx0nMpHSyGx7XkYCcNsKuk8j8kkEAXZ3Vtq5uJcN/lPhiJRERtrT/4PGdeqnpiTSb4wTqYp8dxEhQuRHkX9Z1cd7zqPOIwAAAABJRU5ErkJggg=="
-                          alt="二维码">
-                      </div>
-                      <div class="methods-text">使用
-                        <span class="methods">二维码登陆（集成中）</span>
-                      </div>
-                      <div class="methods-text hover-orange">下载AIP基设平台，快速提升</div>
+                <div class="next-loading next-loading-inline" style="display: flex;height: 100%;flex-direction: column;gap: 10px;">
+                    <div class="qrlogin-title">单点登陆认证服务</div>
+                    <div class="alipay-qrcode-wrapper ">
+                      <img class="alipay-qrcode"
+                        src="http://alinesno-infra-smart-im-ui.beta.base.infra.linesno.com/assets/data_03.3a68d050.svg"
+                        alt="二维码">
                     </div>
-                  </div>
+                    <!-- 
+                    <div class="methods-text">使用
+                      <span class="methods">二维码登陆（集成中）</span>
+                    </div>
+                    <div class="methods-text hover-orange">下载AIP基设平台，快速提升</div> 
+                    -->
                 </div>
               </div>
             </div>
@@ -132,7 +129,7 @@
       </div>
     </el-main>
     <el-footer style="background: rgb(250, 250, 250);position: fixed;bottom: 0px;width: 100%;height: 45px;">
-      <div class="copyright-text">© 2009-2023 portal.infra.linesno.com 版权所有 ICP证：浙B2-20080101</div>
+       <div class="copyright-text">© {{ startYear }}-{{ endYear }} portal.infra.linesno.com 版权所有 ICP证：桂ICP备15005934号-1</div>
     </el-footer>
   </el-container>
 </template>
@@ -146,6 +143,13 @@ import useUserStore from '@/store/modules/user'
 const userStore = useUserStore()
 const router = useRouter();
 const { proxy } = getCurrentInstance();
+
+// 获取当前年份
+const currentYear = new Date().getFullYear();
+
+// 开始年份为当前年份往前 3 年
+const startYear = ref(currentYear - 3);
+const endYear = ref(currentYear);
 
 const loginForm = ref({
   username: "admin",
