@@ -1,8 +1,7 @@
 package com.alinesno.infra.base.authority.datascope.aspect;
 
-import cn.dev33.satoken.session.SaSession;
-import cn.dev33.satoken.stp.StpUtil;
 import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
+import com.alinesno.infra.base.authority.datascope.utils.RolePowerUtils;
 import com.alinesno.infra.base.authority.enums.DataSourceScope;
 import com.alinesno.infra.common.facade.pageable.ConditionDto;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
@@ -77,8 +76,11 @@ public class DataPermissionScopeAdvice {
 	private void filterDataParams(DatatablesPageBean page, DataSourceScope type, String beanName) {
 
 		// 获取当前用户
-		SaSession session =  StpUtil.getSession() ;
 		ManagerAccountDto account = CurrentAccountJwt.get();
+
+		if(RolePowerUtils.isAdmin(account.getRolePower())){
+			return ;
+		}
 
 
 		ConditionDto conditionDto = new ConditionDto();
