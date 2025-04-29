@@ -436,7 +436,7 @@ const screenJsonList = [
         "prodStatus": "normal",
         "identityStatus": null,
         "groupId": "0",
-        "name": "授权管理引擎服务",
+        "name": "单点登陆认证服务",
         "hasRecommend": 1,
         "applicationId": null,
         "shortName": null
