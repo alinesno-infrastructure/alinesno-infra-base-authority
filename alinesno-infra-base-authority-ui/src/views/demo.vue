@@ -6,7 +6,7 @@
 
 </template>
 
-<script>
+<script setup>
 </script>
 
 <style scoped lang="scss">
