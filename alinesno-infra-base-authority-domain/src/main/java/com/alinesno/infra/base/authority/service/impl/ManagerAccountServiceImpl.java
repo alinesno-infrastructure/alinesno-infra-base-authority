@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.constants.AuthConstants;
@@ -10,7 +11,7 @@ import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
 import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountAvatarMapper;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.mapper.OrganizationAccountMapper;
@@ -86,7 +87,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public ManagerAccountDto registAccount(String loginName, String password, String phone) {
+	public AuthManagerAccountDto registAccount(String loginName, String password, String phone) {
 
 		Assert.hasLength(loginName , "注册登陆名为空");
 		Assert.hasLength(password , "注册登陆密码为空");
@@ -117,7 +118,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		wrapper.eq(ManagerAccountEntity::getLoginName, loginName) ;
 		ManagerAccountEntity entity = getOne(wrapper) ;
 
-		ManagerAccountDto dto = new ManagerAccountDto() ;
+		AuthManagerAccountDto dto = new AuthManagerAccountDto() ;
 		BeanUtils.copyProperties(entity , dto);
 
 		return dto ;
@@ -285,7 +286,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public ManagerAccountDto loginAccount(String username, String password) {
+	public AuthManagerAccountDto loginAccount(String username, String password) {
 
 		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
 		wrapper.eq(ManagerAccountEntity::getLoginName , username) ;
@@ -298,7 +299,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 		Assert.isTrue(checkpw , "登陆密码不正确");
 
-		ManagerAccountDto dto = new ManagerAccountDto() ;
+		AuthManagerAccountDto dto = new AuthManagerAccountDto() ;
 		BeanUtils.copyProperties(entity , dto);
 
 		return dto ;
@@ -326,15 +327,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 	@Override
 	public int updateUserStatus(ManagerAccountEntity user) {
-
-//		// 删除用户与角色关联
-//		userRoleMapper.deleteUserRoleByUserId(accountId);
-//		// 新增用户与角色管理
-//		insertUserRole(user);
-//		// 删除用户与岗位关联
-//		userPostMapper.deleteUserPostByUserId(accountId);
-//		// 新增用户与岗位管理
-//		insertUserPost(user);
 
 		LambdaUpdateWrapper<ManagerAccountEntity> updateWrapper = new LambdaUpdateWrapper<>();
 		updateWrapper.eq(ManagerAccountEntity::getId, user.getId());
@@ -377,7 +369,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 
 			Map<String, Object> org = new HashMap<>();
 			org.put("orgId", organizationDto.getId());
-			org.put("doorplateNumber", organizationDto.getDoorplateNumber()) ;
 			org.put("orgName", organizationDto.getOrgName());
 			org.put("roleType", orgAccount.getOrgType());
 			org.put("roleName", AccountOrganizationType.fromType(orgAccount.getOrgType()).getName());
@@ -427,11 +418,11 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public ManagerAccountDto getManagerAccountDto(long id) {
+	public AuthManagerAccountDto getManagerAccountDto(long id) {
 
 		ManagerAccountEntity e = getById(id);
 
-		ManagerAccountDto dto = new ManagerAccountDto();
+		AuthManagerAccountDto dto = new AuthManagerAccountDto();
 		BeanUtils.copyProperties(e, dto);
 
 		// 头像信息
@@ -456,9 +447,9 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public ManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType) {
+	public AuthManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType) {
 
-		ManagerAccountDto dto;
+		AuthManagerAccountDto dto;
 
 		if (!checkLoginName(loginName)) {  // 如果用户不存在，则自动注册
 
@@ -469,16 +460,17 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 			dto =  this.registAccount(loginName, password, loginName) ;
 		}else{  // 如果存在则直接查询返回
 			ManagerAccountEntity e = findByLoginName(loginName);
-			dto = new ManagerAccountDto() ;
+			dto = new AuthManagerAccountDto() ;
 			BeanUtils.copyProperties(e, dto);
 		}
 
-		dto.setPassword(null);
+		// dto.setPassword(null);
+
 		return dto ;
 	}
 
 	@Override
-	public void updateAccount(ManagerAccountDto dto) {
+	public void updateAccount(AuthManagerAccountDto dto) {
 
 		ManagerAccountEntity e = new ManagerAccountEntity() ;
 		BeanUtils.copyProperties(dto, e , new String[]{
@@ -491,7 +483,7 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
-	public void updateAvatorBase64(String base64Encoded, long userId) {
+	public void updateAvatarBase64(String base64Encoded, long userId) {
 
 		// 删除之前的头像
 		managerAccountAvatarMapper.delete(new LambdaUpdateWrapper<ManagerAccountAvatarEntity>()
@@ -503,6 +495,30 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		avatarEntity.setAvatarBase64(base64Encoded);
 
 		managerAccountAvatarMapper.insert(avatarEntity) ;
+	}
+
+	@Override
+	public boolean isPhoneExists(String phone) {
+		if (StringUtils.hasLength(phone)) {
+			LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>();
+			wrapper.eq(ManagerAccountEntity::getPhone, phone);
+			return managerAccountMapper.exists(wrapper);
+		}
+		return false;
+	}
+
+	@Override
+	public String resetUserPwd(Long userId) {
+
+		ManagerAccountEntity account = getById(userId);
+
+		String newPassword = IdUtil.nanoId(8);
+		account.setPassword(BCrypt.hashpw(newPassword));
+		account.setPasswordStatus(1);  // 系统重置的密码(用户登陆之后，需要提示更新)
+
+		updateById(account);
+
+		return newPassword;
 	}
 
 	@Override
