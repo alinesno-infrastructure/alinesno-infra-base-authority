@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.authority.service;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.common.facade.services.IBaseService;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -55,7 +55,7 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param password  密码
 	 * @return
 	 */
-	ManagerAccountDto registAccount(String loginName, String password, String phone);
+	AuthManagerAccountDto registAccount(String loginName, String password, String phone);
 
 	/**
 	 * 判断用户是否有超级管理员
@@ -158,7 +158,7 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param password
 	 * @return
 	 */
-	ManagerAccountDto loginAccount(String username, String password);
+	AuthManagerAccountDto loginAccount(String username, String password);
 
 	/**
 	 * 检测用户的状态
@@ -191,7 +191,7 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param id
 	 * @return
 	 */
-	ManagerAccountDto getManagerAccountDto(long id);
+	AuthManagerAccountDto getManagerAccountDto(long id);
 
 	/**
 	 * 根据用户名查询用户信息，如果不存在，则自动注册
@@ -201,19 +201,32 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @param loginType 登陆方式(sms手机验证码登陆|account账号密码登陆)
 	 * @return
 	 */
-    ManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType);
+    AuthManagerAccountDto findByLoginNameWithRegister(String loginName, String password , String loginType);
 
 	/**
 	 * 更新账户信息
 	 * @param dto
 	 */
-    void updateAccount(ManagerAccountDto dto);
+    void updateAccount(AuthManagerAccountDto dto);
 
 	/**
 	 * 更新用户头像
 	 * @param base64Encoded
 	 * @param userId
 	 */
-	void updateAvatorBase64(String base64Encoded, long userId);
+	void updateAvatarBase64(String base64Encoded, long userId);
 
+	/**
+	 * 判断手机号是否存在
+	 * @param phone
+	 * @return
+	 */
+    boolean isPhoneExists(String phone);
+
+	/**
+	 * 重置用户密码
+	 * @param userId
+	 * @return 用户新密码
+	 */
+	String resetUserPwd(Long userId);
 }
