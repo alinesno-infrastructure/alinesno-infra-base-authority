@@ -3,16 +3,18 @@ package com.alinesno.infra.base.authority.controller;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.json.JSONUtil;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.core.utils.DeviceTypeUtils;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IManagerResourceService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.base.dto.LoginBodyDto;
+import com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountBean;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.login.annotation.CurrentAccount;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -50,11 +51,18 @@ public class AuthCommonLoginController {
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBodyDto loginBody) {
+    public AjaxResult login(@RequestBody LoginBodyDto loginBody , HttpServletRequest request) {
         AjaxResult ajax = AjaxResult.success();
-        // 生成令牌
-        String token = UUID.randomUUID().toString() ;
-        ajax.put(TOKEN, token);
+
+        AuthManagerAccountDto accountDto = accountService.findByLoginNameWithRegister(
+                loginBody.getUsername() ,
+                loginBody.getPassword() ,
+                "account");
+
+        StpUtil.login(accountDto.getId() , DeviceTypeUtils.getDeviceType(request));
+
+        ajax.put("token" , StpUtil.getTokenValue()) ;
+
         return ajax;
     }
 
@@ -86,8 +94,8 @@ public class AuthCommonLoginController {
         SaSession session = StpUtil.getSession();
 
         // TODO 待处理重名的问题
-        ManagerAccountDto dto = accountService.getManagerAccountDto(accountId) ;
-        com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto dto2 = new com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto() ;
+        AuthManagerAccountDto dto = accountService.getManagerAccountDto(accountId) ;
+        ManagerAccountDto dto2 = new ManagerAccountDto() ;
         BeanUtils.copyProperties(dto, dto2);
 
         session.set("CURRENT_ACCOUNT_DTO", dto2);
@@ -116,7 +124,6 @@ public class AuthCommonLoginController {
         long accountId = CurrentAccountJwt.getUserId() ;
 
         ManagerResourceDto resourceDto = managerResourceService.findMenusByProjectCode(projectCode , accountId) ;
-        log.debug("resourceDto : {}" , JSONUtil.toJsonPrettyStr(resourceDto));
 
         return AjaxResult.success(resourceDto.getChildren()) ;
     }
