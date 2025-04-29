@@ -15,41 +15,38 @@
 
 	<dependencies>
 
-		<!-- SSO相关依赖 -->
-		<dependency>
-			<groupId>com.alinesno.infra.common</groupId>
-			<artifactId>alinesno-infra-common-web-api-sso</artifactId>
-			<version>${revision}</version>
-		</dependency>
-
 		<!-- 权限领域相关依赖 -->
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-domain</artifactId>
 			<version>${revision}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
-			<artifactId>alinesno-infra-base-authority-initialize</artifactId>
+			<artifactId>alinesno-infra-base-authority-identity</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.alinesno.infra.base</groupId>
-			<artifactId>alinesno-infra-base-authority-meta</artifactId>
-			<version>${revision}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-adapter</artifactId>
 			<version>${revision}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
 			<artifactId>alinesno-infra-base-authority-gateway</artifactId>
 			<version>${revision}</version>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.alinesno.infra.base</groupId>
+            <artifactId>alinesno-infra-base-authority-core</artifactId>
+			<version>${revision}</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
