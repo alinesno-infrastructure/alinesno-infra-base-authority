@@ -5,6 +5,7 @@ import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationEntity;
 import com.alinesno.infra.base.authority.enums.AccountOrganizationType;
+import com.alinesno.infra.base.authority.enums.RolePowerTypeEnmus;
 import com.alinesno.infra.base.authority.mapper.ManagerAccountMapper;
 import com.alinesno.infra.base.authority.mapper.OrganizationAccountMapper;
 import com.alinesno.infra.base.authority.mapper.OrganizationMapper;
@@ -52,8 +53,12 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 
 		TableDataInfo tableDataInfo = new TableDataInfo();
 
+		ManagerAccountEntity account = managerAccountMapper.selectById(accountId) ;
 		LambdaQueryWrapper<OrganizationAccountEntity> queryOrgAccountWrapper = new LambdaQueryWrapper<>() ;
-		queryOrgAccountWrapper.eq(OrganizationAccountEntity::getAccountId, accountId) ;
+
+		if(!RolePowerTypeEnmus.ROLE_ADMIN.getValue().equals(account.getRolePower())){  // 非超级管理员用户
+			queryOrgAccountWrapper.eq(OrganizationAccountEntity::getAccountId, accountId) ;
+		}
 
 		List<OrganizationAccountEntity> list = organizationAccountMapper.selectList(queryOrgAccountWrapper) ;
 
