@@ -1,8 +1,8 @@
 package com.alinesno.infra.base.authority.config;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
-import com.alinesno.infra.common.web.adapter.login.exception.LoginAuthException;
 import com.alinesno.infra.common.web.adapter.login.security.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,21 +48,18 @@ public class AuthSecurityConfig implements WebMvcConfigurer {
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
         registry.addInterceptor(new SaInterceptor(handle -> {
 
-                    try {
-                        StpUtil.checkLogin();
-                    } catch (Exception e) {
-                        log.error("未登录，跳转登录页面");
-                        throw new LoginAuthException(e);
-                    }
+            try {
+                StpUtil.checkLogin();
+            } catch (NotLoginException e) {
+                log.error("未登录，跳转登录页面");
+                throw e ;
+            }
 
-                    long loginId = StpUtil.getLoginIdAsLong();
-                    log.debug("loginId = {}", loginId);
-
-
-                }))
-                .addPathPatterns("/**")
-                .excludePathPatterns(patterns);
-        ;
+            long loginId = StpUtil.getLoginIdAsLong();
+            log.debug("loginId = {}", loginId);
+        }))
+        .addPathPatterns("/**")
+        .excludePathPatterns(patterns);
     }
 
 }
