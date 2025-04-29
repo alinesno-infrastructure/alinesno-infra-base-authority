@@ -23,7 +23,7 @@ public class OrganizationDto extends BaseDto {
     private String orgName;      // 组织名称
     private String remark;       // 备注
     private String logoUrl;      // LOGO图片地址
-    private String doorplateNumber; // 门牌号
+//    private String doorplateNumber; // 门牌号
     private String organizationId; // 组织ID
     private String subdomain;    // 子域名
     private String workLocation; // 工作地点
