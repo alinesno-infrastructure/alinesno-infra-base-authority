@@ -147,7 +147,7 @@
               ></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
+          <el-table-column label="创建时间" align="center" prop="addTime" v-if="columns[6].visible" width="200">
             <template #default="scope">
               <span>{{ parseTime(scope.row.addTime) }}</span>
             </template>
@@ -367,6 +367,7 @@
 <script setup name="User">
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
+import {ElMessageBox , ElMessage } from "element-plus";
 import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser } from "@/api/system/user";
 
 const router = useRouter();
@@ -525,17 +526,45 @@ function handleAuthRole(row) {
 };
 /** 重置密码按钮操作 */
 function handleResetPwd(row) {
-  proxy.$prompt('请输入"' + row.loginName + '"的新密码', "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    closeOnClickModal: false,
-    inputPattern: /^.{5,20}$/,
-    inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
-  }).then(({ value }) => {
-    resetUserPwd(row.id, value).then(response => {
-      proxy.$modal.msgSuccess("修改成功，新密码是：" + value);
-    });
+
+  // 这里需要提交确认是否更新密码
+  proxy.$modal.confirm('是否确认重置用户"' + row.loginName + '"的密码?').then(function() {
+
+      resetUserPwd(row.id).then(response => {
+
+          const newPassword = response.data ; 
+
+          ElMessageBox.alert('修改成功，新密钥是:'+newPassword+'', '新密码', {
+            confirmButtonText: '复制',
+            callback: (action) => {
+              // 点击复制
+              // 点击复制
+              if (action === 'confirm') {
+                  const textarea = document.createElement('textarea');
+                  textarea.value = newPassword;
+                  document.body.appendChild(textarea);
+                  textarea.select();
+                  try {
+                      const successful = document.execCommand('copy');
+                      if (successful) {
+                          ElMessage.success('复制新密码成功');
+                      } else {
+                          ElMessage.error('复制新密码失败');
+                      }
+                  } catch (err) {
+                      ElMessage.error('复制新密码失败: ' + err);
+                  }
+                  document.body.removeChild(textarea);
+              }
+            },
+          })
+
+      });
+
+  }).then(() => {
+    // proxy.$modal.msgSuccess("重置成功");
   }).catch(() => {});
+
 };
 /** 选择条数  */
 function handleSelectionChange(selection) {
