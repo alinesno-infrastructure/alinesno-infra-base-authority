@@ -7,12 +7,12 @@
       <a :title="saasTitle" target="_self" class="header-logo-label">
         <span>{{ saasTitle }} </span>
       </a>
-      <div v-if="saasUrl" class="dashboard-home" @click="dashboardHome()">
-        <i class="fa-solid fa-house"></i> 工作台
+      <div v-if="saasUrl" class="dashboard-home">
+        <router-link class="header-label-text" to="/index">
+          <i class="fa-solid fa-house"></i> 工作台
+        </router-link>
       </div>
-      <div class="dashboard-home" @click="choiceCurrentProject()">
-        <i :class="projectInfo.projectIcons"></i> {{ projectInfo.projectName }}
-      </div>
+
     </div>
 
     <!-- 项目选择弹窗管理 -->
@@ -21,7 +21,6 @@
 
       <template #footer>
         <div class="dialog-footer">
-          <!-- <el-button :loading="buttonLoading" type="primary" @click="submitForm">确 定</el-button> -->
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -39,11 +38,11 @@ const enableLogo = ref(true);
 const saasUrl = ref('http://alinesno-infra-plat-console-admin.beta.base.infra.linesno.com') ;
 const saasLogoUrl = 'http://data.linesno.com/logo_2.png' ;
 
-import { 
-  getCurrentProject
-} from "@/api/system/project";
+// import { 
+//   getCurrentProject
+// } from "@/api/system/project";
 
-import choiceProject from '@/views/project/choiceProject'
+// import choiceProject from '@/views/project/choiceProject'
 
 /** 参数管理 */
 const open = ref(false);
@@ -72,22 +71,22 @@ function cancel() {
   open.value = false;
 }
 
-function choiceCurrentProject(){
- console.log('选择项目.') 
-  open.value = true;
-  title.value = "请选择项目";
-}
+// function choiceCurrentProject(){
+//  console.log('选择项目.') 
+//   open.value = true;
+//   title.value = "请选择项目";
+// }
 
-/** 获取当前项目信息 */
-function handleCurrentProject(){
-  getCurrentProject().then(res => {
-    if(res.data){
-      projectInfo.value = res.data
-    }
-  })
-}
+// /** 获取当前项目信息 */
+// function handleCurrentProject(){
+//   getCurrentProject().then(res => {
+//     if(res.data){
+//       projectInfo.value = res.data
+//     }
+//   })
+// }
 
-handleCurrentProject() ; 
+// handleCurrentProject() ; 
 
 </script>
 
