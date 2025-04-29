@@ -1,7 +1,12 @@
 <template>
-  <div class="app-container">
-    <el-page-header @back="goBack" content="字典管理"></el-page-header>
-    <br/>
+  <div class="app-container" style="padding:10px 20px !important">
+
+      <el-page-header @back="goBack" style="margin-bottom: 20px;">
+          <template #content>
+              <span class="text-default font-600 mr-3" style="font-size:16px"> 字典管理</span>
+          </template>
+      </el-page-header>
+
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="字典名称" prop="codeTypeValue">
         <el-select v-model="queryParams.codeTypeValue" @change="changeSelect">
