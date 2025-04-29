@@ -3,6 +3,7 @@ package com.alinesno.infra.base.authority.controller;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.core.utils.DeviceTypeUtils;
 import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.dto.ManagerResourceDto;
@@ -54,10 +55,17 @@ public class AuthCommonLoginController {
     public AjaxResult login(@RequestBody LoginBodyDto loginBody , HttpServletRequest request) {
         AjaxResult ajax = AjaxResult.success();
 
+        // 验证密码是否正确
+        Assert.notNull(loginBody.getUsername() , "用户名不能为空") ;
+        Assert.notNull(loginBody.getPassword() , "密码不能为空") ;
+
         AuthManagerAccountDto accountDto = accountService.findByLoginNameWithRegister(
                 loginBody.getUsername() ,
                 loginBody.getPassword() ,
                 "account");
+
+        boolean isMatch = BCrypt.checkpw(loginBody.getPassword() , accountDto.getPassword()) ;
+        org.springframework.util.Assert.isTrue(isMatch , "登陆密码不正确");
 
         StpUtil.login(accountDto.getId() , DeviceTypeUtils.getDeviceType(request));
 
