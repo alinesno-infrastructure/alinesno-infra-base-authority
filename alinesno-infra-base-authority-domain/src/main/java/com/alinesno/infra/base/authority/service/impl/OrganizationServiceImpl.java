@@ -153,12 +153,12 @@ public class OrganizationServiceImpl extends IBaseServiceImpl<OrganizationEntity
 	public void createOrJoinOrg(OrganizationDto dto, long accountId) {
 		int type = dto.getType();
 
-		String doorplateNumber = dto.getJoinDoorplateNumber() ;
+		String joinId = dto.getJoinDoorplateNumber() ;
 
 		if(type == 1){  // 加入组织(成为成员)
 
 			LambdaQueryWrapper<OrganizationEntity> wrapper = new LambdaQueryWrapper<>();
-			wrapper.eq(OrganizationEntity::getDoorplateNumber, doorplateNumber);
+			wrapper.eq(OrganizationEntity::getId, joinId);
 			long joinOrgId = getOne(wrapper).getId();
 
 			this.joinOrg(accountId, joinOrgId);
