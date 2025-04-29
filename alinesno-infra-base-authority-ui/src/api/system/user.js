@@ -16,6 +16,7 @@ var managerUrl = {
     removeUrl: prefix + "delete",
     exportUrl: prefix + "exportExcel",
     changeField: prefix + "changeField",
+    resetUserPwd: prefix + "resetUserPwd",
     downloadfile: prefix + "downloadfile"
 }
 
@@ -72,15 +73,10 @@ export function delUser(id) {
 }
 
 // 用户密码重置
-export function resetUserPwd(userId, password) {
-    const data = {
-        userId,
-        password
-    }
+export function resetUserPwd(userId) {
     return request({
-        url: '/system/user/resetPwd',
-        method: 'put',
-        data: data
+        url: managerUrl.resetUserPwd + '?userId=' + parseStrEmpty(userId),
+        method: 'get'
     })
 }
 
