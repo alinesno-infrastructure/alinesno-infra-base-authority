@@ -6,7 +6,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alinesno.infra.base.authority.api.SaSessionInfoDto;
 import com.alinesno.infra.base.authority.api.TokenSignDto;
 import com.alinesno.infra.base.authority.constants.AuthConstants;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
@@ -175,7 +174,7 @@ public class AccountOnlineController extends SuperController {
 
     @NotNull
     private static SaSessionInfoDto getSaSessionInfoDto(SaSession session) {
-        ManagerAccountDto managerAccountDto = (ManagerAccountDto) session.get(AuthConstants.currentAccountDto);
+        com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto managerAccountDto = (com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto) session.get(AuthConstants.currentAccountDto);
 //		log.debug("-->>> managerAccountDto = {}" , JSONObject.toJSONString(managerAccountDto));
 
         SaSessionInfoDto sessionDto = new SaSessionInfoDto() ;
