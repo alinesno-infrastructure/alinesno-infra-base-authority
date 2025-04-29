@@ -9,9 +9,6 @@ import com.alinesno.infra.common.web.adapter.login.controller.kaptcha.CaptchaCon
 import com.alinesno.infra.common.web.adapter.login.controller.kaptcha.KaptchaTextCreator;
 import com.alinesno.infra.common.web.adapter.login.security.SecurityProperties;
 import com.alinesno.infra.common.web.adapter.login.security.StpInterfaceImpl;
-import com.alinesno.infra.common.web.adapter.sso.controller.SsoClientController;
-import com.alinesno.infra.common.web.adapter.sso.controller.SsoH5Controller;
-import com.alinesno.infra.common.web.adapter.sso.listener.SaTokenListener;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +29,7 @@ public class AuthorityApiConfigurationSelector implements ImportSelector {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(ApiConfigurationSelector.class);
 
+	@org.jetbrains.annotations.NotNull
 	@NotNull
 	@Override
 	public String[] selectImports(@NotNull AnnotationMetadata importingClassMetadata) {
@@ -54,11 +52,6 @@ public class AuthorityApiConfigurationSelector implements ImportSelector {
 		importBean.add(AuthSysDictDataController.class.getName()) ;
 
 		importBean.add(AuthCurrentAccountMethodArgumentResolver.class.getName()) ;
-
-		// SSO单点登陆
-		importBean.add(SsoH5Controller.class.getName()) ;
-		importBean.add(SsoClientController.class.getName()) ;
-		importBean.add(SaTokenListener.class.getName()) ;
 
 		return importBean.toArray(new String[] {});
 	}
