@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.authority.controller;
 
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.gateway.provider.AccountProviderController;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.facade.response.R;
@@ -23,7 +23,7 @@ public class AuthManagerAccountController {
      */
     @GetMapping(value = "/profile")
     public AjaxResult profile() {
-        ManagerAccountDto dto = accountProviderController.getManagerAccountDto(CurrentAccountJwt.getUserId()).getData();
+        AuthManagerAccountDto dto = accountProviderController.getManagerAccountDto(CurrentAccountJwt.getUserId()).getData();
         return AjaxResult.success(dto);
     }
 
@@ -31,7 +31,7 @@ public class AuthManagerAccountController {
      * 更新账号信息
      */
     @PutMapping(value = "/profile")
-    public AjaxResult updateProfile(@RequestBody ManagerAccountDto dto) {
+    public AjaxResult updateProfile(@RequestBody AuthManagerAccountDto dto) {
         R<String> r = accountProviderController.updateProfile(dto) ;
         return AjaxResult.success();
     }
