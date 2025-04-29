@@ -49,13 +49,13 @@ public class OrganizationEntity extends BaseEntity {
 	@ColumnComment("组织LOGO,推荐尺寸 400*180 px，显示在工作台、打印、分享和企业域名页面，大小建议在512KB以内")
 	private String logoPath;
 
-	/**
-	 * 组织门牌号
-	 */
-	@TableField("doorplate_number")
-	@ColumnType(length = 255)
-	@ColumnComment("成员可输入组织门牌号加入组织")
-	private String doorplateNumber;
+//	/**
+//	 * 组织门牌号
+//	 */
+//	@TableField("doorplate_number")
+//	@ColumnType(length = 255)
+//	@ColumnComment("成员可输入组织门牌号加入组织")
+//	private String doorplateNumber;
 
 	/**
 	 * 组织唯一身份编号
