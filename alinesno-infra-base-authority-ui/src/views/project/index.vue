@@ -92,7 +92,7 @@
       <el-table-column label="项目描述" align="left" prop="projectDesc" />
       <el-table-column label="项目链接" align="center" width="150" prop="businessType">
         <template #default="scope">
-          <el-button type="primary" bg link @click="enterAppHome(scope.row)"> <i class="fa-solid fa-file-shield"></i>&nbsp;项目空间</el-button>
+          <el-button type="primary" bg link @click="openProjectSpace(scope.row)"> <i class="fa-solid fa-file-shield"></i>&nbsp;项目空间</el-button>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100" align="center" prop="status">
@@ -311,6 +311,13 @@ function openMenu(row){
   let path =  '/application/system/menu/'
   router.push({ path: path + row.id });
 }
+
+/** 打开项目空间 */
+function openProjectSpace(row){
+  let path =  '/application/system/space/'
+  router.push({ path: path + row.id });
+}
+
 /** 选择图标 */
 function selected(name) {
   // form.value.icon = name;
