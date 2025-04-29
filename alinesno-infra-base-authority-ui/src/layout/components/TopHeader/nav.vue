@@ -1,20 +1,19 @@
 <template>
   <nav class=" header-text">
+
+    <!-- 
     <div class="acp-header-item ">
       <router-link class="header-label-text" to="/index">
         <i class="fa-solid fa-screwdriver-wrench"></i> 控制台
       </router-link>
-    </div>
+    </div> 
+    -->
+
     <div class="acp-header-item ">
       <router-link class="header-label-text" to="/dashboard/learnPanel">
         <i class="fa-regular fa-file-word"></i> 手册
       </router-link>
     </div>
-    <!-- <div class="acp-header-item ">
-      <router-link class="header-label-text" to="/dashboard/smartService">
-        <i class="fa-solid fa-swatchbook"></i> 专家 
-      </router-link>
-    </div> -->
     <div class="acp-header-item ">
       <router-link class="header-label-text" to="/dashboard/suportTechnique">
         <i class="fa-solid fa-user-tag"></i> 服务
@@ -32,7 +31,6 @@
           </el-icon>
         </a>
         <a class="header-label-text" target="_blank">
-          <!-- <img src="http://data.linesno.com/switch_header.png" class="su70ez-0 CB-gLgKdv" alt="" /> -->
           <img :src="userStore.avatar" class="su70ez-0 CB-gLgKdv" alt="" />
         </a>
       </div>
@@ -70,16 +68,6 @@
             </el-dropdown-item>
           </router-link>
 
-          <!--
-          <el-dropdown-item @click="setting = true">
-            <i class="fa-solid fa-pen-ruler"></i> 布局设置
-          </el-dropdown-item>
-
-          <el-dropdown-item>
-            <i class="fa-solid fa-rocket"></i> 账单面板
-          </el-dropdown-item>
-          -->
-
           <el-container>
             <el-main>
               <el-button type="primary" style="width: 100%" @click="logout">退出登陆</el-button>
@@ -101,10 +89,6 @@ import useUserStore from '@/store/modules/user'
 const userStore = useUserStore()
 const router = useRouter();
 
-// const avatar = ref('http://data.linesno.com/switch_header.png') ; 
-// const nickname = ref('超级管理员') ;
-// const name = ref('超级管理员') ;
-
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
     confirmButtonText: '确定',
@@ -112,7 +96,7 @@ function logout() {
     type: 'warning'
   }).then(() => {
 
-    userStore.ssoLogOut().then(() => {
+    userStore.logOut().then(() => {
       location.href = '/index';
     })
 
