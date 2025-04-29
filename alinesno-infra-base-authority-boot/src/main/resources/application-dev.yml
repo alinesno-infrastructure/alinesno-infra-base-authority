@@ -16,7 +16,6 @@ spring:
       database: 2
       host: 127.0.0.1
       port: 6379
-      password: aip@local
   devtools:
     restart:
       enabled: true
@@ -25,7 +24,7 @@ actable:
   table:
     auto: update
   model:
-    pack: com.alinesno.infra.base.authority.entity;com.alinesno.infra.base.authority.meta.entity
+    pack: com.alinesno.infra.base.authority.entity;com.alinesno.infra.base.authority.identity.domain
   database:
     type: mysql
   index:
@@ -33,13 +32,46 @@ actable:
   unique:
     prefix: alinesno_base_authority_uni_
 
+
+
+sms:
+  redis-cache: false
+  account-max: 20
+  minute-max: 2
+  config-type: yaml
+  is-print: false
+  corePoolSize: 10
+  maxPoolSize: 30
+  queueCapacity: 50
+  shutdownStrategy: true
+  is-dev: true
+  blends:
+    alibaba:
+      accessKeyId:
+      accessKeySecret:
+      signature:
+      templateId:
+      templateName: code
+
+forest:
+  max-connections: 1000        # 连接池最大连接数
+  connect-timeout: 3000        # 连接超时时间，单位为毫秒
+  read-timeout: 3000           # 数据读取超时时间，单位为毫秒
+
 # security配置
 alinesno:
   security:
     # 排除路径
     excludes:
-      - /sso/**
+      - /captchaImage
+      - /login
+      - /getInfo
+      - /identityInfo
+      - /identityRegister
+      - /wechat/callback
+      - /wechat/bindPhone
       - /logout
+      - /sso/**
       - /v1/api/base/authority/dict/*
       - /v1/api/base/authority/account/*
       - /v1/api/base/authority/organize/*
@@ -48,12 +80,9 @@ alinesno:
 # sa-token配置
 sa-token:
   token-name: Authorization
-  host-path: http://localhost:27001
   sso:
+    allow-url: "*"
     auth-url: ${sa-token.host-path}/login
     is-http: true
-    check-ticket-url: ${sa-token.host-path}/sso/checkTicket
-    slo-url: ${sa-token.host-path}/sso/signout
-    get-data-url: ${sa-token.host-path}/sso/getData
   sign:
     secret-key: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor
