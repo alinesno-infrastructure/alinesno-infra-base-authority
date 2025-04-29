@@ -3,6 +3,8 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_settings
@@ -10,9 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ManagerSettingsDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
-	// fields
+
 	/**
 	 * "configName"
 	 */
@@ -33,62 +36,6 @@ public class ManagerSettingsDto extends BaseDto {
 	 * "configRemark"
 	 */
 	private String configRemark;
-
-	// getter and setter
-	public String getConfigName()
-
-	{
-		return this.configName;
-	}
-
-	public ManagerSettingsDto setConfigName(String arg) {
-		this.configName = arg;
-		return this;
-	}
-
-	public String getConfigKey()
-
-	{
-		return this.configKey;
-	}
-
-	public ManagerSettingsDto setConfigKey(String arg) {
-		this.configKey = arg;
-		return this;
-	}
-
-	public String getConfigValue()
-
-	{
-		return this.configValue;
-	}
-
-	public ManagerSettingsDto setConfigValue(String arg) {
-		this.configValue = arg;
-		return this;
-	}
-
-	public String getConfigType()
-
-	{
-		return this.configType;
-	}
-
-	public ManagerSettingsDto setConfigType(String arg) {
-		this.configType = arg;
-		return this;
-	}
-
-	public String getConfigRemark()
-
-	{
-		return this.configRemark;
-	}
-
-	public ManagerSettingsDto setConfigRemark(String arg) {
-		this.configRemark = arg;
-		return this;
-	}
 
 	/**
 	 * 快速从 dto 转换成 entity
