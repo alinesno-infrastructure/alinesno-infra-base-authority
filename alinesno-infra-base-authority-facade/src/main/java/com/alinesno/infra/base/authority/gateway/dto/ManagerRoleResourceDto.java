@@ -3,6 +3,8 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_role_resource
@@ -10,8 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ManagerRoleResourceDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
 	// fields
 	/**
 	 * "resourceId"
@@ -29,51 +32,6 @@ public class ManagerRoleResourceDto extends BaseDto {
 	 * "roleType"
 	 */
 	private String roleType;
-
-	// getter and setter
-	public String getResourceId()
-
-	{
-		return this.resourceId;
-	}
-
-	public ManagerRoleResourceDto setResourceId(String arg) {
-		this.resourceId = arg;
-		return this;
-	}
-
-	public String getResourceType()
-
-	{
-		return this.resourceType;
-	}
-
-	public ManagerRoleResourceDto setResourceType(String arg) {
-		this.resourceType = arg;
-		return this;
-	}
-
-	public String getRoleId()
-
-	{
-		return this.roleId;
-	}
-
-	public ManagerRoleResourceDto setRoleId(String arg) {
-		this.roleId = arg;
-		return this;
-	}
-
-	public String getRoleType()
-
-	{
-		return this.roleType;
-	}
-
-	public ManagerRoleResourceDto setRoleType(String arg) {
-		this.roleType = arg;
-		return this;
-	}
 
 	/**
 	 * 快速从 dto 转换成 entity
