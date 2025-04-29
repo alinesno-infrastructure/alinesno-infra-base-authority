@@ -1,5 +1,5 @@
 <template>
-   <el-form ref="userRef" :model="user" :rules="rules" label-width="80px">
+   <el-form ref="userRef" :model="user" :rules="rules" label-width="80px" size="large">
       <el-form-item label="用户昵称" prop="name">
          <el-input v-model="user.name" maxlength="30" />
       </el-form-item>
