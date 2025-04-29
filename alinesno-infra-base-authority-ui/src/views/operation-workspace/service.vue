@@ -9,18 +9,20 @@
           <div class="panel-body acp-height-auto" >
             <div class="acp-app-list">
               <ul>
-                <li class="app-items dashboard-project-item" v-for="(item,index) in apps" :key="item">
-                  <div class="role-icon">
-                      <i :class="item.projectIcons" />
-                  </div>
-                  <div class="app-info">
-                    <div class="app-item-title">{{ item.projectName }}</div>
-                    <div class="app-item desc">{{ item.projectDesc }}</div>
-                  </div>
+                <li class="app-items dashboard-project-item" v-for="(item,index) in apps" :key="index">
+                    <div class="role-icon">
+                        <i :class="item.projectIcons"></i>
+                    </div>
+                    <div class="app-info">
+                      <router-link :to="'/application/system/space/' + item.id">
+                        <div class="app-item-title">{{ item.projectName }}</div>
+                      </router-link> 
+                      <div class="app-item desc">{{ item.projectDesc }}</div>
+                    </div>
                 </li>
                 <li class="app-items" @click="handleAdd()" style="width: calc(25% - 10px);background: #f5f5f5;border-radius: 5px;padding-left: 10px;cursor: pointer; margin-top: 10px;"> 
                   <div class="app-icon" style="margin-top: 0px;">
-                    <i class="fa-solid fa-plus" />
+                    <i class="fa-solid fa-plus"></i>
                   </div>
                   <div class="app-info">
                     <div class="app-item-title">增加应用</div>
@@ -232,6 +234,10 @@ onMounted(() => {
 }
 .item-health-count{
   margin-bottom: 5px;
+}
+
+.app-info {
+  cursor: pointer;
 }
 
 .app-icon{
