@@ -1,8 +1,10 @@
 package com.alinesno.infra.base.authority.datascope.aspect;
 
-import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
 import com.alinesno.infra.base.authority.api.PermissionQuery;
+import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionQuery;
+import com.alinesno.infra.base.authority.datascope.utils.RolePowerUtils;
 import com.alinesno.infra.base.authority.enums.DataSourceScope;
+import com.alinesno.infra.common.web.adapter.base.dto.ManagerAccountDto;
 import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +58,12 @@ public class DataPermissionQueryAdvice {
 			log.debug("argItem:{}", argItem);
 
 			if (argItem instanceof PermissionQuery query) { // 分页参数
+
+				// 获取当前用户
+				ManagerAccountDto account = CurrentAccountJwt.get();
+				boolean isAdmin = RolePowerUtils.isAdmin(account.getRolePower()) ;
+
+				query.setAdmin(isAdmin);
 				query.setType(dataQuery.scope());
 				query.setOrgId(CurrentAccountJwt.get().getOrgId());
 				query.setOperatorId(CurrentAccountJwt.getUserId());
