@@ -2,7 +2,7 @@ package com.alinesno.infra.base.authority.gateway.controller;
 
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationAccountService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -52,12 +52,12 @@ public class OrganizationAccountRest extends BaseController<OrganizationAccountE
 
 		List<OrganizationAccountEntity> accountlist = (List<OrganizationAccountEntity>) tableDataInfo.getRows();
 
-		List<ManagerAccountDto> listDtos = new ArrayList<>() ;
+		List<AuthManagerAccountDto> listDtos = new ArrayList<>() ;
 		List<Long> ids = accountlist.stream().map(OrganizationAccountEntity::getAccountId).toList() ;
 
 		List<ManagerAccountEntity> listAccountEntity =  managerAccountService.listByIds(ids) ;
 		listAccountEntity.forEach(item -> {
-			ManagerAccountDto dto = new ManagerAccountDto() ;
+			AuthManagerAccountDto dto = new AuthManagerAccountDto() ;
 			dto = dto.fromDto(item) ;
 
 			OrganizationAccountEntity orgAccount = accountlist.stream().filter(item1 -> item1.getAccountId().equals(item.getId())).findFirst().orElse(null) ;
