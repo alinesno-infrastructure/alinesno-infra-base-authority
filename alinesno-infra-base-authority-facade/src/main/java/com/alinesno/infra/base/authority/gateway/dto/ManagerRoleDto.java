@@ -3,6 +3,8 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： manager_role
@@ -10,8 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ManagerRoleDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
 	// fields
 	/**
 	 * "roleStatus"
@@ -29,51 +32,6 @@ public class ManagerRoleDto extends BaseDto {
 	 * "roleDesc"
 	 */
 	private String roleDesc;
-
-	// getter and setter
-	public Long getRoleStatus()
-
-	{
-		return this.roleStatus;
-	}
-
-	public ManagerRoleDto setRoleStatus(Long arg) {
-		this.roleStatus = arg;
-		return this;
-	}
-
-	public String getRoleTitle()
-
-	{
-		return this.roleTitle;
-	}
-
-	public ManagerRoleDto setRoleTitle(String arg) {
-		this.roleTitle = arg;
-		return this;
-	}
-
-	public String getRoleName()
-
-	{
-		return this.roleName;
-	}
-
-	public ManagerRoleDto setRoleName(String arg) {
-		this.roleName = arg;
-		return this;
-	}
-
-	public String getRoleDesc()
-
-	{
-		return this.roleDesc;
-	}
-
-	public ManagerRoleDto setRoleDesc(String arg) {
-		this.roleDesc = arg;
-		return this;
-	}
 
 	/**
 	 * 快速从 dto 转换成 entity
