@@ -85,6 +85,14 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	private String password;
 
 	/**
+	 * 密码状态(1是系统重围的密码|0用户重围的密码)
+	 */
+	@ColumnType(length = 1)
+	@ColumnComment("密码状态")
+	@TableField("password_status")
+	private Integer passwordStatus = 0 ;
+
+	/**
 	 * 加密字符
 	 */
 	@ColumnType(length = 100)
@@ -157,7 +165,7 @@ public class ManagerAccountEntity extends InfraBaseEntity {
 	 * 性别
 	 */
 	@Excel(name = "性别", replace = {"男_1", "女_0"})
-	@ColumnType(length = 1)
+	@ColumnType(length = 10)
 	@ColumnComment("性别")
 	@TableField("sex")
 	private String sex;
