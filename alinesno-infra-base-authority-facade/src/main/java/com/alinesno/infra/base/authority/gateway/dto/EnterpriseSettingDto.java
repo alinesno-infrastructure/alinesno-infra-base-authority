@@ -3,6 +3,8 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： enterprise_setting
@@ -10,9 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luoxiaodong 
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class EnterpriseSettingDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
-	// fields
 	/**
 	 * "所属公司"
 	 */
@@ -53,117 +55,6 @@ public class EnterpriseSettingDto extends BaseDto {
 	 * "配置名称"
 	 */
 	private String configName;
-
-	// getter and setter
-	public String getCompany()
-
-	{
-		return this.company;
-	}
-
-	public EnterpriseSettingDto setCompany(String arg) {
-		this.company = arg;
-		return this;
-	}
-
-	public String getCompanyAddress()
-
-	{
-		return this.companyAddress;
-	}
-
-	public EnterpriseSettingDto setCompanyAddress(String arg) {
-		this.companyAddress = arg;
-		return this;
-	}
-
-	public String getCompanyPhone()
-
-	{
-		return this.companyPhone;
-	}
-
-	public EnterpriseSettingDto setCompanyPhone(String arg) {
-		this.companyPhone = arg;
-		return this;
-	}
-
-	public String getCompanyQrcode()
-
-	{
-		return this.companyQrcode;
-	}
-
-	public EnterpriseSettingDto setCompanyQrcode(String arg) {
-		this.companyQrcode = arg;
-		return this;
-	}
-
-	public String getServiceQq()
-
-	{
-		return this.serviceQq;
-	}
-
-	public EnterpriseSettingDto setServiceQq(String arg) {
-		this.serviceQq = arg;
-		return this;
-	}
-
-	public String getLogo()
-
-	{
-		return this.logo;
-	}
-
-	public EnterpriseSettingDto setLogo(String arg) {
-		this.logo = arg;
-		return this;
-	}
-
-	public String getCompanyEmail()
-
-	{
-		return this.companyEmail;
-	}
-
-	public EnterpriseSettingDto setCompanyEmail(String arg) {
-		this.companyEmail = arg;
-		return this;
-	}
-
-	public String getCopyRight()
-
-	{
-		return this.copyRight;
-	}
-
-	public EnterpriseSettingDto setCopyRight(String arg) {
-		this.copyRight = arg;
-		return this;
-	}
-
-	public String getTechSupport()
-
-	{
-		return this.techSupport;
-	}
-
-	public EnterpriseSettingDto setTechSupport(String arg) {
-		this.techSupport = arg;
-		return this;
-	}
-
-	public String getConfigName()
-
-	{
-		return this.configName;
-	}
-
-	public EnterpriseSettingDto setConfigName(String arg) {
-		this.configName = arg;
-		return this;
-	}
 
 	/**
 	 * 快速从 dto 转换成 entity
