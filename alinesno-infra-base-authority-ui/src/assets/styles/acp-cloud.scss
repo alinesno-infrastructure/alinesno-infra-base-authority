@@ -1080,7 +1080,7 @@ $chartColor: #3b5998;
 
   .main-box {
     background-size: cover;
-    background-image: url("https://img.alicdn.com/imgextra/i3/O1CN018YDlO91csxDVQc1n9_!!6000000003657-2-tps-2880-1432.png");
+    background-image: url("http://data.linesno.com/aip-bg.png");
     display: flex;
     width: 100%;
     background-position: top;
@@ -1109,11 +1109,11 @@ $chartColor: #3b5998;
 
   .banner-text {
     float: left;
-    font-size: 18px;
+    font-size: 16px;
     margin: 10px;
     line-height: 25px;
-    font-weight: 500;
-    color: #222 ;
+    font-weight: bold;
+    color: #fff ;
   }
 
   .copyright-text {
@@ -1132,7 +1132,7 @@ $chartColor: #3b5998;
     box-sizing: border-box;
     margin: 0px auto;
     width: 1200px;
-    margin-top: 8%;
+    margin-top: 5%;
     height: 518px;
 
     .infra-dxc {
@@ -1225,7 +1225,7 @@ $chartColor: #3b5998;
       }
 
       .password-login-wrapper {
-        margin-top: 50px;
+        margin-top: 40px;
         text-align: left;
       }
     }
@@ -1270,12 +1270,14 @@ $chartColor: #3b5998;
       .alipay-channel {
         text-align: center;
         position: relative;
-        padding-top: 60px;
+        padding-top: 10px;
 
         .qrlogin-title {
           font-weight: 500;
           font-size: 24px;
           line-height: 30px;
+          text-align: left;
+          margin-bottom: 20px;
           color: rgb(24, 24, 24);
         }
       }
@@ -1285,7 +1287,7 @@ $chartColor: #3b5998;
         display: flex;
 
         .qr-method {
-          padding: 0px 80px;
+          padding: 0px 30px;
           position: relative;
           width: 350px;
           background-color: rgb(255, 255, 255);
