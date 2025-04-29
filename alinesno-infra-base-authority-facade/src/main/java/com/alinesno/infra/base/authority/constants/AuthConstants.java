@@ -68,4 +68,10 @@ public interface AuthConstants {
      */
     String PHONE_CODE_KEY = "phone_code_codes:";
 
+    /**
+     * 在线令牌的键名前缀。
+     * 用于生成和存储在线令牌的键名，键名包含该前缀和用户的唯一标识符。
+     */
+    String WECHAT_ACCESS_KEY  = "wechat_access_tokens:";
+
 }
