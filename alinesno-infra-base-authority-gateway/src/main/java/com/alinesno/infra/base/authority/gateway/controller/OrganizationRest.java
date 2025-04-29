@@ -58,7 +58,6 @@ public class OrganizationRest extends BaseController<OrganizationEntity, IOrgani
 	public AjaxResult createOrg(@RequestBody OrganizationDto dto) {
 
 		dto.setOrganizationId(IdUtil.getSnowflakeNextIdStr());
-		dto.setDoorplateNumber(IdUtil.nanoId(8));
 
 		orgService.createOrJoinOrg(dto , CurrentAccountJwt.getUserId());
 		return ok();
@@ -69,8 +68,6 @@ public class OrganizationRest extends BaseController<OrganizationEntity, IOrgani
 	public AjaxResult saveOrg(@RequestBody OrganizationEntity entity) throws Exception {
 
 		entity.setOrganizationId(IdUtil.getSnowflakeNextIdStr());
-		entity.setDoorplateNumber(IdUtil.nanoId(8));
-
 		orgService.save(entity);
 		return ok();
 	}
