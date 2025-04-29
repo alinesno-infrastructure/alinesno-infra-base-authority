@@ -13,9 +13,14 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PermissionQuery extends InfraBaseEntity {
 
+    private boolean isAdmin ; // 是否是管理员
     private DataSourceScope type ;
 
     public <T extends InfraBaseEntity> void toWrapper(LambdaQueryWrapper<T> wrapper) {
+
+        if(isAdmin){
+            return ;
+        }
 
         if (type == DataSourceScope.PERSONAL_SCOPE) { // 用户权限
             wrapper.eq(T::getOperatorId , this.getOperatorId()) ;
