@@ -77,7 +77,6 @@ public class OrganizeProviderController extends BaseProvider {
         BeanUtils.copyProperties(dto,entity);
 
         entity.setOrganizationId(IdUtil.getSnowflakeNextIdStr());
-        entity.setDoorplateNumber(IdUtil.nanoId(8));
 
         boolean b = organizationService.saveOrUpdate(entity);
 
