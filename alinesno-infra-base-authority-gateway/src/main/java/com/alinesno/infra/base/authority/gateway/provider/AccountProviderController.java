@@ -4,7 +4,7 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.facade.response.R;
@@ -36,8 +36,8 @@ public class AccountProviderController extends BaseProvider {
      * 通过id获取到用户信息getById
      */
     @GetMapping("/getManagerAccountDto")
-    public R<ManagerAccountDto> getManagerAccountDto(long id) {
-        ManagerAccountDto dto = managerAccountService.getManagerAccountDto(id);
+    public R<AuthManagerAccountDto> getManagerAccountDto(long id) {
+        AuthManagerAccountDto dto = managerAccountService.getManagerAccountDto(id);
         return R.ok(dto) ;
     }
 
@@ -58,13 +58,13 @@ public class AccountProviderController extends BaseProvider {
      * @return
      */
     @PostMapping("/registerAccount")
-    public ManagerAccountDto registerAccount(@RequestBody ManagerAccountDto dto) {
+    public AuthManagerAccountDto registerAccount(@RequestBody AuthManagerAccountDto dto) {
 
         String loginName = dto.getLoginName();
         String password = BCrypt.hashpw(dto.getPassword());  // 密钥加密
         String phone = dto.getPhone();
 
-        ManagerAccountDto b = managerAccountService.registAccount(loginName, password, phone);
+        AuthManagerAccountDto b = managerAccountService.registAccount(loginName, password, phone);
         log.debug("registerAccount = {}", b);
 
         return b;
@@ -76,9 +76,9 @@ public class AccountProviderController extends BaseProvider {
      * @return
      */
     @PostMapping("/login")
-    public ManagerAccountDto login(@RequestBody LoginBodyDto loginBodyDto) {
+    public AuthManagerAccountDto login(@RequestBody LoginBodyDto loginBodyDto) {
 
-        ManagerAccountDto dto = managerAccountService.loginAccount(loginBodyDto.getUsername(), loginBodyDto.getPassword());
+        AuthManagerAccountDto dto = managerAccountService.loginAccount(loginBodyDto.getUsername(), loginBodyDto.getPassword());
         log.debug("login account = {}", dto);
 
         return dto;
@@ -102,12 +102,12 @@ public class AccountProviderController extends BaseProvider {
      * @return
      */
     @GetMapping("/findByLoginName")
-    public ManagerAccountDto findByLoginName(String loginName) {
+    public AuthManagerAccountDto findByLoginName(String loginName) {
         Assert.hasLength(loginName, "用户名称为空");
 
         ManagerAccountEntity e = managerAccountService.findByLoginName(loginName);
 
-        ManagerAccountDto dto = new ManagerAccountDto();
+        AuthManagerAccountDto dto = new AuthManagerAccountDto();
         BeanUtils.copyProperties(e, dto);
         dto.setPassword(null);
 
@@ -123,13 +123,13 @@ public class AccountProviderController extends BaseProvider {
      * 通过用户名查询，如果不存在则自动注册
      */
     @GetMapping("/findByLoginNameWithRegister")
-    public R<ManagerAccountDto> findByLoginNameWithRegister(String loginName , String password , String loginType) {
+    public R<AuthManagerAccountDto> findByLoginNameWithRegister(String loginName , String password , String loginType) {
 
         log.debug("loginName = {} , password = {} , loginType = {}" , loginName , password , loginType);
         Assert.hasLength(loginName, "用户名称为空");
 
         try{
-            ManagerAccountDto dto = managerAccountService.findByLoginNameWithRegister(loginName , password , loginType);
+            AuthManagerAccountDto dto = managerAccountService.findByLoginNameWithRegister(loginName , password , loginType);
             return R.ok(dto);
         }catch (Exception e){
             log.error("findByLoginNameWithRegister error", e);
@@ -175,7 +175,7 @@ public class AccountProviderController extends BaseProvider {
      * @return
      */
     @PutMapping("/updateProfile")
-    public R<String> updateProfile(@RequestBody ManagerAccountDto dto) {
+    public R<String> updateProfile(@RequestBody AuthManagerAccountDto dto) {
         managerAccountService.updateAccount(dto);
         return R.ok() ;
     }
@@ -193,7 +193,7 @@ public class AccountProviderController extends BaseProvider {
         byte[] bytes = avatarfile.getBytes();
         String base64Encoded = Base64.getEncoder().encodeToString(bytes);
 
-        managerAccountService.updateAvatorBase64(base64Encoded, userId);
+        managerAccountService.updateAvatarBase64(base64Encoded, userId);
         return R.ok(base64Encoded) ;
     }
 }
