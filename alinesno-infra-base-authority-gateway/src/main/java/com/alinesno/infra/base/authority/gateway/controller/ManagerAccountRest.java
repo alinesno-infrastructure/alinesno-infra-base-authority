@@ -1,17 +1,10 @@
 package com.alinesno.infra.base.authority.gateway.controller;
 
-import cn.dev33.satoken.session.SaSession;
-import cn.dev33.satoken.session.TokenSign;
-import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
 import com.alinesno.infra.base.authority.api.OrganizationDto;
-import com.alinesno.infra.base.authority.api.SaSessionInfoDto;
-import com.alinesno.infra.base.authority.api.TokenSignDto;
-import com.alinesno.infra.base.authority.constants.AuthConstants;
 import com.alinesno.infra.base.authority.datascope.annotation.DataPermissionScope;
 import com.alinesno.infra.base.authority.entity.ManagerAccountEntity;
 import com.alinesno.infra.base.authority.entity.OrganizationAccountEntity;
-import com.alinesno.infra.base.authority.gateway.dto.ManagerAccountDto;
+import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.base.authority.service.IOrganizationService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
@@ -25,10 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -65,11 +55,11 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 
 		TableDataInfo tableDataInfo = this.toPage(model, this.getFeign(), page);
 
-		List<ManagerAccountDto> listDtos = new ArrayList<>() ;
+		List<AuthManagerAccountDto> listDtos = new ArrayList<>() ;
 		List<ManagerAccountEntity> list = (List<ManagerAccountEntity>) tableDataInfo.getRows() ;
 
 		list.forEach(item -> {
-			ManagerAccountDto dto = new ManagerAccountDto() ;
+			AuthManagerAccountDto dto = new AuthManagerAccountDto() ;
 			dto = dto.fromDto(item) ;
 
 			List<OrganizationDto> orgList = orgService.listByAccountId(item.getId()) ;
@@ -90,11 +80,11 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 		String orgId = request.getParameter("orgId") ;
 		TableDataInfo tableDataInfo = this.toPage(model, this.getFeign(), page);
 
-		List<ManagerAccountDto> listDtos = new ArrayList<>() ;
+		List<AuthManagerAccountDto> listDtos = new ArrayList<>() ;
 		List<ManagerAccountEntity> list = (List<ManagerAccountEntity>) tableDataInfo.getRows() ;
 
 		list.forEach(item -> {
-			ManagerAccountDto dto = new ManagerAccountDto() ;
+			AuthManagerAccountDto dto = new AuthManagerAccountDto() ;
 			dto = dto.fromDto(item) ;
 
 			OrganizationAccountEntity orgAccount = orgService.getByAccountIdAndOrgId(item.getId() , Long.parseLong(orgId)) ;
@@ -119,6 +109,15 @@ public class ManagerAccountRest extends BaseController<ManagerAccountEntity, IMa
 		managerAccountService.checkUserDataScope(user.getUserId());
 
 		return toAjax(managerAccountService.updateUserStatus(user));
+	}
+
+	/**
+	 * 重置密码
+	 * @return
+	 */
+	@GetMapping("/resetUserPwd")
+	public AjaxResult resetUserPwd(@RequestParam Long userId) {
+		return toAjax(managerAccountService.resetUserPwd(userId));
 	}
 
 	@Override
