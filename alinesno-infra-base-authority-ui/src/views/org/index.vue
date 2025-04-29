@@ -91,18 +91,11 @@
                 <div>
                   {{ scope.row.orgName }}
                 </div>
-                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.doorplateNumber">
-                  组织号: {{ scope.row.doorplateNumber }} <el-icon><CopyDocument /></el-icon>
+                <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.id">
+                  组织号: {{ scope.row.id }} <el-icon><CopyDocument /></el-icon>
                 </div>
             </template>
           </el-table-column>
-          <!-- <el-table-column label="组织号" align="center" width="150" key="doorplateNumber" prop="doorplateNumber" v-if="columns[1].visible">
-              <template #default="scope">
-                <el-button type="primary" bg link v-copyText="scope.row.doorplateNumber"> 
-                  <i class="fa-solid fa-file-shield"></i>&nbsp;{{ scope.row.doorplateNumber }}
-                </el-button>
-              </template>
-          </el-table-column> -->
           <el-table-column label="组织描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" />
           <el-table-column label="成员数量" align="center" width="100" key="remark" prop="remark" v-if="columns[1].visible" >
               <template #default="scope">
