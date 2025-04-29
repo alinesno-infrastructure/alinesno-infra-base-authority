@@ -173,6 +173,8 @@
 
 <script setup name="AccountOnline">
 
+import { ElMessage } from "element-plus";
+
 import {
    listAccountOnline,
    delAccountOnline,
@@ -270,6 +272,7 @@ function handleQuery() {
 function handleForceLogout(userId) {
    forceLogout(userId).then(response => {
       console.log('成功强制注销用户', response);
+      ElMessage.success('强制注销成功');
    });
 }
 
@@ -278,6 +281,7 @@ function handleKickUserOffline(userId) {
     kickUserOffline(userId)
         .then(response => {
             console.log('成功将用户踢下线', response);
+            ElMessage.success('强制下线成功');
         });
 }
 
@@ -286,6 +290,7 @@ function handleKickByTokenValue(tokenValue) {
     kickByTokenValue(tokenValue)
         .then(response => {
             console.log('成功根据Token踢人', response);
+            ElMessage.success('强制下线成功');
         });
 }
 
@@ -294,6 +299,7 @@ function handleBanUser(userId) {
     banUser(userId)
         .then(response => {
             console.log('成功封禁用户', response);
+            ElMessage.success('封禁成功');
         });
 }
 
@@ -302,6 +308,7 @@ function handleUnbanUser(userId) {
     unbanUser(userId)
         .then(response => {
             console.log('成功解封用户', response);
+            ElMessage.success('解封成功');
         });
 }
 
@@ -310,6 +317,7 @@ function handleSwitchIdentity(userId) {
     switchIdentity(userId)
         .then(response => {
             console.log('成功切换身份', response);
+            ElMessage.success('切换身份成功');
         })
 }
 
