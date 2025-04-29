@@ -1,48 +1,34 @@
 package com.alinesno.infra.base.authority.gateway.dto;
 
+import lombok.Data;
+
 /**
  * 密码dto
  * 
  * @author luoxiaodong
  * @since 2022年3月17日 下午10:23:43
  */
+@Data
 public class UpdatePasswordDto {
 
-	private String accountId; // 用户id
-	private String oldPassword;
-	private String newPassword;
-	private String confimPassword;
+    /**
+     * 用户id，用于标识需要更新密码的用户
+     */
+    private String accountId;
 
-	public String getAccountId() {
-		return accountId;
-	}
+    /**
+     * 旧密码，用于验证用户身份
+     */
+    private String oldPassword;
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+    /**
+     * 新密码，用户希望设置的新密码
+     */
+    private String newPassword;
 
-	public String getOldPassword() {
-		return oldPassword;
-	}
-
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
-	}
-
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
-
-	public String getConfimPassword() {
-		return confimPassword;
-	}
-
-	public void setConfimPassword(String confimPassword) {
-		this.confimPassword = confimPassword;
-	}
+    /**
+     * 确认密码，用于确认用户输入的新密码是否一致
+     */
+    private String confirmPassword;
 
 }
