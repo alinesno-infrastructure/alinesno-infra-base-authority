@@ -3,15 +3,18 @@ package com.alinesno.infra.base.authority.gateway.dto;
 import com.alinesno.infra.common.facade.base.BaseDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 功能名： 【请填写功能名称】 数据表： enterprise_theme
- * 
- * @author luoxiaodong 
+ *
+ * @author luoxiaodong
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class EnterpriseThemeDto extends BaseDto {
-	private static final long serialVersionUID = 1L;
 	// fields
 	/**
 	 * "登录SEO标题"
@@ -50,109 +53,9 @@ public class EnterpriseThemeDto extends BaseDto {
 	 */
 	private String loginColor;
 
-	// getter and setter
-	public String getLoginSeoTitle()
-
-	{
-		return this.loginSeoTitle;
-	}
-
-	public EnterpriseThemeDto setLoginSeoTitle(String arg) {
-		this.loginSeoTitle = arg;
-		return this;
-	}
-
-	public String getLoginSeoDescription()
-
-	{
-		return this.loginSeoDescription;
-	}
-
-	public EnterpriseThemeDto setLoginSeoDescription(String arg) {
-		this.loginSeoDescription = arg;
-		return this;
-	}
-
-	public String getLoginSeoKeyword()
-
-	{
-		return this.loginSeoKeyword;
-	}
-
-	public EnterpriseThemeDto setLoginSeoKeyword(String arg) {
-		this.loginSeoKeyword = arg;
-		return this;
-	}
-
-	public String getLoginLogo()
-
-	{
-		return this.loginLogo;
-	}
-
-	public EnterpriseThemeDto setLoginLogo(String arg) {
-		this.loginLogo = arg;
-		return this;
-	}
-
-	public String getLogoBackground()
-
-	{
-		return this.logoBackground;
-	}
-
-	public EnterpriseThemeDto setLogoBackground(String arg) {
-		this.logoBackground = arg;
-		return this;
-	}
-
-	public String getLogoTitle()
-
-	{
-		return this.logoTitle;
-	}
-
-	public EnterpriseThemeDto setLogoTitle(String arg) {
-		this.logoTitle = arg;
-		return this;
-	}
-
-	public String getConfigName()
-
-	{
-		return this.configName;
-	}
-
-	public EnterpriseThemeDto setConfigName(String arg) {
-		this.configName = arg;
-		return this;
-	}
-
-	public String getLoginDescription()
-
-	{
-		return this.loginDescription;
-	}
-
-	public EnterpriseThemeDto setLoginDescription(String arg) {
-		this.loginDescription = arg;
-		return this;
-	}
-
-	public String getLoginColor()
-
-	{
-		return this.loginColor;
-	}
-
-	public EnterpriseThemeDto setLoginColor(String arg) {
-		this.loginColor = arg;
-		return this;
-	}
-
 	/**
 	 * 快速从 dto 转换成 entity
-	 * 
+	 *
 	 * @return dto 对应的 entity
 	 */
 	public EnterpriseThemeDto mapToDto() {
@@ -163,7 +66,7 @@ public class EnterpriseThemeDto extends BaseDto {
 
 	/**
 	 * 快速从 entity 转换成 dto
-	 * 
+	 *
 	 * @return dto 对应的 entity
 	 */
 	public EnterpriseThemeDto fromDto(EnterpriseThemeDto entity) {
