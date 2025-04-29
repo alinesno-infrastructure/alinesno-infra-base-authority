@@ -22,6 +22,18 @@
 			<version>${revision}</version>
 		</dependency>
 
+		<!-- zxing 二维码生成 -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
 		<!--  压缩图片-->
 		<dependency>
 			<groupId>net.coobird</groupId>
@@ -42,6 +54,12 @@
 			<artifactId>sa-token-spring-boot3-starter</artifactId>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.12.3</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
