@@ -14,10 +14,17 @@
       </div>
       <div class="phone-input">
         <!-- <label for="phone">手机号：</label> -->
-        <el-input v-model="phone" size="large" id="phone" placeholder="绑定手机号，请输入系统登陆手机号" />
+        <el-input v-model="phone" size="large" id="phone" placeholder="绑定手机号，请输入系统登陆手机号(绑定后不可修改)" />
       </div>
-      <p class="hint">初次微信登陆需要绑定系统账号</p>
-      <el-button :loading="isBinding" type="primary" size="large" @click="bindPhone">提交绑定</el-button>
+      <p class="hint">微信初次登陆需要绑定手机号(没有则自动注册)</p>
+      <el-button 
+        style="width: 100%;"
+        :loading="isBinding" 
+        type="primary" 
+        size="large" 
+        @click="bindPhone">
+        {{ isBinding? '正在绑定中 ...': '确认绑定' }}
+      </el-button>
     </div>
     </el-main>
 
@@ -33,6 +40,7 @@ import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import { wechatCallback, wechatBindPhone } from '@/api/login';
+import { setSaToken } from '@/utils/auth'
 
 import HeaderPanel from '@/views/common/header'
 
@@ -87,6 +95,7 @@ onMounted(() => {
   initLoading.value = true;
   wechatCallback(code.value , state.value).then(response => {
     if(response.isBind){
+      setSaToken(response.satoken)
       location.href = redirect.value ;
     }else{
       userInfo.value = response.data;
@@ -112,7 +121,11 @@ const bindPhone = async () => {
 
   wechatBindPhone(userInfo.value).then(res => {
     isBinding.value = false;
+    setSaToken(res.satoken)
+    console.log('redirect = ' + redirect.value)
     location.href = redirect.value ;
+  }).catch(err => {
+    isBinding.value = false;
   })
 
 }
@@ -122,7 +135,7 @@ const bindPhone = async () => {
 .wechat-bind-phone {
   text-align: center;
   padding: 20px;
-  width:600px;
+  width:470px;
   margin: auto;
   margin-top: 10%;
 
@@ -163,6 +176,8 @@ const bindPhone = async () => {
   .hint {
     color: #999;
     margin-bottom: 20px;
+    text-align: left;
+    font-size: 13px;
   }
 
   button {
