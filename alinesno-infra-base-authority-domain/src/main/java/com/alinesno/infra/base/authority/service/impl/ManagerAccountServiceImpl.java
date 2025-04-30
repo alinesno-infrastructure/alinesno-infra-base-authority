@@ -522,6 +522,13 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	}
 
 	@Override
+	public boolean hasAvatar(Long id) {
+		LambdaQueryWrapper<ManagerAccountAvatarEntity> wrapper = new LambdaQueryWrapper<>();
+		wrapper.eq(ManagerAccountAvatarEntity::getAccountId, id);
+		return managerAccountAvatarMapper.exists(wrapper);
+	}
+
+	@Override
 	public boolean resetPassword(String id, String newPassword, String oldPassword) {
 		return false;
 	}
