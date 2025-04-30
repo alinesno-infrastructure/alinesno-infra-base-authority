@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.authority.api.identity.IdentityConfigDto;
 import com.alinesno.infra.base.authority.api.identity.WechatUserDto;
 import com.alinesno.infra.base.authority.constants.AuthConstants;
-import com.alinesno.infra.base.authority.core.utils.DeviceTypeUtils;
 import com.alinesno.infra.base.authority.identity.domain.WechatUserEntity;
 import com.alinesno.infra.base.authority.identity.service.IIdentityConfigService;
 import com.alinesno.infra.base.authority.identity.service.IWechatUserService;
@@ -15,7 +14,6 @@ import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.core.cache.RedisUtils;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.response.AjaxResult;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +32,8 @@ import java.time.Duration;
 @RequestMapping("/wechat")
 public class WxLoginController {
 
+    private static final String SA_TOKEN_NAME = "satoken";
+
     @Autowired
     private IIdentityConfigService identityConfigService;
 
@@ -47,7 +47,7 @@ public class WxLoginController {
      * 微信回调方法
      */
     @GetMapping("/callback")
-    public AjaxResult callback(String code, String state ) {
+    public AjaxResult callback(String code, String state) {
         log.info("微信回调方法 , code = {} , state = {}", code, state);
 
         IdentityConfigDto identityConfigDto = identityConfigService.getIdentityConfigDetail() ;
@@ -66,8 +66,11 @@ public class WxLoginController {
 
         boolean isBing =  wechatUserService.isBindOpenId(openid) ;
         if (isBing) {
+            WechatUserEntity user = wechatUserService.getByOpenId(openid);
+            StpUtil.login(user.getAccountId()) ;
             AjaxResult result = AjaxResult.success("该微信已绑定账号，正在登陆") ;
             result.put("isBind" , true);
+            result.put(SA_TOKEN_NAME , StpUtil.getTokenValue());
             return result ;
         }
 
@@ -84,7 +87,7 @@ public class WxLoginController {
      * 绑定系统内账号
      */
     @PostMapping("/bindPhone")
-    public AjaxResult bindPhone(@RequestBody @Validated WechatUserDto dto , HttpServletRequest request) {
+    public AjaxResult bindPhone(@RequestBody @Validated WechatUserDto dto) {
 
         // 检查 openid 是否存在于 Redis 中，即是否通过微信回调获取了 accessToken
         if (!RedisUtils.hasKey(AuthConstants.WECHAT_ACCESS_KEY + dto.getOpenid())) {
@@ -102,9 +105,12 @@ public class WxLoginController {
         Assert.isTrue(!wechatUserService.isBindPhone(dto.getOpenid() , dto.getPhone()) , "手机号已经被绑定") ;
 
         WechatUserEntity user = wechatUserService.saveWechatUser(dto);
-        StpUtil.login(user.getAccountId() , DeviceTypeUtils.getDeviceType(request));
+        StpUtil.login(user.getAccountId()) ;
 
-        return AjaxResult.success("绑定成功") ;
+        AjaxResult result = AjaxResult.success("绑定成功") ;
+        result.put(SA_TOKEN_NAME , StpUtil.getTokenValue());
+
+        return result ;
     }
 
 }
