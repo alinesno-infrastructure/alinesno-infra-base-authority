@@ -229,4 +229,11 @@ public interface IManagerAccountService extends IBaseService<ManagerAccountEntit
 	 * @return 用户新密码
 	 */
 	String resetUserPwd(Long userId);
+
+	/**
+	 * 判断用户是否有头像
+	 * @param id
+	 * @return
+	 */
+	boolean hasAvatar(Long id);
 }
