@@ -14,6 +14,7 @@ import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,10 +37,7 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
     @Override
     public WechatUserEntity saveWechatUser(WechatUserDto dto) {
 
-        // 通过openid查询用户信息
-        LambdaQueryWrapper<WechatUserEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(WechatUserEntity::getOpenid, dto.getOpenid());
-        WechatUserEntity user = getOne(wrapper);
+        WechatUserEntity user = getByOpenId(dto.getOpenid());
 
         // 如果为空则创建新的账户
         if (user == null) {
@@ -72,6 +70,7 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
 
     @NotNull
     private AuthManagerAccountDto getAuthManagerAccountDto(WechatUserDto dto) {
+
         // 绑定微信用户
         AuthManagerAccountDto authManagerAccountDto =  accountService.findByLoginNameWithRegister(
                 dto.getPhone(),
@@ -80,13 +79,19 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
 
         // 更新账户信息
         ManagerAccountEntity account = accountService.getById(authManagerAccountDto.getId())  ;
-        account.setName(dto.getNickname());
+        // 如果名字为空
+        if (StringUtils.isEmpty(account.getName())) {
+            account.setName(dto.getNickname());
+        }
         account.setSex(dto.getSex() == 1 ? "1" : dto.getSex() == 2 ? "0":"-1");
+        account.setPasswordStatus(1);  // 系统重置的密码(用户登陆之后，需要提示更新)
 
         accountService.update(account);
 
-        // 更新头像信息
-        accountService.updateAvatarBase64(getHeaderBase64(dto.getHeadimgurl()), authManagerAccountDto.getId()) ;
+        // 更新头像信息，如果没有头像则更新
+        if (!accountService.hasAvatar(authManagerAccountDto.getId())) {
+            accountService.updateAvatarBase64(getHeaderBase64(dto.getHeadimgurl()), authManagerAccountDto.getId()) ;
+        }
         return authManagerAccountDto;
     }
 
@@ -113,6 +118,16 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
         wrapper.eq(WechatUserEntity::getPhone, phone) ;
 
         return count(wrapper) > 0 ;
+    }
+
+    @Override
+    public WechatUserEntity getByOpenId(String openid) {
+
+        // 通过openid查询用户信息
+        LambdaQueryWrapper<WechatUserEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(WechatUserEntity::getOpenid, openid);
+
+        return getOne(wrapper);
     }
 
     private String getHeaderBase64(String headimgurl) {
