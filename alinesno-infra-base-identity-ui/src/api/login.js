@@ -121,7 +121,7 @@ export function getRedirectUrl(pData){
     url: '/sso/getRedirectUrl',
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
-	  'Authorization': localStorage.getItem('satoken')
+	  'Authorization': 'Bearer ' + localStorage.getItem('satoken')
     },
     method: 'post',
     data: pData 
