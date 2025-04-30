@@ -38,4 +38,11 @@ public interface IWechatUserService extends IBaseService<WechatUserEntity> {
      * @return
      */
     boolean isBindPhone(String phone,String dtoPhone);
+
+    /**
+     * 根据openid获取用户信息
+     * @param openid
+     * @return
+     */
+    WechatUserEntity getByOpenId(String openid);
 }
