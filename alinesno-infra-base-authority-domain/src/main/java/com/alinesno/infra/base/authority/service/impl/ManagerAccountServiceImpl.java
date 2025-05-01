@@ -98,12 +98,12 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>() ;
 		wrapper.eq(ManagerAccountEntity::getLoginName, loginName) ;
 		long count = count(wrapper) ;
-		Assert.isTrue(count == 0 , "登陆名已存在.");
+		Assert.isTrue(count == 0 , "登陆名["+phone+"]已存在.");
 
-		wrapper = new LambdaQueryWrapper<>() ;
-		wrapper.eq(ManagerAccountEntity::getPhone , phone) ;
-		count = count(wrapper) ;
-		Assert.isTrue(count == 0 , "手机号已存在.");
+		LambdaQueryWrapper<ManagerAccountEntity> phoneWrapper = new LambdaQueryWrapper<>() ;
+		phoneWrapper.eq(ManagerAccountEntity::getPhone , phone) ;
+		long phoneCount = count(phoneWrapper) ;
+		Assert.isTrue(phoneCount == 0 , "手机号["+phone+"]已存在.");
 
 		ManagerAccountEntity account = new ManagerAccountEntity() ;
 		account.setLoginName(StringUtils.hasLength(loginName)?loginName:phone);
