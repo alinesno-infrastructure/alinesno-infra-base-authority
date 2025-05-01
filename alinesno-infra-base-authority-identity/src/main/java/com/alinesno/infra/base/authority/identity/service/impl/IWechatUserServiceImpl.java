@@ -47,7 +47,6 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
             CopyOptions copyOptions = CopyOptions.create()
                     .setIgnoreNullValue(true)
                     .setIgnoreError(true) ;
-
             BeanUtil.copyProperties(dto, user , copyOptions);
 
             AuthManagerAccountDto authManagerAccountDto = getAuthManagerAccountDto(dto);
@@ -74,7 +73,7 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
         // 绑定微信用户
         AuthManagerAccountDto authManagerAccountDto =  accountService.findByLoginNameWithRegister(
                 dto.getPhone(),
-                IdUtil.nanoId(8) , // 生成随机的密码
+                IdUtil.nanoId(8), // 生成随机的密码
                 "account") ;
 
         // 更新账户信息
