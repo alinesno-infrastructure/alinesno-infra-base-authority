@@ -1,9 +1,9 @@
 package com.alinesno.infra.base.authority.service.impl;
 
-import com.alinesno.infra.base.authority.common.redis.RedisCache;
 import com.alinesno.infra.base.authority.entity.ManagerSettingsEntity;
 import com.alinesno.infra.base.authority.mapper.ManagerSettingsMapper;
 import com.alinesno.infra.base.authority.service.IManagerSettingsService;
+import com.alinesno.infra.base.authority.utils.RedisCache;
 import com.alinesno.infra.common.core.constants.CacheConstants;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.constants.FieldConstants;
