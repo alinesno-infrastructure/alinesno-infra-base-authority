@@ -16,7 +16,7 @@
 		<!-- 引用公共门面服务 -->
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
-			<artifactId>alinesno-infra-base-authority-common</artifactId>
+			<artifactId>alinesno-infra-base-authority-facade</artifactId>
 			<version>${revision}</version>
         </dependency>
 
