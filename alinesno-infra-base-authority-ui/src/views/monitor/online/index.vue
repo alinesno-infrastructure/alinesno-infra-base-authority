@@ -33,15 +33,7 @@
 
             <el-table v-loading="loading" :data="AccountOnlineList" @selection-change="handleSelectionChange">
                <el-table-column type="selection" width="30" align="center" />
-
-               <el-table-column label="头像" align="center" width="60" key="status">
-                  <template #default="scope">
-                     <div class="role-icon">
-                        <img :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%5 + 40) + '.png'" />
-                     </div>
-                  </template>
-               </el-table-column>
-
+               
                <!-- 业务字段-->
                <el-table-column label="账号信息" align="left" key="dbDesc" prop="dbDesc" v-if="columns[1].visible">
                   <template #default="scope">
