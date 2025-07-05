@@ -1080,9 +1080,9 @@ $chartColor: #3b5998;
 
   .main-box {
     background-size: cover;
-    background-image: url("http://data.linesno.com/aip-bg.png");
     display: flex;
     width: 100%;
+    background-color: #f1f2f5; 
     background-position: top;
     height: calc(100vh - 90px);
   }
@@ -1113,7 +1113,7 @@ $chartColor: #3b5998;
     margin: 10px;
     line-height: 25px;
     font-weight: bold;
-    color: #fff ;
+    color: #444;
   }
 
   .copyright-text {
@@ -1236,7 +1236,8 @@ $chartColor: #3b5998;
       background-color: rgb(255, 255, 255);
       height: 100%;
       overflow: hidden;
-      box-shadow: rgb(0 0 0 / 15%) 0px 2px 15px;
+      border: 1px solid rgb(228, 231, 237);
+      border-radius: 8px;
 
       .alipay-qrcode-wrapper {
         position: relative;
