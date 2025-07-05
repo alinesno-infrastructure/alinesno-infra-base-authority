@@ -101,7 +101,7 @@ public class WxLoginController {
         }
 
         Assert.isTrue(PhoneUtil.isPhone(dto.getPhone()) , "手机号格式不正确");
-        Assert.isTrue(managerAccountService.isPhoneExists(dto.getPhone()) , "登陆手机号不存在") ;
+        // Assert.isTrue(managerAccountService.isPhoneExists(dto.getPhone()) , "系统登陆手机号不存在，请确认是否注册") ;
         Assert.isTrue(!wechatUserService.isBindPhone(dto.getOpenid() , dto.getPhone()) , "手机号已经被绑定") ;
 
         WechatUserEntity user = wechatUserService.saveWechatUser(dto);
