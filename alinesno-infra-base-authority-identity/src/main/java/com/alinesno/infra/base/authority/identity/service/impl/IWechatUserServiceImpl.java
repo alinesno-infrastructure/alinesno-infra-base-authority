@@ -10,6 +10,7 @@ import com.alinesno.infra.base.authority.gateway.dto.AuthManagerAccountDto;
 import com.alinesno.infra.base.authority.identity.domain.WechatUserEntity;
 import com.alinesno.infra.base.authority.identity.mapper.WechatUserMapper;
 import com.alinesno.infra.base.authority.identity.service.IWechatUserService;
+import com.alinesno.infra.base.authority.identity.utils.EmojiFilterUtil;
 import com.alinesno.infra.base.authority.service.IManagerAccountService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -80,7 +81,8 @@ public class IWechatUserServiceImpl extends IBaseServiceImpl<WechatUserEntity, W
         ManagerAccountEntity account = accountService.getById(authManagerAccountDto.getId())  ;
         // 如果名字为空
         if (StringUtils.isEmpty(account.getName())) {
-            account.setName(dto.getNickname());
+            String filteredName = EmojiFilterUtil.filterEmoji(dto.getNickname());
+            account.setName(filteredName) ;
         }
         account.setSex(dto.getSex() == 1 ? "1" : dto.getSex() == 2 ? "0":"-1");
         account.setPasswordStatus(1);  // 系统重置的密码(用户登陆之后，需要提示更新)
