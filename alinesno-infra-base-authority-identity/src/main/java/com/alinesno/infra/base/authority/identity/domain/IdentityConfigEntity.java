@@ -69,7 +69,7 @@ public class IdentityConfigEntity extends InfraBaseEntity {
     @ColumnComment("门户站点地址")
     private String portalSite;
 
-    @ColumnType(value = MySqlTypeConstant.VARCHAR, length = 64)
+    @ColumnType(value = MySqlTypeConstant.VARCHAR, length = 255)
     @TableField
     @ColumnComment("登录策略列表")
     private String loginStrategies;
