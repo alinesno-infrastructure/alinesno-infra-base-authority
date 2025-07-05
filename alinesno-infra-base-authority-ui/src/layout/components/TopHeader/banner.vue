@@ -32,11 +32,13 @@
 
 <script setup>
 
+import AIPLogo from '@/assets/logo/logo.png';
+
 const TopHeader = ref('') ;
 const saasTitle = 'AIP智能设施'
 const enableLogo = ref(true);
 const saasUrl = ref('http://alinesno-infra-plat-console-admin.beta.base.infra.linesno.com') ;
-const saasLogoUrl = 'http://data.linesno.com/logo_2.png' ;
+const saasLogoUrl = AIPLogo ;
 
 // import { 
 //   getCurrentProject
