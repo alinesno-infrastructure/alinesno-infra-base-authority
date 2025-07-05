@@ -14,29 +14,6 @@
         class="demo-form"
       >
 
-<!--        <el-form-item label="品牌代码" prop="themeCode">-->
-<!--          <el-input type="input" show-word-limit v-model="form.themeCode" readonly placeholder="请输入主题代码">-->
-<!--            <el-button slot="append" @click="configTheme()" icon="el-icon-edit">配置品牌</el-button>-->
-<!--          </el-input>-->
-<!--        </el-form-item>-->
-
-        <el-form-item label="登录框版本选择" prop="loginStyle">
-          <el-row>
-            <el-col :span="7" v-for="(o, index) in loginStyle" :key="index" :offset="index > 0 ? 1 : 0">
-
-              <el-card :body-style="{ padding: '0px !important' }" :class="form.loginStyle == o.id?'select-card':''" shadow="never">
-                <img :src="'http://data.linesno.com/icons/login/style-0'+(index+1)+'.png'" class="image">
-                <div style="padding: 14px;">
-                  <span>{{ o.desc }}</span>
-                  <div class="bottom clearfix">
-                    <el-button @click="selectStyle(o)" type="text" class="button">选择</el-button>
-                  </div>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </el-form-item>
-
         <el-form-item label="显示社会化登录">
           <el-switch v-model="form.enableSociety"
             :active-value="1"
