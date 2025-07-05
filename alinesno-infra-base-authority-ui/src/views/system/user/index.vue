@@ -110,7 +110,8 @@
           <el-table-column label="图标" align="center" width="70" key="icon" >
               <template #default="scope">
                   <div class="role-icon">
-                    <img style="width:40px;height:40px;border-radius:5px;" :src="'http://data.linesno.com/icons/sepcialist/dataset_' + ((scope.$index + 1)%10 + 5) + '.png'" />
+                    <i v-if="!scope.row.logoUrl" class="fa-solid fa-user-tag"></i>
+                    <i v-else class="fa-solid fa-sailboat"></i>
                   </div>
               </template>
           </el-table-column>
