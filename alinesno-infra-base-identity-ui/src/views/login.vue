@@ -235,9 +235,7 @@ import { getParam } from "@/utils/ruoyi" ;
 
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import HeaderPanel from '@/views/common/header'
-// import FooterPanel from '@/views/common/footer'
 import homeLogo from '@/assets/logo/logo.png'
-// import loginQrcode from '@/assets/logo/loginQrcode.png'
 
 import { setSaToken } from '@/utils/auth'
 
