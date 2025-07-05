@@ -502,7 +502,11 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 		if (StringUtils.hasLength(phone)) {
 			LambdaQueryWrapper<ManagerAccountEntity> wrapper = new LambdaQueryWrapper<>();
 			wrapper.eq(ManagerAccountEntity::getPhone, phone);
-			return managerAccountMapper.exists(wrapper);
+			long count = managerAccountMapper.selectCount(wrapper) ;
+
+			log.info("phone:{}, count:{}"  , phone , count) ;
+
+			return count > 0;
 		}
 		return false;
 	}
