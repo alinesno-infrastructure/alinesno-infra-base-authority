@@ -5,15 +5,16 @@ import com.alinesno.infra.base.authority.api.identity.IdentityConfigDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 微信工具类
  */
 @Slf4j
 public class WechatUtils {
-
-    private static final RestTemplate restTemplate = new RestTemplate();
 
     // 微信获取 access_token 接口
     private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
@@ -34,6 +35,10 @@ public class WechatUtils {
                 "&code=" + code +
                 "&grant_type=authorization_code";
         log.debug("url = {}" , url);
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class) ;
         if (response.getStatusCode() != HttpStatus.OK) {
@@ -57,7 +62,12 @@ public class WechatUtils {
     public static JSONObject getUserInfo(String accessToken, String openid) {
         String url = USER_INFO_URL + "?access_token="+accessToken+"&openid=" + openid;
 
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class) ;
+        // 创建自定义的RestTemplate，设置字符编码
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         if (response.getStatusCode() != HttpStatus.OK) {
             log.error("获取用户信息请求失败，状态码: {}", response.getStatusCode());
             return null;
