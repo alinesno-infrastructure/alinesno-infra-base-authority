@@ -65,18 +65,6 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'dashboard', affix: true }
       },
       {
-        path: '/dashboard/smartService',
-        component: () => import('@/views/smartService'),
-        name: '/dashboard/smartService',
-        meta: { title: '智能客服', icon: 'dashboard', affix: true }
-      },
-      // {
-      //   path: '/dashboard/serviceList',
-      //   component: () => import('@/views/serviceList'),
-      //   name: '/dashboard/serviceList',
-      //   meta: { title: '服务列表', icon: 'dashboard', affix: true }
-      // },
-      {
         path: '/dashboard/suportTechnique',
         component: () => import('@/views/suportTechnique'),
         name: '/dashboard/suportTechnique',
