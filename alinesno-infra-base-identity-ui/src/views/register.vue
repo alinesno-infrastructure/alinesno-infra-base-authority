@@ -71,6 +71,7 @@ import { ElMessage, ElForm } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 
 import HeaderPanel from '@/views/common/header';
+import AIPLogo from '@/assets/logo/logo.png';
 import useIdentityInfoStore from '@/store/modules/info';
 
 import { register } from '@/api/login';
@@ -85,7 +86,7 @@ const router = useRouter();
 const identityInfoPanel = ref({
     systemName: "",
     bannerInfo: "",
-    logo: "http://data.linesno.com/logo_2.png",
+    logo: AIPLogo , 
     version: "",
     copyrightYear: "",
     copyrightLabel: "",
