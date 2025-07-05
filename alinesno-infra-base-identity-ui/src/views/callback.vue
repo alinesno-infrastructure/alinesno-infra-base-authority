@@ -44,6 +44,7 @@ import { setSaToken } from '@/utils/auth'
 
 import HeaderPanel from '@/views/common/header'
 
+import AIPLogo from '@/assets/logo/logo.png';
 import useIdentityInfoStore from '@/store/modules/info'
 
 const initLoading = ref(false);
@@ -58,7 +59,7 @@ const state = ref(route.query.state);
 
 const userInfo = ref({
   "nickname": "Switch",
-  "headimgurl": "http://data.linesno.com/logo_2.png" 
+  "headimgurl": AIPLogo 
 });
 
 const isBinding = ref(false);
@@ -68,7 +69,7 @@ const phone = ref('');
 const identityInfoPanel = ref({
   systemName: "",
   bannerInfo: "",
-  logo: "http://data.linesno.com/logo_2.png",
+  logo: AIPLogo ,
   version: "",
   copyrightYear: "",
   copyrightLabel: "",
