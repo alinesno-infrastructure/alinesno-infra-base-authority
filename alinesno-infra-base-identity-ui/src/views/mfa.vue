@@ -1,6 +1,6 @@
 <template>
   <div class="totp-container">
-    <img src="http://data.linesno.com/logo_2.png" alt="Brand Logo" class="brand-logo">
+    <img :src="AIPLogo" alt="Brand Logo" class="brand-logo">
     <h2>你好，<span style="font-size:1rem;color:#3b5998"><i class="fa-solid fa-user-shield"></i> {{ loginName }}</span>
         <br>AIP MFA 登陆确认
     </h2>
@@ -18,7 +18,7 @@ import { mfaVerify } from "@/api/login";
 import { reactive , ref } from 'vue';
 
 const router = useRouter();
-
+import AIPLogo from '@/assets/logo/logo.png';
 const totp = ref(Array(6).fill(''));
 
 // TODO 从微信登陆中获取手机号
