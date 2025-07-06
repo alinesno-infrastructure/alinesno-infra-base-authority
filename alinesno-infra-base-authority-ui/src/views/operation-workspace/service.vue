@@ -242,6 +242,6 @@ onMounted(() => {
 
 .app-icon{
     font-size: 20px;
-    color: #3b5998 ;
+    color: #1d75b0 ;
 }
 </style>@/api/system/project
