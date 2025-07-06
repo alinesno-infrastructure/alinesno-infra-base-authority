@@ -130,16 +130,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 	 */
 	private String genDefaultName() {
 
-//		// 提取手机号码的前三位
-//		String prefix = phone.substring(0, 3);
-//
-//		// 使用随机数生成后四位
-//		Random random = new Random();
-//		String suffix = String.valueOf(random.nextInt(1000));
-//
-//		// 拼接昵称
-//		return prefix + "***" + suffix;
-
 		String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		int NAME_LENGTH = 8;
 		SecureRandom RANDOM = new SecureRandom();
@@ -463,8 +453,6 @@ public class ManagerAccountServiceImpl extends IBaseServiceImpl<ManagerAccountEn
 			dto = new AuthManagerAccountDto() ;
 			BeanUtils.copyProperties(e, dto);
 		}
-
-		// dto.setPassword(null);
 
 		return dto ;
 	}
