@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.lang.exception.RpcServiceRuntimeException;
 import java.util.Map;
 
 @Slf4j
@@ -53,23 +54,28 @@ public class AuthCommonLoginController {
      */
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginBodyDto loginBody , HttpServletRequest request) {
+
         AjaxResult ajax = AjaxResult.success();
 
         // 验证密码是否正确
         Assert.notNull(loginBody.getUsername() , "用户名不能为空") ;
         Assert.notNull(loginBody.getPassword() , "密码不能为空") ;
 
-        AuthManagerAccountDto accountDto = accountService.findByLoginNameWithRegister(
-                loginBody.getUsername() ,
-                loginBody.getPassword() ,
-                "account");
+        try{
+            AuthManagerAccountDto accountDto = accountService.findByLoginNameWithRegister(
+                    loginBody.getUsername() ,
+                    loginBody.getPassword() ,
+                    "account");
 
-//        boolean isMatch = BCrypt.checkpw(loginBody.getPassword() , accountDto.getPassword()) ;
-//        org.springframework.util.Assert.isTrue(isMatch , "登陆密码不正确");
+            boolean isMatch = BCrypt.checkpw(loginBody.getPassword() , accountDto.getPassword()) ;
+            Assert.isTrue(isMatch , "登陆密码不正确");
 
-        StpUtil.login(accountDto.getId() , DeviceTypeUtils.getDeviceType(request));
+            StpUtil.login(accountDto.getId() , DeviceTypeUtils.getDeviceType(request));
 
-        ajax.put("token" , StpUtil.getTokenValue()) ;
+            ajax.put("token" , StpUtil.getTokenValue()) ;
+        }catch(Exception e){
+           throw new RpcServiceRuntimeException("登陆异常，请联系管理员.") ;
+        }
 
         return ajax;
     }
