@@ -183,7 +183,7 @@ const bindPhone = async () => {
 
   button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #145799;
     color: white;
     border: none;
     border-radius: 5px;
